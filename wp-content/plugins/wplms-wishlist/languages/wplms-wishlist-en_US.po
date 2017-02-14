@@ -1,0 +1,301 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WPLMS Wishlist v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2016-06-30 09:38:00+0000\n"
+"Last-Translator: admin <vibethemes@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: includes/class.actions.php:42
+#: includes/class.actions.php:116
+#: includes/class.actions.php:250
+#: includes/class.actions.php:277
+#: includes/class.actions.php:298
+#: includes/class.actions.php:366
+#@ wplms-wishlist
+msgid "Security check Failed. Contact Administrator."
+msgstr ""
+
+#: includes/class.actions.php:46
+#: includes/class.wishlist.php:145
+#@ wplms-wishlist
+msgid "Rating"
+msgstr ""
+
+#: includes/class.actions.php:47
+#: includes/class.wishlist.php:146
+#@ wplms-wishlist
+msgid "Instructors"
+msgstr ""
+
+#: includes/class.actions.php:82
+#: includes/class.wishlist.php:178
+#@ wplms-wishlist
+msgid "Start"
+msgstr ""
+
+#: includes/class.actions.php:85
+#: includes/class.wishlist.php:181
+#@ wplms-wishlist
+msgid "Continue"
+msgstr ""
+
+#: includes/class.actions.php:88
+#: includes/class.wishlist.php:184
+#@ wplms-wishlist
+msgid "Under Evaluation"
+msgstr ""
+
+#: includes/class.actions.php:91
+#: includes/class.wishlist.php:187
+#@ wplms-wishlist
+msgid "Complete"
+msgstr ""
+
+#: includes/class.actions.php:121
+#@ wplms-wishlist
+msgid "Please enter a valid title for collection"
+msgstr ""
+
+#: includes/class.actions.php:133
+#@ wplms-wishlist
+msgid "Unable to create collection, try some other name."
+msgstr ""
+
+#: includes/class.actions.php:143
+#@ wplms-wishlist
+msgid "New Collection"
+msgstr ""
+
+#: includes/class.actions.php:145
+#@ wplms-wishlist
+msgid "Enter a name for the collection"
+msgstr ""
+
+#: includes/class.actions.php:146
+#@ wplms-wishlist
+msgid "Create collection"
+msgstr ""
+
+#: includes/class.actions.php:171
+#@ wplms-wishlist
+msgid "Collection successfully created"
+msgstr ""
+
+#: includes/class.actions.php:203
+#@ wplms-wishlist
+msgid "Remove Collections"
+msgstr ""
+
+#: includes/class.actions.php:229
+#@ wplms-wishlist
+msgid "Collections successfully removed"
+msgstr ""
+
+#: includes/class.actions.php:255
+#@ wplms-wishlist
+msgid "No collections selected."
+msgstr ""
+
+#: includes/class.actions.php:282
+#: includes/class.actions.php:303
+#@ wplms-wishlist
+msgid "No courses selected."
+msgstr ""
+
+#: includes/class.actions.php:308
+#@ wplms-wishlist
+msgid "No collection selected."
+msgstr ""
+
+#: includes/class.actions.php:372
+#@ wplms-wishlist
+msgid "Unable to remove items from collection"
+msgstr ""
+
+#: includes/class.admin.php:49
+#@ wplms-wishlist
+msgid "Wishlist permalinks"
+msgstr ""
+
+#: includes/class.admin.php:60
+#@ wplms-wishlist
+msgid "Wishlist Slug"
+msgstr ""
+
+#: includes/class.admin.php:64
+#@ wplms-wishlist
+msgid "Collection Slug"
+msgstr ""
+
+#: includes/class.config.php:125
+#@ wplms-wishlist
+msgid "Unable to contact server"
+msgstr ""
+
+#: includes/class.filters.php:33
+#: includes/class.wishlist.php:55
+#: includes/class.wishlist.php:65
+#: includes/class.wishlist.php:75
+#@ wplms-wishlist
+msgid "Wishlist"
+msgstr ""
+
+#: includes/class.filters.php:50
+#@ wplms-wishlist
+msgid "No courses found in collection."
+msgstr ""
+
+#: includes/class.init.php:60
+#: includes/class.init.php:61
+#: includes/class.wishlist.php:83
+#: includes/class.wishlist.php:109
+#@ wplms-wishlist
+msgid "Collections"
+msgstr ""
+
+#: includes/class.init.php:62
+#: includes/class.wishlist.php:383
+#@ wplms-wishlist
+msgid "Collection"
+msgstr ""
+
+#: includes/class.init.php:63
+#@ wplms-wishlist
+msgid "All Collections"
+msgstr ""
+
+#: includes/class.init.php:242
+#@ wplms-wishlist
+msgid "Security error"
+msgstr ""
+
+#: includes/class.init.php:247
+#@ wplms-wishlist
+msgid "Wishlist already exists. Please chose a different name."
+msgstr ""
+
+#: includes/class.init.php:259
+#@ wplms-wishlist
+msgid "Wishlist created"
+msgstr ""
+
+#: includes/class.updater.php:177
+#, php-format
+#@ wplms-wishlist
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: includes/class.updater.php:184
+#, php-format
+#@ wplms-wishlist
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
+msgstr ""
+
+#: includes/class.updater.php:324
+#@ wplms-wishlist
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/class.updater.php:324
+#@ wplms-wishlist
+msgid "Error"
+msgstr ""
+
+#: includes/class.wishlist.php:105
+#@ wplms-wishlist
+msgid "My Wishlist"
+msgstr ""
+
+#: includes/class.wishlist.php:117
+#@ wplms-wishlist
+msgid "No Courses in Wishlist."
+msgstr ""
+
+#: includes/class.wishlist.php:141
+#@ wplms-wishlist
+msgid "Course"
+msgstr ""
+
+#: includes/class.wishlist.php:230
+#@ wplms-wishlist
+msgid "Remove Course"
+msgstr ""
+
+#: includes/class.wishlist.php:236
+#: includes/class.wishlist.php:246
+#@ wplms-wishlist
+msgid "Add to Collection"
+msgstr ""
+
+#: includes/class.wishlist.php:306
+#@ wplms-wishlist
+msgid "Courses Removed from wishlist"
+msgstr ""
+
+#: includes/class.wishlist.php:335
+#@ wplms-wishlist
+msgid "courses added to collection "
+msgstr ""
+
+#: includes/class.wishlist.php:386
+#@ wplms-wishlist
+msgid "# Courses"
+msgstr ""
+
+#: includes/class.wishlist.php:423
+#@ wplms-wishlist
+msgctxt "0 courses in collection when first created"
+msgid "0"
+msgstr ""
+
+#. translators: plugin header field 'Name'
+#: wplms-wishlist.php:0
+#@ wplms-wishlist
+msgid "WPLMS Wishlist"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#. translators: plugin header field 'AuthorURI'
+#: wplms-wishlist.php:0
+#@ wplms-wishlist
+msgid "http://www.vibethemes.com/"
+msgstr ""
+
+#. translators: plugin header field 'Description'
+#: wplms-wishlist.php:0
+#@ wplms-wishlist
+msgid "This plugin adds a Wishlist feature in WPLMS LMS Platform"
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: wplms-wishlist.php:0
+#@ wplms-wishlist
+msgid "Mr.Vibe"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: wplms-wishlist.php:0
+#@ wplms-wishlist
+msgid "1.0"
+msgstr ""
+
+#: includes/class.wishlist.php:430
+#@ wplms-wishlist
+msgid "No collections found ! Click + to create a new collection."
+msgstr ""
+

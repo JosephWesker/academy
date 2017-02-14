@@ -1,0 +1,12 @@
+* translation fixes
+* toggle issues
+* permalink issues
+* slug fix
+* ID not working
+* language files added
+* Wishlist 1.0
+* Collections code added
+* 0.6
+* Wishlists 0.5
+* 0.2
+* init0.1

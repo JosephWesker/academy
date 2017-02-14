@@ -1,0 +1,1065 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Vixy YouTube Embed\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-04 12:49-0000\n"
+"PO-Revision-Date: 2016-02-04 12:49-0000\n"
+"Last-Translator: David Artiss <david.artiss@artiss.co.uk>\n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;esc_attr__;esc_attr_e;esc_html__;esc_html_e;_x;"
+"_ex;esc_attr_x;esc_html_x;_n;_nx;_n_noop;_nx_noop\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.7.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/add-scripts.php:115 includes/admin-config.php:85
+#: includes/generate-widgets.php:25
+msgid "YouTube Embed"
+msgstr ""
+
+#: includes/add-scripts.php:120
+msgid "Options"
+msgstr ""
+
+#: includes/add-scripts.php:127 includes/admin-config.php:91
+msgid "Profiles"
+msgstr ""
+
+#: includes/add-scripts.php:134 includes/admin-config.php:99
+msgid "Lists"
+msgstr ""
+
+#: includes/admin-config.php:29
+msgid "Settings"
+msgstr ""
+
+#: includes/admin-config.php:54
+msgid "Support"
+msgstr ""
+
+#: includes/admin-config.php:85
+msgid "About YouTube Embed"
+msgstr ""
+
+#: includes/admin-config.php:91 includes/options-profiles.php:116
+msgid "YouTube Embed Profiles"
+msgstr ""
+
+#: includes/admin-config.php:99 includes/options-lists.php:103
+msgid "YouTube Embed Lists"
+msgstr ""
+
+#: includes/admin-config.php:107
+msgid "3rd Party Plugins"
+msgstr ""
+
+#: includes/admin-config.php:115
+msgid "Video Overlay Ads"
+msgstr ""
+
+#: includes/admin-config.php:122 includes/options-plugins.php:39
+msgid "Video SEO"
+msgstr ""
+
+#: includes/admin-config.php:130
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin-config.php:210 includes/admin-config.php:232
+#: includes/admin-config.php:254 includes/admin-config.php:276
+msgid "Help"
+msgstr ""
+
+#: includes/admin-config.php:212 includes/admin-config.php:234
+#: includes/admin-config.php:256
+msgid "Links"
+msgstr ""
+
+#: includes/admin-config.php:298
+msgid ""
+"This screen allows you to select non-specific options for the YouTube Embed "
+"plugin. For the default embedding settings, please select the <a href="
+"\"admin.php?page=ye-profile-options\">Profiles</a> administration option."
+msgstr ""
+
+#: includes/admin-config.php:303
+msgid ""
+"This screen allows you to set the options for the default and additional "
+"profiles. If you don't specify a specific parameter when displaying your "
+"YouTube video then the default profile option will be used instead. "
+"Additional profiles, which you may name, can be used as well and used as "
+"required."
+msgstr ""
+
+#: includes/admin-config.php:304
+msgid ""
+"All settings will work whether the Flash or HTML5 player is used, unless one "
+"of the following icons is shown, indicating which format the option works "
+"with..."
+msgstr ""
+
+#: includes/admin-config.php:305
+msgid "Flash player"
+msgstr ""
+
+#: includes/admin-config.php:306
+msgid "HTML5 player"
+msgstr ""
+
+#: includes/admin-config.php:311
+msgid ""
+"This screen allows you to create lists of YouTube videos, which may be "
+"named. These lists can then be used in preference to a single video ID."
+msgstr ""
+
+#: includes/admin-config.php:316
+msgid ""
+"This screen lists plugins which have all been tested for compatibility with "
+"YouTube Embed (and in some cases, specific changes have been made by their "
+"authors to ensure compatibility. From here you can view their details and "
+"even install the plugins (where hosted at WordPress.org)."
+msgstr ""
+
+#: includes/admin-config.php:317
+msgid ""
+"NB. Inclusion here does not provide any guarantee for third party software, "
+"which includes any support."
+msgstr ""
+
+#: includes/admin-config.php:318
+msgid ""
+"Some of these plugins will also appear under the YouTube Admin "
+"administration menu, once activated."
+msgstr ""
+
+#: includes/admin-config.php:322
+msgid ""
+"Remember to click the Save Changes button at the bottom of the screen for "
+"any changes to take effect."
+msgstr ""
+
+#: includes/admin-config.php:327
+msgid "For more information:"
+msgstr ""
+
+#: includes/admin-config.php:328
+msgid "YouTube Embed Plugin Documentation"
+msgstr ""
+
+#: includes/admin-config.php:331
+msgid "YouTube Player Documentation"
+msgstr ""
+
+#: includes/admin-config.php:431
+msgid ""
+"For some reason the shortcode <strong>[youtube]</strong> is not working on "
+"the main site"
+msgstr ""
+
+#: includes/admin-config.php:434
+msgid "An alternative plugin is using the <strong>[youtube]</strong> shortcode"
+msgstr ""
+
+#: includes/admin-config.php:441
+msgid ""
+", possibly the <a href=\"admin.php?page=jetpack_modules&activated=true"
+"\">Shortcode Embeds module</a> in Jetpack"
+msgstr ""
+
+#: includes/generate-embed-code.php:67
+msgid "No video/playlist ID has been supplied"
+msgstr ""
+
+#: includes/generate-embed-code.php:122 includes/generate-other-code.php:56
+#: includes/generate-other-code.php:101 includes/shortcodes.php:214
+#, php-format
+msgid "The YouTube ID of %s is invalid."
+msgstr ""
+
+#: includes/generate-embed-code.php:122
+msgid "End of YouTube Embed code"
+msgstr ""
+
+#: includes/generate-embed-code.php:172
+msgid ""
+"A video list cannot be viewed within this feed - please view the original "
+"content"
+msgstr ""
+
+#: includes/generate-embed-code.php:176
+msgid "Click here to view the video on YouTube"
+msgstr ""
+
+#: includes/generate-embed-code.php:352
+msgid ""
+"The maximum URL length has been exceeded. Please reduce your parameter and/"
+"or playlist."
+msgstr ""
+
+#: includes/generate-other-code.php:44
+msgid "No video ID has been supplied"
+msgstr ""
+
+#: includes/generate-other-code.php:113
+#, php-format
+msgid "YouTube Video %s"
+msgstr ""
+
+#: includes/generate-widgets.php:26
+msgid "Embed YouTube Widget."
+msgstr ""
+
+#: includes/generate-widgets.php:145
+msgid "Widget Title"
+msgstr ""
+
+#: includes/generate-widgets.php:151 includes/options-lists.php:175
+msgid "Video ID"
+msgstr ""
+
+#: includes/generate-widgets.php:159
+msgid "ID Type"
+msgstr ""
+
+#: includes/generate-widgets.php:161
+msgid "Video or Playlist"
+msgstr ""
+
+#: includes/generate-widgets.php:163
+msgid "Search"
+msgstr ""
+
+#: includes/generate-widgets.php:165
+msgid "User"
+msgstr ""
+
+#: includes/generate-widgets.php:173
+msgid "Profile"
+msgstr ""
+
+#: includes/generate-widgets.php:183
+msgid "Start (seconds)"
+msgstr ""
+
+#: includes/generate-widgets.php:189
+msgid "Stop (seconds)"
+msgstr ""
+
+#: includes/generate-widgets.php:197
+msgid "List Playback"
+msgstr ""
+
+#: includes/generate-widgets.php:199
+msgid "Profile default"
+msgstr ""
+
+#: includes/generate-widgets.php:201
+msgid "Play each video in order"
+msgstr ""
+
+#: includes/generate-widgets.php:203
+msgid "Play videos randomly"
+msgstr ""
+
+#: includes/generate-widgets.php:205
+msgid "Play one random video"
+msgstr ""
+
+#: includes/options-general.php:16
+msgid "YouTube Embed Settings"
+msgstr ""
+
+#: includes/options-general.php:65 includes/options-lists.php:22
+msgid "Settings Saved."
+msgstr ""
+
+#: includes/options-general.php:83
+msgid ""
+"These are the general settings for YouTube Embed. Please select <a href="
+"\"admin.php?page=ye-profile-options\">Profiles</a> for default embedding "
+"settings."
+msgstr ""
+
+#: includes/options-general.php:87
+msgid "Embedding"
+msgstr ""
+
+#: includes/options-general.php:92
+msgid "Add Metadata"
+msgstr ""
+
+#: includes/options-general.php:94
+msgid "Allow rich metadata to be added to code"
+msgstr ""
+
+#: includes/options-general.php:100
+msgid "Feed"
+msgstr ""
+
+#: includes/options-general.php:102
+msgid "Text link"
+msgstr ""
+
+#: includes/options-general.php:103
+msgid "Thumbnail"
+msgstr ""
+
+#: includes/options-general.php:104
+msgid "Thumbnail &amp; Text Link"
+msgstr ""
+
+#: includes/options-general.php:106
+msgid ""
+"Videos cannot be embedded in feeds. Select how you wish them to be shown "
+"instead."
+msgstr ""
+
+#: includes/options-general.php:112
+msgid "Thumbnail to use"
+msgstr ""
+
+#: includes/options-general.php:114
+msgid "Default"
+msgstr ""
+
+#: includes/options-general.php:115
+msgid "Default (HQ)"
+msgstr ""
+
+#: includes/options-general.php:116
+msgid "Start"
+msgstr ""
+
+#: includes/options-general.php:117
+msgid "Middle"
+msgstr ""
+
+#: includes/options-general.php:118
+msgid "End"
+msgstr ""
+
+#: includes/options-general.php:120
+msgid "Choose which thumbnail to use."
+msgstr ""
+
+#: includes/options-general.php:126
+msgid "Content Resizing Script"
+msgstr ""
+
+#: includes/options-general.php:128
+msgid "None"
+msgstr ""
+
+#: includes/options-general.php:129
+msgid "FitVids.js"
+msgstr ""
+
+#: includes/options-general.php:130
+msgid "iFrame Resizer"
+msgstr ""
+
+#: includes/options-general.php:132
+msgid "Use a third party content resizing script?"
+msgstr ""
+
+#: includes/options-general.php:135
+msgid "Shortcodes"
+msgstr ""
+
+#: includes/options-general.php:140
+msgid "Allow shortcodes in widgets"
+msgstr ""
+
+#: includes/options-general.php:142
+msgid "Allow shortcodes to be used in widgets"
+msgstr ""
+
+#: includes/options-general.php:143
+msgid "This will apply to <strong>all</strong> widgets."
+msgstr ""
+
+#: includes/options-general.php:149
+msgid "Alternative Shortcode"
+msgstr ""
+
+#: includes/options-general.php:151
+msgid "An alternative shortcode to use."
+msgstr ""
+
+#: includes/options-general.php:157
+msgid "Profile to use"
+msgstr ""
+
+#: includes/options-general.php:166
+msgid "Show Shortcode Re-use Prompt"
+msgstr ""
+
+#: includes/options-general.php:168
+msgid "Show a prompt if the main shortcode is being re-used by another plugin"
+msgstr ""
+
+#: includes/options-general.php:171
+msgid "Administration Options"
+msgstr ""
+
+#: includes/options-general.php:176 includes/options-general.php:184
+msgid "Show Editor Button"
+msgstr ""
+
+#: includes/options-general.php:178
+msgid "Show the YouTube button on the post editor"
+msgstr ""
+
+#: includes/options-general.php:186
+msgid "Add link to options screen to Admin Bar"
+msgstr ""
+
+#: includes/options-general.php:192
+msgid "Menu Screen Access"
+msgstr ""
+
+#: includes/options-general.php:194
+msgid "Administrator"
+msgstr ""
+
+#: includes/options-general.php:195
+msgid "Editor"
+msgstr ""
+
+#: includes/options-general.php:196
+msgid "Author"
+msgstr ""
+
+#: includes/options-general.php:197
+msgid "Contributor"
+msgstr ""
+
+#: includes/options-general.php:199
+msgid "Specify the user access required for the menu screens."
+msgstr ""
+
+#: includes/options-general.php:202
+msgid "Profile &amp; List Sizes"
+msgstr ""
+
+#: includes/options-general.php:207
+msgid "Number of Profiles"
+msgstr ""
+
+#: includes/options-general.php:209
+msgid "Maximum number of profiles."
+msgstr ""
+
+#: includes/options-general.php:215
+msgid "Number of Lists"
+msgstr ""
+
+#: includes/options-general.php:217
+msgid "Maximum number of lists."
+msgstr ""
+
+#: includes/options-general.php:220
+msgid "Security"
+msgstr ""
+
+#: includes/options-general.php:225
+msgid "Privacy-Enhanced Mode"
+msgstr ""
+
+#: includes/options-general.php:227
+msgid "Cookies should always be stored"
+msgstr ""
+
+#: includes/options-general.php:228
+msgid "Cookies should never be stored"
+msgstr ""
+
+#: includes/options-general.php:229
+msgid "Cookies should be stored based on user's Do Not Track setting"
+msgstr ""
+
+#: includes/options-general.php:231
+msgid "Read more about <a href=\"http://donottrack.us/\">Do Not Track</a>."
+msgstr ""
+
+#: includes/options-general.php:237
+msgid "Show debug output"
+msgstr ""
+
+#: includes/options-general.php:239
+msgid "Show debug output as HTML comments"
+msgstr ""
+
+#: includes/options-general.php:242
+msgid "Miscellaneous"
+msgstr ""
+
+#: includes/options-general.php:247
+msgid "Improve Validation"
+msgstr ""
+
+#: includes/options-general.php:249
+msgid "Improve the validity of the generated markup"
+msgstr ""
+
+#: includes/options-general.php:250
+msgid ""
+"Will extend the length of the URL, limiting the number of videos in a manual "
+"playlist. Switch off metadata for even better validation results."
+msgstr ""
+
+#: includes/options-general.php:256
+msgid "Interface language"
+msgstr ""
+
+#: includes/options-general.php:257
+msgid "The player's interface language"
+msgstr ""
+
+#: includes/options-general.php:258
+msgid ""
+"The parameter value is an <a href=\"https://www.loc.gov/standards/iso639-2/"
+"php/code_list.php\">ISO 639-1 two-letter language code</a> or a fully "
+"specified locale. For example, the current locale is "
+msgstr ""
+
+#: includes/options-general.php:264
+msgid "Force list specification"
+msgstr ""
+
+#: includes/options-general.php:266
+msgid "Force users to specify a list type"
+msgstr ""
+
+#: includes/options-general.php:267
+msgid ""
+"By switching this on, a list type must be specified for a list to be valid. "
+"This improves performance as use of a list doesn't then need to be verified."
+msgstr ""
+
+#: includes/options-general.php:274 includes/options-lists.php:164
+#: includes/options-profiles.php:408
+msgid "Save Changes"
+msgstr ""
+
+#: includes/options-lists.php:27
+msgid "All fields must be completed."
+msgstr ""
+
+#: includes/options-lists.php:55
+msgid "Errors were found with your video list. See the list below for details."
+msgstr ""
+
+#: includes/options-lists.php:125
+msgid "List"
+msgstr ""
+
+#: includes/options-lists.php:138
+msgid "Change list"
+msgstr ""
+
+#: includes/options-lists.php:141
+#, php-format
+msgid "These are the options for list %s."
+msgstr ""
+
+#: includes/options-lists.php:141
+msgid ""
+"Update the name, if required, and specify a list of YouTube video IDs. Use "
+"the drop-down on the right hand side to swap between lists."
+msgstr ""
+
+#: includes/options-lists.php:148
+msgid "List Name"
+msgstr ""
+
+#: includes/options-lists.php:150
+msgid "The name you wish to give this list"
+msgstr ""
+
+#: includes/options-lists.php:156
+msgid "Video IDs (one per line)"
+msgstr ""
+
+#: includes/options-lists.php:175
+msgid "Video Title"
+msgstr ""
+
+#: includes/options-lists.php:175
+msgid "Status"
+msgstr ""
+
+#: includes/options-lists.php:190
+msgid "This is a playlist"
+msgstr ""
+
+#: includes/options-lists.php:194
+msgid "Invalid video ID"
+msgstr ""
+
+#: includes/options-lists.php:198
+msgid "YouTube API error"
+msgstr ""
+
+#: includes/options-lists.php:201
+msgid "Valid video"
+msgstr ""
+
+#: includes/options-lists.php:219
+msgid "The video ID is valid"
+msgstr ""
+
+#: includes/options-lists.php:222
+msgid "The video ID is invalid"
+msgstr ""
+
+#: includes/options-plugins.php:17
+msgid "YouTube Embed 3rd Party Plugins"
+msgstr ""
+
+#: includes/options-plugins.php:28
+msgid "Turn Off The Lights"
+msgstr ""
+
+#: includes/options-plugins.php:29
+msgid "Install Turn Out The Lights on your browser"
+msgstr ""
+
+#: includes/options-plugins.php:30
+msgid ""
+"A browser extension that, with a single click on the lamp button, will fade "
+"the page dark, with the exception of the embedded video. By clicking on it "
+"again, the page will return to normal."
+msgstr ""
+
+#: includes/options-plugins.php:35
+msgid "a3 Lazy Load"
+msgstr ""
+
+#: includes/options-plugins.php:35
+msgid ""
+"Speed up your site and enhance frontend user's visual experience. Fully "
+"updated to support YouTube Embed."
+msgstr ""
+
+#: includes/options-plugins.php:39
+msgid ""
+"Premium plugin from Yoast to add your video to Google and other search "
+"engines."
+msgstr ""
+
+#: includes/options-plugins.php:43
+msgid "WordPress Video Overlay Ads"
+msgstr ""
+
+#: includes/options-plugins.php:43
+msgid ""
+"This plugin creates an lightbox area over Youtube video embeds. You can "
+"insert all kinds of html content including banner ads, texts, polls, and add "
+"any kind of html and javascript code you like."
+msgstr ""
+
+#: includes/options-plugins.php:47
+msgid "YouTube Channel Gallery"
+msgstr ""
+
+#: includes/options-plugins.php:47
+msgid ""
+"Adds a widget to show a YouTube video and a gallery of thumbnails for a "
+"YouTube channel."
+msgstr ""
+
+#: includes/options-plugins.php:51
+msgid "YouTube Subscribe Button"
+msgstr ""
+
+#: includes/options-plugins.php:51
+msgid ""
+"Adds a YouTube subscribe button to your blog so people can subscribe to your "
+"YouTube channel without leaving your site."
+msgstr ""
+
+#: includes/options-plugins.php:84
+msgid "Install the plugin"
+msgstr ""
+
+#: includes/options-plugins.php:87
+msgid "Plugin installed but not active"
+msgstr ""
+
+#: includes/options-plugins.php:89
+msgid "Plugin installed and active"
+msgstr ""
+
+#: includes/options-profiles.php:122
+msgid " Profile Saved."
+msgstr ""
+
+#: includes/options-profiles.php:136
+msgid "Change profile"
+msgstr ""
+
+#: includes/options-profiles.php:144
+msgid "These are the options for the default profile."
+msgstr ""
+
+#: includes/options-profiles.php:146
+#, php-format
+msgid "These are the options for profile %s."
+msgstr ""
+
+#: includes/options-profiles.php:148
+msgid "Use the drop-down on the right hand side to swap between profiles."
+msgstr ""
+
+#: includes/options-profiles.php:156
+msgid "Profile Name"
+msgstr ""
+
+#: includes/options-profiles.php:158
+msgid "The name you wish to give this profile"
+msgstr ""
+
+#: includes/options-profiles.php:164
+msgid "Template"
+msgstr ""
+
+#: includes/options-profiles.php:166
+msgid ""
+"Wrapper for video output. Must include <code>%video%</code> tag to show "
+"video position."
+msgstr ""
+
+#: includes/options-profiles.php:172
+msgid "Style"
+msgstr ""
+
+#: includes/options-profiles.php:174
+msgid "CSS elements to apply to video."
+msgstr ""
+
+#: includes/options-profiles.php:180
+msgid "Window Mode"
+msgstr ""
+
+#: includes/options-profiles.php:182
+msgid "Opaque"
+msgstr ""
+
+#: includes/options-profiles.php:183
+msgid "Transparent"
+msgstr ""
+
+#: includes/options-profiles.php:184
+msgid "Window"
+msgstr ""
+
+#: includes/options-profiles.php:186
+msgid ""
+"Sets the Window Mode property of the Flash movie for transparency, layering, "
+"and positioning in the browser. <a href=\"http://www.communitymx.com/content/"
+"article.cfm?cid=e5141\">Learn more</a>."
+msgstr ""
+
+#: includes/options-profiles.php:189 includes/options-profiles.php:194
+msgid "Video Size"
+msgstr ""
+
+#: includes/options-profiles.php:196
+msgid "The width x height of the video, in pixels"
+msgstr ""
+
+#: includes/options-profiles.php:202
+msgid "Default Sizes"
+msgstr ""
+
+#: includes/options-profiles.php:204
+msgid "Use above sizes"
+msgstr ""
+
+#: includes/options-profiles.php:210
+msgid "Select one of these default sizes to override the above video sizes."
+msgstr ""
+
+#: includes/options-profiles.php:216
+msgid "Responsive Output"
+msgstr ""
+
+#: includes/options-profiles.php:218
+msgid "Show full width and resize with the browser"
+msgstr ""
+
+#: includes/options-profiles.php:224
+msgid "Set Maximum Size"
+msgstr ""
+
+#: includes/options-profiles.php:226
+msgid "Use above width to define maximum size"
+msgstr ""
+
+#: includes/options-profiles.php:232
+msgid "Plays Inline"
+msgstr ""
+
+#: includes/options-profiles.php:235
+msgid "Whether videos play inline or fullscreen in an HTML5 player on iOS. "
+msgstr ""
+
+#: includes/options-profiles.php:238
+msgid "Playback"
+msgstr ""
+
+#: includes/options-profiles.php:243
+msgid "Autoplay"
+msgstr ""
+
+#: includes/options-profiles.php:245
+msgid ""
+"Choose whether the initial video will automatically start to play when the "
+"player loads"
+msgstr ""
+
+#: includes/options-profiles.php:251
+msgid "Loop Video"
+msgstr ""
+
+#: includes/options-profiles.php:253
+msgid "Play the initial video again and again"
+msgstr ""
+
+#: includes/options-profiles.php:254
+msgid ""
+"In the case of a playlist, this will play the entire playlist and then start "
+"again at the first video."
+msgstr ""
+
+#: includes/options-profiles.php:260
+msgid "Annotations"
+msgstr ""
+
+#: includes/options-profiles.php:262
+msgid "Video annotations are shown by default"
+msgstr ""
+
+#: includes/options-profiles.php:268
+msgid "Closed Captions"
+msgstr ""
+
+#: includes/options-profiles.php:270
+msgid "Don't show closed captions"
+msgstr ""
+
+#: includes/options-profiles.php:271
+msgid "Show closed captions"
+msgstr ""
+
+#: includes/options-profiles.php:272
+msgid "User default"
+msgstr ""
+
+#: includes/options-profiles.php:274
+msgid "Show closed captions (subtitles)."
+msgstr ""
+
+#: includes/options-profiles.php:280
+msgid "Default to HTML5"
+msgstr ""
+
+#: includes/options-profiles.php:282
+msgid "Default to the HTML5 player (if available)"
+msgstr ""
+
+#: includes/options-profiles.php:283
+msgid "This is an undocumented feature and may not work."
+msgstr ""
+
+#: includes/options-profiles.php:286 includes/options-profiles.php:291
+msgid "Information"
+msgstr ""
+
+#: includes/options-profiles.php:293
+msgid "Display the video title and uploader before the video starts"
+msgstr ""
+
+#: includes/options-profiles.php:294
+msgid "If displaying a playlist this will show video thumbnails."
+msgstr ""
+
+#: includes/options-profiles.php:300
+msgid "Related Videos"
+msgstr ""
+
+#: includes/options-profiles.php:302
+msgid "Load related videos once playback starts"
+msgstr ""
+
+#: includes/options-profiles.php:303
+msgid "Also toggles the search option."
+msgstr ""
+
+#: includes/options-profiles.php:309
+msgid "Modest Branding"
+msgstr ""
+
+#: includes/options-profiles.php:311
+msgid "Reduce branding on video"
+msgstr ""
+
+#: includes/options-profiles.php:314 includes/options-profiles.php:331
+msgid "Controls"
+msgstr ""
+
+#: includes/options-profiles.php:319
+msgid "Auto hide"
+msgstr ""
+
+#: includes/options-profiles.php:321
+msgid "Controls &amp; progress bar remain visible"
+msgstr ""
+
+#: includes/options-profiles.php:322
+msgid "Controls &amp; progress bar fade out"
+msgstr ""
+
+#: includes/options-profiles.php:323
+msgid "Progress bar fades"
+msgstr ""
+
+#: includes/options-profiles.php:325
+msgid ""
+"Whether the video controls will automatically hide after a video begins "
+"playing."
+msgstr ""
+
+#: includes/options-profiles.php:333
+msgid "Controls do not display &amp; Flash player loads immediately"
+msgstr ""
+
+#: includes/options-profiles.php:334
+msgid "Controls display &amp; Flash player loads immediately"
+msgstr ""
+
+#: includes/options-profiles.php:335
+msgid "Controls display &amp; Flash player loads once video starts"
+msgstr ""
+
+#: includes/options-profiles.php:337
+msgid ""
+"Whether the video player controls are displayed. For Flash it also defines "
+"when the controls display in the player as well as when the player will load."
+msgstr ""
+
+#: includes/options-profiles.php:343
+msgid "Disable Keyboard"
+msgstr ""
+
+#: includes/options-profiles.php:345
+msgid "Disable the player keyboard controls"
+msgstr ""
+
+#: includes/options-profiles.php:351
+msgid "Fullscreen"
+msgstr ""
+
+#: includes/options-profiles.php:353
+msgid "A button will allow the viewer to watch the video fullscreen"
+msgstr ""
+
+#: includes/options-profiles.php:359
+msgid "Theme"
+msgstr ""
+
+#: includes/options-profiles.php:361
+msgid "Dark"
+msgstr ""
+
+#: includes/options-profiles.php:362
+msgid "Light"
+msgstr ""
+
+#: includes/options-profiles.php:364
+msgid "Display player controls within a dark or light control bar."
+msgstr ""
+
+#: includes/options-profiles.php:370
+msgid "Progress Bar Color"
+msgstr ""
+
+#: includes/options-profiles.php:372
+msgid "Red"
+msgstr ""
+
+#: includes/options-profiles.php:373
+msgid "White (desaturated)"
+msgstr ""
+
+#: includes/options-profiles.php:375
+msgid ""
+"The color that will be used in the player's video progress bar to highlight "
+"the amount of the video that's already been seen."
+msgstr ""
+
+#: includes/options-profiles.php:378
+msgid "Download Link"
+msgstr ""
+
+#: includes/options-profiles.php:383
+msgid "Show Download Link"
+msgstr ""
+
+#: includes/options-profiles.php:385
+#, php-format
+msgid "Show a link to %s under the video"
+msgstr ""
+
+#: includes/options-profiles.php:391
+msgid "Download Text"
+msgstr ""
+
+#: includes/options-profiles.php:393
+msgid "Text or HTML to display to prompt download."
+msgstr ""
+
+#: includes/options-profiles.php:399
+msgid "Download Style"
+msgstr ""
+
+#: includes/options-profiles.php:401
+msgid "CSS elements to apply to video download link."
+msgstr ""
+
+#: includes/options-profiles.php:415
+msgid "YouTube Video Sample"
+msgstr ""
+
+#: includes/options-profiles.php:416
+msgid ""
+"The video below uses the above, saved profile settings. Use the drop-down "
+"below to change which parameters the video uses - press the Change Video "
+"button to update it."
+msgstr ""
+
+#: includes/options-profiles.php:418
+msgid "Standard"
+msgstr ""
+
+#: includes/options-profiles.php:419
+msgid "3D"
+msgstr ""
+
+#: includes/options-profiles.php:420
+msgid "Playlist"
+msgstr ""
+
+#: includes/options-profiles.php:423
+msgid "Change video"
+msgstr ""
+
+#: includes/shortcodes.php:199
+msgid "No YouTube ID was found."
+msgstr ""

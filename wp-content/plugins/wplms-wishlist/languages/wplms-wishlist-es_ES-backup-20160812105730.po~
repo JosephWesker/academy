@@ -1,0 +1,262 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WPLMS Wishlist v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: Fri Aug 12 2016 05:52:09 GMT-0500 (Hora de verano central "
+"(México))\n"
+"Last-Translator: JosephWesker <joserujume@gmail.com>\n"
+"Language-Team: \n"
+"Language: Spanish (Spain)\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Loco-Target-Locale: es_ES"
+
+#: includes/class.actions.php:42
+#: includes/class.actions.php:116
+#: includes/class.actions.php:250
+#: includes/class.actions.php:277
+#: includes/class.actions.php:298
+#: includes/class.actions.php:366
+msgid "Security check Failed. Contact Administrator."
+msgstr "¡Ups! Sucedió algo inesperado. Por favor contacta con el administrador. "
+
+#: includes/class.actions.php:46
+#: includes/class.wishlist.php:145
+msgid "Rating"
+msgstr "Valoración"
+
+#: includes/class.actions.php:47
+#: includes/class.wishlist.php:146
+msgid "Instructors"
+msgstr "Instructores"
+
+#: includes/class.actions.php:82
+#: includes/class.wishlist.php:178
+msgid "Start"
+msgstr "Inicio"
+
+#: includes/class.actions.php:85
+#: includes/class.wishlist.php:181
+msgid "Continue"
+msgstr "Continua"
+
+#: includes/class.actions.php:88
+#: includes/class.wishlist.php:184
+msgid "Under Evaluation"
+msgstr "Bajo Evaluación"
+
+#: includes/class.actions.php:91
+#: includes/class.wishlist.php:187
+msgid "Complete"
+msgstr "Completo"
+
+#: includes/class.actions.php:121
+msgid "Please enter a valid title for collection"
+msgstr "Por favor escribe un título válido para la collección"
+
+#: includes/class.actions.php:133
+msgid "Unable to create collection, try some other name."
+msgstr "No es posible crear la colección, por favor trata con otro nombre."
+
+#: includes/class.actions.php:143
+msgid "New Collection"
+msgstr "Nueva Colección"
+
+#: includes/class.actions.php:145
+msgid "Enter a name for the collection"
+msgstr "Escribe un nombre para la colección"
+
+#: includes/class.actions.php:146
+msgid "Create collection"
+msgstr "Crear colección"
+
+#: includes/class.actions.php:171
+msgid "Collection successfully created"
+msgstr "Colección creada con éxito"
+
+#: includes/class.actions.php:203
+msgid "Remove Collections"
+msgstr "Eliminar colecciones"
+
+#: includes/class.actions.php:229
+msgid "Collections successfully removed"
+msgstr "Las colecciones fueron removidas con éxito"
+
+#: includes/class.actions.php:255
+msgid "No collections selected."
+msgstr "No hay colecciones seleccionadas."
+
+#: includes/class.actions.php:282
+#: includes/class.actions.php:303
+msgid "No courses selected."
+msgstr "No hay cursos seleccionados."
+
+#: includes/class.actions.php:308
+msgid "No collection selected."
+msgstr "No hay colecciones seleccionadas."
+
+#: includes/class.actions.php:372
+msgid "Unable to remove items from collection"
+msgstr "No es posible eliminar los elementos de la colección"
+
+#: includes/class.admin.php:49
+msgid "Wishlist permalinks"
+msgstr "Enlaces permamentes "
+
+#: includes/class.admin.php:60
+msgid "Wishlist Slug"
+msgstr "Lista de deseos - Slug"
+
+#: includes/class.admin.php:64
+msgid "Collection Slug"
+msgstr "Colección - Slug"
+
+#: includes/class.config.php:125
+msgid "Unable to contact server"
+msgstr "No es posible contactar con el servidor"
+
+#: includes/class.filters.php:50
+msgid "No courses found in collection."
+msgstr "No se encontraron cursos en la colección."
+
+#: includes/class.init.php:60
+#: includes/class.init.php:61
+#: includes/class.wishlist.php:83
+#: includes/class.wishlist.php:109
+msgid "Collections"
+msgstr "Colecciones"
+
+#: includes/class.init.php:62
+#: includes/class.wishlist.php:383
+msgid "Collection"
+msgstr "Colección"
+
+#: includes/class.init.php:63
+msgid "All Collections"
+msgstr "Todas las Colecciones"
+
+#: includes/class.init.php:242
+msgid "Security error"
+msgstr ""
+
+#: includes/class.init.php:247
+msgid "Wishlist already exists. Please chose a different name."
+msgstr ""
+
+#: includes/class.init.php:259
+msgid "Wishlist created"
+msgstr ""
+
+#: includes/class.updater.php:177
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" "
+"class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: includes/class.updater.php:184
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" "
+"class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a "
+"href=\"%4$s\">update now</a>."
+msgstr ""
+
+#: includes/class.updater.php:324
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/class.updater.php:324
+msgid "Error"
+msgstr ""
+
+#: includes/class.wishlist.php:105
+msgid "My Wishlist"
+msgstr ""
+
+#: includes/class.wishlist.php:117
+msgid "No Courses in Wishlist."
+msgstr ""
+
+#: includes/class.wishlist.php:141
+msgid "Course"
+msgstr ""
+
+#: includes/class.wishlist.php:230
+msgid "Remove Course"
+msgstr ""
+
+#: includes/class.wishlist.php:236
+#: includes/class.wishlist.php:246
+msgid "Add to Collection"
+msgstr ""
+
+#: includes/class.wishlist.php:306
+msgid "Courses Removed from wishlist"
+msgstr ""
+
+#: includes/class.wishlist.php:335
+msgid "courses added to collection "
+msgstr ""
+
+#: includes/class.wishlist.php:386
+msgid "# Courses"
+msgstr ""
+
+#: includes/class.wishlist.php:423
+msgctxt "0 courses in collection when first created"
+msgid "0"
+msgstr ""
+
+#. translators: plugin header field 'Name'
+#: wplms-wishlist.php:0
+msgid "WPLMS Wishlist"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#. translators: plugin header field 'AuthorURI'
+#: wplms-wishlist.php:0
+msgid "http://www.vibethemes.com/"
+msgstr ""
+
+#. translators: plugin header field 'Description'
+#: wplms-wishlist.php:0
+msgid "This plugin adds a Wishlist feature in WPLMS LMS Platform"
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: wplms-wishlist.php:0
+msgid "Mr.Vibe"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: wplms-wishlist.php:0
+msgid "1.0"
+msgstr ""
+
+#: includes/class.wishlist.php:430
+msgid "No collections found ! Click + to create a new collection."
+msgstr ""
+
+#: includes/class.filters.php:33
+#: includes/class.wishlist.php:55
+#: includes/class.wishlist.php:65
+#: includes/class.wishlist.php:75
+msgid "Wishlist"
+msgstr "Deseos"
