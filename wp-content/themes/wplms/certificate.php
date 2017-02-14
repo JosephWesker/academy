@@ -29,19 +29,22 @@ do_action('wplms_validate_certificate',$user_id,$course_id);
 get_header(vibe_get_header());
 if ( have_posts() ) : while ( have_posts() ) : the_post();
 
+$certificate_class= apply_filters('wplms_certificate_class','');
 do_action('wplms_certificate_before_full_content');
 
 ?>
-<section id="certificate">
+<section id="certificate" <?php echo (empty($certificate_class)?'':'class="'.$certificate_class.'"'); ?>>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <?php do_action('wplms_certificate_before_content'); ?>
                 <div class="extra_buttons">
                     <?php do_action('wplms_certificate_extra_buttons');
-                          echo '<a href="#" class="certificate_print"><i class="icon-printer-1"></i></a>';
-                          echo '<a href="#" class="certificate_pdf"><i class="icon-file"></i></a>';
-                    ?>
+                        echo '<a href="#" class="certificate_close"><i class="fa fa-times"></i></a>';
+                        echo '<a href="#" class="certificate_print"><i class="fa fa-print"></i></a>';
+                        echo '<a href="#" class="certificate_pdf"><i class="fa fa-file-pdf-o"></i></a>';
+                        echo '<a href="#" class="certificate_download"><i class="fa fa-download"></i></a>';
+                    ?>    
                 </div>
                 <div class="certificate certificate_content" data-width="800" data-height="640">
                   <br /><br />

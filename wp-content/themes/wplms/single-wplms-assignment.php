@@ -1,4 +1,6 @@
 <?php
+if ( !defined( 'ABSPATH' ) ) exit;
+
 do_action('wplms_before_single_assignment');
 get_header(vibe_get_header());
 if ( have_posts() ) : while ( have_posts() ) : the_post();

@@ -232,7 +232,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                    <?php _e( 'Taxonomy','vibe' ); ?>
                             <select id="edit-menu-item-taxonomy-<?php echo $item_id; ?>" name="menu-item-taxonomy[<?php echo $item_id; ?>]">
                             <?php
-                            $taxonomies = get_taxonomies(array('public'=> true,'_builtin' => false),'objects');
+                            $taxonomies = get_taxonomies(array('public'=> true),'objects');
                             foreach($taxonomies as $taxonomy){
                             	?><option value="<?php echo $taxonomy->name; ?>" <?php selected($taxonomy->name,esc_attr($item->taxonomy)); ?>><?php echo $taxonomy->labels->name; ?></option><?php
                             }
@@ -264,6 +264,17 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
                             </select>
 	                </label>
 	            </p>
+	            <p class="field-custom description-thin menu_width <?php if((!empty($item->sidebar) && strlen($item->sidebar)>3) || !empty($item->megamenu_type))echo 'active'; ?>">
+	                <label for="edit-menu-item-max_elements-<?php echo $item_id; ?>">
+	                    <?php _e( 'Menu Width (default px)','vibe' ); ?>
+                            <input type="text" id="edit-menu-item-menu_width-<?php echo $item_id; ?>" name="menu-item-menu_width[<?php echo $item_id; ?>]" value="<?php echo (empty($item->menu_width)?'100%':$item->menu_width ); ?>" />
+	                </label>
+	            </p>
+	            <?php
+				// COMPATIBILITY WITH NAV MENU ROLES
+				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args );
+				// end added section
+				?>
 	            <?php
 	            /* New fields insertion ends here */
 	            ?>

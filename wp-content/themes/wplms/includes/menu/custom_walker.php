@@ -11,9 +11,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class vibe_walker extends Walker_Nav_Menu{
        
-      function start_el(&$output, $item, $depth =0, $args=array(),$id=0) 
+      function start_el(&$output, $item, $depth =0, $args=Array(),$id=0) 
       { 
            global $wp_query;
+           $menuargs = $args;
            $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
            $class_names = $value = '';
@@ -24,9 +25,12 @@ class vibe_walker extends Walker_Nav_Menu{
            if((!empty($item->sidebar) && strlen($item->sidebar) > 2) || (!empty($item->megamenu_type))){
               $class_names .= ' megadrop '.(empty($item->megamenu_type)?'':$item->megamenu_type);
            }
-               
-               
-           $class_names = ' class="'. esc_attr( $class_names ) . '"';
+           
+           if(!empty($item->menu_width)){
+                $width = (is_numeric($item->menu_width)?$item->menu_width.'px':$item->menu_width);         
+           }
+           
+           $class_names = ' class="'. esc_attr( $class_names ) . '" '.(!empty($item->menu_width)?'data-width="'.$width.'"':'');
 
            $output .= $indent . '<li id="main-menu-item-'. $item->ID . '"' . $value . $class_names .'>';
 
@@ -40,19 +44,36 @@ class vibe_walker extends Walker_Nav_Menu{
            $description  = ! empty( $item->description ) ? '<span>'.esc_attr( $item->description ).'</span>' : '';
 
            if($depth != 0)
-           {
+            {
 	           $description = $append = $prepend = "";
-           }
+            }
            
-           $item_output = $args->before;
-                
-          
+            $item_output = $menuargs->before;
+            $mega_menu_id = 'vibe-mega-'.sanitize_title($item->megamenu_type).rand(0,99);
+            
+            switch($item->columns){
+                case 1:
+                  $class = 'col-md-12 clear1';
+                break;
+                case 2:
+                  $class = 'col-md-6 clear2';
+                break;
+                case 3:
+                  $class = 'col-md-4 clear3';
+                break;
+                case 4:
+                case 5:
+                  $class = 'col-md-3 clear4';
+                break;
+            }
+            
+
             if(!empty($item->sidebar) && strlen($item->sidebar) > 2){
                 $item_output .= $this->sidebar($item->sidebar,$item->columns);
             }else if(!empty($item->megamenu_type) && strlen($item->megamenu_type) > 2){
                 if($item->megamenu_type == 'cat_subcat'){
 
-                  $item_output .= '<div id="vibe-mega-'.sanitize_title($item->megamenu_type).'" class="menu-cat_subcat column'.$item->columns.'">';
+                  $item_output .= '<div id="'.$mega_menu_id.'" class="menu-cat_subcat column'.$item->columns.'">';
                   if(!empty($item->taxonomy)){
                       $args =array(
                                   'taxonomy' => $item->taxonomy,
@@ -82,22 +103,7 @@ class vibe_walker extends Walker_Nav_Menu{
                         }
                       }
 
-                         
-                     switch($item->columns){
-                        case 1:
-                          $class = 'col-md-12 clear1';
-                        break;
-                        case 2:
-                          $class = 'col-md-6 clear2';
-                        break;
-                        case 3:
-                          $class = 'col-md-4 clear3';
-                        break;
-                        case 4:
-                        case 5:
-                          $class = 'col-md-3 clear4';
-                        break;
-                      }
+
                       if(!empty($term_array)){
                         $item_output .= '<ul class="taxonomy_menu '.$item->taxonomy.'_menu">';
                        
@@ -106,10 +112,10 @@ class vibe_walker extends Walker_Nav_Menu{
                           foreach($term_array as $id => $t){
                             
                             $item_output .= '<li>';
-                            $item_output .= '<a href="'.get_term_link($id).'" class="term_'.$t['term']['slug'].'">'.$t['term']['title'].'</a>';
+                            $item_output .= '<a href="'.get_term_link($id).'" class="term_'.(empty($t['term']['slug'])?'':$t['term']['slug']).'">'.$t['term']['title'].'</a>';
                           
                           if(isset($t['children'])){
-                            $item_output .='<div class="sub_cat_menu column'.$item->columns.' '.$item->taxonomy.'_'.$t['term']['slug'].'_menu "><div class="row"><div class="taxonomy_submenu ">';
+                            $item_output .='<div class="sub_cat_menu column'.$item->columns.' '.$item->taxonomy.'_'.(empty($t['term']['slug'])?'':$t['term']['slug']).'_menu "><div class="row"><div class="taxonomy_submenu ">';
                             foreach($t['children'] as $k=>$child){
 
                               $item_output .= '<div class="'.$class.'"><a href="'.get_term_link($k).'">'.$child['title'].'</a></div>';
@@ -126,7 +132,7 @@ class vibe_walker extends Walker_Nav_Menu{
                 }
                 if($item->megamenu_type == 'cat_posts'){
 
-                  $item_output .= '<div id="vibe-mega-'.sanitize_title($item->megamenu_type).'" class="menu-cat_subcat column'.$item->columns.'">';
+                  $item_output .= '<div id="'.$mega_menu_id.'" class="menu-cat_subcat column'.$item->columns.'">';
                   if(!empty($item->taxonomy)){
                       $args =array(
                                   'taxonomy' => $item->taxonomy,
@@ -140,21 +146,6 @@ class vibe_walker extends Walker_Nav_Menu{
                       $args = apply_filters('wplms_megamenu_filter',$args,$item);
                       $terms = get_terms($args );
 
-                      switch($item->columns){
-                        case 1:
-                          $class = 'col-md-12 clear1';
-                        break;
-                        case 2:
-                          $class = 'col-md-6 clear2';
-                        break;
-                        case 3:
-                          $class = 'col-md-4 clear3';
-                        break;
-                        case 4:
-                        case 5:
-                          $class = 'col-md-3 clear4';
-                        break;
-                      }
 
                       if(!empty($terms)){
                         $hide_terms = array();
@@ -211,19 +202,19 @@ class vibe_walker extends Walker_Nav_Menu{
                 }
             }else{
               $item_output .= '<a'. $attributes .'>';
-              $item_output .= $args->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
+              $item_output .= $menuargs->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
               $item_output .= $description;
               
               if(!empty($item->attr_title))
                 $item_output .= '<span>'.$item->attr_title.'</span>';
 
-              $item_output .= $args->link_after;
+              $item_output .= $menuargs->link_after;
               $item_output .= '</a>';
             }
+            
+            $item_output .= $menuargs->after;
 
-            $item_output .= $args->after;
-
-            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $menuargs );
             }
             
         /* 
@@ -233,7 +224,11 @@ class vibe_walker extends Walker_Nav_Menu{
 		
 		if(function_exists('dynamic_sidebar')){
 			ob_start();
-			echo '<div id="vibe-mega-'.sanitize_title($name).'" class="menu-sidebar column'.$columns.'">';
+          if(is_object($item)){
+            $width = (is_numeric($item->menu_width)?$item->menu_width.'px':$item->menu_width);
+          }
+            if(empty($width)){$width = '100%';}
+			echo '<div id="vibe-mega-'.sanitize_title($name).'" data-width="'.$width.'" class="menu-sidebar column'.$columns.'">';
 			 dynamic_sidebar($name);		
 			echo '</div>';
 			return ob_get_clean();

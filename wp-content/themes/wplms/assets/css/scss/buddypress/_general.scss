@@ -145,6 +145,11 @@
 	display: block;
 }
 
+input[type="submit"].loading{
+	opacity:0.4;	
+}
+
+
 /*========================================================================*/
 /*   04. SIDEBARS
 /*========================================================================*/
@@ -205,6 +210,7 @@
 			    border-radius: 2px;
 			    color: $primarycolor;
 			    font-size:11px;
+			    border: 1px solid $bordercolor;
 			    text-transform:uppercase;
 			}
 		}

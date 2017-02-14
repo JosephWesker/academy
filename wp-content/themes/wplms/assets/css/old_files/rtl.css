@@ -386,7 +386,7 @@ li.bbp-forum-info, li.bbp-topic-title,
 }
 
 .grid li{
-	right: 0;
+	right: initial;
 }
 
 .course_filters .checkbox label:before, .course_filters .radio label:before{
@@ -544,3 +544,96 @@ body header #searchicon{
 	left: 10px;
 	right: inherit;
 }
+
+/*
+MISC
+ */
+label[for="signup_password"]>span{float:left;}
+
+/*
+SKY WALKER CHANGES
+ */
+#vibe_bp_login.active #bpavatar img {margin: 20px 0px 20px 20px !important;}
+.page-template-start a.print_unit {margin-top:-15px;}
+.page-template-start .unit_content span{margin-top:-23px !important;}
+.page-template-start .unit_title .instructor img {margin-right:20px !important;}
+.course.directory #buddypress ul.item-list li .item-instructor img.avatar {margin-right: 20px !important;margin-left: 10px !important;}
+.course.directory .type_filter .radio>input[type=radio]+label:before {padding-left: 0px !important;}
+.item-list-tabs a span{float:left !important;}
+.checkbox>input[type=checkbox]:checked+label:after {position:relative !important; float:right !important; transform: translate(22px);}
+i.icon-close-off-2 {font-size: 9px !important;}
+.course.directory .radio label, .checkbox label {padding-right: 0px !important;}
+.single-product p.buttons a{margin-left:10px !important;}
+.widget .woocart .total span{float:left !important; margin-left:50px !important}
+.directory.course #course-order-by{height:40px !important;}
+.single-product .product_meta .posted_in{float:left !important;}
+.single-course .course_reviews .show_course_reviews .reviewlist.commentlist .comment-body .comment-avatar img {margin-top: 15px !important;}
+.single-course .comment-text p{margin-top: 7px !important;}
+.course_curriculum .course_lesson .curriculum-icon>i {margin-top: 5px !important;}
+.course_curriculum .course_lesson>td:last-child i {float: left !important;margin-left: 20px !important;}
+.standard-form a.tip {float: left !important;margin-left: 145px !important;color: rgb(255, 255, 255) !important; font-size:14px !important}
+#vibe_bp_login #vbp-login-form .checkbox label:before {background: rgb(255, 255, 255) !important;}
+#vibe_bp_login #vbp-login-form .checkbox label:after {margin-left:8px !important;}
+.page-template-start #next_unit:after {content: "\e172" !important;float:left !important; font-family: 'fonticon';}
+#prev_unit:after {content: "\e0f6" !important;float:right !important;font-family: 'fonticon';}
+#prev_unit{margin-right:40px !important;}
+.course_timeline li{text-align:right;}.course_timeline li.unit_line{margin:0 30px 0 0;border-left:none;border-right:3px solid rgba(0,0,0,0.2);}.course_timeline
+
+li>span{left:auto;right:-7px}
+.course_timeline li.done>span{right:-13px}.course_timeline li.done>span:before{ margin: 3px 5px 0 0;}.course_timeline li>a{margin:0 20px 0 10px;}
+.course.directory .type_filter .radio>input[type=radio]+label:before {margin-top: 3px !important;}
+.checkbox>input[type=checkbox]+label:before {margin-top: 3px !important;}
+.woocommerce .woocommerce-message .button {float: none !important;margin-left: 10px !important;}
+.woocommerce-Price-amount {margin-right:10px !important;}
+.woocommerce-cart .cart-collaterals .cart_totals tr th {text-align: right !important;}
+.cart_item{text-align: right !important;}
+.woocommerce-cart table.cart td.actions .coupon .input-text {padding:5px !important;}
+.product-name{text-align:right !important;}
+.cart-subtotal,.order-total,.cart_item{text-align:right !important;}
+.product-name{text-align:right !important;}
+.single-course i.icon-plus-1 {margin-left:10px !important;}
+.single-course .course_instructor_widget h5 {margin-top:-5px !important;}
+.single-course .item-avatar img{margin-top:9px !important;}
+ul.more_posts li a img{margin-left:10px !important}
+.woocommerce-MyAccount-navigation ul {float:right !important}
+.woocommerce div.product form.cart .button {float: right !important;}
+div#tab-description h2,p{margin-right:10px !important;}
+.woocommerce-checkout ul.woocommerce-thankyou-order-details.order_details {float:right !important;}
+.woocommerce-checkout .woocommerce table.shop_table {text-align: right !important;}
+.single-course .block_content strong{ margin-left:10px; margin-top:4px;}
+.flex-active-slide .instructor_course .item-avatar{margin-top:-10px !important}
+.bbp-topic-permalink {margin-right: 20px !important;}
+#bbpress-forums ul.bbp-topics li.bbp-body ul.topic .bbp-topic-meta img.avatar {margin-top: -6px !important;}
+#title .bbp-search-form #bbp_search {margin-right: 10px !important;}
+span#favorite-toggle {margin-left:10px !important; margin-right:10px !important;}
+span#favorite-toggle {margin-left:10px !important; margin-right:10px !important;}
+.bbp-reply-author a.bbp-author-name {margin-top:10px !important;margin-right: 26px !important;}
+.bbp-author-role{margin-top:-15px;margin-right: 13px !important;}
+.bbp-reply-ip{margin-bottom: 20px !important;}
+#title .pagetitle {padding-top: 0px !important;}
+li#course-personal:hover span{ background-color:white !important;}
+li#course-all:hover span{ background-color:white !important;}
+ul.rating_breakup span {color: black !important; margin-right:10px !important}
+ul.rating_breakup li:nth-child(5) span {color: black !important; margin-right:5px !important}
+i.icon-printer-1 {display:none !important;}
+i.icon-printer-1 {display:none !important;}
+.icon-clock{margin-left:10px !important;margin-right:10px !important;font-size:13px;}
+.unit_content .unit_title span{font-size:17px !important;}
+.page-template-start .instructor {margin-top:-6px !important;}
+.page-template-start .instructor a img{margin-top:10px !important;}
+#bbpress-forums #favorite-toggle a, #bbpress-forums #subscription-toggle a {margin: 0 0 0 0px !important;}
+.page-template-start .instructor {margin-top:-6px !important;}
+.page-template-start .instructor a img{margin-top:10px !important;}
+#bbpress-forums fieldset.bbp-form #bbp_topic_subscription {float: right !important;margin-left:10px !important;}
+#notifications-personal-li:hover span.no-count {color:blue; background-color:white;}
+.page-template .course_timeline li span{margin-top:2.2px !important;}
+.page-template .course_time{display:none !important;}
+#course-instructor:hover span{color:blue !important; background-color:white !important;}
+.element_overlay h3{margin-right:20px !important}.page-template-create_content li strong{margin-right:10px !important}
+.course.admin .course_students input.member {float:left !important;}
+.course.admin .post_title{line-height:1.1 !important;}
+.instructor_line h3 i {float: left !important;margin-right: 10px !important;}
+.postsmall .post_thumb a {margin-top: 15px !important;}
+h4.post_title{line-height: 1 !important;}
+.pagetitle #subscription-toggle a {margin:0 0 0 0px !important;}
+/*RTL FIXES END */

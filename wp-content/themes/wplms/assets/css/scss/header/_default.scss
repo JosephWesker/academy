@@ -136,6 +136,7 @@ header{
 			float:left;
 			img{
 				max-height: 20px;
+				width:auto;
 			}
 		}
 	}
@@ -234,7 +235,7 @@ header{
 	display: none;
 	position:absolute;
 	top:40px;
-	right:40px;
+	right:50px;
 	padding: 10px;
 	margin:-10px 0 0;
 	border:none;

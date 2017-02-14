@@ -6,9 +6,9 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     2.0
+ * @version     2.1
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 do_action('wplms_before_single_course');
 
 get_header( vibe_get_header() ); 

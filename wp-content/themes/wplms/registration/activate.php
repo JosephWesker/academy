@@ -2,7 +2,7 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-$id = vibe_get_bp_page_id('activate');
+$activate_id = vibe_get_bp_page_id('activate');
 get_header( vibe_get_header() ); ?>
 
 <section id="title">
@@ -11,13 +11,13 @@ get_header( vibe_get_header() ); ?>
             <div class="col-md-12">
                 <div class="pagetitle">
                     <?php
-                        $breadcrumbs=get_post_meta($id,'vibe_breadcrumbs',true);
+                        $breadcrumbs=get_post_meta($activate_id,'vibe_breadcrumbs',true);
                         if(vibe_validate($breadcrumbs)){
                          vibe_breadcrumbs();
                         }
                     ?>
                     <h1><?php the_title(); ?></h1>
-                    <?php the_sub_title($id); ?>
+                    <?php the_sub_title($activate_id); ?>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@ get_header( vibe_get_header() ); ?>
 	<div class="col-md-3 col-sm-4">
 		<div class="sidebar">
 			<?php
-		 		$sidebar = apply_filters('wplms_sidebar','buddypress',get_the_ID());
+		 		$sidebar = apply_filters('wplms_sidebar','buddypress',$activate_id);
                 if ( !function_exists('dynamic_sidebar')|| !dynamic_sidebar($sidebar) ) : ?>
            	<?php endif; ?>
 		</div>

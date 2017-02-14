@@ -24,10 +24,10 @@ do_action( 'woocommerce_before_cart' ); ?>
 					<tr>
 						<th class="product-remove">&nbsp;</th>
 						<th class="product-thumbnail">&nbsp;</th>
-						<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
-						<th class="product-price"><?php _e( 'Price', 'woocommerce' ); ?></th>
-						<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
-						<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
+						<th class="product-name"><?php _e( 'Product', 'vibe' ); ?></th>
+						<th class="product-price"><?php _e( 'Price', 'vibe' ); ?></th>
+						<th class="product-quantity"><?php _e( 'Quantity', 'vibe' ); ?></th>
+						<th class="product-subtotal"><?php _e( 'Total', 'vibe' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,7 +47,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 										echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
 											'<a href="%s" class="remove" title="%s" data-product_id="%s" data-product_sku="%s">&times;</a>',
 											esc_url( WC()->cart->get_remove_url( $cart_item_key ) ),
-											__( 'Remove this item', 'woocommerce' ),
+											__( 'Remove this item', 'vibe' ),
 											esc_attr( $product_id ),
 											esc_attr( $_product->get_sku() )
 										), $cart_item_key );
@@ -79,7 +79,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 										// Backorder notification
 										if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-											echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
+											echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'vibe' ) . '</p>';
 										}
 									?>
 								</td>
@@ -125,13 +125,13 @@ do_action( 'woocommerce_before_cart' ); ?>
 							<?php if ( WC()->cart->coupons_enabled() ) { ?>
 								<div class="coupon">
 
-									<label for="coupon_code"><?php _e( 'Coupon', 'woocommerce' ); ?>:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'woocommerce' ); ?>" />
+									<label for="coupon_code"><?php _e( 'Coupon', 'vibe' ); ?>:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'vibe' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'vibe' ); ?>" />
 
 									<?php do_action( 'woocommerce_cart_coupon' ); ?>
 								</div>
 							<?php } ?>
 
-							<input type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update Cart', 'woocommerce' ); ?>" />
+							<input type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update Cart', 'vibe' ); ?>" />
 
 							<?php do_action( 'woocommerce_cart_actions' ); ?>
 

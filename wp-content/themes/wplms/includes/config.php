@@ -7,8 +7,9 @@ define('THEME_DOMAIN','vibe');
 define('THEME_SHORT_NAME','wplms');
 define('THEME_FULL_NAME','WPLMS');
 define('VIBE_PATH',get_theme_root().'/wplms');
-define('VIBE_URL',get_template_directory_uri());
-define('WPLMS_VERSION','2.1.1');
+if ( !defined( 'VIBE_URL' ) )
+	define('VIBE_URL',get_template_directory_uri());
+define('WPLMS_VERSION','2.5.2');
 
 
 if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
@@ -26,12 +27,14 @@ define( 'BP_AVATAR_FULL_HEIGHT', 460 ); //change this to default height for full
 if ( ! defined( 'BP_DEFAULT_COMPONENT' ) )
 define( 'BP_DEFAULT_COMPONENT', 'profile' );
 
-
-$vibe_options = get_option(THEME_SHORT_NAME);
-// Auto Update
-if(isset($vibe_options['username']) && isset($vibe_options['apikey'])){ 
-  require_once(VIBE_PATH."/options/validation/theme-update/class-theme-update.php");
-  VibeThemeUpdate::init($vibe_options['username'],$vibe_options['apikey']);
+if(function_exists('vibe_get_option')){
+	$username = vibe_get_option('username');
+	$apikey  = vibe_get_option('apikey');
+	// Auto Update
+	if(isset($username) && isset($apikey)){ 
+	  require_once(VIBE_PATH."/options/validation/theme-update/class-theme-update.php");
+	  VibeThemeUpdate::init($username,$apikey);
+	}
 }
 
 add_action('after_setup_theme','wplms_define_constants',10);

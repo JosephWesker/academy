@@ -15,7 +15,7 @@ wp_head();
     <div class="pagesidebar">
         <div class="sidebarcontent">    
             <h2 id="sidelogo">
-                <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                <a href="<?php echo vibe_site_url('','sidelogo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
             </h2>
             <?php
                 $args = apply_filters('wplms-mobile-menu',array(
@@ -80,7 +80,7 @@ wp_head();
                             }
                         ?>
                         
-                            <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                            <a href="<?php echo vibe_site_url('','logo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
                             if(is_home()){
                                 echo '</h1>';
@@ -95,12 +95,23 @@ wp_head();
                             if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
                                 ?>
                                 <ul class="topmenu">
+                                <?php
+                                    if(function_exists('bp_get_total_unread_messages_count')){
+                                ?>
+
                                     <li><a href="<?php echo bp_loggedin_user_domain().'messages'; ?>"><i class="fa fa-envelope-o"></i><?php $n=bp_get_total_unread_messages_count(); echo (($n)?'<span>'.$n.'</span>':''); ?></a></li>
+                                <?php
+                                    }
+                                    if(function_exists('bp_notifications_get_unread_notification_count')){
+                                ?>    
                                     <li><a href="<?php echo bp_loggedin_user_domain().'notifications'; ?>"><i class="fa fa-bell-o"></i><?php $n=bp_notifications_get_unread_notification_count( bp_loggedin_user_id() ); echo (($n)?'<span>'.$n.'</span>':''); ?></a></li>
+                                <?php
+                                    }
+                                ?>    
                                     <?php
                                     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
                                     ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-cart"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
                                     <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
                                     </li>
                                     <?php
@@ -115,7 +126,7 @@ wp_head();
                                     <?php
                                     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
                                     ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-cart"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
                                     <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
                                     </li>
                                     <?php

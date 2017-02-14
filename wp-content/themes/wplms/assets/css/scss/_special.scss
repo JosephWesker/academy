@@ -10,9 +10,9 @@
 /*   TABLE OF CONTENT
 /*========================================================================*/
 /*
-/*    01. GLOBAL STYLING
-/*    02. TYPOGRAPHY STYLING
-/*    03. FORMS STYLING
+/*    01. DEFAULTS
+/*    02. BODY LOADING EFFECTS
+/*    03. BLOG POST STYLE 1 STYLING 
 /*    04. SELECT DROPDOWN
 /*    05. LINKS STYLING
 /*    06. LISTS STYLING
@@ -25,8 +25,9 @@
 
 #wpadminbar{-webkit-transform: translateZ(0);}
 
+.btn{border:none !important;}
 /*========================================================================*/
-/*   01. BLOG POST STYLE 1 STYLING 
+/*   03. BLOG POST STYLE 1 STYLING 
 /*========================================================================*/
 
 .blogpost_style1 {
@@ -136,7 +137,7 @@
 			color:$light-text-color;
 			a{
 				text-transform:uppercase;
-				font-weigt:600;
+				font-weight:600;
 				color:$light-text-color;
 				border-radius:2px;
 			}
@@ -144,6 +145,7 @@
 				content:'/';
 				padding-left:5px;
 			}
+			&:last-child:after{content:'';}
 		}
 	}
 	h3{

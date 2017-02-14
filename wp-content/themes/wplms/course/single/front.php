@@ -10,7 +10,7 @@
  * @version     2.0
  */
 
-
+if ( !defined( 'ABSPATH' ) ) exit;
 global $post;
 $id= get_the_ID();
 

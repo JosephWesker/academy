@@ -212,12 +212,12 @@
 	#discussion.loading{
 	    opacity:0.4;
 	}
-	ul:not(.tags) {
-    	list-style: disc inside;
-	}
+	ul:not(.tags),
 	ol {
-    	list-style: decimal inside;
+    	list-style: disc;
+    	padding-left:20px;
 	}
+
 	.commentlist{
 		margin-bottom:15px;	
 		li{

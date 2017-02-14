@@ -26,6 +26,8 @@ class WPLMS_Course_Reviews{
     private function __construct(){
       add_action('comment_post',array($this,'calculate_ratings'),99,1);
       add_action('edit_comment',array($this,'calculate_ratings'),99,1);
+      add_action('delete_comment',array($this,'calculate_ratings'),99,1);
+      
       add_action('transition_comment_status',array($this,'comment_approved'),99,3);
       add_action( 'comment_form_logged_in_after',array($this, 'additional_fields' ),10,2);
       add_action( 'comment_form_after_fields',array($this, 'additional_fields' ));
@@ -59,8 +61,9 @@ class WPLMS_Course_Reviews{
         
         
       }
-      if(is_singular('course')){
-
+      global $post;
+      if($post->post_type == 'course' && (function_exists('bp_current_component') && bp_current_component() == 'course')){
+      
           echo '<p class="comment-form-title">'.
           '<label for="review_title">' . __( 'Review Title','vibe' ) . '</label>'.
           '<input id="review_title" name="review_title" class="form_field" type="text" size="30" value="'.$title.'" tabindex="5" /></p>';
@@ -304,7 +307,7 @@ function wplms_get_rating_breakup($id = null){
         $id = get_the_ID();
 
       global $wpdb;
-      $breakup = $wpdb->get_results($wpdb->prepare("SELECT meta_value as val,count(meta_value) as count FROM {$wpdb->commentmeta} WHERE meta_key = %s AND comment_id IN (SELECT comment_ID FROM {$wpdb->comments} WHERE comment_post_ID = %d) GROUP BY meta_value LIMIT 0,999",'review_rating',$id));
+      $breakup = $wpdb->get_results($wpdb->prepare("SELECT meta_value as val,count(meta_value) as count FROM {$wpdb->commentmeta} WHERE meta_key = %s AND comment_id IN (SELECT comment_ID FROM {$wpdb->comments} WHERE comment_post_ID = %d AND comment_approved = 1) GROUP BY meta_value LIMIT 0,999",'review_rating',$id));
 
       return $breakup;
     }

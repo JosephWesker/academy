@@ -76,22 +76,22 @@ class VIBE_Options{
 		$this->extra_tabs = apply_filters('vibe-opts-extra-tabs-'.$this->args['opt_name'], $extra_tabs);
 		
 		//set option with defaults
-		add_action('init', array(&$this, '_set_default_options'));
+		add_action('init', array($this, '_set_default_options'));
 		
 		//options page
-		add_action('admin_menu', array(&$this, '_options_page'));
+		add_action('admin_menu', array($this, '_options_page'));
 		
 		//register setting
-		add_action('admin_init', array(&$this, '_register_setting'));
+		add_action('admin_init', array($this, '_register_setting'));
 		
 		//add the js for the error handling before the form
-		add_action('vibe-opts-page-before-form-'.$this->args['opt_name'], array(&$this, '_errors_js'), 1);
+		add_action('vibe-opts-page-before-form-'.$this->args['opt_name'], array($this, '_errors_js'), 1);
 		
 		//add the js for the warning handling before the form
-		add_action('vibe-opts-page-before-form-'.$this->args['opt_name'], array(&$this, '_warnings_js'), 2);
+		add_action('vibe-opts-page-before-form-'.$this->args['opt_name'], array($this, '_warnings_js'), 2);
 		
 		//hook into the wp feeds for downloading the exported settings
-		add_action('do_feed_vibeopts-'.$this->args['opt_name'], array(&$this, '_download_options'), 1, 1);
+		add_action('do_feed_vibeopts-'.$this->args['opt_name'], array($this, '_download_options'), 1, 1);
 		
 		//get the options for use later on
 		$this->options = get_option($this->args['opt_name']);
@@ -231,7 +231,8 @@ class VIBE_Options{
 							$this->args['menu_icon'],
 							$this->args['page_position']
 						);
-						
+		
+
 		if(true === $this->args['allow_sub_menu']){
 						
 			//this is needed to remove the top level menu item from showing in the submenu
@@ -296,8 +297,8 @@ class VIBE_Options{
 			
 		}//else
 
-		add_action('admin_print_styles-'.$this->page, array(&$this, '_enqueue'));
-		add_action('load-'.$this->page, array(&$this, '_load_page'));
+		add_action('admin_print_styles-'.$this->page, array($this, '_enqueue'));
+		add_action('load-'.$this->page, array($this, '_load_page'));
 	}//function	
 	
 	
@@ -954,4 +955,5 @@ class VIBE_Options{
 	
 }//class
 }//if
+
 ?>

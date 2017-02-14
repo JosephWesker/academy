@@ -6,9 +6,9 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     2.0
+ * @version     2.1
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 $course_id=get_the_ID();
 global $wpdb;
 

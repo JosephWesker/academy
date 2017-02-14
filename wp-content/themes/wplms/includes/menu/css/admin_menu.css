@@ -17,14 +17,14 @@
 }
 .menu-item-edit-active .menu-item-settings{display: inline-block !important;}
 .on_off_mega,.taxonomy,.hide_taxonomy_terms,.max_elements,
-.sidebar,.columns,.megamenu_type{
+.sidebar,.columns,.megamenu_type,.menu_width{
     display:none;
 }
-.columns{clear:both;}
+.columns,.menu_width{clear:both;}
 .menu-item-depth-1 .on_off_mega{
     display:block;
 }
-.columns.active,.taxonomy.active,
+.columns.active,.menu_width.active,.taxonomy.active,
 .hide_taxonomy_terms.active,
 .megamenu_type.active,.max_elements.active,
 .sidebar.active{

@@ -28,9 +28,9 @@ add_action('after_setup_theme','vibe_customizer_setup');
 function vibe_customize($wp_customize) {
 
     require_once(dirname(__FILE__) . '/config.php');
-/*====================================================== */
-/*===================== SECTIONS ====================== */
-/*====================================================== */
+/* =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  */
+/* =  =  =  =  =  =  =  =  =  = = SECTIONS  =  =  =  =  =  =  =  =  =  =  =  */
+/* =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  */
     $i=164; // Show sections after the WordPress default sections
     if(isset($vibe_customizer) && is_Array($vibe_customizer)){
         foreach($vibe_customizer['sections'] as $key=>$value){
@@ -43,14 +43,14 @@ function vibe_customize($wp_customize) {
     }
     
 
-/*====================================================== */
-/*================= SETTINGS & CONTROLS ================== */
-/*====================================================== */
+/* =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  */
+/* =  =  =  =  =  =  =  = = SETTINGS & CONTROLS  =  =  =  =  =  =  =  =  =  */
+/* =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  */
 if(isset($vibe_customizer) && is_array($vibe_customizer))
     foreach($vibe_customizer['controls'] as $section => $settings){ $i=1;
         foreach($settings as $control => $type){
             $i=$i+2;
-            /*====== REGISTER SETTING =========*/
+            /* =  =  =  REGISTER SETTING  =  =  =  = =*/
             $wp_customize->add_setting( 'vibe_customizer['.$control.']', array(
                                                 'label'         => $type['label'],
                                                 'type'           => 'option',
@@ -128,6 +128,73 @@ function vibe_customize_scripts(){
     wp_enqueue_script('wplms_customizer_js',VIBE_URL.'/includes/customizer/customizer.js',array( 'jquery' ),WPLMS_VERSION,true);
 }
 
+function wplms_get_theme_color_config($theme){
+
+    $option = array();
+    switch($theme){
+        case 'minimal':
+            $option['header_top_bg'] = '#ffffff';
+            $option['header_bg'] = '#ffffff';
+            $option['nav_bg'] = '#ffffff';
+            $option['body_bg'] = '#ffffff';
+            $option['content_bg'] = '#ffffff';
+            $option['single_dark_color'] = '#FAFAFA';
+            $option['footer_bg'] = '#ffffff';
+            $option['footer_bottom_bg'] = '#ffffff';
+            $option['footer_bg'] = '#ffffff';
+            $option['single_dark_text'] =  '#444444';
+            $option['single_light_color'] = '#ffffff';
+            $option['single_light_text'] =  '#444444';
+            $option['header_top_color'] = '#444444';
+            $option['header_color'] = '#444444';
+            $option['widget_title_color'] = '#444444';
+            $option['nav_color'] = '#444444';
+            $option['content_color'] = '#444444';
+            $option['footer_color'] = '#444444';
+            $option['footer_heading_color'] = '#444444';
+            $option['footer_bottom_color'] = '#444444';
+            
+        break;
+        case 'modern':
+            $option['header_top_bg'] = '#232b2d';
+            $option['header_top_color'] =  '#ffffff';
+            $option['header_bg'] = '#ffffff';
+            $option['header_color'] = '#444444';
+        break;
+        case 'elegant':
+            $option['header_top_bg'] = '#232b2d';
+            $option['header_top_color'] =  '#ffffff';
+            $option['single_light_color'] =  '#ffffff';
+            $option['single_dark_text']='#444444';
+            $option['nav_bg'] = '#009dd8';
+            $option['nav_color'] = '#ffffff'; 
+            $option['header_bg'] = '#ffffff';
+            $option['header_color'] = '#444444';
+        break;
+        default:
+            $option['header_top_bg'] = '#232b2d';
+            $option['single_dark_color'] = '#232b2d';
+            $option['footer_bottom_bg'] = '#232b2d';
+            $option['nav_bg'] = '#232b2d';
+            $option['header_bg'] = '#313b3d';
+            $option['single_light_color'] = '#313b3d';
+            $option['footer_bg'] = '#313b3d';
+            $option['body_bg']= '#f9f9f9';
+            $option['single_dark_text']='#ffffff';
+            $option['single_light_text']='#ffffff';
+            $option['content_bg']= '#ffffff';
+            $option['header_top_color'] = '#232323';
+            $option['header_color'] = '#232323';
+            $option['nav_color']= '#232323';
+            $option['footer_color']= '#232323';
+            $option['footer_heading_color']= '#232323';
+            $option['footer_bottom_color'] = '#ffffff';
+            $option['widget_title_color']= '#232323';
+            $option['content_color']= '#232323';
+        break;
+    }
+    return $option;
+}
 
 add_action('wp_ajax_reset_customizer_colors','wplms_reset_customizer_colors');
 function wplms_reset_customizer_colors(){
@@ -136,34 +203,12 @@ function wplms_reset_customizer_colors(){
        die(); 
     }
     $value = $_POST['value'];
-    switch($value){
-        case 'minimal':
-            $option['header_top_bg'] = $option['header_bg'] = $option['nav_bg'] = $option['body_bg']= $option['content_bg']= $option['single_dark_color']= $option['single_light_color'] = $option['footer_bg'] = $option['footer_bottom_bg'] = $option['footer_bg'] = '#FFF';
-            $option['single_dark_text']=$option['single_light_text']=$option['header_top_color'] = $option['header_color'] = $option['widget_title_color']= $option['nav_color']= $option['content_color']= $option['footer_color']= $option['footer_heading_color']= $option['footer_bottom_color'] = '#444';
-            $option['single_dark_color'] = '#FAFAFA';
-            
-        break;
-        case 'modern':
-            $option['header_top_bg'] = '#232b2d';
-            $option['header_top_color'] =  '#FFF';
-            $option['header_bg'] = '#FFF';
-            $option['header_color'] = '#444';
-        break;
-        case 'elegant':
-            $option['header_top_bg'] = '#232b2d';
-            $option['header_top_color'] =  '#FFF';
-            $option['nav_bg'] = '#009dd8';
-            $option['nav_color'] = $option['header_bg'] = '#FFF';
-            $option['header_color'] = '#444';
-        break;
-        default:
-            $option['header_top_bg'] = $option['single_dark_color'] = $option['footer_bottom_bg'] = $option['nav_bg'] = '#232b2d';
-            $option['header_bg'] = $option['single_light_color'] = $option['footer_bg'] = '#313b3d';
-            $option['body_bg']= '#f9f9f9';
-            $option['single_dark_text']=$option['single_light_text']=$option['content_bg']= '#FFF';
-            $option['header_top_color'] = $option['header_color'] = $option['nav_color']= $option['footer_color']= $option['footer_heading_color']= $option['footer_bottom_color'] = '#FFF';
-            $option['widget_title_color']= $option['content_color']=  '#444';
-        break;
+    $new_option = wplms_get_theme_color_config($value);
+    
+    if(!empty($new_option)){
+        foreach($new_option as $k=>$v){
+            $option[$k] = $v;
+        }
     }
     update_option('vibe_customizer',$option);
     die();

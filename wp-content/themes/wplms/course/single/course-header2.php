@@ -8,7 +8,7 @@
  * @package 	vibe-course-module/templates
  * @version     2.0
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 do_action( 'bp_before_course_header' );
 
 ?>
@@ -34,8 +34,11 @@ do_action( 'bp_before_course_header' );
 </div><!-- #item-header-content -->
 </div>
 <div class="col-md-3">
+	<?php
+	$enable_instructor = apply_filters('wplms_display_instructor',true,get_the_ID());
+	if($enable_instructor){
+	?>
 	<div id="item-admins">
-
 		<h3><?php _e( 'Instructors', 'vibe' ); ?></h3>
 		<?php
 		bp_course_instructor();
@@ -43,6 +46,9 @@ do_action( 'bp_before_course_header' );
 		do_action( 'bp_after_course_menu_instructors' );
 		?>
 	</div><!-- #item-actions -->
+	<?php 
+	}
+	?>
 </div>
 <?php
 do_action( 'bp_after_course_header' );

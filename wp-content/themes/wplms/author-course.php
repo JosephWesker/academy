@@ -67,9 +67,12 @@ $curauth = $wp_query->get_queried_object();
 		<div class="row">
 			<div class="col-md-9 col-sm-8">
 			<?php
+
+				$style = vibe_get_option('default_course_block_style');
+				if(Empty($style)){$style = apply_filters('wplms_instructor_courses_style','course2');}
 				if ( have_posts() ) : while ( have_posts() ) : the_post();
 				global $post;
-				$style=apply_filters('wplms_instructor_courses_style','course2');
+				
 				echo '<div class="col-md-4 col-sm-6">'.thumbnail_generator($post,$style,'3','0',true,true).'</div>';
 				endwhile;
 				pagination();

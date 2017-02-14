@@ -1,18 +1,10 @@
 
 @media (max-width:991px){
 	header{
-
 		#trigger{
 			display:block; 
 			top:28px;
-			right:40px;
-		}
-		&.sleek,
-		&.standard{
-			#trigger{
-				top:28px;
-				right:50px;
-			}
+			right:48px;
 		}
 
 		/* ==== SLEEK HEADER === */	
@@ -27,6 +19,7 @@
 			}
 		}
 
+
 		/* ==== TRANSPARENT HEADER === */
 
 
@@ -35,10 +28,9 @@
 
 		/* ==== STANDARD HEADER === */
 		&.standard{
-			#alt_logo{float:left;display:block;}
-			.header_content{
-				display:none;
-			}
+			#alt_logo{display:inline-block;}
+			#alt_logo img#header_logo{display:none;}
+			#alt_logo img#header_mobile_logo.hide{display:block !important;}
 			&.center{
 				nav{display:none;}
 				#alt_logo{display:block;}
@@ -55,8 +47,16 @@
 
 
 		/* ==== APP HEADER === */
+		&.app{
+			#trigger{
+				right:auto;
+				left:84px;
+			}
+		}
 
 	}
+	/* ==== STANDARD HEADER === */
+	.header_content{display:none;}
 
 	.single-course.c3 .course_header{margin-bottom:0 !important;}
 	.single-course.c3 .course_header #item-header-avatar{margin-bottom:15px !important;}
@@ -75,8 +75,9 @@
 		}
 	} 
 
-	.header_content{display:none;}
-
+	#header_logo,#header_alt_logo{display:none;}
+	#header_mobile_logo.hide{display:block !important;}
+			
 	#headertop .topmenu+.topmenu{
 		display: none;
 	}
@@ -119,12 +120,7 @@
 			.smallimg img{margin:0;}
 			ul.topmenu{
 	    		margin-right: 40px;
-			}	
-			#logo{
-				img{
-					max-width:175px;
-				}
-			}
+			}			
 		} 
 
 		/* ==== TRANSPARENT HEADER === */
@@ -195,15 +191,16 @@
 			}
 			#trigger{
 				left:auto;
-				right:0;    top: 20px;
+				right:10px;    
+				top: 20px;
 			}
 			#mooc_searchform{display:none;}
 		}
 	}
 	.admin-bar{
 		header.mooc.app{
-			#trigger{top:72px;}
-			&.fixed #trigger{top:60px;}
+			#trigger{top:64px;}
+			&.fixed #trigger{top:24px;}
 		} 
 	}
 }

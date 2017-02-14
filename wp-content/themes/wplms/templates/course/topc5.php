@@ -1,3 +1,6 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <section id="title">
 	<div class="course_header">
 		<div class="<?php echo vibe_get_container(); ?>">

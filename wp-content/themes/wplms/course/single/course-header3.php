@@ -8,7 +8,7 @@
  * @package 	vibe-course-module/templates
  * @version     2.0
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 do_action( 'bp_before_course_header' );
 
 ?>
@@ -24,10 +24,6 @@ do_action( 'bp_before_course_header' );
 		<?php do_action( 'bp_course_header_actions' ); ?>
 
 		<?php do_action( 'bp_course_header_meta' ); ?>
-
-	</div>
-	<div class="course_excerpt">
-	<?php the_excerpt(); ?>
 	</div>
 </div><!-- #item-header-content -->
 <div id="item-header-avatar">

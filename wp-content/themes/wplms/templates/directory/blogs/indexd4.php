@@ -12,6 +12,10 @@ get_header( vibe_get_header() );
 
 $id= vibe_get_bp_page_id('blogs'); 
 
+$header = vibe_get_customizer('header_style');
+if($header == 'transparent' || $header == 'generic'){
+    echo '<section id="title"><div class="container"><div class="pagetitle"><h1>'.get_the_title($id).'</h1></div></div></section>';
+}
 
 $flag=1;
 

@@ -6,7 +6,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.1
+ * @version     2.1
  */
 if ( !defined( 'ABSPATH' ) ) exit;
 ?>
@@ -18,7 +18,8 @@ $append='&user='.$user_id;
 
 
 if ( bp_course_has_items( bp_ajax_querystring( 'course' ).$append) ) : ?>
-	<div id="pag-top" class="pagination no-ajax">
+	
+	<div id="pag-top" class="pagination">
 
 		<div class="pag-count" id="course-dir-count-top">
 
@@ -53,7 +54,7 @@ if ( bp_course_has_items( bp_ajax_querystring( 'course' ).$append) ) : ?>
 
 	<?php do_action( 'bp_after_directory_course_list' ); ?>
 
-	<div id="pag-bottom" class="pagination no-ajax">
+	<div id="pag-bottom" class="pagination">
 
 		<div class="pag-count" id="course-dir-count-bottom">
 

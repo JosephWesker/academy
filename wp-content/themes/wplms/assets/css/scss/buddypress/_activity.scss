@@ -389,6 +389,8 @@ body.activity-permalink{
 /*   01. SINGLE ACTIVITY VIEW
 /*========================================================================*/
 
+.buddypress.activity .activity.no-ajax ul#activity-stream{padding-top:150px;}
+
 body.activity-permalink{
 	.activity{
 		max-width: 80%;

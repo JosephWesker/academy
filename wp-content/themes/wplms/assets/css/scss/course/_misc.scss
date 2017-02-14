@@ -6,6 +6,26 @@
  * Project: WPLMS
  * version 2.0
  **/
+
+ /*
+ COURSE ACTION ACONTROLS
+ */
+
+.course_action_controls{
+	margin-top:30px;
+    border: 1px solid $bordercolor;
+    ul{
+    	li{
+    		display:inline-block;
+    		a{
+    			padding:12px 0;
+    			text-align:center;
+    			width:45px;
+    			border-right:1px solid $bordercolor;
+			}
+    	}
+    }
+}
 /*========================================================================*/
 /*   01. REVIEWS
 /*========================================================================*/

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h2 id="footerlogo"><a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','footer'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a></h2>
+                <h2 id="footerlogo"><a href="<?php echo vibe_site_url('','logo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','footer'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a></h2>
                 <?php $copyright=vibe_get_option('copyright'); echo (isset($copyright)?do_shortcode($copyright):'&copy; 2013, All rights reserved.'); ?>
             </div>
             <div class="col-md-9">

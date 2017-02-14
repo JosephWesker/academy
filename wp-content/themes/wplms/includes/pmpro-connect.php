@@ -41,9 +41,10 @@ Class WPLMS_PMPRO_Connect{
     function wplms_pmp_pro_connect($course_id,$user_id){
 
 
-         $membership_ids=vibe_sanitize(get_post_meta($course_id,'vibe_pmpro_membership',false));
+        $membership_ids=vibe_sanitize(get_post_meta($course_id,'vibe_pmpro_membership',false));
+         $flag = apply_filters('wplms_pmpro_connect_allow_course_subscription',1,$course_id,$user_id,$membership_ids);
 
-         if(pmpro_hasMembershipLevel($membership_ids,$user_id) && isset($membership_ids) && count($membership_ids) >= 1){
+        if(pmpro_hasMembershipLevel($membership_ids,$user_id) && isset($membership_ids) && count($membership_ids) >= 1 && $flag){
           
             $coursetaken=get_user_meta($user_id,$course_id,true);
             if(!isset($coursetaken) || $coursetaken ==''){

@@ -20,10 +20,12 @@
 (function($) {
 
 jQuery(document).ready(function($) {
-    NProgress.inc();
-    SidebarMenuEffects();
-    LoginTriggerEffects();
-
+    //SidebarMenuEffects();
+    //LoginTriggerEffects();
+    $(window).on('load',function(){
+      $('body').removeClass('loading');
+    });
+    setTimeout(function(){$('body').removeClass('loading');},8000);
     $('.pagesidebar .sidemenu li.menu-item-has-children').each(function(){
         var $this = $(this);
           $this.on('click',function(event){
@@ -38,9 +40,49 @@ jQuery(document).ready(function($) {
           });
     });
 
+    $('.global #trigger').on('click',function(event){
+        event.preventDefault();
+        if($('.global').hasClass('open')){
+          $('.global').removeClass('open');
+        }else{
+          $('.global').addClass('open');
+          $('body').trigger('global_opened');
+        }
+        event.stopPropagation();
+    });
+
+    $('#logo img').each(function(){
+        $(this).attr('width',$(this).width());
+        $(this).attr('height',$(this).height());
+    });
+
+    $('.global #login_trigger').on('click',function(event){
+        event.preventDefault();
+        if($('.global').hasClass('login_open')){
+          $('.global').removeClass('login_open');
+        }else{
+          $('.global').addClass('login_open');
+          $('body').trigger('global_opened');
+        }
+         event.stopPropagation();
+    });
+
+    $('body').on('global_opened',function(){
+      $(document).on('click','.pusher',function(e){
+        if($('.global').hasClass('open'))
+          $('.global').removeClass('open');  
+        if($('.global').hasClass('login_open'))
+          $('.global').removeClass('login_open');
+      });
+    });
+
     $('nav .menu-item').has('.sub-menu').each(function() {
         if($(this).find('.megadrop').length > 0 ){ 
-           $(this).addClass('hasmegamenu');
+            $(this).addClass('hasmegamenu');
+            var attr = $(this).find('.megadrop').attr('data-width');
+            if (typeof attr !== typeof undefined && attr !== false) {
+              $(this).find('.sub-menu').first().css('width',attr);
+            }
         }
     });
     $('section#content .vibe_editor').each(function(){
@@ -123,9 +165,11 @@ jQuery(document).ready(function($) {
             return false;
     });
     $('body').delegate('.woocommerce-error','click',function(event){
-      event.preventDefault();
-      $(this).fadeOut(200);
-    })
+      if(!$(event.target).is('a')){
+        event.preventDefault();
+        $(this).fadeOut(200);
+      }
+    });
     if((typeof $().tooltip == 'function')){
       $('.tip').tooltip();   
       $('.nav-tabs li:first a').tab('show');
@@ -203,27 +247,34 @@ jQuery(document).ready(function($){
     }
   });
 
-  if($('header.sleek').hasClass('transparent')){
-      var headerheight=$('header.transparent').height()+30;
-      var header = $('header.transparent');
+  if($('header.sleek').hasClass('transparent') || $('header').hasClass('generic')){
+
+      var headerheight = $('header:first').height()+30;
+      var header = $('header:first');
 
       var next;
       if($('body').hasClass('page-template-contact-php')){
-          next = $('#map-canvas');
+          next = 0;
       }else if($('body').hasClass('bp-user') && ( $('body').hasClass('p2') || $('body').hasClass('p3') || $('body').hasClass('p4') || $('body').hasClass('modern-theme'))){
         next = $('#item-header');
       }else if($('body').hasClass('groups') && $('body').hasClass('single-item') && ( $('body').hasClass('g2') || $('body').hasClass('g3')) || ($('body').hasClass('single-item') && $('body').hasClass('modern-theme') && !$('body').hasClass('g4'))){
           next = $('#item-header');
       }else if(($('body').hasClass('single-course') && ( $('body').hasClass('c2') || $('body').hasClass('c3') || $('body').hasClass('c5') )) || ($('body').hasClass('single-course') && $('body').hasClass('modern-theme') && !$('body').hasClass('c4'))){
         next = $('#item-header');
+      }else if($('body').hasClass('activity-permalink')){
+        header.after('<div id="title"></div>');
+        next = $('#title');
       }else{
           next = header.next();
           if(!next.is(":visible")){
             next = header.next().next();
           }  
       }
-      next.css('padding-top',headerheight+'px');
-      next.addClass('light');
+      if(next){
+        next.css('padding-top',headerheight+'px');
+        next.addClass('light');
+      }
+
   }
 
   if($('header').hasClass('mooc')){
@@ -236,20 +287,20 @@ jQuery(document).ready(function($){
    }
 
   var windowheight = $(window).height();
-  $('body #content').each(function(){
+  $('body #content,body.activity-permalink.single .activity').each(function(){
     var content = $(this);
     var checktop = 0;
     if($('#footerbottom').length){
       checktop = $('#footerbottom').offset().top;  
       checktop = checktop + $('#footerbottom').height();
-    }
-    if(checktop < windowheight)  {
-      if ($(document).find('.main').length != 0) {
-        $('.main').last().css('padding-bottom',(windowheight-checktop)+'px');  
-      }else{
-        content.css('padding-bottom',(windowheight-checktop)+'px');  
+      if(checktop < windowheight)  {
+        if ($(document).find('.main,body.activity-permalink.single .activity').length != 0) {
+          $('.main,body.activity-permalink.single .activity').last().css('padding-bottom',(windowheight-checktop)+'px');  
+        }else{
+          content.css('padding-bottom',(windowheight-checktop)+'px');  
+        }
+        
       }
-      
     }
   });
   $(window).scroll(function(event){
@@ -264,17 +315,16 @@ jQuery(document).ready(function($){
       }
     }
 
+    if($('header.sleek').hasClass('fix') || $('header.generic').hasClass('fix')){
 
-    if($('header.sleek').hasClass('fix')){
-
-      var header = $('header.sleek.fix');
+      var header = $('header.fix');
       var headerheight=parseInt($('header.fix').height());
       var next = '';
       //if(header.hasClass('transparent'))
         headerheight = headerheight + 30;
       
       if($('body').hasClass('page-template-contact-php')){
-        next = $('#map-canvas');
+        next = '';
       }else if($('body').hasClass('bp-user') && ( $('body').hasClass('p2') || $('body').hasClass('p3') || $('body').hasClass('p4'))){
         next = $('#item-header');
       }else if($('body').is('.groups, .single-item') && ( $('body').hasClass('g2') || $('body').hasClass('g3'))){
@@ -291,12 +341,15 @@ jQuery(document).ready(function($){
       if(st > headerheight){
         $('header.fix').addClass('fixed');
         if(header.hasClass('fixed')){
-          next.css('padding-top',headerheight+'px');
+          if(next){
+            next.css('padding-top',headerheight+'px');
+          }
         }
       }else{
         $('header.fix').removeClass('fixed');
-        if(!header.hasClass('transparent')){  // case for sleek
-          next.css('padding-top','');
+        if(!header.hasClass('transparent') && !header.hasClass('generic')){  // case for sleek
+          if(next)
+            next.css('padding-top','');
         }
       }
 
@@ -625,11 +678,168 @@ jQuery(document).ready(function($){
     $('#vibe_bp_login').removeClass('active');
     $('#vibe_bp_login').hide();
   });
+   // Action controls
+  $('.action_control').on('click',function(event){
+    event.preventDefault();
+    var action_class=$(this).parent().attr('class');
+    var element = $('#content .unit_wrap');
+    if(action_class == 'fullscreen'){ alert('khaya');
+      if(element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+  });
+  
+    /* === AJAX REGISTRATIONS === */
+    if($('#vbp-login-form').find('#wplms_forgot_password_form').length){
+        
+        $('#sidebar-wp-submit').on('click',function(event){
+          event.preventDefault();
+          var $this = $(this)
+
+          if($this.hasClass('loading'))
+            return;
+
+          $this.addClass('loading');
+
+          var parent = $this.closest('form');
+
+          parent.find('.message_wrap').remove();
+          var data = {
+            'user': parent.find('input[type="text"]').val(),
+            'pass':parent.find('input[type="password"]').val(),
+            'remember':parent.find('input[type="checkbox"]:checked').val()
+          };
+          if(parent.find('input[type="text"]').val().length == 0){
+            parent.find('input[type="text"]').addClass('error');
+          }else{
+            parent.find('input[type="text"]').removeClass('error');
+          }
+          if( parent.find('input[type="password"]').val().length == 0){
+            parent.find('input[type="password"]').addClass('error');
+          }else{
+            parent.find('input[type="text"]').removeClass('error');
+          }
+
+
+          $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            dataType:'json',
+            data: { action: 'wplms_signon', 
+                    security: $this.attr('data-security'),
+                    data : JSON.stringify(data)
+                  },
+            cache: false,
+            success: function (json) {
+                
+                console.log(json);
+                if(("error" in json) !=false){
+
+                  $this.removeClass('loading');
+
+                  
+                  $this.after('<div class="message_wrap"><div class="message">'+json.error+'<span></span></div></div>');
+                  if(("target" in json) != false){
+                    parent.find(json.target).addClass('error');
+                  }
+                  setTimeout(function(){parent.find('.message_wrap').remove();},5000);
+                }
+
+                if(("success" in json) !=false){
+
+                  if(document.URL == json.success){
+                    location.reload();
+                  }else{
+                    window.location.assign(json.success);
+                  }
+                }
+            }
+          });
+
+        });
+        
+        $('#wplms_forgot_password_form').each(function(){
+          $('.vbpforgot').on('click',function(event){
+              event.preventDefault();
+              $('#wplms_forgot_password_form').addClass('active');
+              var h = $('#wplms_forgot_password_form').outerHeight();
+              $('.inside_login_form').css('height',h+'px');
+              $('.md-content h3,.md-content .vbpregister').css('opacity',0);
+          });
+        });
+
+        $('.back_to_login').on('click',function(){
+            $('#vbp-login-form .active').removeClass('active');
+             $('.inside_login_form').removeAttr('style');
+             $('.md-content h3,.md-content .vbpregister').css('opacity',1);
+        });
+        
+        $('#wplms_custom_registration_form').each(function(){
+          $('#vbp-login-form .vbpregister').on('click',function(event){
+              event.preventDefault();
+              $('#wplms_custom_registration_form').addClass('active');
+              var h = $('#wplms_custom_registration_form').outerHeight();
+              $('.inside_login_form').css('height',h+'px');
+              $('.md-content h3,.md-content .vbpregister').css('opacity',0);
+          });
+        });
+
+        
+    }
+
+    $('#vbp_forgot_password').on('click',function(event){
+
+        event.preventDefault();
+
+        var $this = $(this);
+        if($this.hasClass('disabled'))
+            return;
+
+        $this.parent().find('.message_wrap').remove();  
+        $this.addClass('disabled');
+
+        var email = $this.parent().find('input[type="email"]').val();
+        var dt = $this.text();
+        var validate = /^([a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,4}$)/i;
+        if(!email.match(validate)){
+            $this.parent().find('input[type="email"]').addClass('error');
+            $this.after('<div class="message_wrap"><div class="message">'+wplms.invalid_mail+'<span></span></div></div>');
+            setTimeout(function(){
+                $this.parent().find('.message_wrap').remove();
+                $this.removeClass('disabled');
+            },2000);
+            return;
+        }
+
+        $.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data: { action: 'wplms_forgot_password', 
+                        security: $this.attr('data-security'),
+                        email:email
+                      },
+                cache: false,
+                success: function (html) {
+                    $this.after('<div class="message_wrap"><div class="message">'+html+'<span></span></div></div>');
+                    setTimeout(function(){
+                        $this.parent().find('.message_wrap').remove();
+                        $this.parent().find('input[type="email"]').val('');
+                        $this.removeClass('disabled');
+                    },5000);
+                }
+        });
+    });
+    $('body').delegate('.input','keyup',function(){if($(this).hasClass('error')){$(this).removeClass('error');}});
+    $('body').delegate('.message_wrap .message > span','click',function(){$(this).parent().parent().remove();});
 });
 
-jQuery(window).load(function($){
-     NProgress.done();
-});
 
 
 })(jQuery);

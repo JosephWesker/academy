@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class WPLMS_Admin_Welcome {
 
 	private $plugin;
-	public $major_version='2.1.1';
+	public $major_version='2.5.2';
 	/**
 	 * __construct function.
 	 *
@@ -37,6 +37,9 @@ class WPLMS_Admin_Welcome {
 		if(!$this->check_installed()){
 			$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'wplms-install', array( $this, 'install_screen' ) );
 			add_action( 'admin_print_styles-'. $page, array( $this, 'admin_css' ) );
+		}else{
+			$about_page_name = __( 'About WPLMS', 'vibe' );
+			add_dashboard_page( $welcome_page_title, $about_page_name, 'manage_options', 'wplms-about', array( $this, 'about_screen' ) );
 		}
 		if ( empty( $_GET['page'] ) ) {
 			return;
@@ -51,8 +54,8 @@ class WPLMS_Admin_Welcome {
 				add_action( 'admin_print_styles-'. $page, array( $this, 'admin_css' ) );
 			break;
 			case 'wplms-system' :
-				/*$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'wplms-system', array( $this, 'system_screen' ) );
-				add_action( 'admin_print_styles-'. $page, array( $this, 'admin_css' ) );*/
+				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'wplms-system', array( $this, 'system_screen' ) );
+				add_action( 'admin_print_styles-'. $page, array( $this, 'admin_css' ) );
 			break;
 			case 'wplms-changelog' :
 				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'wplms-changelog', array( $this, 'changelog_screen' ) );
@@ -78,8 +81,11 @@ class WPLMS_Admin_Welcome {
 	 * @return void
 	 */
 	public function admin_head() {
-		remove_submenu_page( 'index.php', 'wplms-about' );
-		//remove_submenu_page( 'index.php', 'wplms-system' );
+		if(isset($_REQUEST['page']) && $_REQUEST['page'] == 'wplms-about'){
+			remove_submenu_page( 'index.php', 'wplms-about' );		
+		}
+		
+		remove_submenu_page( 'index.php', 'wplms-system' );
 		remove_submenu_page( 'index.php', 'wplms-changelog' );
 
 		?>
@@ -172,16 +178,9 @@ class WPLMS_Admin_Welcome {
 			<a class="nav-tab <?php if ( $_GET['page'] == 'wplms-about' ) echo 'nav-tab-active'; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wplms-about' ), 'index.php' ) ) ); ?>">
 				<?php _e( "What's New", 'vibe' ); ?>
 			</a>
-			<?php 
-			//<a class="nav-tab <?php if ( $_GET['page'] == 'wplms-system' ) echo 'nav-tab-active'; ?>
-			<?php 
-			//" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wplms-system' ), 'index.php' ) ) ); 
-			 // ?>
-			 <?php 
-			 //">
-			?>
+			<a class="nav-tab <?php if ( $_GET['page'] == 'wplms-system' ) echo 'nav-tab-active'; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wplms-system' ), 'index.php' ) ) ); ?>">
 			<?php
-			// _e( 'System Status', 'vibe' ); 
+			 _e( 'System Status', 'vibe' ); 
 				?>
 			</a><a class="nav-tab <?php if ( $_GET['page'] == 'wplms-changelog' ) echo 'nav-tab-active'; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'wplms-changelog' ), 'index.php' ) ) ); ?>">
 				<?php _e( 'Changelog', 'vibe' ); ?>
@@ -212,6 +211,8 @@ class WPLMS_Admin_Welcome {
 							if (is_plugin_active('buddypress/bp-loader.php') && is_plugin_active('vibe-course-module/loader.php') && is_plugin_active('vibe-customtypes/vibe-customtypes.php')) { 
 						?>
 						<strong class="install_buttons">
+							<a class="button button-primary button-hero" href="<?php echo admin_url( 'themes.php?page=wplms-setup' ); ?>" ><?php _e('Theme Setup Wizard','vibe'); ?></a>
+							<span><?php _e('OR','vibe'); ?> </span>
 							<a class="button button-primary button-hero sample_data_install" data-file="theme_data"><?php _e('Setup Theme without Sample Data','vibe'); ?></a>
 							<span><?php _e('OR','vibe'); ?> </span>
 							<?php
@@ -251,9 +252,9 @@ class WPLMS_Admin_Welcome {
 						<p><?php _e( 'Facing issues while setting up? Try out suggested links below.', 'vibe' ); ?></p>
 						<p><a href="http://vibethemes.com/envato/wplms/documentation/quick-installation-guide.html#pre-setup"><?php _e( 'WPLMS Pre-Setup settings', 'vibe' ); ?></a><br />
 						<a href="http://vibethemes.com/envato/wplms/documentation/quick-installation-guide.html"><?php _e( 'WPLMS manual installation & setup', 'vibe' ); ?></a><br />
-						<?php //<a href="<?php echo admin_url( 'index.php?page=wplms-system' ); ?>">
-						<?php //_e( 'WPLMS System Status', 'vibe' ); ?>
-						<?php //</a><br /> ?>
+						<a href="<?php echo admin_url( 'index.php?page=wplms-system' ); ?>">
+						<?php _e( 'WPLMS System Status', 'vibe' ); ?>
+						</a><br /> 
 						<a href="http://vibethemes.com/envato/wplms/documentation/quick-installation-guide.html#setup-issues"><?php _e( 'WPLMS FAQs', 'vibe' ); ?></a></p>
 					</div>
 					<div>
@@ -294,57 +295,71 @@ class WPLMS_Admin_Welcome {
 			<div class="changelog">
 				<div class="wplms-feature feature-rest feature-section col two-col">
 					<div class="col-1">
-						<h4><?php _e( '9 bug fixes & updates', 'vibe' ); ?></h4>
-						<p><?php _e( 'We\'ve fixed some pending bugs. A lot of small issues, styling issues have been fixed.', 'vibe' ); ?></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-1-1/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
+						<h4><?php _e( 'Bug fixes and maintenance', 'vibe' ); ?></h4>
+						<p><?php _e( 'We\'ve added 2 major features, you can now enable Ajax based login and registration as well as manage course details area.', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-5-2/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
 					</div>
 					<div class="col-2">
-						<h4><?php _e( 'Mega Menu Update', 'vibe' ); ?></h4>
-						<p><?php _e( '2 New mega menu styles have been added.', 'vibe' ); ?></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-1-1/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
+						<h4><?php _e( 'Ajax Login and Registration', 'vibe' ); ?></h4>
+						<p><?php _e( 'We\'ve added the ajax login and registration feature. After enabling this feature, WPLMS has its own sign on, forgot password and registration method inbuilt in the system. This feature also supports custom forgot password email template.', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-5/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
 					</div>
 				</div>
 			</div>
 			<div class="changelog about-integrations">
 				<h3><?php _e( 'What\'s New in WPLMS', 'vibe' ); ?><span style="float:right;"><a href="https://www.youtube.com/playlist?list=PL8n4TGA_rwD_5jqsgXIxXOk1H6ar-SVCV" class="button button-primary" target="_blank"><?php _e('WPLMS Video Playlist','vibe'); ?></a></span></h3>
+				
 				<div class="wplms-feature feature-section col three-col">
 					<div>
-						<h4><?php _e( 'MegaMenu : Category - SubCategory', 'vibe' ); ?></h4>
-						<p><img src="<?php echo VIBE_URL.'/setup/data/uploads/new/cat_menu.gif'; ?>" /></p>
+						<h4><?php _e( 'Ajax Login & Registration', 'vibe' ); ?></h4>
+						<p><img src="https://i.gyazo.com/13f67150f9556b8b03f08226d9b8cb42.gif" /></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/ajax-login-and-registration-in-wplms" target="_blank" class="button">Tutorial</a>
 					</div>
 					<div>
-						<h4><?php _e( 'MegaMenu : Category - Posts', 'vibe' ); ?></h4>
-						<p><img src="<?php echo VIBE_URL.'/setup/data/uploads/new/posts_menu.gif'; ?>" /></p>
+						<h4><?php _e( 'Dynamic Quizzes marks per tag', 'vibe' ); ?></h4>
+						<p><img src="https://i.gyazo.com/47c886e94a48f96313b9fa5660d97f27.gif" /></p>
+						<a href="https://vibethemes.com/documentation/wplms/knowledge-base/wplms-dynamic-quizzes-version-2/" target="_blank" class="button">Tutorial</a>
 					</div>
 					<div class="last-feature">
-						<h4><?php _e( 'WPLMS Wishlists', 'vibe' ); ?></h4>
-					<p><a href="<?php echo admin_url ('admin.php?page=lms-settings&tab=addons'); ?>"><img src="<?php echo VIBE_URL.'/setup/data/uploads/new/wishlist.png'; ?>" /></a></p>
+						<h4><?php _e( 'Manage Course Details', 'vibe' ); ?></h4>
+						<p><img src="https://i.gyazo.com/8cebdf4fd41f1b33b07a0b996d88b545.gif" /></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/manage-course-details-sections/" target="_blank" class="button">Tutorial</a>
 					</div>
 				</div>
 			</div>
 			<div class="changelog">
 				<div class="feature-section col three-col">
 					<div>
-						<h4><?php _e( 'Caching plugins Compatibility', 'vibe' ); ?></h4>
-						<p><?php _e( 'WPLMS is now fully compatible with WP Super cache and W3 Total cache plugins.', 'vibe' ); ?></p>
-						<a href="hhttp://vibethemes.com/documentation/wplms/knowledge-base/wplms-with-w3-total-cache/" class="button">Tutorial</a>
+						<h4><?php _e( 'Migrate From Sensei to WPLMS', 'vibe' ); ?></h4>
+						<p><?php _e( 'Migrate all courses, units, sections, quizzes and content from WooThemes Sensei to WPLMS in 1 single click.', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/woothemes-sensei-to-wplms-migration/" class="button">Tutorial</a>
 					</div>
 					<div>
-						<h4><?php _e( 'WP Courseware to WPLMS Migrate', 'vibe' ); ?></h4>
-						<p><?php _e( 'Import from WP Courseware to WPLMS in 1 single click.', 'vibe' ); ?></p>
+						<h4><?php _e( 'Migration from LearnDash to WPLMS', 'vibe' ); ?></h4>
+						<p><?php _e( 'Migrate all courses, units, sections, quizzes and content from LearnDash to WPLMS in 1 single click', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/migrate-from-learndash-to-wplms/" class="button">Tutorial</a>
+					</div>
+					<div class="last-feature">
+						<h4><?php _e( 'Migration from CleverCourse to WPLMS', 'vibe' ); ?></h4>
+						<p><?php _e( 'Migrate all courses, units, sections, quizzes and content from Clever course/Goodlayers LMS to WPLMS in 1 single click.', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/clevercourse-good-lms-migration-to-wplms" class="button">Tutorial</a>
+					</div>
+				</div>
+				<div class="feature-section col three-col">
+					<div>
+						<h4><?php _e( 'Migrate From WP Courseware to WPLMS', 'vibe' ); ?></h4>
+						<p><?php _e( 'Migrate all courses, units, sections, quizzes and content from WP Courseware to WPLMS in 1 single click.', 'vibe' ); ?></p>
 						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/wp-courseware-wplms-migrate-plugin/" class="button">Tutorial</a>
 					</div>
-					<?php /*
 					<div>
 						<h4><?php _e( 'Updated Documentation ', 'vibe' ); ?></h4>
 						<p><?php _e( 'Documentation has been updated. We\'ve added new functions & shortcodes list and developer documentation. For most updated documentation we recommend checking the online documentation doc.', 'vibe' ); ?></p>
-						<a href="vibethemes.com/envato/wplms/documentation/"><?php _e( 'Check documentation','vibe'); ?></a>
+						<a href="http://vibethemes.com/envato/wplms/documentation/"><?php _e( 'Check documentation','vibe'); ?></a>
 					</div>
-					*/ ?>
 					<div class="last-feature">
 						<h4><?php _e( 'Translation Collaboration', 'vibe' ); ?></h4>
-						<p><?php _e( 'It is really difficult to maintain translations in a versatible project as WPLMS. Therefore we ask our users to email us translation files at support@vibethemes.com with subject "WPLMS - Translation Files".', 'vibe' ); ?></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-1/"><?php _e( 'Check Translation files status','vibe'); ?></a>
+						<p><?php _e( 'It is really difficult to maintain translations in a versatible project as WPLMS. Therefore we ask our users to email us translation files at vibethemes@gmail.com with subject "WPLMS - Translation Files".', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-5/"><?php _e( 'Check Translation files status','vibe'); ?></a>
 					</div>
 				</div>
 			</div>
@@ -488,6 +503,9 @@ class WPLMS_Admin_Welcome {
 								),
 							_x( 'Create Course Page', 'Page setting', 'vibe' ) => array(
 									'option' => 'create_course',
+								),
+							_x( 'Notes & Discussion Page', 'Page setting', 'vibe' ) => array(
+									'option' => 'unit_comments',
 								),
 							_x( 'Default Certificate Page', 'Page setting', 'vibe' ) => array(
 									'option' => 'certificate_page',
@@ -687,9 +705,11 @@ class WPLMS_Admin_Welcome {
 		}
 
 		if(!$this->check_installed()){
-			wp_redirect( admin_url( 'index.php?page=wplms-install' ) );
+			wp_redirect( admin_url( 'themes.php?page=wplms-setup' ) );
 		}else{
+			
 			wp_redirect( admin_url( 'index.php?page=wplms-about' ) );
+				
 		}
 		exit;
 	}
@@ -730,3 +750,4 @@ add_action('init','wplms_welcome_user');
 function wplms_welcome_user(){
 	new WPLMS_Admin_Welcome();	
 }
+

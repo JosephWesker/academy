@@ -185,6 +185,62 @@ ul.socialicons{
 	}
 }
 
+.member_block,
+.member_block3{
+	text-align:center;
+	h3{font-size:16px;font-weight:600;margin-bottom:0;}
+	ul.socialicons{
+		display:inline-block;
+		float:none;
+		li{
+			margin:auto;
+			a{
+				color:rgba(0,0,0,0.4);
+			}
+		}
+	}
+}
+
+.member_block3{
+	.member_avatar {
+	    position: relative;
+	    ul.socialicons {
+		    position: absolute;
+		    opacity:0;
+		    top: 50%;
+		    left: 0;
+		    width: 100%;
+		    display: inline-block;
+		    float: none;z-index:1;
+		    transition: all 0.5s ease;
+		    li{
+		    	float: none;
+    			display: inline-block;
+    			a{
+					color:#FFF;
+				}
+		    }
+	    }
+	    &:after{
+	    	content:'';
+	    	position:absolute;
+	    	left:0;
+	    	top:0;
+	    	width:100%;
+	    	height:100%;
+	    	background:rgba(0,0,0,0.4);
+	    	transform: scale(0);
+	    	transition: all 0.5s ease;
+	    }
+	    &:hover:after{
+	    	transform: scale(1);
+	    }
+	    &:hover ul.socialicons{
+	    	opacity:1;
+	    }
+	}
+}
+
 .product_meta+ul.socialicons{margin-top:15px;}
 
 

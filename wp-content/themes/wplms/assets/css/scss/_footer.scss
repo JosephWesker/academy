@@ -25,7 +25,6 @@ footer{
 	clear:both;
 	background:#313B3D;
 	position: relative;
-	margin-top:30px;
 	padding:30px 0;
 	font-size:14px;
 	color:rgba(255,255,255,0.6);
@@ -277,7 +276,12 @@ footer h4{
 	 } 
 } 
 
-.footerwidget,
+.footerwidget{
+	li > a{
+		color:rgba(255,255,255,0.6);
+	}
+}
+
 .footermenu{
 	li{
 		a{
@@ -319,21 +323,21 @@ footer h4{
 /*========================================================================*/
 
 #scrolltop{
-	position: absolute;
+	position: fixed;
 	right: 20px;
 	bottom: 22px;
 	font-size: 20px;
-	color: #FFF;
+	color: #FFF !important;
 	z-index: 99;
 	background:#232b2d;
 	padding:6px 12px;
 	border-radius:2px;
-	opacity: 0.6;
+	opacity: 0;
 	cursor:pointer;
 	a{color:#FFF;}
 
-	&.fix{position: fixed;}
-	&:hover{opacity: 1;}
+	&.fix{opacity:0.8;}
+	&.fix:hover{opacity: 1;}
 	span{
 		display: block;
 		text-transform: uppercase;

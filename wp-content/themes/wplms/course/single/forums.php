@@ -1,5 +1,5 @@
 <?php
-
+if ( !defined( 'ABSPATH' ) ) exit;
 echo '<div id="course_forums">
 		<h3 class="heading">'.__('Course Forums','vibe').'</h3>';
 $forum_id=get_post_meta(get_the_ID(),'vibe_forum',true);

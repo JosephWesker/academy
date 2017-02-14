@@ -6,8 +6,10 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.2
+ * @version     2.3
  */
+
+if ( !defined( 'ABSPATH' ) ) exit;
 ?>
 <div class="activity_form">
 	<?php

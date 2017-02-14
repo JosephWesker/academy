@@ -69,7 +69,17 @@ gulp.task('minimal-styles',['elegant-styles'], function() {
     .pipe(notify({ message: 'WPLMS Minimal Styles task complete' }));
 });
 
-gulp.task('front-styles',['minimal-styles'], function() {
+gulp.task('modern-styles',['minimal-styles'], function() {
+  return sass('css/scss/skins/modern.scss', { style: 'nested' })
+    .on('error', sass.logError)
+    .pipe(autoprefixer('last 2 version'))    
+    .pipe(minifycss())    
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('css'))
+    .pipe(notify({ message: 'WPLMS Modern Styles task complete' }));
+});
+
+gulp.task('front-styles',['modern-styles'], function() {
   return sass('css/scss/style.scss', { style: 'nested' })
     .on('error', sass.logError)
     .pipe(autoprefixer('last 2 version'))    
@@ -96,9 +106,8 @@ gulp.task('remove-scripts', function() {
 gulp.task('scripts',['remove-scripts'], function() {
   return gulp.src(['bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js',
     'bower_components/flexslider/jquery.flexslider.js',
-    'bower_components/jquery.fitvids/jquery.fitvids.js',
+    'bower_components/fitvids/jquery.fitvids.js',
     'bower_components/flexmenu/flexmenu.js',
-    'bower_components/js-cookie/src/js.cookie.js',
     'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
     'bower_components/select2/dist/js/select2.full.js','js/*.js'])
     .pipe(uglify().on('error', gutil.log))

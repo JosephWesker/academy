@@ -31,6 +31,15 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                 </div>
             </div>
             <div class="col-md-3 col-sm-4">
+                <?php
+                    global $post;
+                    $parents = get_post_ancestors($post);
+                    $id = ($parents) ? $parents[count($parents)-1]: $post->ID;
+                    $course_id = get_post_meta($id,'vibe_forum',true);
+                    if(!empty($course_id)){
+                        echo '<a href="'.get_permalink($course_id).'" class="button full course_button">'._x('Back to course','Back to course button on forums','vibe').'</a>';
+                    }
+                ?>
                 <?php if ( bbp_allow_search() ) : ?>
 
                     <div class="bbp-search-form">

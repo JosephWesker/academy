@@ -40,10 +40,17 @@ class VIBE_Options_pages_select extends VIBE_Options{
 		}
 			
 
-			echo '<option value="">'.__('None','vibe').'</option>';
-
+		echo '<option value="">'.__('None','vibe').'</option>';
+		if(isset($this->field['options']) && !empty($this->field['options'])){
+			foreach ( $this->field['options'] as $id=>$page ) {
+				echo '<option value="'.$id.'"'.selected($this->value, $id, false).'>'.$page.'</option>';
+			}
+		}
 		if(is_array($pages)){
 			foreach ( $pages as $page ) {
+				if(function_exists('icl_object_id')){
+					$page->ID = icl_object_id($page->ID);
+				}
 				echo '<option value="'.$page->ID.'"'.selected($this->value, $page->ID, false).'>'.$page->post_title.'</option>';
 			}
 		}

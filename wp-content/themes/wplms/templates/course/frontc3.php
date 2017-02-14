@@ -19,6 +19,9 @@ do_action('wplms_course_before_front_main');
 
 do_action('wplms_before_course_description');
 ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div class="course_description">
 	<?php if(!empty($post->post_excerpt) && strpos($post->post_content,$post->post_excerpt) === false){ echo '<h6>';the_excerpt(); echo '</h6>';} ?>
 	<div class="small_desc">

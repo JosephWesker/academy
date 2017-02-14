@@ -678,8 +678,6 @@
 				position: absolute;
 				top: .618em;
 				right: 1em;
-				-webkit-animation: spin 2s linear infinite;
-			    -moz-animation: spin 2s linear infinite;
 			    animation: spin 2s linear infinite;
 			}
 		}
@@ -2195,9 +2193,14 @@ h2+.shop_table.order_details td{width:100%;}
 .widget{
 	.woocart{
 		background:#FFF;
-    	padding: 15px;
+    	padding: 0;
     	margin-top: 30px;
     	border-radius: 2px;
+    	border:none;
+    	.widget_shopping_cart{
+    		padding:15px;
+    		border: 1px solid $bordercolor;
+    	}
     	.total{
     		margin-bottom: 15px;
     		padding: 10px 0;

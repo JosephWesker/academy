@@ -8,9 +8,9 @@
  */
 
 if ( !defined( 'ABSPATH' ) ) exit;
-$capablity=vibe_get_option('group_create');
-if(isset($capablity)){
-	switch($capablity){
+$capability=vibe_get_option('group_create');
+if(isset($capability)){
+	switch($capability){
 		case 2: 
 			if(!current_user_can('edit_posts'))
 			wp_die(__('Only Instructors can create groups','vibe'),'Access Denied',array(500,true));
@@ -232,7 +232,7 @@ get_header( vibe_get_header() ); ?>
 
 					<div id="header-cover-image"></div>
 
-					<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+					<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'vibe' ); ?></p>
 
 					<?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
 

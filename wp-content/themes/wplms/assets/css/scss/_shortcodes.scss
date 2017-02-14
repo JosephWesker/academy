@@ -227,6 +227,11 @@ z-index:3;
     margin-left:80px;
   }
 } 
+
+/*====================================================================
+  FEATURED BLOCKS
+====================================================================*/
+
 .block{
 
   // DEFAULT
@@ -450,6 +455,37 @@ z-index:3;
     }
   }
 
+  /*=================
+  GENERAL
+  =================*/
+  &.general{
+    position:relative;
+    overflow:hidden;
+    .block_content{
+      position:absolute;
+      bottom:0;
+      left:0;width:100%;
+      padding:15px;
+      transform:translateY(100%);
+      background: -moz-linear-gradient(top,transparent 0,rgba(0,0,0,1) 100%);
+      background: -webkit-gradient(linear,left top,left bottom,color-stop(0,transparent),color-stop(100%,rgba(0,0,0,1)));
+      background: -webkit-linear-gradient(top,transparent 0,rgba(0,0,0,1) 100%);
+      background: -o-linear-gradient(top,transparent 0,rgba(0,0,0,1) 100%);
+      background: -ms-linear-gradient(top,transparent 0,rgba(0,0,0,1) 100%);
+      background: linear-gradient(to bottom,transparent 0,rgba(0,0,0,1) 100%);
+      .block_title a{color:#fff;}
+      .general_details{
+        background:#009dd8;display:inline-block;
+        padding:2px 8px; border-radius:2px;transition: all 0.2s ease-in-out;
+        a{color:#fff;}
+      }
+    }
+    &:hover{
+      .block_content{
+        transform:translateY(0%);   transition: all 0.2s ease-in-out;
+      }
+    } 
+  }
 } 
 
 
@@ -679,7 +715,9 @@ hr.divider{
   }
 }
 
-.v_module.custom_post_carousel{
+.v_module.custom_post_carousel,
+.v_module.member_carousel,
+.v_module.taxonomy_carousel{
   .vibe_carousel{
     .flex-direction-nav{
       a{
@@ -729,6 +767,28 @@ hr.divider{
   }
 }
 
+.taxonomy_carousel{
+  a.term_block{
+    position:relative;
+    display:inline-block;
+    width:100%;
+    strong{
+      position: absolute;
+      left: 0;
+      top: 50%;margin-top:-20px;
+      width: 100%;
+      text-align: center;
+      span{
+        color:#FFF;
+        font-weight:600;
+        padding:15px;
+        background:rgba(0,0,0,.1);
+        font-size:16px;
+      }
+    }
+  }
+}
+
 .widget .vibe_carousel .flex-direction-nav a.flex-prev,
 .widget .vibe_carousel .flex-direction-nav a.flex-next{
   top:24px;
@@ -745,6 +805,12 @@ footer .widget_carousel .flex-direction-nav a.flex-next,
   top:-32px;
 }
 
+.v_module.member_carousel{
+  .member_block{
+    text-align:center;
+    
+  }
+}
 /*========================================================================*/
 /*   01. PARALLAX
 /*========================================================================*/
@@ -2464,4 +2530,44 @@ margin-right:30px;
 }
 .nav-tabs > li.active > a,.nav-tabs > li:hover > a{border-radius:2px;}
 .nav-tabs > li.active,.nav-tabs > li:hover{border-bottom:none;}
+}
+
+/*========================================================================*/
+/*   01. REGISTRATION FORMS
+/*========================================================================*/
+
+.wplms_registration_form{
+    clear:both;display:block;
+    ul{
+        li{
+            clear:both;
+            &+li{margin-top:10px;}
+            label{
+                width:100%;
+                display:block;
+            }
+            & > input,
+            & > textarea,
+            & > select{
+                width:100%;
+            }
+            fieldset{
+                legend{    
+                    font-size: 16px;
+                    font-weight:600;
+                    border: none;
+                }
+            }
+        }
+    }
+    .submit_registration_form{
+        &.loading{
+            &:before{
+                content:"\f110";
+                opacity:0.8;
+                font-family:fontawesome;
+                animation: spin 2s infinite linear;
+            }
+        }
+    }
 }

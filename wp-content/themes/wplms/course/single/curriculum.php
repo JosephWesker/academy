@@ -6,10 +6,10 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.2
+ * @version     2.2
  */
 
-
+if ( !defined( 'ABSPATH' ) ) exit;
 global $post;
 $id= get_the_ID();
 
@@ -54,7 +54,7 @@ if(!empty($course_curriculum)){
 				?>
 				<tr class="course_lesson">
 					<td class="curriculum-icon"><i class="icon-<?php echo $lesson['icon']; ?>"></i></td>
-					<td><?php echo apply_filters('wplms_curriculum_course_quiz',(($lesson['link'])?'<a href="'.$lesson['link'].'">':''). $lesson['title'].$lesson['free'] . (!empty($lesson['link'])?'</a>':''),$lesson['id'],$id); ?></td>
+					<td><?php echo apply_filters('wplms_curriculum_course_quiz',(($lesson['link'])?'<a href="'.$lesson['link'].'">':''). $lesson['title'].(isset($lesson['free'])?$lesson['free']:'') . (!empty($lesson['link'])?'</a>':''),$lesson['id'],$id); ?></td>
 					<td><?php echo $lesson['labels']; ?> </td>
 					<td><?php echo $lesson['duration']; ?></td>
 				</tr>

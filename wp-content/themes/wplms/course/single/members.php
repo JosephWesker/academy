@@ -8,7 +8,7 @@
  * @package 	vibe-course-module/templates
  * @version     1.8.1
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 global $post;
 $students=get_post_meta(get_the_ID(),'vibe_students',true);
 
@@ -23,14 +23,14 @@ if(empty($course_layout)){
 }
 ?>
 
-
-<h4 class="total_students"><?php _e('Total number of Students in course','vibe'); ?><span><?php echo $students; ?></span></h4>
-<h3><?php _e('Students Currently taking this course','vibe'); ?></h3>
 <?php
 
 $students_undertaking= bp_course_get_students_undertaking(); 
 
 if(count($students_undertaking) > 0 ){
+	?>
+	<h4 class="total_students"><?php _e('Total number of Students in course','vibe'); ?><span><?php echo $students; ?></span></h4>
+	<?php
 	echo '<ul class="course_students">';
 	foreach($students_undertaking as $student){
 
@@ -51,13 +51,23 @@ if(count($students_undertaking) > 0 ){
 			    if ($bp_location) {
 			    	echo '<span>'. $bp_location . '</span>';
 			    }
-			    echo '</li>';
+
+			    echo '<div class="action">';
+			    $check_meta = vibe_get_option('members_activity');
+			    if(bp_is_active('friends') && $check_meta){
+			    	if(function_exists('bp_add_friend_button')){
+				    	bp_add_friend_button( $student );
+				    }
+			    }
+			    echo '</div></li>';
 		    }
 		    
 		}
 	}
 	echo '</ul>';
 	echo bp_course_paginate_students_undertaking();
+}else{
+	echo '<div class="message">'._x('No members found in this course.','No members notification in course - members','vibe').'</div>';
 }
 
 ?>

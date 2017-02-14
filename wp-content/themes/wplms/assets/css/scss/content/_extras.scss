@@ -41,3 +41,10 @@ font-weight: 600;
 background-image: url(../images/button.png);
 }
 
+
+#userstats li strong.stats_user_course_status{
+	margin:0;
+	padding:8px 15px;
+	text-transform:uppercase;
+    border: 1px solid rgba(0,0,0,0.2);
+}

@@ -13,13 +13,14 @@ function print_customizer_style(){
 $theme_customizer=get_option('vibe_customizer');
 echo '<style>';
 
+ob_start();
 $dom_array = array(
     'primary_bg'  => array(
                             'element' => 'a:hover',
                             'css' => 'primary'
                             ),
     'primary_color'  => array(
-                            'element' => '.woocommerce a.button, .button,#nav_horizontal li.current-menu-ancestor>a, 
+                            'element' => '.woocommerce a.button, .button,#nav_horizontal  li.current-menu-ancestor>a, #headertop a.btn,button,
                                           #nav_horizontal li.current-menu-item>a, .total_students span,
                                           #nav_horizontal li a:hover, .button.hero,.tagcloud a:hover,
                                           #nav_horizontal li:hover a,.course_button.button span.amount,
@@ -28,18 +29,18 @@ $dom_array = array(
                                           .vibe_filterable li.active a,.tabbable .nav.nav-tabs li:hover a,
                                           .btn,a.btn.readmore:hover,.checkbox>input[type=checkbox]:checked+label:after,
                                           footer .tagcloud a:hover,.tagcloud a,.in_quiz .pagination ul li span,
-                                          .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus,.generic-button a:hover,.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,
+                                          .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus,.generic-button a:hover,.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,body.activity-permalink .ac-form input[type=submit],
                                           .hover-link:hover,#buddypress .activity-list li.load-more a:hover,
                                           #buddypress div.generic-button a:hover,
                                           .archive #buddypress .course_category,
-                                          .archive #buddypress .course_category h3,#buddypress ul.item-list li .item-credits a.button,#buddypress ul.item-list li .item-credits a.button span,#course_creation_tabs li.done:after,
+                                          .archive #buddypress .course_category h3,#buddypress ul.item-list li .item-credits a.button,#buddypress ul.item-list li .item-credits a.button span,#course_creation_tabs li.done:after,.widget .course_cat_nav ul li a,
                                           #buddypress .item-list-tabs ul li a:hover,
                                           .pagination .current,#question #submit:hover,.ques_link:hover,.reset_answer:hover,
                                           .widget .course_cat_nav ul li.current-cat-parent>a, .widget .course_cat_nav ul li.current-cat>a,
                                           .widget .course_cat_nav ul li a span,.woocommerce ul.products li.product .button,
                                           .woocommerce nav.woocommerce-pagination ul li span.current,
                                           .woocommerce nav.woocommerce-pagination ul li a:hover,
-                                          .woocommerce #respond input#submit, .woocommerce #content input.button, .woocommerce-page a.button, .woocommerce-page button.button, .woocommerce-page input.button, 
+                                          .woocommerce #respond input#submit, .woocommerce #content input.button, .woocommerce-page a.button, .woocommerce-page button.button, .woocommerce-page input.button, .quiz_timeline li.active>a>span,
                                           .woocommerce div.product .woocommerce-tabs ul.tabs li.active, 
                                           .woocommerce div.product .woocommerce-tabs ul.tabs li:hover,
                                           #vibe_bp_login input[type=submit],
@@ -73,7 +74,8 @@ $dom_array = array(
                                           .minimal .pusher .woocommerce a.button:hover,
                                           .elegant #buddypress .dir-form div.item-list-tabs ul li:not(.selected) a:hover,
                                           .elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li a:hover,
-                                          .elegant .widget.pricing a.button',
+                                          .elegant .widget.pricing a.button,.block.general .block_content .general_details>a,
+                                          .modern .vibe_carousel .flex-direction-nav a:hover,.course_pursue_panel .course_action_points,.course_pursue_panel .course_action_points h1,.course_pursue_panel .course_time strong,.course_pursue_panel .course_time strong span',
                             'css' => 'color'
                             ),
         'logo_size' => array(
@@ -89,13 +91,13 @@ $dom_array = array(
                             'css' => 'padding-bottom'
                             ),
     'header_top_bg'  => array(
-                            'element' => '#headertop,header.sleek.fixed,header.standard.fixed,.pagesidebar,#pmpro_confirmation_table thead,header #searchdiv.active #searchform input[type=text],
+                            'element' => '#headertop,header.fixed,.pagesidebar,#pmpro_confirmation_table thead,header #searchdiv.active #searchform input[type=text],
                             .pmpro_checkout thead th,#pmpro_levels_table thead,.boxed #headertop .container,header.sleek.transparent.fixed',
                             'css' => 'background-color'
                             ),
     'header_top_color'  => array(
                             'element' => '#headertop,#headertop a,.sidemenu li a,#pmpro_confirmation_table thead,
-                            .pmpro_checkout thead th,#pmpro_levels_table thead, .sleek.fixed .topmenu>li>a,header.sleek.fixed #searchicon,header.sleek.fixed nav>.menu>li>a',
+                            .pmpro_checkout thead th,#pmpro_levels_table thead, header.fixed .topmenu>li>a,header.fixed #searchicon,header.fixed nav>.menu>li>a',
                             'css' => 'color'
                             ),
     'header_bg'  => array(
@@ -107,6 +109,11 @@ $dom_array = array(
                             'element' => 'nav .menu li a,nav .menu li.current-menu-item a,.topmenu li a,.sleek .topmenu>li>a, .sleek nav>.menu>li>a,
                             header #searchicon,.mooc .topmenu>li>a, .mooc nav>.menu>li>a,#login_trigger',
                             'css' => 'color'
+                            ),
+    'header_font_size'=> array(
+                            'element' => 'nav .menu li a,nav .menu li.current-menu-item a,.sleek nav>.menu>li>a,
+                            header #searchicon, .mooc nav>.menu>li>a,#login_trigger',
+                            'css' => 'font-size'
                             ),
     'nav_bg'  => array(
                             'element' => '.sub-menu,nav .sub-menu,#mooc_menu nav .menu li:hover>.menu-sidebar,
@@ -125,15 +132,16 @@ $dom_array = array(
                                           .sleek .woocart .total,.sleek .woocart .cart_list.product_list_widget .empty,
                                           .mooc .woocart .cart_list.product_list_widget .mini_cart_item a, 
                                           .mooc .woocart .cart_list.product_list_widget .mini_cart_item span,
-                                          .mooc .woocart .total,.sleek .woocart .cart_list.product_list_widget .empty,
-                                          .modern header nav>.menu>li.current-menu-item>a, 
-                                          .modern header nav>.menu>li.current_page_item>a, 
-                                          .modern header nav>.menu>li:hover>a',
+                                          .mooc .woocart .total,.sleek .woocart .cart_list.product_list_widget .empty',
                             'css' => 'color'
                             ),
     'nav_font' => array(
                             'element' => 'nav>.menu>li>a,.sleek .topmenu>li>a, .sleek nav>.menu>li>a',
                             'css' => 'font-family'
+                            ),
+    'nav_font_size' => array(
+                            'element' => 'nav .menu li>.sub-menu li,nav ul.menu li> .sub-menu .menu-sidebar .widget ul li a,nav .menu li>.sub-menu li a',
+                            'css' => 'font-size'
                             ),
     'nav_padding' => array(
                             'element' => 'header nav>.menu>li>a,header.sleek nav>.menu>li>a,header.sleek .topmenu>li>a, header #searchicon,
@@ -145,7 +153,7 @@ $dom_array = array(
                             'css' => 'font-family'
                             ),
     'login_light'=> array(
-                            'element' => '#vibe_bp_login .fullscreen_login,#vibe_bp_login ul+ul',
+                            'element' => '.logged-out #vibe_bp_login .fullscreen_login,#vibe_bp_login ul+ul',
                             'css' => 'background'
                             ),
     'login_light_color'=> array(
@@ -153,11 +161,13 @@ $dom_array = array(
                             'css' => 'color'
                             ),
     'login_dark'=> array(
-                            'element' => '#vibe_bp_login, #vibe_bp_login .fullscreen_login #vbp-login-form',
-                            'css' => 'background'
+                              'element' => '#vibe_bp_login,#wplms_custom_registration_form,
+                                          #wplms_forgot_password_form,.logged-out #vibe_bp_login .fullscreen_login #vbp-login-form,.login_sidebar,
+                              #vibe_bp_login #wplms_custom_registration_form, #vibe_bp_login #wplms_forgot_password_form',
+                              'css'     => 'background'
                             ),
     'login_dark_color'=> array(
-                            'element' => '#vibe_bp_login .fullscreen_login label,#vibe_bp_login label,#vibe_bp_login ul li#vbplogout a,
+                            'element' => '#vibe_bp_login .fullscreen_login label,#vibe_bp_login label,#vibe_bp_login ul li#vbplogout a,.login_sidebar .login_content #vbp-login-form label,.login_sidebar .login_content #sidebar-me #bpavatar+ul li#username a,.login_sidebar .login_content #sidebar-me #bpavatar+ul li a, .login_sidebar .login_content #sidebar-me #bpavatar+ul+ul li a,.login_sidebar .login_content #vbp-login-form label .tip,
                             #vibe_bp_login a:hover, #vibe_bp_login ul li a',
                             'css' => 'color'
                             ),
@@ -257,6 +267,22 @@ $dom_array = array(
                             'element' => 'h6',
                             'css' => 'font-size'
                             ),
+  'heading_font'      =>  array(
+                            'element'=>'h3.heading span',
+                            'css' => 'font-family'  
+                          ),
+  'heading_font_weight'      =>  array(
+                            'element'=>'h3.heading span',
+                            'css' => 'font-weight'  
+                          ),
+  'heading_size'      =>  array(
+                            'element'=>'h3.heading span',
+                            'css' => 'font-size'  
+                          ),
+  'heading_color'      =>  array(
+                            'element'=>'h3.heading span',
+                            'css' => 'color'  
+                          ),
   'widget_title_font' => array(
                             'element' => '#buddypress .widget_title,.widget .widget_title',
                             'css' => 'font-family'
@@ -299,7 +325,7 @@ $dom_array = array(
   'content_bg'  => array(
                             'element' => '.boxed .pusher,.content,#item-body,.widget.pricing,.dir-list,.item-list-tabs,
                             #groups-dir-list, #course-dir-list,#group-create-body,body.boxed.custom-background .pusher,
-                            #buddypress .dir-form div.item-list-tabs#subnav',
+                            #buddypress .dir-form div.item-list-tabs#subnav,.unit_content',
                             'css' => 'background-color'
                             ),
   'content_color'  => array(
@@ -319,7 +345,7 @@ $dom_array = array(
                             span.amount,.block.courseitem .block_content .star-rating+strong, .block.courseitem .block_content .star-rating+a, .block.courseitem .instructor_course+strong,
                              .block.courseitem .instructor_course+a,.pricing_course li strong,.widget .course_details > ul > li:first-child a, .widget .course_details > ul > li:first-child strong > span,
                              .item-credits, .curriculum_check li span.done,.item-credits a,.pricing_course li strong span.subs,.widget .course_details > ul > li:first-child a strong > span, .widget .course_details > ul > li:first-child span.subs,
-                             #buddypress ul.item-list li .item-credits strong, #buddypress ul.item-list li .item-credits strong span.amount',
+                             #buddypress ul.item-list li .item-credits strong, #buddypress ul.item-list li .item-credits strong span.amount,#buddypress ul.item-list li .item-credits span',
                             'css' => 'color'
                             ),
   'body_font_size'  => array(
@@ -330,9 +356,17 @@ $dom_array = array(
                             'element' => 'body,.content,#item-body,#buddypress ul.item-list li div.item-desc,p',
                             'css' => 'font-family'
                             ),
+  'single_menu_font_size' => array(
+                                'element' =>'.flexMenu-popup li a,.unit_prevnext,.quiz_bar,.course_timeline li a,#buddypress .item-list-tabs ul li a,.single-course.c2 #item-nav div.item-list-tabs#object-nav li a, .single-course.c3 #item-nav div.item-list-tabs#object-nav li a,#course_creation_tabs,.page-template-start .course_timeline h4,#buddypress .item-list-tabs#subnav ul li a,.widget .course_cat_nav ul li a',
+                                'css' => 'font-size'
+                            ),
+  'single_menu_font_family' => array(
+                                'element' =>'.flexMenu-popup li a,.unit_prevnext,.quiz_bar,.course_timeline li a,#buddypress .item-list-tabs ul li a,.single-course.c2 #item-nav div.item-list-tabs#object-nav li a, .single-course.c3 #item-nav div.item-list-tabs#object-nav li a,#course_creation_tabs,.page-template-start .course_timeline h4,.widget .course_cat_nav ul li a',
+                                'css' => 'font-family'
+                            ),
   'single_light_color'  => array(
                             'element' => '#buddypress div.item-list-tabs,.widget .item-options,#buddypress div.item-list-tabs#object-nav,
-                            #buddypress div.item-list-tabs,.quiz_bar,
+                            #buddypress div.item-list-tabs,.quiz_bar,.widget .course_cat_nav,
                             .single-course.c2 #item-nav,.single-course.c3 #item-nav,.single-course.c5 #item-nav,
                             .minimal.single-course.c2 #item-nav, 
                             .minimal.single-course.c3 #item-nav, 
@@ -349,26 +383,24 @@ $dom_array = array(
                             'css' => 'background-color'
                             ),
   'single_light_text' =>  array(
-                            'element' => '#buddypress div.item-list-tabs,.widget .item-options,.flexMenu-popup li a,#buddypress div.item-list-tabs#object-nav,.unit_prevnext,.quiz_bar,.course_timeline li.active a,.course_timeline li a,.minimal .course_timeline li.active a,.minimal .course_timeline li a',
+                            'element' => '#buddypress div.item-list-tabs,.widget .item-options,.flexMenu-popup li a,#buddypress div.item-list-tabs#object-nav,.quiz_timeline li>a>span,.unit_prevnext,.quiz_bar,.course_timeline li.active a,.course_timeline li a,.minimal .course_timeline li.active a,.minimal .course_timeline li a,#buddypress .item-list-tabs ul li a,.widget .course_cat_nav ul li.current-cat-parent>ul>li:not(.current-cat)>a,.single-course.c2 #item-nav div.item-list-tabs#object-nav li a, .single-course.c3 #item-nav div.item-list-tabs#object-nav li a, .single-course.c5 #item-nav div.item-list-tabs#object-nav li a',
                             'css' => 'color'
                             ),
   'single_dark_color'  => array(
                             'element' => '#course_creation_tabs,#buddypress div#item-header,
                             .page-template-start .unit_prevnext,.page-template-start .course_timeline h4,
-                            
+                            .widget .course_cat_nav ul li>ul li,
                             .single-course .course_header,
-                            
                             .minimal.single-course.c2 .course_header, 
                             .minimal.single-course.c3 .course_header, 
                             .minimal.single-course.c5 .course_header,
                             .elegant.single-course.c2 .course_header, 
                             .elegant.single-course.c3 .course_header
-
                             ',
                             'css' => 'background-color'
                             ),
   'single_dark_text'  =>  array(
-                            'element' => '#course_creation_tabs li,#course_creation_tabs li a,#course_creation_tabs li i,#course_creation_tabs li.active a, #course_creation_tabs li.active i,#buddypress div#item-header,
+                            'element' => '#course_creation_tabs li,#course_creation_tabs li a,#course_creation_tabs li i,#course_creation_tabs li.active a, #course_creation_tabs li.active i,.quiz_timeline li a,.quiz_timeline li.done a,.unit_prevnext a,.ques_link,.countdown,.countdown+span,.countdown+span+span,#buddypress div#item-header,
                             .page-template-start .unit_prevnext,.page-template-start .course_timeline h4,
                             .minimal .course_timeline li h4,.minimal .unit_prevnext a,
                             .single-course .course_header,.page-template-start .course_timeline.accordion li.section:after,.minimal.single-course.c2 .course_header, 
@@ -481,7 +513,7 @@ foreach($dom_array as $style => $value){
                       .sidebar .widget #searchform input[type="submit"], 
                       #signup_submit, #submit,button,.login_sidebar .login_content #vbp-login-form #sidebar-wp-submit,
                       #buddypress a.button,.generic-button a:hover,
-                      #buddypress input[type=button],
+                      #buddypress input[type=button],body.activity-permalink .ac-form input[type=submit],
                       #buddypress input[type=submit],#buddypress input[type=reset],
                       #buddypress ul.button-nav li a,#buddypress .item-list-tabs ul li a:hover,
                       #buddypress div.generic-button a:hover,
@@ -529,7 +561,7 @@ foreach($dom_array as $style => $value){
                       #question #submit:hover,.ques_link:hover,.reset_answer,
                       .quiz_timeline li:hover > span, .quiz_timeline li.active > span,
                       .course_timeline li.done > span, .course_timeline li:hover > span, .course_timeline li.active > span,
-                      .active .quiz_question span,.vbplogin em,
+                      .quiz_timeline li.active>a>span,.vbplogin em,
                       #buddypress div.item-list-tabs#subnav ul li.switch_view a.active,
                       #buddypress .activity-list li.load-more a:hover,.note-tabs ul li.selected a, .note-tabs ul li.current a,
                       .data_stats li:hover, .data_stats li.active,.course_students li .progress .bar,
@@ -597,12 +629,20 @@ foreach($dom_array as $style => $value){
                       .elegant #buddypress #members-activity div.item-list-tabs ul li.selected a:before,
                       .elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li.current a:before,
                       .elegant.single #buddypress .item-list-tabs#subnav ul li.selected a:before,
-                      .login_page_content .nav.nav-tabs>li.active>a:after
+                      .login_page_content .nav.nav-tabs>li.active>a:after,
+                      .block.general .block_content .general_details,
+                      .modern .vibe_carousel .flex-direction-nav a:hover,
+                      .modern .pusher h3.heading span:before, 
+                      .modern .pusher h4.widget_title span:before,
+                      .modern #buddypress #item-nav .item-list-tabs ul li.current a:after, .modern #buddypress #item-nav .item-list-tabs ul li.selected a:after,.modern .pusher #title .pagetitle h1:after,.modern #buddypress div.item-list-tabs ul li.current a:after, .modern #buddypress div.item-list-tabs ul li.selected a:after,.modern #buddypress div.item-list-tabs ul li.current a span, .modern #buddypress div.item-list-tabs ul li.selected a span,
+                      .save_quiz_progress .save_progress_inner,.submit_quiz_progress .save_progress_inner,
+                      body.loading.pageloader2 .global:before,body.loading.pageloader2 .global:after,
+                      .course_pursue_panel .course_action_points,.course_pursue_panel .course_timeline li.unit_line.active:before
                       {
                         background:'.$theme_customizer[$style].'; 
                       }
                       .link,.instructor_line h3 a:hover,.minimal .generic-button a,
-                      #notes_discussions .actions a:hover, 
+                      #notes_discussions .actions a:hover, ul.item-list.loading:after,#ajaxloader:after, 
                       .course_timeline li.active a, .course_timeline li:hover a,
                       #notes_discussions .actions a.reply_unit_comment.meta_info, 
                       .side_comments ul.actions li a:hover, 
@@ -655,7 +695,8 @@ foreach($dom_array as $style => $value){
                       .elegant.single-course.c4 #buddypress .item-list-tabs#object-nav li.current a,
                       .login_page_content .nav.nav-tabs>li.active>a,
                       .block.postblock .block_content .course_instructor,
-                      .elegant.single #buddypress .item-list-tabs#subnav ul li.selected a
+                      .elegant.single #buddypress .item-list-tabs#subnav ul li.selected a,
+                      .modern #buddypress #item-nav .item-list-tabs ul li.current a, .modern #buddypress #item-nav .item-list-tabs ul li.selected a,.modern nav li a:hover, .modern nav li.current_menu_item a, .modern nav li.current_page_item a,.modern #buddypress div.item-list-tabs ul li a:hover,.modern #buddypress div.item-list-tabs ul li.current a, .modern #buddypress div.item-list-tabs ul li.selected a,.modern #buddypress div.item-list-tabs ul li a span,.modern #buddypress div.item-list-tabs#subnav ul li.current a, .modern #buddypress div.item-list-tabs#subnav ul li.selected a
                       {
                         color:'.$theme_customizer[$style].'; 
                       }
@@ -776,7 +817,7 @@ foreach($dom_array as $style => $value){
                       .elegant.directory.d3 #buddypress .item-list-tabs ul li a:hover{
                         color:'.$theme_customizer[$style].';
                       }
-                      .minimal.woocommerce .button,.minimal.woocommerce button.button,
+                      .minimal.woocommerce .button,.minimal.woocommerce button.button,.minimal #buddypress div.item-list-tabs#subnav ul li.switch_view a.active,
                       .minimal.directory #buddypress div.item-list-tabs#subnav ul li.switch_view a.active{
                         border-color:'.$theme_customizer[$style].' !important;
                       }
@@ -878,9 +919,8 @@ foreach($dom_array as $style => $value){
         }
         if(isset($theme_customizer['single_dark_color'])){
         echo '.unit_prevnext,
-        .course_timeline h4{
-                background:'.$theme_customizer['single_dark_color'].';}
-                .quiz_timeline li > span,.quiz_question span{
+        .course_timeline h4{background:'.$theme_customizer['single_dark_color'].';}
+                .quiz_timeline li > span,.quiz_timeline li>a>span{
                 background:'.$theme_customizer['single_dark_color'].';
               }';
         echo '.course_timeline,
@@ -910,7 +950,8 @@ foreach($dom_array as $style => $value){
           .woocommerce.minimal #respond input#submit.alt:hover, .woocommerce.minimal a.button.alt:hover, .woocommerce.minimal button.button.alt:hover, .woocommerce.minimal input.button.alt:hover,.minimal.woocommerce-page a.button:hover
           {
             background: '.$theme_customizer['primary_bg'].' !important;
-          }';
+          }body.loading.pageloader1 .global:before{border-top-color:'.$theme_customizer['primary_bg'].';}
+          body.loading.pageloader1 .global:after{border-left-color:'.$theme_customizer['primary_bg'].';}';
         }
         if(isset($theme_customizer['login_dark'])){
           echo '#vibe_bp_login:after{
@@ -928,6 +969,11 @@ foreach($dom_array as $style => $value){
               margin-top:'.$theme_customizer['nav_padding'].'px;
           }';
         }
+        if(isset($theme_customizer['single_dark_text'])){
+          echo '#save_quiz_progress{
+            border-color:'.$theme_customizer['single_dark_text'].';
+          }';
+        }
         if(isset($theme_customizer['footer_bottom_bg'])){
           echo 'footer .form_field, 
                             footer .input-text, 
@@ -939,5 +985,11 @@ foreach($dom_array as $style => $value){
                             footer .chosen-container-single .chosen-single{border-color: '.$theme_customizer['footer_bottom_bg'].';}';
         }
         do_action('wplms_customizer_custom_css',$theme_customizer); 
+
+        $css = ob_get_clean();
+        $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+        $buffer = str_replace(': ', ':', $buffer);
+        $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
+        echo($buffer);
     echo '</style>';
 }

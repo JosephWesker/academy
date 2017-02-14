@@ -35,6 +35,8 @@ if ( bp_is_active( 'messages' ) ){
               'label' => __('Inbox','vibe').(messages_get_unread_count()?' <span>' . messages_get_unread_count() . '</span>':''),
               'link' => bp_loggedin_user_domain().BP_MESSAGES_SLUG
               );
+}
+if ( bp_is_active( 'notifications' ) ){  
   $n=vbp_current_user_notification_count();
   $loggedin_menu['notifications']=array(
               'icon' => 'icon-exclamation',
@@ -75,26 +77,33 @@ else :
 	
 	<div class="fullscreen_login">
 		<a id="close_full_popup"></a>				
-		<form name="login-form" id="vbp-login-form" class="standard-form" action="<?php echo apply_filters('wplms_login_widget_action',vibe_site_url( 'wp-login.php', 'login-post' )); ?>" method="post">
+		<form name="login-form" id="vbp-login-form" class="standard-form" action="<?php echo apply_filters('wplms_login_widget_action',site_url( 'wp-login.php', 'login_post' )); ?>" method="post">
 			<a href="<?php echo vibe_site_url(); ?>" class="login_logo"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
-			<label><?php _e( 'Username', 'vibe' ); ?><br />
-			<input type="text" name="log" id="side-user-login" class="input" tabindex="1" value="<?php echo esc_attr( stripslashes( $user_login ) ); ?>" /></label>
-			
-			<label><?php _e( 'Password', 'vibe' ); ?> <a href="<?php echo wp_lostpassword_url(); ?>" tabindex="5" class="tip" title="<?php _e('Forgot Password','vibe'); ?>"><i class="icon-question"></i></a><br />
-			<input type="password" tabindex="2" name="pwd" id="sidebar-user-pass" class="input" value="" /></label>
-			
-		    <div class="checkbox small">
-		    	<input type="checkbox" name="sidebar-rememberme" id="sidebar-rememberme" value="forever" /><label for="sidebar-rememberme"><?php _e( 'Remember Me', 'vibe' ); ?></label>
-		    </div>
-			
-			<?php do_action( 'bp_sidebar_login_form' ); ?>
-			<input type="submit" name="user-submit" id="sidebar-wp-submit" value="<?php _e( 'Log In','vibe' ); ?>" tabindex="100" />
-			<input type="hidden" name="user-cookie" value="1" />
-			<?php if ( bp_get_signup_allowed() ) :
-    			$registration_link = apply_filters('wplms_buddypress_registration_link',site_url( BP_REGISTER_SLUG . '/' ));
-				printf( __( '<a href="%s" class="vbpregister" title="'.__('Create an account','vibe').'" tabindex="5" >'.__( 'Sign Up','vibe' ).'</a> ', 'vibe' ), $registration_link );
-			endif; ?>
+			<div class="inside_login_form">
+				<label><?php _e( 'Username', 'vibe' ); ?><br />
+				<input type="text" name="log" id="side-user-login" class="input" tabindex="1" value="<?php echo esc_attr( stripslashes( $user_login ) ); ?>" /></label>
+				
+				<label><?php _e( 'Password', 'vibe' ); ?> <a href="<?php echo wp_lostpassword_url(); ?>" tabindex="5" class="tip vbpforgot" title="<?php _e('Forgot Password','vibe'); ?>"><i class="icon-question"></i></a><br />
+				<input type="password" tabindex="2" name="pwd" id="sidebar-user-pass" class="input" value="" /></label>
+				
+			    <div class="checkbox small">
+			    	<input type="checkbox" name="sidebar-rememberme" id="sidebar-rememberme" value="forever" /><label for="sidebar-rememberme"><?php _e( 'Remember Me', 'vibe' ); ?></label>
+			    </div>
+				
+				<?php do_action( 'bp_sidebar_login_form' ); ?>
+				<input type="submit" name="user-submit" id="sidebar-wp-submit" data-security="<?php echo wp_create_nonce('wplms_signon'); ?>" value="<?php _e( 'Log In','vibe' ); ?>" tabindex="100" />
+				<input type="hidden" name="user-cookie" value="1" />
+
+				<?php 
+				$enable_signup = apply_filters('wplms_enable_signup',0);
+	            if ( $enable_signup ) : 
+	    			$registration_link = apply_filters('wplms_buddypress_registration_link',site_url( BP_REGISTER_SLUG . '/' ));
+					printf(  '<a href="%s" class="vbpregister" title="'.__('Create an account','vibe').'" tabindex="5" >'.__( 'Sign Up','vibe' ).'</a> ', $registration_link );
+				endif; ?>
   			<?php do_action( 'login_form' ); //BruteProtect FIX 
+  			?>
+  			</div>
+  			<?php
   			do_action( 'bp_after_sidebar_login_form' );
   			?>
 		</form>

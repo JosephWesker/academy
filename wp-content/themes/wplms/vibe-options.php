@@ -212,6 +212,14 @@ $sections[] = array(
                         'std' => VIBE_URL.'/assets/images/logo.png'
 						),
                        array(
+						'id' => 'mobile_logo',
+						'type' => 'upload',
+						'title' => __('Upload Logo for Mobile', 'vibe'), 
+						'sub_desc' => __('Upload a logo for mobile viewport', 'vibe'),
+						'desc' => sprintf(__('This Logo is shown in header on Mobile devices, less than 768px wide. NOT ABLE TO UPLOAD ? %s REFER TIP %s', 'vibe'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/logo-and-favicon-not-uploading/" target="_blank">','</a>'),
+                        'std' => VIBE_URL.'/assets/images/logo.png'
+						),
+                       array(
 						'id' => 'alt_logo',
 						'type' => 'upload',
 						'title' => __('Upload Alternate Logo', 'vibe'), 
@@ -428,7 +436,7 @@ $sections[] = array(
 						'id' => 'blog_create',
                         'title' => __('Create Blog (multisite)', 'vibe'),
                         'sub_desc' => __('Blogs can be created by :', 'vibe'),
-                        'desc' => __('Blog creation : Members{Loggedin Members},Teachers {Teachers, Admins,Editors}', 'vibe'),
+                        'desc' => sprintf(__('Blog creation : Members{Loggedin Members},Teachers {Teachers, Admins,Editors}, %s screenshot %s', 'vibe'),'<a href="http://prntscr.com/cldri1" target="_blank">','</a>'),
                         'type' => 'button_set',
 						'options' => array('1'=>__('Members only','vibe'),'2' => __('Teachers only','vibe'),'3' => __('Admins only','vibe')),//Must provide key => value pairs for radio options
 						'std' => '1'
@@ -473,6 +481,7 @@ $sections[] = array(
 					array(
 						'id' => 'activation_redirect',
 						'type' => 'pages_select',
+						'options'=> array('dashboard'=>__('Dashboard','vibe'),'profile'=>__('Profile','vibe'),'mycourses'=>__('My Courses','vibe')),
                         'title' => __('Redirect Page on User Activation', 'vibe'),
                         'sub_desc' => __('User is redirected to this page on activating her account.', 'vibe'),
                         'desc' => __('After registering and activating the account the user is redirected to this page.','vibe')
@@ -507,6 +516,13 @@ $sections[] = array(
                         'sub_desc' => __('Enter the name of the Instructor Field to show below the name.', 'vibe'),
                         'std'=>'Speciality'
 						),
+                    array(
+						'id' => 'social_field_group',
+						'type' => 'text',
+                        'title' => __('Social Profiles Field Group', 'vibe'),
+                        'sub_desc' => sprintf(__('Add social profiles in user profiles. %s refer tutorial %s', 'vibe'),'<a href=" http://vibethemes.com/documentation/wplms/knowledge-base/social-profile-field-group/ ">','</a>'),
+                        'std'=>'Social Profiles'
+						),
 					array(
 						'id' => 'instructor_paypal_field',
 						'type' => 'text',
@@ -521,7 +537,21 @@ $sections[] = array(
                         'title' => __('Instructor Description Field', 'vibe'),
                         'sub_desc' => __('Instructor Description is picked from this field in the Instructor Widget', 'vibe'),
                         'std'=>'About'
-						),									
+						),	
+                    array(
+						'id' => 'enable_ajax_registration_login',
+						'type' => 'button_set',
+                        'title' => __('Enable ajax registration & login', 'vibe'),
+                        'sub_desc' => __('Registration & Forgot password forms work inside the popup form. ', 'vibe'),
+                        'desc' => __('Registration & Forgot password forms open inside login form.','vibe').'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/ajax-login-and-registration-in-wplms">more</a>',
+                        'options' => array('' => __('Disable','vibe'),1=>__('Enable Login only','vibe'),2=>__('Enable Login and registration','vibe'))
+						),
+					array(
+						'id' => 'custom_registration_page',
+						'type' => 'pages_select',
+                        'title' => __('Custom Registration page', 'vibe'),
+                        'sub_desc' => __('Overrides the default registration page from buddypress', 'vibe'),
+						),								
 					)
 				);
 
@@ -564,6 +594,24 @@ $sections[] = array(
 						'options' => array('0' => __('No','vibe'),'1'=>__('Yes','vibe')),
 						'std' => '0'
 						),
+						array( 
+						'id' => 'course_status_template',
+                        'title' => __('Course status templates', 'vibe'),
+                        'sub_desc' => __('Change course status page templates', 'vibe'),
+                        'desc' => sprintf(__('Course status page templates, %s tutorial %s', 'vibe'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/course-status-templates/" target="_blank">','</a>'),
+                        'type' => 'button_set',
+						'options' => array('default'=>__('Default','vibe'),'fullscreen' => __('Full Screen','vibe')),
+						'std' => ''
+						),
+						/*array( // To be added in 2.5
+						'id' => 'course_status_controls',
+                        'title' => __('Show ControlPanel course status page', 'vibe'),
+                        'sub_desc' => __('Display controls on course status page', 'vibe'),
+                        'desc' => sprintf(__('Course status controls, like hide/show, minimize, fullscreen,chat etc.. %s refer tutorial %s', 'vibe'),'<a href="" target="_blank">','</a>'),
+                        'type' => 'button_set',
+						'options' => array('0' => __('No','vibe'),'1'=>__('Yes','vibe')),
+						'std' => '0'
+						),*/
 						array(
 						'id' => 'new_course_status',
                         'title' => __('Admin Approval for Course', 'vibe'),
@@ -602,7 +650,7 @@ $sections[] = array(
 						),
 						array(
 						'id' => 'course_progressbar',
-                        'title' => __('Show Course Progressbar', 'vibe'),
+                        'title' => __('Show Course Progressbar (always active)', 'vibe'),
                         'sub_desc' => __('Show course progress bar above course timeline', 'vibe'),
                         'desc' => __('Course Progress bar is shown in Course curriculum page', 'vibe'),
                         'type' => 'button_set',
@@ -698,6 +746,7 @@ $sections[] = array(
                         	'select' => __('Dropdown select','vibe'),
                         	'fillblank' => __('Fill in the Blank','vibe'),
                         	'smalltext' => __('Small Text Answer','vibe'),
+                        	'survey' => __('Survey','vibe'),
                         	),
                         'std' => array('single')
 						),
@@ -750,7 +799,7 @@ $sections[] = array(
 						'id' => 'show_news',
                         'title' => __('Display News', 'vibe'),
                         'sub_desc' => __('Display News section in courses', 'vibe'),
-                        'desc' => __('Display News section in courses', 'vibe'),
+                        'desc' => __('Display News section in courses, *requires WPLMS Dashboard plugin', 'vibe'),
                         'type' => 'button_set',
 						'options' => array('' => __('No','vibe'),'1'=>__('Yes','vibe')),
 						'std' => '0'
@@ -774,15 +823,6 @@ $sections[] = array(
 						'std' => ''
 						),
 						array(
-						'id' => 'disable_front_end_editor',
-                        'title' => __('Disable Front End Editor (FEE)', 'vibe'),
-                        'sub_desc' => __('Disable front end editor', 'vibe'),
-                        'desc' => sprintf(__('Disable front end editor : %s Tutorial %s', 'vibe'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/fee-enabledisable-switch/" target="_blank">','</a>'),
-                        'type' => 'button_set',
-						'options' => array('0' => __('No, Enable FEE','vibe'),'1'=>__('Yes, Disable FEE','vibe')),
-						'std' => ''
-						),
-						array(
 						'id' => 'linkage',
                         'title' => __('Enable Linkage', 'vibe'),
                         'sub_desc' => __('Connect Course, Units, Quiz, Questions with linkage taxonomy', 'vibe'),
@@ -799,6 +839,31 @@ $sections[] = array(
                         'type' => 'button_set',
 						'options' => array('' => __('No','vibe'),'1'=>__('Yes','vibe')),
 						'std' => ''
+						),
+
+						array(
+						'id' => 'default_course_block_style',
+                        'title' => __('Default course block style', 'vibe'),
+                        'sub_desc' => __('Set a default block style for courses', 'vibe'),
+                        'desc' => __('default course block style', 'vibe'),
+                        'type' => 'radio_img',
+						'options' => array(             
+	                                        'course' => array('Default' => __('Four Columns','vibe'), 'img' => plugins_url('vibe-customtypes/metaboxes/library/images/thumb_2.png')),
+											'course2' => array('Default' => __('Four Columns','vibe'), 'img' => plugins_url('vibe-customtypes/metaboxes/library/images/thumb_8.png')),
+											'course3' => array('Default' => __('Four Columns','vibe'), 'img' => plugins_url('vibe-customtypes/metaboxes/library/images/thumb_8.jpg')),
+											'course4' => array('Default' => __('Four Columns','vibe'), 'img' => plugins_url('vibe-customtypes/metaboxes/library/images/thumb_9.jpg')),
+											'course5' => array('Default' => __('Four Columns','vibe'), 'img' => plugins_url('vibe-customtypes/metaboxes/library/images/thumb_10.jpg')),
+	                            ),//Must provide key => value(array:title|img) pairs for radio options
+						'std' => '4'
+						),
+						array(
+						'id' => 'related_courses',
+                        'title' => __('Show related courses at the end of single course', 'vibe'),
+                        'sub_desc' => __('related courses by category, instructor & tags', 'vibe'),
+                        'desc' => __('Related courses are displayed based on category & instructor', 'vibe'),
+                        'type' => 'button_set',
+						'options' => array('0' => __('No','vibe'),'1'=>__('Yes','vibe')),
+						'std' => '0'
 						),
 					)
 				);
@@ -1021,7 +1086,15 @@ $sections[] = array(
 				'title' => __('Miscellaneous', 'vibe'),
 				'desc' =>'<p class="description">'. __('Miscellaneous settings used in the theme.', 'vibe').'</p>',
 				'fields' => array(
-                                        
+                        array(
+						'id' => 'page_loader',
+						'type' => 'button_set',
+						'title' => __('Page Loader', 'vibe'), 
+						'sub_desc' => __('Add a Page loader on site, everything is hidden till the page loads', 'vibe'),
+						'desc' => sprintf(__('A loading icon will be displayed to the user, till the whole page loads. %s', 'vibe'),'<a href="https://www.youtube.com/watch?v=pwxYL080oFQ" target="_blank">tutorial</a>'),
+						'options' => array('' => __('Disable','vibe'),'pageloader1' => __('Enable, Style 1','vibe'),'pageloader2' => __('Enable, Style 2','vibe')),
+						'std' => ''
+						),                 
 						array(
 						'id' => 'site_lock',
 						'type' => 'button_set',
@@ -1032,6 +1105,13 @@ $sections[] = array(
 						'std' => ''
 						), 
 						array(
+						'id' => 'site_lock_home_page_url',
+						'type' => 'pages_select',
+						'title' => __(' Site lock Logo link page', 'vibe'), 
+						'sub_desc' => __('Url on header logo and footer logo when site lock is enabled', 'vibe'),
+						'desc' => sprintf(__('Select page which you want to redirect users to when a user clicks on the site logo.','vibe')),
+						),
+						array(
 						'id' => 'security_key',
 						'type' => 'text',
 						'title' => __('Unique Security Key', 'vibe'), 
@@ -1039,6 +1119,14 @@ $sections[] = array(
 						'desc' => __('Unique key to avoid (logged in) users from bypassing the system.', 'vibe'),
 						'std' => wp_generate_password()
 						),
+						array(
+						'id' => 'default_archive',
+						'type' => 'button_set',
+						'title' => __('Default Archive style', 'vibe'), 
+						'sub_desc' => __('Set the default archive style from default, blog1, blog 2, blog 3', 'vibe'),
+						'options' => array('' => __('Default','vibe'),'blog1' => __('Blog 1','vibe'),'blog2' => __('Blog 2','vibe'),'blog3' => __('Blog 3','vibe')),
+						'std' => ''
+						), 
 						array(
 						'id' => 'excerpt_length',
 						'type' => 'text',
@@ -1079,16 +1167,7 @@ $sections[] = array(
 						'desc' => __('If you\'re forcing the direct checkout, and your products have one course per product then switching this on would send users directly to the course page.', 'vibe'),
 						'options' => array(0 => __('Disable','vibe'),1 => __('Enable','vibe')),
 						'std' => 0
-						),  
-						array(
-						'id' => 'force_complete',
-						'type' => 'button_set',
-						'title' => __('Force complete orders', 'vibe'), 
-						'sub_desc' => __('Force all WooCommerce virtual products orders complete on thank you page.','vibe'),
-						'desc' => __('All Paid Orders : All Orders with only Virtual products and payment complete orders, All Non-Fail Orders : All Orders in Processing, on Hold, Pending orders will be marked complete on Thank you page.', 'vibe'),
-						'options' => array(0 => __('Disable','vibe'),1 => __('All Paid Orders','vibe'),2 => __('All Non-Fail Orders','vibe')),
-						'std' => 0
-						), 
+						),   
 						array(
 						'id' => 'remove_woo_fields',
 						'type' => 'button_set',
@@ -1107,10 +1186,24 @@ $sections[] = array(
 	                        'std' => '0'
 						),	
 						array(
+						'id' => 'google_captcha_public_key',
+						'type' => 'text',
+						'title' => __('Google Captcha Public Key', 'vibe'), 
+						'sub_desc' => __('Enter Google captcha public key', 'vibe').'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/google-captcha-public-and-private-keys/">'.__('How to get an Public Key ?','vibe').'</a>',
+						'std' => ''
+						),
+						array(
+						'id' => 'google_captcha_private_key',
+						'type' => 'text',
+						'title' => __('Google Captcha Private Key', 'vibe'), 
+						'sub_desc' => __('Enter Google captcha private key', 'vibe').'<a href="hhttp://vibethemes.com/documentation/wplms/knowledge-base/google-captcha-public-and-private-keys/">'.__('How to get an Private Key ?','vibe').'</a>',
+						'std' => ''
+						),
+						array(
 						'id' => 'google_apikey_contact',
 						'type' => 'text',
 						'title' => __('Google Maps API Key', 'vibe'), 
-						'sub_desc' => __('Google Maps require an API key to function', 'vibe').'<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key">'.__('How to get an API Key ?','vibe').'</a>',
+						'sub_desc' => __('Google Maps require an API key to function', 'vibe').'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/how-to-get-google-api-key-for-google-maps/">'.__('How to get an API Key ?','vibe').'</a>',
 						'std' => ''
 						),
                        array(

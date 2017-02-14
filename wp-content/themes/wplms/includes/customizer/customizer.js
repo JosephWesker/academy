@@ -14,6 +14,7 @@
                     cache: false,
                     success: function (html) {
                         api.previewer.refresh();
+                        setTimeout(function(){api.previewer.refresh();},2000);
                     }
                 });
             } else {

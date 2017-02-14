@@ -39,7 +39,7 @@ get_header(vibe_get_header());
                         global $post;
                         $return = '<div class="col-md-4 clear3"><div class="assignmentblock"><h4 class="block_title"><a href="'.get_permalink($post->ID).'" title="'.$post->post_title.'">'.$post->post_title.'</a></h4>';
 
-                        $return .= sprintf(__('By %s','name of assignment author','vibe'),'<a href="'.bp_core_get_user_domain($post->post_author).'" class="assignment_instructor" 
+                        $return .= sprintf(_x('By %s','name of assignment author','vibe'),'<a href="'.bp_core_get_user_domain($post->post_author).'" class="assignment_instructor" 
                             title="'.__('Assignment Instructor','vibe').'">'.bp_core_get_user_displayname($post->post_author ).'</a>');
                         $return .= '<div class="assignment_details">';
                         $return .='<ul>';

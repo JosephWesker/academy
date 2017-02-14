@@ -1,5 +1,7 @@
 <?php
 
+if ( !defined( 'ABSPATH' ) ) exit;
+
 get_header(vibe_get_header());
 
 if ( have_posts() ) : while ( have_posts() ) : the_post();
@@ -58,7 +60,7 @@ if(!isset($title) || !$title || (vibe_validate($title))){
                     the_content();
                      ?>
                      <div class="tags">
-                    <?php echo '<div class="indate"><i class="icon-clock"></i> ';the_date();echo '</div>';the_tags('<ul><li>','</li><li>','</li></ul>'); ?>
+                    <?php echo '<div class="indate"><i class="icon-clock"></i> ';the_modified_date();echo '</div>';the_tags('<ul><li>','</li><li>','</li></ul>'); ?>
                     <?php wp_link_pages('before=<div class="page-links"><ul>&link_before=<li>&link_after=</li>&after=</ul></div>'); ?>
                         <div class="social_sharing">
                             <?php 
@@ -79,11 +81,11 @@ if(!isset($title) || !$title || (vibe_validate($title))){
                             $next_post = get_next_post();
                             echo '<li>';
                             if(!empty($prev_post))
-                            echo '<a href="'.get_permalink($prev_post->ID).'" class="prev">'.get_the_post_thumbnail($prev_post->ID,'thumbnail').'<span>'.$prev_post->post_title.'</span></a>';
+                            echo '<a href="'.get_permalink($prev_post->ID).'" class="prev"><strong>'.get_the_post_thumbnail($prev_post->ID,'thumbnail').'<span>'.$prev_post->post_title.'</span></strong></a>';
 
                             echo '<li>';
                             if(!empty($next_post))
-                            echo '<a href="'.get_permalink($next_post->ID).'" class="next">'.get_the_post_thumbnail($next_post->ID,'thumbnail').'<span>'.$next_post->post_title.'</span></a>';
+                            echo '<a href="'.get_permalink($next_post->ID).'" class="next"><strong>'.get_the_post_thumbnail($next_post->ID,'thumbnail').'<span>'.$next_post->post_title.'</span></strong></a>';
                             echo '</li>';
                             ?>
                         </ul>    
@@ -105,7 +107,7 @@ if(!isset($title) || !$title || (vibe_validate($title))){
                         </div>
                         <div class="author_info">
                             <a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" class="readmore link"><?php _e('Posts','vibe'); ?></a><a class="readmore">&nbsp;|&nbsp;</a><a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ).$instructing_courses; ?>" class="readmore link"><?php _e('Courses','vibe'); ?></a>
-                            <h6><?php the_author_meta( 'display_name' ); ?></h6>
+                            <h6><?php the_author(); ?></h6>
                             <div class="author_desc">
                                 <p>
                                     <?php  the_author_meta( 'description' );?>

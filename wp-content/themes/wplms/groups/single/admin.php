@@ -176,7 +176,7 @@ do_action('wplms_before_single_group_item_list_tabs');
 <?php /* Group Cover image Settings */ ?>
 <?php if ( bp_is_group_admin_screen( 'group-cover-image' ) ) : ?>
 
-	<h4><?php _e( 'Change Cover Image', 'buddypress' ); ?></h4>
+	<h4><?php _e( 'Change Cover Image', 'vibe' ); ?></h4>
 
 	<?php
 
@@ -187,7 +187,7 @@ do_action('wplms_before_single_group_item_list_tabs');
 	 */
 	do_action( 'bp_before_group_settings_cover_image' ); ?>
 
-	<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+	<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'vibe' ); ?></p>
 
 	<?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
 

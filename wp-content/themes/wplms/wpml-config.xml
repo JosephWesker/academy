@@ -13,6 +13,8 @@
     </custom-types>
     <taxonomies>
         <taxonomy translate="1">course-cat</taxonomy>
+        <taxonomy translate="1">location</taxonomy>
+        <taxonomy translate="1">level</taxonomy>
         <taxonomy translate="1">module-tag</taxonomy>
         <taxonomy translate="1">question-tag</taxonomy>
         <taxonomy translate="1">event-type</taxonomy>

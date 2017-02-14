@@ -35,6 +35,7 @@ class VIBE_Options_multi_social extends VIBE_Options{
                         'github'=>'Github',
                         'pinterest'=>'Pinterest',
                         'youtube'=>'Youtube',
+                        'vk'=>'VK',
                         'vimeo'=>'Vimeo',
                         'pinboard'=>'pinboard',    
                         'google-plus'=>'Google Plus',

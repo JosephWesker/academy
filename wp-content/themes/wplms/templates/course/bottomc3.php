@@ -1,4 +1,8 @@
-				</div>
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+do_action('wplms_single_course_content_end');
+?>				</div>
 				<div class="col-md-3 col-sm-5">	
 					<div class="widget pricing">
 						<?php the_course_button(); ?>

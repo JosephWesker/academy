@@ -36,7 +36,7 @@ class VIBE_Options_upload extends VIBE_Options{
 		//}
 		
 		if($this->value == ''){$remove = ' style="display:none;"';$upload = '';}else{$remove = '';$upload = ' style="display:none;"';}
-		echo ' <a href="javascript:void(0);" class="vibe-opts-upload button-secondary"'.$upload.' rel-id="'.$this->field['id'].'">'.__('Browse', 'vibe').'</a>';
+		echo ' <a href="javascript:void(0);" class="vibe-opts-upload button-secondary"'.$upload.' rel-id="'.$this->field['id'].'"  data-title="'.$this->field['title'].'"  data-save="#'.$this->field['id'].'" data-target="#vibe-opts-screenshot-'.$this->field['id'].'">'.__('Browse', 'vibe').'</a>';
 		echo ' <a href="javascript:void(0);" class="vibe-opts-upload-remove"'.$remove.' rel-id="'.$this->field['id'].'">'.__('Remove Upload', 'vibe').'</a>';
 		
 		echo (isset($this->field['desc']) && !empty($this->field['desc']))?'<br/><br/><span class="description">'.$this->field['desc'].'</span>':'';
@@ -57,12 +57,12 @@ class VIBE_Options_upload extends VIBE_Options{
 		wp_enqueue_script(
 			'vibe-opts-field-upload-js', 
 			VIBE_OPTIONS_URL.'fields/upload/field_upload.js', 
-			array('jquery', 'thickbox', 'media-upload'),
+			array('jquery', 'media-upload'),
 			time(),
 			true
 		);
 		
-		wp_enqueue_style('thickbox');// thanks to https://github.com/rzepak
+		wp_enqueue_media();
 		
 		wp_localize_script('vibe-opts-field-upload-js', 'vibe_upload', array('url' => $this->url.'fields/upload/blank.png'));
 		

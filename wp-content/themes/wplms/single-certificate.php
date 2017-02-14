@@ -15,9 +15,10 @@ $bgimg=wp_get_attachment_info( $bgimg_id );
 $width = get_post_meta(get_the_ID(),'vibe_certificate_width',true);
 $height = get_post_meta(get_the_ID(),'vibe_certificate_height',true);
 
+$certificate_class= apply_filters('wplms_certificate_class','');
 do_action('wplms_certificate_before_full_content');
 ?>
-<section id="certificate" <?php echo 'style="'.(is_numeric($width)?'width:'.$width.'px;':'').''.(is_numeric($height)?'height:'.$height.'px':'').'"'; ?>>
+<section id="certificate" <?php echo 'style="'.(is_numeric($width)?'width:'.$width.'px;':'').''.(is_numeric($height)?'height:'.$height.'px':'').'"'; ?> <?php echo (empty($certificate_class)?'':'class="'.$certificate_class.'"'); ?>>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -26,8 +27,10 @@ do_action('wplms_certificate_before_full_content');
                     <div class="extra_buttons">
                         <?php do_action('wplms_certificate_extra_buttons');
                         if(vibe_validate($print)){
-                            echo '<a href="#" class="certificate_print"><i class="icon-printer-1"></i></a>';
-                            echo '<a href="#" class="certificate_pdf"><i class="icon-file"></i></a>';
+                            echo '<a href="#" class="certificate_close"><i class="fa fa-times"></i></a>';
+                            echo '<a href="#" class="certificate_print"><i class="fa fa-print"></i></a>';
+                            echo '<a href="#" class="certificate_pdf"><i class="fa fa-file-pdf-o"></i></a>';
+                            echo '<a href="#" class="certificate_download"><i class="fa fa-download"></i></a>';
                         }
                         ?>
                     </div>

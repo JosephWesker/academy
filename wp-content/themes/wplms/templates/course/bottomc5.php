@@ -1,6 +1,10 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
+do_action('wplms_single_course_content_end');
+?>
 				</div>
-				<div class="col-md-3 col-sm-3">	
+				<div class="col-md-3">	
 					<div class="students_undertaking">
 						<?php
 						$students_undertaking=array();

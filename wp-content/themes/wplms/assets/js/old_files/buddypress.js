@@ -10,14 +10,6 @@ jQuery.cookie=function(name,value,options){if(typeof value!='undefined'){options
 /* jQuery querystring plugin */
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('M 6(A){4 $11=A.11||\'&\';4 $V=A.V===r?r:j;4 $1p=A.1p===r?\'\':\'[]\';4 $13=A.13===r?r:j;4 $D=$13?A.D===j?"#":"?":"";4 $15=A.15===r?r:j;v.1o=M 6(){4 f=6(o,t){8 o!=1v&&o!==x&&(!!t?o.1t==t:j)};4 14=6(1m){4 m,1l=/\\[([^[]*)\\]/g,T=/^([^[]+)(\\[.*\\])?$/.1r(1m),k=T[1],e=[];19(m=1l.1r(T[2]))e.u(m[1]);8[k,e]};4 w=6(3,e,7){4 o,y=e.1b();b(I 3!=\'X\')3=x;b(y===""){b(!3)3=[];b(f(3,L)){3.u(e.h==0?7:w(x,e.z(0),7))}n b(f(3,1a)){4 i=0;19(3[i++]!=x);3[--i]=e.h==0?7:w(3[i],e.z(0),7)}n{3=[];3.u(e.h==0?7:w(x,e.z(0),7))}}n b(y&&y.T(/^\\s*[0-9]+\\s*$/)){4 H=1c(y,10);b(!3)3=[];3[H]=e.h==0?7:w(3[H],e.z(0),7)}n b(y){4 H=y.B(/^\\s*|\\s*$/g,"");b(!3)3={};b(f(3,L)){4 18={};1w(4 i=0;i<3.h;++i){18[i]=3[i]}3=18}3[H]=e.h==0?7:w(3[H],e.z(0),7)}n{8 7}8 3};4 C=6(a){4 p=d;p.l={};b(a.C){v.J(a.Z(),6(5,c){p.O(5,c)})}n{v.J(1u,6(){4 q=""+d;q=q.B(/^[?#]/,\'\');q=q.B(/[;&]$/,\'\');b($V)q=q.B(/[+]/g,\' \');v.J(q.Y(/[&;]/),6(){4 5=1e(d.Y(\'=\')[0]||"");4 c=1e(d.Y(\'=\')[1]||"");b(!5)8;b($15){b(/^[+-]?[0-9]+\\.[0-9]*$/.1d(c))c=1A(c);n b(/^[+-]?[0-9]+$/.1d(c))c=1c(c,10)}c=(!c&&c!==0)?j:c;b(c!==r&&c!==j&&I c!=\'1g\')c=c;p.O(5,c)})})}8 p};C.1H={C:j,1G:6(5,1f){4 7=d.Z(5);8 f(7,1f)},1h:6(5){b(!f(5))8 d.l;4 K=14(5),k=K[0],e=K[1];4 3=d.l[k];19(3!=x&&e.h!=0){3=3[e.1b()]}8 I 3==\'1g\'?3:3||""},Z:6(5){4 3=d.1h(5);b(f(3,1a))8 v.1E(j,{},3);n b(f(3,L))8 3.z(0);8 3},O:6(5,c){4 7=!f(c)?x:c;4 K=14(5),k=K[0],e=K[1];4 3=d.l[k];d.l[k]=w(3,e.z(0),7);8 d},w:6(5,c){8 d.N().O(5,c)},1s:6(5){8 d.O(5,x).17()},1z:6(5){8 d.N().1s(5)},1j:6(){4 p=d;v.J(p.l,6(5,7){1y p.l[5]});8 p},1F:6(Q){4 D=Q.B(/^.*?[#](.+?)(?:\\?.+)?$/,"$1");4 S=Q.B(/^.*?[?](.+?)(?:#.+)?$/,"$1");8 M C(Q.h==S.h?\'\':S,Q.h==D.h?\'\':D)},1x:6(){8 d.N().1j()},N:6(){8 M C(d)},17:6(){6 F(G){4 R=I G=="X"?f(G,L)?[]:{}:G;b(I G==\'X\'){6 1k(o,5,7){b(f(o,L))o.u(7);n o[5]=7}v.J(G,6(5,7){b(!f(7))8 j;1k(R,5,F(7))})}8 R}d.l=F(d.l);8 d},1B:6(){8 d.N().17()},1D:6(){4 i=0,U=[],W=[],p=d;4 16=6(E){E=E+"";b($V)E=E.B(/ /g,"+");8 1C(E)};4 1n=6(1i,5,7){b(!f(7)||7===r)8;4 o=[16(5)];b(7!==j){o.u("=");o.u(16(7))}1i.u(o.P(""))};4 F=6(R,k){4 12=6(5){8!k||k==""?[5].P(""):[k,"[",5,"]"].P("")};v.J(R,6(5,7){b(I 7==\'X\')F(7,12(5));n 1n(W,12(5),7)})};F(d.l);b(W.h>0)U.u($D);U.u(W.P($11));8 U.P("")}};8 M C(1q.S,1q.D)}}(v.1o||{});',62,106,'|||target|var|key|function|value|return|||if|val|this|tokens|is||length||true|base|keys||else||self||false|||push|jQuery|set|null|token|slice|settings|replace|queryObject|hash|str|build|orig|index|typeof|each|parsed|Array|new|copy|SET|join|url|obj|search|match|queryString|spaces|chunks|object|split|get||separator|newKey|prefix|parse|numbers|encode|COMPACT|temp|while|Object|shift|parseInt|test|decodeURIComponent|type|number|GET|arr|EMPTY|add|rx|path|addFields|query|suffix|location|exec|REMOVE|constructor|arguments|undefined|for|empty|delete|remove|parseFloat|compact|encodeURIComponent|toString|extend|load|has|prototype'.split('|'),0,{}))
 
-/*!
- * jQuery UI Touch Punch 0.2.3
- * Depends:
- *  jquery.ui.widget.js
- *  jquery.ui.mouse.js
- */
-!function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
-
 // AJAX Functions
 var jq = jQuery;
 
@@ -26,7 +18,9 @@ var bp_ajax_request = null;
 
 jq(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
-
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
 	/* Hide Forums Post Form */
 	if ( '-1' == window.location.search.indexOf('new') && jq('div.forums').length )
 		jq('#new-topic-post').hide();
@@ -685,23 +679,38 @@ jq(document).ready( function() {
 	});
 
 	/**** Directory Search ****************************************************/
-
 	/* The search form on all directory pages */
-	jq('.dir-search').on( 'click', function(event) {
-		if ( jq(this).hasClass('no-ajax') )
-			return;
+	jq(document).on('keyup','.dir-search input',function(event){
+        var value = jq(this).val();
+		/* The search form on all directory pages */
 
 		var target = jq(event.target);
+		var id;
 
-		if ( target.attr('type') == 'submit' ) {
-			if(jq('.item-list-tabs li.selected').attr('id').indexOf('-')>=0){
-				var css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
-				var object = css_id[0];
-
-				bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
+		//if ( target.attr('type') == 'submit' ) {
+		if(jq('.item-list-tabs li.selected').length){
+			id = jq('.item-list-tabs li.selected').attr('id');
+		}else{
+			if(jq('body').hasClass('course')){
+				id = 'course-all';
+			}else if(jq('body').hasClass('members')){
+				id = 'members-all';
+			}else if(jq('body').hasClass('groups')){
+				id = 'groups-all';
 			}
-			return false;
 		}
+	
+		if(typeof id !== 'undefined'){
+			if(id.indexOf('-')>=0){
+				var css_id = id.split( '-' );
+				var object = css_id[0];
+				jq(this).closest('.dir-search').addClass('loading');
+				bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, value, 1, jq.cookie('bp-' + object + '-extras') );
+			}
+		}
+
+			return false;
+		//}
 	});
 
 	/**** Tabs and Filters ****************************************************/
@@ -742,6 +751,12 @@ jq(document).ready( function() {
 		var scope = css_id[1];
 		var filter = jq(this).val();
 		var search_terms = false;
+
+		if(jq('body').hasClass('instructor-courses')){
+			if(jq('#instructor-courses-personal-li').hasClass('current')){
+				scope = 'instructor';
+			}
+		}
 
 		if ( jq('.dir-search input').length )
 			search_terms = jq('.dir-search input').val();
@@ -866,7 +881,6 @@ jq(document).ready( function() {
 			} else if ( friend_action == 'uninvite' ) {
 				jq('#friend-list li#uid-' + friend_id).remove();
 			}
-
 			jq('.item-list-tabs li.selected').removeClass('loading');
 		});
 	});
@@ -1474,6 +1488,11 @@ jq(document).ready( function() {
 
 /* Setup activity scope and filter based on the current cookie settings. */
 function bp_init_activity() {
+
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
+
 	/* Reset the page */
 	jq.cookie( 'bp-activity-oldestpage', 1, {
 		path: '/'
@@ -1493,7 +1512,13 @@ function bp_init_activity() {
 
 /* Setup object scope and filter based on the current cookie settings for the object. */
 function bp_init_objects(objects) {
+
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
 	jq(objects).each( function(i) {
+		if(objects[i] == 'course')
+			return;
 		if ( null != jq.cookie('bp-' + objects[i] + '-filter') && jq('#' + objects[i] + '-order-select select').length )
 			jq('#' + objects[i] + '-order-select select option[value="' + jq.cookie('bp-' + objects[i] + '-filter') + '"]').prop( 'selected', true );
 
@@ -1514,6 +1539,9 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( 'activity' == object )
 		return false;
 
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
 	if ( jq.query.get('s') && !search_terms )
 		search_terms = jq.query.get('s');
 
@@ -1545,6 +1573,8 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	if ( bp_ajax_request )
 		bp_ajax_request.abort();
 
+	jq('.item-list').addClass('loading');
+
 	bp_ajax_request = jq.post( ajaxurl, {
 		action: object + '_filter',
 		'cookie': bp_get_cookies(),
@@ -1556,7 +1586,9 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		'extras': extras
 	},
 	function(response)
-	{
+	{	
+		jq('.item-list').removeClass('loading');
+		jq('.dir-search').removeClass('loading');	
 		/* animate to top if called from bottom pagination */
 		if ( caller == 'pag-bottom' && jq('#subnav').length ) {
 			var top = jq('#subnav').parent();
@@ -1593,6 +1625,10 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
+
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
 	/* Save the type and filter to a session cookie */
 	jq.cookie( 'bp-activity-scope', scope, {
 		path: '/'
@@ -1649,6 +1685,11 @@ function bp_activity_request(scope, filter) {
 
 /* Hide long lists of activity comments, only show the latest five root comments. */
 function bp_legacy_theme_hide_comments() {
+
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
+
 	var comments_divs = jq('div.activity-comments');
 
 	if ( !comments_divs.length )
@@ -1722,6 +1763,10 @@ function bp_get_cookies() {
 
 	var bpCookies    = {};
 	var cookiePrefix = 'bp-';
+
+	if(typeof jq == 'undefined'){
+		var jq = jQuery;
+	}
 
 	// loop through cookies
 	for (var i = 0; i < allCookies.length; i++) {

@@ -19,7 +19,7 @@ $title = $term->name;
             <div class="col-md-10 col-md-offset-1">
                 <div class="pagetitle center">
                     <h1><?php _e('Module Tag','vibe'); echo ' "'; single_cat_title(); echo '" '; ?></h1>
-                    <h5><?php echo category_description(); ?></h5>
+                    <h5><?php echo do_shortcode(category_description()); ?></h5>
                 </div>
             </div>
         </div>
@@ -54,11 +54,14 @@ $title = $term->name;
                         $the_query = new WP_Query($args);
                         if ( $the_query->have_posts() ) : while ( $the_query->have_posts() ) : $the_query->the_post();
                         $uid = get_the_ID();
-                         $course_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key= 'vibe_course_curriculum' AND meta_value LIKE %s LIMIT 1;", "%{$uid}%" ) );
+                        
+                        if(function_exists('bp_course_get_unit_course_id'))
+                            $course_id = bp_course_get_unit_course_id($uid);
+                         
                          ?>
                          <div class="unit_block">
                          
-                         <h3 class="heading"><?php the_title(); ?><span><a href="<?php echo get_permalink($course_id); ?>"><?php _e('Course','vibe'); echo ' : '; ?><?php echo get_the_title($course_id); ?></a></span></h3>
+                         <h3 class="heading"><?php the_title(); ?><span><?php if(!empty($course_id)){ ?><a href="<?php echo get_permalink($course_id); ?>"><?php _e('Course','vibe'); echo ' : '; ?><?php echo get_the_title($course_id); ?></a><?php } ?></span></h3>
                          <?php the_excerpt(); ?>
                          </div>
                          <?php

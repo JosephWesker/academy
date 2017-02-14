@@ -28,18 +28,8 @@ header{
 	margin:0;
 	z-index: 99;
 	background: $headerbg;
-	&.sleek,&.mooc{
-		webkit-transition: all 0.6s ease-in-out;
-		-moz-transition: all 0.6s ease-in-out;
-		-o-transition: all 0.6s ease-in-out;
-		transition: all 0.6s ease-in-out;
-		&.fixed{
-	    	position:fixed;
-	    	left:0;
-	    	top:0;
-	    }
-	    .smallimg img{margin-top: -12px;}
-	}
+	width:100%;
+	transition: all 0.6s ease-in-out;
 	.smallimg img{
 		height:20px;
 		width:20px;
@@ -49,9 +39,9 @@ header{
 }
 
 .admin-bar{
-	header.fix{
+	#headertop.fix,header.fix{
 		&.fixed{
-			top:30px;
+			top:-10px;
 		}
 	}
 }
@@ -60,7 +50,70 @@ header{
 /*   01. HEADER & NAVIGATION
 /*========================================================================*/
 
-
+header{
+	#searchform{
+		label{
+			display: none;
+		}
+		#searchform{
+			position: absolute;
+			width: 100%;
+			opacity: 0;
+			min-width: 200px;
+			top: 100%;
+			right: 0;
+			border-radius:2px;
+			background: #48575a;
+			padding: 15px;
+			box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+			input[type="submit"]{
+				display: none;
+			}
+			&:after{
+				content: '';
+				position: absolute;
+				top: -20px;
+				height: 15px;
+				width: 15px;
+				right: 10px;
+				bottom: 0px;
+				border: 7px solid;
+				border-color: transparent transparent rgba(0,0,0,0.1) transparent;
+			}
+		} 
+	}	
+	#searchicon{
+		float: right;
+		color: rgba(255,255,255,0.6);
+		padding: 25px 0;
+		cursor: pointer;
+	}
+	#searchdiv{
+		float:right;
+		color:#576972;
+		font-size:16px;
+		padding:28px 0 0;
+		display: none;
+		z-index: 999;
+		&.active{
+			display: block !important;
+			#searchform{
+			    animation:  slideDown 0.2s ease-in-out;
+			    opacity: 1;
+			    z-index: 91;
+			    label{display: none;}
+			    input[type="text"]{
+					border: none;
+					background:#232b2d;
+					font-size: 20px;
+					padding: 12px;
+					width: 100%;
+					border-radius:2px;
+				}
+			}
+		}
+	}
+} 
 
 /*========================================================================*/
 /*   01. HEADER SEARCH
@@ -135,7 +188,6 @@ header{
 /*   01. TOP HEADER
 /*========================================================================*/
 
-
 #headertop{
 	background:#232b2d;
 	padding:8px 0;
@@ -144,9 +196,12 @@ header{
 	color:rgba(255,255,255,0.6);
 	.homeicon{
 		display: none;
-		img{
-			max-height: 20px;
-		}
+	}
+	.smallimg img{
+		height:20px;
+		width:20px;
+		border-radius:50%;
+		margin-right:8px;
 	}
 	&.fixed{
 		position: fixed;
@@ -157,11 +212,13 @@ header{
 		-webkit-transition: all 0.5s;
 		-webkit-transform: translateZ(0); 
 		transition: all 0.5s;
-		.homeicon{display: block; float:left;}
-		& + header{
-			margin-top:36px;
+		.homeicon{
+			display: block; 
+			float:left;
+			img{
+				max-height: 20px;
+			}
 		}
-
 	}
 	li{
 		float:left;
@@ -171,25 +228,83 @@ header{
 		&:first-child{
 			border:none;
 		}
-		img.avatar{
-			width: 20px;
-		    height: 20px;
-		    border-radius: 50%;
-		    margin-right: 8px;
-		}
 	}
-
 	a{
 		color:rgba(255,255,255,0.6);
 	}
 	#username a{
 		word-break: break-all;
 	}
-	.topmenu{
+
+	&.fixed + header{
+		margin-top:36px;
+	}
+	// Headertop variation
+	#topsearchdiv{
+	    position: relative;
+    	padding: 0 8px;
+    	form{
+    		&:after{
+    			content: "\f002";
+    			font-family: fontawesome;
+			    position: absolute;
+			    right: 2px;
+			    top: 0;
+    		}
+    		#s{
+			    border: none;
+			    background:transparent;
+			    padding:0;
+			    border-bottom: 2px solid $bordercolor;
+			    width: 0;
+			    transition: all 0.6s ease-in-out;
+			    &:active,&:focus{
+			    	width:auto;
+			    }
+    		}
+    	}
+    	&:hover,&:focus,&:active{
+    		form{
+    			#s{
+    				width:auto;
+    				transition: all 0.6s ease-in-out;
+    			}
+    		}
+    	}
+	}
+	.socialicons{
 		float:right;
+		li{
+			padding:8px 0;
+		}
 	}
 }
 
+.topmenu{
+	float:right;
+	.vbplogin{
+		position: relative;
+		em{
+		    position: absolute;
+		    top: -3px;
+		    left: -3px;
+		    width: 6px;
+		    height: 6px;
+		    background: #78c8c9;
+		    border-radius: 50%;
+		}
+	}
+}
+.sleek,.mooc{
+	.topmenu{
+		.vbplogin{
+			em{
+			    top: 22px;
+			    left: 3px;
+			}
+		}
+	}
+}
 /*========================================================================*/
 /*   01. MOBILE MENU TRIGGER
 /*========================================================================*/
@@ -198,71 +313,71 @@ header{
 	cursor:pointer;
 	display: none;
 	position:absolute;
-	top:58px;
-	right:40px;
-	padding:0;
-	margin:0;
+	top:22px;
+	right:32px;
 	line-height:1;
-	user-select: none;
-	background:transparent;
+	padding: 0 10px 10px;
 	border:none;
 	z-index: 99;
+	user-select: none;
+	background:transparent;
 	.lines {
 	  display: inline-block;
 	  position: relative;	
-	  width: 20px;
+	  width: 24px;
 	  height: 2px;
 	  background: #FFF;
 	  color: #FFF;
-	  /* Not in use when the colors are specified below */
 	  transition: 0.3s;
-	  &:before,&:after{
-  		display: inline-block;
-		width: 20px;
-		height: 2px;
-		background: #FFF;
-		transition: 0.3s;
-		position: absolute;
-		left: 0;
-		content: '';
-		-webkit-transform-origin: 17px center;
-		transform-origin: 17px center;
-	  }
-	  &:after{
-	  	top: -5px;
-	  }
-	  &:before{
-		top: 5px;
-	  }
+	  	&:before, &:after {
+			display: inline-block;
+			width: 24px;
+			height: 2px;
+			background: #FFF;
+			transition: 0.3s;
+			position: absolute;
+			left: 0;
+			content: '';
+			-webkit-transform-origin: 5px center;
+			transform-origin: 5px center;
+		}
+		&:after {
+			top: -5px;
+		}
+
+		&:before {
+			top: 5px;
+		}
 	}
 }
-.open{
-	#trigger{
-		z-index: -99;
-	}	
+
+.open #trigger{
 	.lines{
 		background:transparent !important;
-		&:before,&:after{
+		&:before, 
+		&:after {
 			-webkit-transform-origin: 50% 50%;
 			transform-origin: 50% 50%;
 			top: 0;
 			width: 32px;
 		}
-		&:before{
+
+		&:before {
+			-webkit-transform: rotate3d(0, 0, 1, 45deg);
 			transform: rotate3d(0, 0, 1, 45deg);
 		}
-		&:after{
+		&:after {
+			-webkit-transform: rotate3d(0, 0, 1, -45deg);
 			transform: rotate3d(0, 0, 1, -45deg);
 		}
 	}
-} 
-
-
-
+}
 
 /*========================================================================*/
 /*   01. MAIN HEADER
 /*========================================================================*/
+
+
 
 
 .pusher {
@@ -285,17 +400,28 @@ header{
 	}
 }
 
-.open .pusher::after {
-	width: 100%;
-    height:100%;
-    opacity: 1;
-	transition: opacity 0.5s;
+.open{
+	.pusher {
+		transform: translate3d(-220px, 0, 0);
+		&::after{
+			width: 100%;
+		    height:100%;
+		    opacity: 1;
+			transition: opacity 0.5s;
+		}
+	}
 }
-
-.open .pusher {
-	transform: translate3d(-220px, 0, 0);
+.login_open{
+	.pusher {
+		transform: translate3d(220px, 0, 0);
+		&::after{
+			width: 100%;
+		    height:100%;
+		    opacity: 1;
+			transition: opacity 0.5s;
+		}
+	}
 }
-
 /*========================================================================*/
 /*   03. SIDE LOGO
 /*========================================================================*/
@@ -303,6 +429,8 @@ header{
 
 .pagesidebar {
 	z-index: 1;
+	overflow-y:auto;
+	overflow-x:hidden;
     color:#eee;
     &::after {
 		display: none;
@@ -323,6 +451,7 @@ header{
 
 
 
+
 /*========================================================================*/
 /*   03. LOGO
 /*========================================================================*/
@@ -332,31 +461,33 @@ header{
 	margin:6px 0 0;
 	padding:0;
 	transition: all 0.6s ease-in-out;
-	line-height:0;
-	display:inline-block;
 	img{
-		max-height:48px;	
-		width:auto;
+			max-height:48px;	
+			width:auto;
 	}
 }
 
-
-#bpavatar+ul{
-	position: relative;
-	min-height: 102px;
-}
-
-#vibe_bp_login li#admin_panel_icon{
-	position: absolute;
-	bottom: 0;
-	font-size: 16px;
-	right: 0;
-	text-align: right;
- 	i{
-		padding: 4px 8px;
-		line-height: 0;
+#vibe_bp_login {
+	text-align:left;
+	text-transform:uppercase;
+	#bpavatar+ul{
+		position: relative;
+		min-height: 102px;
 	}
-}
+
+	li#admin_panel_icon{
+		position: absolute;
+		bottom: 0;
+		font-size: 16px;
+		right: 0;
+		text-align: right;
+		i{
+			padding: 4px 8px;
+			line-height: 0;
+		}
+	}
+}	
+
 
 /*========================================================================*/
 /*   03. SIDE LOGO
@@ -367,18 +498,21 @@ h2#sidelogo{
 	text-align: center;
 	max-height:32px;
 	margin-bottom:30px;
-}
-
-h2#sidelogo img{
-	display: inline-block;
-	max-height:32px;
-	opacity:0.2;
-}
-h2#sidelogo:hover img{
-	opacity:1;
+	img{
+		display: inline-block;
+		max-height:32px;
+		opacity:0.2;
+	}
+	&:hover img{
+		opacity:1;
+	}
 }
 
 .standard #alt_logo img{height:48px;padding:10px 0;}
 /*========================================================================*/
 /*   03. RESPONSIVE FIXES
 /*========================================================================*/
+header#blank_header{
+	background:transparent;position:fixed;
+	&+#title{display:none;}
+}

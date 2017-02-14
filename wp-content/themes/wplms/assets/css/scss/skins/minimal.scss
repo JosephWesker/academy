@@ -60,6 +60,9 @@
 			padding-top: 8px;
     		padding-bottom: 8px;
     		line-height: 20px;
+    		font-weight:600;
+    		.email,.mobile{display:inline;}
+    		i{padding:0 2px;}
 		}
 		border-bottom:1px solid $bordercolor;
 	}	
@@ -271,6 +274,9 @@
     		}
     	}
 	}
+	.dash_widget_title{
+		margin:15px 0;
+	}
 }
 
 /*========================================================================*/
@@ -388,7 +394,7 @@
 						 		color:$light-text-color;
 						 		background:none;
 						 		padding:9px 2px;
-						 		border-color:$light-text-color;
+						 		border:2px solid $light-text-color;
 						 		&.active{
 						 			border-color:$primarybg;
 						 			color:$primarybg;
@@ -405,6 +411,13 @@
 			padding-top:0;
 		}
 	} 
+	&.d2.directory{
+		#buddypress{
+			div.item-list-tabs{
+				margin-top:0;
+			}
+		}
+	}
 	&.d3.directory,&.d4.directory{
 		#buddypress{
 			div.item-list-tabs{
@@ -460,7 +473,12 @@
 
 .minimal{
 	#buddypress div#item-header{
-		background:#fafafa;
+		background-color:#fafafa;
+	}
+	&.single-course.c4{
+		#buddypress div#item-header{
+			background-color:transparent;
+		}
 	}
 }
 .minimal.groups.single-item.g4{

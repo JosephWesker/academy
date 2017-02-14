@@ -25,11 +25,11 @@
 					<th scope="col" class="thread-count">
 					</th>
 					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
-					<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php _e( 'Star', 'buddypress' ); ?></span></span></th>
+					<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php _e( 'Star', 'vibe' ); ?></span></span></th>
 					<?php endif; ?>
-					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-from"><?php _e( 'From', 'vibe' ); ?></th>
 					<th></th>
-					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-info"><?php _e( 'Subject', 'vibe' ); ?></th>
 
 					<?php
 
@@ -43,7 +43,7 @@
 					 */
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
-					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-options"><?php _e( 'Actions', 'vibe' ); ?></th>
 				</tr>
 			</thead>
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>

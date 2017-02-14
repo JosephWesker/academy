@@ -8,8 +8,10 @@ echo '<ul id="userstats">';
 foreach($user_courses as $course){
 
 
-$course_complete_status=get_user_meta($user_id,'course_status'.$course->ID,true);
+$course_complete_status= bp_course_get_user_course_status($user_id,$course->ID);
+
 $user_course_status=get_user_meta($user_id,$course->ID,true);
+
 $cavg=get_post_meta($course->ID,'average',true);
 if(!$cavg)$cavg= __('N/A','vibe');
 
@@ -20,7 +22,7 @@ echo '<li>
 
 
 
-if($course_complete_status ){
+if($course_complete_status > 3){
 	//$curriculum=vibe_sanitize(get_post_meta($course->ID,'vibe_course_curriculum',false));
 	$curriculum=bp_course_get_curriculum_units($course->ID);
 	$average=array();
@@ -85,36 +87,38 @@ if($course_complete_status ){
 	
 }else{
 	if($user_course_status < time()){
-		echo '<strong>'.__('Course Expired','vibe').'</strong>';
+		echo '<strong class="stats_user_course_status">'.__('Course Expired','vibe').'</strong>';
 	}
 	switch($course_complete_status){
 		case 1:
-			echo '<strong>'.__('Not Started','vibe').'</strong>';
+			echo '<strong class="stats_user_course_status">'.__('Not Started','vibe').'</strong>';
 		break;
 		case 2:
-			echo '<strong>'.__('In Progress','vibe').'</strong>';
+			echo '<strong class="stats_user_course_status">'.__('In Progress','vibe').'</strong>';
 		break;
 		case 3:
-			echo '<strong>'.__('Under Evaluation','vibe').'</strong>';
+			echo '<strong class="stats_user_course_status">'.__('Under Evaluation','vibe').'</strong>';
 		break;
 	}
 }
 
-$badges = get_user_meta($user_id,'badges',true);
-if(is_array($badges)){
-	if(in_array($course->ID,$badges)){
-		$b=bp_get_course_badge($course->ID);
-		if(!empty($b)){
-			$badge=wp_get_attachment_info($b); 
-			$badge_url=wp_get_attachment_image_src($b);
-			echo '<a class="tip ajax-badge" data-course="'.$course->post_title.'" title="'.get_post_meta($course->ID,'vibe_course_badge_title',true).'"><img src="'.$badge_url[0].'" title="'.$badge['title'].'"/></a>';
+if($course_complete_status > 3){
+	$badges = get_user_meta($user_id,'badges',true);
+	if(is_array($badges)){
+		if(in_array($course->ID,$badges)){
+			$b=bp_get_course_badge($course->ID);
+			if(!empty($b)){
+				$badge=wp_get_attachment_info($b); 
+				$badge_url=wp_get_attachment_image_src($b);
+				echo '<a class="tip ajax-badge" data-course="'.$course->post_title.'" title="'.get_post_meta($course->ID,'vibe_course_badge_title',true).'"><img src="'.$badge_url[0].'" title="'.$badge['title'].'"/></a>';
+			}
 		}
 	}
-}
-$certificates = get_user_meta($user_id,'certificates',true);
-if(is_array($certificates)){
-	if(in_array($course->ID,$certificates)){
-		echo '<a href="'.bp_get_course_certificate('user_id='.$user_id.'&course_id='.$course->ID).'" class="ajax-certificate"><span><i class="icon-certificate-file"></i></span></a>';
+	$certificates = get_user_meta($user_id,'certificates',true);
+	if(is_array($certificates)){
+		if(in_array($course->ID,$certificates)){
+			echo '<a href="'.bp_get_course_certificate('user_id='.$user_id.'&course_id='.$course->ID).'" class="ajax-certificate"><span><i class="icon-certificate-file"></i></span></a>';
+		}
 	}
 }
 do_action('wplms_user_course_stats',$user_id,$course->ID);

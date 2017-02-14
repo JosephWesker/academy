@@ -1,7 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 $header = vibe_get_customizer('header_style');
-if($header == 'transparent'){
-    echo '<section id="title"></section>';
+if($header == 'transparent' || $header == 'generic'){
+    echo '<section id="title"><div class="container"><div class="pagetitle"><h1>'.get_the_title().'</h1></div></div></section>';
 }
 ?>
 <section id="content">

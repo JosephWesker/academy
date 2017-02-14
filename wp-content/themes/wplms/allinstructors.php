@@ -16,12 +16,12 @@ $args = apply_filters('wplms_allinstructors',array(
 
 $user_query = new WP_User_Query( $args );
 
-$args = array(
+$args = apply_filters('wplms_alladmins',array(
                 'role' => 'administrator', // instructor
                 'number' => $no, 
                 'orderby' => 'post_count', 
                 'order' => 'DESC' 
-            );
+            ));
 $flag = apply_filters('wplms_show_admin_in_instructors',1);
 if(isset($flag) && $flag)
     $admin_query = new WP_User_Query( $args );

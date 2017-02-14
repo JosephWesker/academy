@@ -15,7 +15,7 @@ get_header( vibe_get_header() ); ?>
              <div class="col-md-9 col-sm-8">
                 <div class="pagetitle">
                    	<h1><?php single_cat_title(); ?></h1>
-                    <h5><?php echo category_description(); ?></h5>
+                    <h5><?php echo do_shortcode(category_description()); ?></h5>
                 </div>
             </div>
             <div class="col-md-3 col-sm-4">

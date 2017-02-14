@@ -358,10 +358,10 @@ class vibe_course_categories_nav extends WP_Widget {
     extract( $args );
 
     //Our variables from the widget settings.
-    $title = apply_filters('widget_title', $instance['title'] );
+    $title = (isset($instance['title'])?apply_filters('widget_title', $instance['title'] ):'');
     $exclude_terms = (isset($instance['exclude_terms'])?esc_attr($instance['exclude_terms']):'');
-    $sort = esc_attr($instance['sort']);
-    $order = esc_attr($instance['order']); 
+    $sort = (isset($instance['sort'])?esc_attr($instance['sort']):'');
+    $order = (isset($instance['order'])?esc_attr($instance['order']):''); 
     
     echo $before_widget;
 
@@ -468,7 +468,7 @@ class Vibe_Course_Nav_Walker extends Walker_Category {
                 $cat_name = apply_filters( 'list_cats', $cat_name, $category );
                 $link = '<a href="' . esc_url( get_term_link($category) ) . '" ';
                 if ( $use_desc_for_title == 0 || empty($category->description) )
-                        $link .= 'title="' . esc_attr( sprintf(__( 'View all posts filed under %s' ), $cat_name) ) . '"';
+                        $link .= 'title="' . esc_attr( sprintf(__( 'View all posts filed under %s','vibe' ), $cat_name) ) . '"';
                 else
                         $link .= 'title="' . esc_attr( strip_tags( apply_filters( 'category_description', $category->description, $category ) ) ) . '"';
                 $link .= '>';

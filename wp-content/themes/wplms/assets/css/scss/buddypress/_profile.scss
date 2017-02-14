@@ -239,7 +239,7 @@ body.register #buddypress div.page ul {
 					    margin-left: 15px;
 					}
 					&:hover{
-						color:#fff;
+						opacity:0.6;
 					}
 				}
 				.flexMenu-popup{
@@ -284,6 +284,17 @@ body.register #buddypress div.page ul {
 
 }
 
+.bp-user{
+	#buddypress .item-list-tabs#subnav{
+		padding-bottom:0;
+	 	ul li{
+			a{
+				padding:10px;
+			}
+		}
+	}
+}
+
 .bp-user.p3,.bp-user.p4{
 	#item-header-avatar{
 		margin-bottom:30px;
@@ -325,19 +336,25 @@ body.register #buddypress div.page ul {
 		}
 	}
 }
+
+
 .bp-user.p3{
 	#item-header-avatar{
+		margin-bottom: 0px;
 		a{
 			margin-bottom: -60px;
 		}
 	}
 	#item-body{
-		.item-list-tabs#subnav{
+		.col-md-3 .item-list-tabs#subnav{
 			ul{
 				li{
 					width:100% !important;
 				}
 			}
+		}
+		.item-list-tabs#subnav ul li{
+			clear:none;
 		}
 	}
 }

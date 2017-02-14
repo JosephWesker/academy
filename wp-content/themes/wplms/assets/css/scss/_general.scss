@@ -54,7 +54,6 @@ body {
   position:relative;
 }
 
-
 /*========================================================================*/
 /*   02. TYPOGRAPHY STYLING
 /*========================================================================*/
@@ -328,7 +327,7 @@ input:focus {
         font-family: fontawesome;
         position: absolute;
         color: #FFF;
-        left: 1px;
+        left: 1px;top: 1px;line-height: 1;
         font-size: 14px;
     }
   }
@@ -657,6 +656,9 @@ ul,ol{
   clear:both;
 }
 
+.fa:before{
+  font-family:fontawesome;
+}
 
 .success{
   padding: 10px;
@@ -668,7 +670,7 @@ ul,ol{
   text-align: center;
 }
 
-div.error{
+div.error,.alert.alert-block{
   padding: 10px;
   display: inline-block;
   background: $errorbg;
@@ -690,6 +692,7 @@ div.error{
   font-size:11px;
   text-transform: uppercase;
 }
+span.error{display:none;}
 
 
 .modal.fade{opacity:1;}

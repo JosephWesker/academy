@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="pagesidebar">
         <div class="sidebarcontent">    
             <h2 id="sidelogo">
-            <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+            <a href="<?php echo vibe_site_url('','sidelogo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
             </h2>
             <?php
                 $args = apply_filters('wplms-mobile-menu',array(
@@ -84,8 +84,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         </form>
                                     </div>
                                 </li>
-                                <li><a href="#login" class="smallimg vbplogin"><?php _e('Login','vibe'); ?></a></li>
-                                <li><?php if ( function_exists('bp_get_signup_allowed') && bp_get_signup_allowed() ) :
+                                <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><?php _e('Login','vibe'); ?></a></li>
+                                <li><?php 
+                                $enable_signup = apply_filters('wplms_enable_signup',0);
+                                if ( $enable_signup ) : 
                                     $registration_link = apply_filters('wplms_buddypress_registration_link',site_url( BP_REGISTER_SLUG . '/' ));
                                     printf( __( '<a href="%s" class="vbpregister" title="'.__('Create an account','vibe').'">'.__('Sign Up','vibe').'</a> ', 'vibe' ), $registration_link );
                                 endif; ?>
@@ -124,7 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             }
                         ?>
                         
-                            <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                            <a href="<?php echo vibe_site_url('','side'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
                             if(is_home()){
                                 echo '</h1>';
@@ -140,7 +142,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="<?php echo vibe_get_container(); ?>">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="<?php echo vibe_site_url(); ?>" id="alt_logo"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/images/logo.png'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                        <a href="<?php echo vibe_site_url('','logo'); ?>" id="alt_logo"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/images/logo.png','standard_header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
                             $args = apply_filters('wplms-main-menu',array(
                                  'theme_location'  => 'main-menu',

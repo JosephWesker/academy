@@ -6,9 +6,9 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.1
+ * @version     2.1
  */
-
+if ( !defined( 'ABSPATH' ) ) exit;
 
 global $post;
 if(class_exists('WPLMS_Events_Interface')){

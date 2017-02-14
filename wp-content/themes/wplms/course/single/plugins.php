@@ -8,7 +8,7 @@
  * @package 	vibe-course-module/templates
  * @version     2.0
  */ 
-
+if ( !defined( 'ABSPATH' ) ) exit;
 do_action('wplms_before_single_course_plugin');
 
 get_header( vibe_get_header() ); 

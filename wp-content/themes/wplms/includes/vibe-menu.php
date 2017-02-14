@@ -40,7 +40,10 @@ class vibe_menu {
         $menu_item->taxonomy = get_post_meta( $menu_item->ID, '_menu_item_taxonomy', true );
         $menu_item->hide_taxonomy_terms = get_post_meta( $menu_item->ID, '_menu_item_hide_taxonomy_terms', true );
 	    	$menu_item->sidebar = get_post_meta( $menu_item->ID, '_menu_item_sidebar', true );
+        $menu_item->max_elements = get_post_meta( $menu_item->ID, '_menu_item_max_elements', true );
         $menu_item->columns = get_post_meta( $menu_item->ID, '_menu_item_columns', true );
+        $menu_item->menu_width = get_post_meta( $menu_item->ID, '_menu_item_menu_width', true );
+        
 	    return $menu_item;
 	    
 	}
@@ -78,6 +81,10 @@ class vibe_menu {
       if ( isset($_REQUEST['menu-item-max_elements']) && is_array( $_REQUEST['menu-item-max_elements']) ) {
           $max_elements = $_REQUEST['menu-item-max_elements'][$menu_item_db_id];
           update_post_meta( $menu_item_db_id, '_menu_item_max_elements', $max_elements );
+      }
+      if ( isset($_REQUEST['menu-item-menu_width']) && is_array( $_REQUEST['menu-item-menu_width']) ) {
+          $menu_width = $_REQUEST['menu-item-menu_width'][$menu_item_db_id];
+          update_post_meta( $menu_item_db_id, '_menu_item_menu_width', $menu_width );
       }
 	}
 	

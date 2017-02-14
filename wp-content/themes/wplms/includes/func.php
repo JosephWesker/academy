@@ -11,14 +11,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 
-//This fix is for Local BBPress setup only
-/*add_filter( 'bbp_verify_nonce_request_url', 'my_bbp_verify_nonce_request_url', 999, 1 );
-function my_bbp_verify_nonce_request_url( $requested_url )
-{
-    return 'http://localhost' . $_SERVER['REQUEST_URI'];
-}*/
-
-
 
 
 function vibe_get_title($id = null){
@@ -27,7 +19,7 @@ function vibe_get_title($id = null){
   }
 
   if(is_numeric($id)){
-     return get_the_title($id);
+     return get_the_title($id); 
   }
 
   if(is_tax('course-cat',$id)){
@@ -226,10 +218,19 @@ function wplms_unit_comment($comment, $args, $depth) {
               <?php 
               if ( $args['avatar_size'] != 0 ) {
                 if ( function_exists( 'bp_core_fetch_avatar' ) ) :
-                    echo bp_core_fetch_avatar( array(
+                    $avatar = bp_core_fetch_avatar( array(
                     'item_id' => $comment->user_id,
                     'type' => 'thumb',
                     ));
+                  if(empty($avatar)){
+                    $default_avatar = vibe_get_option('default_avatar');
+                    if(empty($default_avatar)){
+                      $avatar = '<img src="'.$default_avatar.'">';
+                    }else{
+                      $avatar = '<img src="'.VIBE_URL.'/assets/images/avatar.jpg">';
+                    }
+                  }
+                  echo $avatar;
                 endif;
               }
               ?>
@@ -250,7 +251,7 @@ function wplms_unit_comment($comment, $args, $depth) {
                 }  ?>
           </div>
           <?php if ( $comment->comment_approved == '0' ) : ?>
-          <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></em>
+          <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.','vibe' ); ?></em>
           <?php endif; ?>
               <?php comment_text(); ?>
               <div class="reply">
@@ -399,7 +400,7 @@ function set_wp_test_cookie() {
   if ( SITECOOKIEPATH != COOKIEPATH )     
     setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN); 
 } 
-add_action( 'after_setup_theme', 'set_wp_test_cookie', 101 );
+//add_action( 'after_setup_theme', 'set_wp_test_cookie', 101 );
 
 // FIX : REDIRECT TO HOME PAGE ON LOGOUT
 
@@ -525,11 +526,14 @@ function the_sub_title($id=NULL){
   }else{
     $return=get_post_meta($post->ID,'vibe_subtitle',true);  
   }
-  if(isset($return) && strlen($return) > 5){
+  if( preg_match("/<[^<]+>/",$return,$m) != 0){
+    return $return;
+  }else if(isset($return) && strlen($return) > 5){
     echo '<h5>'.$return.'</h5>';  
   }
   
 }
+
 
 if(!function_exists('vibe_socialicons')){
     function vibe_socialicons(){
@@ -842,7 +846,7 @@ if(!function_exists('vibe_breadcrumbs')){
 function vibe_breadcrumbs() {  
 
     global $post;
-   
+
     /* === OPTIONS === */  
     $text['home']     = __('Home','vibe'); // text for the 'Home' link  
     $text['category'] = '%s'; // text for a category page  
@@ -858,7 +862,6 @@ function vibe_breadcrumbs() {
     $after       = '</span></li>'; // tag after the current crumb  
     /* === END OF OPTIONS === */  
   
-    global $post;  
     $homeLink = home_url();  
     $linkBefore = '<li>';  
     $linkAfter = '</li>';  
@@ -872,7 +875,7 @@ function vibe_breadcrumbs() {
     } else {  
   
         echo '<ul class="breadcrumbs">' . sprintf($link, $homeLink, $text['home']) . $delimiter;  
-  
+
         if ( is_category() ) {  
             $thisCat = get_category(get_query_var('cat'), false);  
             if ($thisCat->parent != 0) {  
@@ -883,7 +886,13 @@ function vibe_breadcrumbs() {
             }  
             echo $before . sprintf($text['category'], single_cat_title('', false)) . $after;  
   
-        } elseif ( is_search() ) {  
+        } elseif ( is_tax() ) {  
+          $taxonomy = get_query_var( 'taxonomy' );
+          $taxonomy_obj = get_taxonomy($taxonomy);
+          $term = get_query_var( 'term' );
+             echo $before .   $taxonomy_obj ->labels->name .' / '. $term . $after;  
+  
+        }elseif ( is_search() ) {  
             echo $before . sprintf($text['search'], get_search_query()) . $after;  
   
         } elseif ( is_day() ) {  
@@ -904,9 +913,74 @@ function vibe_breadcrumbs() {
           $page_url = get_permalink(vibe_get_bp_page_id($component));
           printf($link, $homeLink . '/' . basename($page_url) . '/', get_the_title(vibe_get_bp_page_id($component)));  
 
-        } elseif ( is_single() && !is_attachment() ) {  
+        } elseif ( is_attachment() ) {  
+            $parent = get_post($post->post_parent);  
+            $cat = get_the_category($parent->ID); 
+            if(isset($cat[0])){
+            $cat = $cat[0];  
+            $cats = get_category_parents($cat, TRUE, $delimiter);  
+            $cats = str_replace('<a', $linkBefore . '<a' . $linkAttr, $cats);  
+            $cats = str_replace('</a>', '</a>' . $linkAfter, $cats);  
+            echo $cats;  
+            }
+            printf($link, get_permalink($parent), __('Attachment','vibe'));  
+            global $post;
+            if ($showCurrent == 1) echo $delimiter . $before . $post->post_title . $after;  
+  
+        } elseif ( is_page() && !$post->post_parent ) {  
+            global $post;
+            if(function_exists('WC')){
+              $myaccount_pid = get_option('woocommerce_myaccount_page_id');
+              if($post->ID == $myaccount_pid && is_user_logged_in()){
+                $link = trailingslashit( bp_loggedin_user_domain() . $post->post_name );
+                if ($showCurrent == 1) echo $before . '<a href="'.$link.'">'. $post->post_title .'</a>'. $after;  
+              }
+            }
+            
+            if ($showCurrent == 1) echo $before . $post->post_title . $after;    
+            
+  
+        } elseif ( is_page() && $post->post_parent ) { 
+            $parent_id  = $post->post_parent;  
+            $breadcrumbs = array();  
+            while ($parent_id) {  
+                $page = get_page($parent_id);  
+                
+                $pmproaccount_pid = get_option('pmpro_account_page_id');
 
-            $post_type_var = get_post_type();
+                if($page->ID == $pmproaccount_pid && is_user_logged_in()){
+                   $permalink = trailingslashit( bp_loggedin_user_domain() .$page->post_name );
+                    $breadcrumbs[] = sprintf($link, $permalink, get_the_title($page->ID));  
+                }else{
+                  $breadcrumbs[] = sprintf($link, get_permalink($page->ID), get_the_title($page->ID));    
+                }
+                
+                $parent_id  = $page->post_parent;  
+            }  
+            $breadcrumbs = array_reverse($breadcrumbs);  
+            for ($i = 0; $i < count($breadcrumbs); $i++) {  
+                echo $breadcrumbs[$i];  
+                if ($i != count($breadcrumbs)-1) echo $delimiter;  
+            }  
+            global $post;
+            if ($showCurrent == 1) echo $delimiter . $before .  $post->post_title . $after;  
+  
+        } elseif ( is_tag() ) {  
+            echo $before . sprintf($text['tag'], single_tag_title('', false)) . $after;  
+  
+        } elseif ( is_author() ) {  
+            global $author;  
+            $userdata = get_userdata($author);  
+            echo $before . sprintf($text['author'], $userdata->display_name) . $after;  
+  
+        } elseif ( !is_single() && !is_page() && !in_Array(get_post_type(),array('post','course','unit','quiz','product','news','forum')) && !is_404() ) {  
+            $post_type = get_post_type_object(get_post_type());  
+
+            echo $before . $post_type->labels->menu_name . $after;  
+  
+        } elseif ( (is_singular() && !is_attachment()) || isset($post->post_type) ) {  
+
+            $post_type_var = $post->post_type;
 
             switch($post_type_var){
               case 'post':
@@ -947,17 +1021,22 @@ function vibe_breadcrumbs() {
                   if ($showCurrent == 1) echo $delimiter . $before . $post->post_title . $after; 
               break;
               case 'course':
-                  $post_type =  get_post_type_object(get_post_type()); 
-                  $course_category = get_the_term_list($post->ID, 'course-cat', '', '', '' );  
+                  $post_type =  get_post_type_object($post->post_type); 
+
+                  $course_categories = wp_get_post_terms( $post->ID, 'course-cat', array( 'orderby' => 'term_id' ) );
                   $slug = $post_type->rewrite;  
                   $courses_url = get_permalink(vibe_get_bp_page_id('course'));
-                  if(isset($course_category)){
-                    $course_category = str_replace('<a', $linkBefore . '<a' . $linkAttr, $course_category);                    
-                    $course_category = str_replace('rel="tag">','rel="tag"><span itemprop="title">',$course_category);
-                    $course_category = str_replace('</a>', '</span></a>' . $linkAfter, $course_category);  
-                    printf($link, $homeLink . '/' . basename($courses_url)  . '/', $post_type->labels->singular_name);  //$post_type->labels->singular_name
+
+                  echo $delimiter . $before .'<a href="'.$courses_url.'">'.$post_type->labels->singular_name.'</a>'. $after;
+
+                  $course_category = '';
+                  if(isset($course_categories)){
+                    foreach($course_categories as $category){
+                      $course_category .= $delimiter . $before .'<a href="'.get_term_link($category).'">'.$category->name.'</a>'. $after; 
+                    }
                     echo apply_filters('wplms_breadcrumbs_course_category',$course_category);
                   }
+
                   global $post;
                   if ($showCurrent == 1) echo $delimiter . $before . $post->post_title . $after; 
               break;
@@ -980,74 +1059,9 @@ function vibe_breadcrumbs() {
               break;
             }
   
-        } elseif ( !is_single() && !is_page() && get_post_type() != 'post' && !is_404() ) {  
-            $post_type = get_post_type_object(get_post_type());  
-
-            echo $before . $post_type->labels->singular_name . $after;  
-  
-        } elseif ( is_attachment() ) {  
-            $parent = get_post($post->post_parent);  
-            $cat = get_the_category($parent->ID); 
-            if(isset($cat[0])){
-            $cat = $cat[0];  
-            $cats = get_category_parents($cat, TRUE, $delimiter);  
-            $cats = str_replace('<a', $linkBefore . '<a' . $linkAttr, $cats);  
-            $cats = str_replace('</a>', '</a>' . $linkAfter, $cats);  
-            echo $cats;  
-            }
-            printf($link, get_permalink($parent), __('Attachment','vibe'));  
-            global $post;
-            if ($showCurrent == 1) echo $delimiter . $before . $post->post_title . $after;  
-  
-        } elseif ( is_page() && !$post->post_parent ) {  
-            global $post;
-
-            $myaccount_pid = get_option('woocommerce_myaccount_page_id');
-            
-
-            if($post->ID == $myaccount_pid && is_user_logged_in()){
-              $link = trailingslashit( bp_loggedin_user_domain() . $post->post_name );
-              if ($showCurrent == 1) echo $before . '<a href="'.$link.'">'. $post->post_title .'</a>'. $after;  
-            }else{
-              if ($showCurrent == 1) echo $before . $post->post_title . $after;    
-            }
-  
-        } elseif ( is_page() && $post->post_parent ) { 
-            $parent_id  = $post->post_parent;  
-            $breadcrumbs = array();  
-            while ($parent_id) {  
-                $page = get_page($parent_id);  
-                
-                $pmproaccount_pid = get_option('pmpro_account_page_id');
-
-                if($page->ID == $pmproaccount_pid && is_user_logged_in()){
-                   $permalink = trailingslashit( bp_loggedin_user_domain() .$page->post_name );
-                    $breadcrumbs[] = sprintf($link, $permalink, get_the_title($page->ID));  
-                }else{
-                  $breadcrumbs[] = sprintf($link, get_permalink($page->ID), get_the_title($page->ID));    
-                }
-                
-                $parent_id  = $page->post_parent;  
-            }  
-            $breadcrumbs = array_reverse($breadcrumbs);  
-            for ($i = 0; $i < count($breadcrumbs); $i++) {  
-                echo $breadcrumbs[$i];  
-                if ($i != count($breadcrumbs)-1) echo $delimiter;  
-            }  
-            global $post;
-            if ($showCurrent == 1) echo $delimiter . $before .  $post->post_title . $after;  
-  
-        } elseif ( is_tag() ) {  
-            echo $before . sprintf($text['tag'], single_tag_title('', false)) . $after;  
-  
-        } elseif ( is_author() ) {  
-            global $author;  
-            $userdata = get_userdata($author);  
-            echo $before . sprintf($text['author'], $userdata->display_name) . $after;  
-  
-        } elseif ( is_404() ) {  
-            echo $before . $text['404'] . $after;  
-        }  
+        }  elseif ( is_404() ) {  
+          echo $before . $text['404'] . $after;  
+        }
   
         if ( get_query_var('paged') ) {  
             if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ' (';  
@@ -1358,139 +1372,9 @@ function wplms_check_quiz_submission(){
 
 // Below function is used in multiple locations so keeping as it is
 function wplms_get_course_unfinished_unit($course_id){
-  
-  if(!is_user_logged_in())
-    return;
-
-  $user_id = get_current_user_id();  
-
-  if(isset($_COOKIE['course'])){
-      $coursetaken=1;
-  }else{
-      $coursetaken=get_user_meta($user_id,$course_id,true);      
-  }
-  $course_curriculum = array();
-  if(function_exists('bp_course_get_curriculum_units'))
-    $course_curriculum=bp_course_get_curriculum_units($course_id);
-
-  $uid='';
-  $key =0;
-  if(isset($coursetaken) && $coursetaken){
-      if(isset($course_curriculum) && is_array($course_curriculum) && count($course_curriculum)){
-        
-        foreach($course_curriculum as $key => $uid){
-            $unit_id = $uid; // Only number UIDS are unit_id
-            //Check if User has taken the Unit
-            $unittaken=get_user_meta($user_id,$uid,true);
-            if(!isset($unittaken) || !$unittaken){
-              break; // If not taken, we've found the last unfinished unit.
-            }
-        }
-
-      }else{
-          echo '<div class="error"><p>'.__('Course Curriculum Not Set','vibe').'</p></div>';
-          return;
-      }    
-  }
-
-  $units = $course_curriculum;
-  $unit_id = apply_filters('wplms_get_course_unfinished_unit',$unit_id);
-  $key = apply_filters('wplms_get_course_unfinished_unit_key',$key,$unit_id,$course_id);
-
-
-  if(function_exists('bp_course_check_unit_complete') && bp_course_check_unit_complete($unit_id,$user_id) || $key == 1)
+    $init = WPLMS_Actions::init();
+    $unit_id = $init->get_course_unfinished_unit($course_id);
     return $unit_id;
-
-
-  for($i=($key-1);$i>=0;$i--){
-        if(function_exists('bp_course_check_unit_complete') && bp_course_check_unit_complete($units[$i],$user_id)){
-          $pre_unit_key = $i;
-          break;
-        }
-  }
-
-  $flag=apply_filters('wplms_next_unit_access',true,$units[$pre_unit_key]);
-  $drip_enable= apply_filters('wplms_course_drip_switch',get_post_meta($course_id,'vibe_course_drip',true),$course_id);
-
-
-  if(vibe_validate($drip_enable)){
-      $drip_duration_parameter = apply_filters('vibe_drip_duration_parameter',86400,$course_id);
-      $drip_duration = get_post_meta($course_id,'vibe_course_drip_duration',true);
-      
-      $total_drip_duration = apply_filters('vibe_total_drip_duration',($drip_duration*$drip_duration_parameter),$course_id,$unit_id,$units[$pre_unit_key]);
-
-
-      if($key > 0){
-
-        $pre_unit_time=bp_course_get_drip_access_time($units[$pre_unit_key],$user_id);
-        
-        if(!empty($pre_unit_time)){
-          
-            $value = $pre_unit_time + $total_drip_duration;
-            
-            $value = apply_filters('wplms_drip_value',$value,$units[$pre_unit_key],$course_id,$units[$key],$units);
-            
-            $remaining = tofriendlytime($value-time());
-            
-            if($value > time()){
-              $flag=0;
-              echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.sprintf(__('Next Unit will be available in %s','vibe'),$remaining).'</p></div></div></div></div>';
-              return $units[$pre_unit_key];
-            }else{
-                $pre_unit_time=get_post_meta($units[$unitkey],$user_id,true);
-                if(!isset($pre_unit_time) || $pre_unit_time ==''){
-                  bp_course_update_unit_user_access_time($units[$unitkey],$user_id,time());
-                  //Parmas : Next Unit, Next timestamp, course_id, userid
-                  do_action('wplms_start_unit',$units[$key],$course_id,$user_id,$units[$unitkey+1],(time()+$total_drip_duration));
-                }
-            } 
-        }else{
-
-            if(isset($pre_unit_key )){
-                $completed = get_user_meta($user_id,$units[$pre_unit_key],true);
-                
-                if(!empty($completed)){
-                    bp_course_update_unit_user_access_time($units[$pre_unit_key],$user_id,time());
-                    $pre_unit_time = time();
-                    $value = $pre_unit_time + $total_drip_duration;
-                    $value = apply_filters('wplms_drip_value',$value,$units[$pre_unit_key],$course_id,$units[$key],$units);
-                   
-                      echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.__('Next Unit will be available in ','vibe').tofriendlytime($value-time()).'</p></div></div></div></div>';
-                   
-                    return $units[$pre_unit_key];
-                }else{
-                  
-                   echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.__('Requested Unit can not be accessed.','vibe').'</p></div></div></div></div>';
-                  
-                  return $units[$pre_unit_key];
-                }
-            }else{
-                  
-                    echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.__('Requested Unit can not be accessed.','vibe').'</p></div></div></div></div>';
-                 
-                  return $units[$pre_unit_key];
-            }
-            die();
-        }    //Empty pre-unit time
-    }
-
-  }  // End Drip Enable check
-
-  
-  if(isset($unit_id) && $flag && isset($key)){// Should Always be set 
-    if($key == 0){
-      $unit_id =''; //Show course start if first unit has not been started
-    }else{
-      $unit_id=$unit_id; // Last un finished unit
-    }
-  }else{
-     if(isset($key) && $key > 0){ 
-       $unit_id=$units[($key-1)];
-     }else{
-      $unit_id = '' ;
-     }
-  } 
-  return $unit_id;
 }
 
 /* ====== WOOCOMMERCE FIXES ===== */
@@ -1789,22 +1673,27 @@ function wplms_dynamic_quiz_select_questions($quiz_id=NULL){
     $quiz_id = $post->ID;
   }
 
-  $quiz_created = vibe_sanitize(get_post_meta($quiz_id,'quiz_questions'.$user_id,false));
-  if(isset($quiz_created) && $quiz_created && is_array($quiz_created) && count($quiz_created)){
-     return;
-  }
+    if($user_id != $post->post_author){
+        $quiz_created = bp_course_get_quiz_questions($quiz_id,$user_id);  
+        if(isset($quiz_created) && $quiz_created && is_array($quiz_created) && count($quiz_created)){
+            return;
+        }
+    }
+  
+    
 
-  $quiz_dynamic = get_post_meta($quiz_id,'vibe_quiz_dynamic',true);
-  $quiz_questions = array('ques'=>array(),'marks'=>array()); 
-  if(vibe_validate($quiz_dynamic)){ 
+    $quiz_dynamic = get_post_meta($quiz_id,'vibe_quiz_dynamic',true);
+    $quiz_questions = array('ques'=>array(),'marks'=>array()); 
+    
+    if(vibe_validate($quiz_dynamic)){ 
 
-      $tags = vibe_sanitize(get_post_meta($quiz_id,'vibe_quiz_tags',false));
-      $number = get_post_meta($quiz_id,'vibe_quiz_number_questions',true);
+        $tags = vibe_sanitize(get_post_meta($quiz_id,'vibe_quiz_tags',false));
+        $number = get_post_meta($quiz_id,'vibe_quiz_number_questions',true);
       
-      if(!isset($number) || !is_numeric($number)) $number=0;
+        if(!isset($number) || !is_numeric($number)) $number=0;
 
-      $marks = get_post_meta($quiz_id,'vibe_quiz_marks_per_question',true);
-      $args = array(
+        $marks = get_post_meta($quiz_id,'vibe_quiz_marks_per_question',true);
+        $args = array(
                 'post_type' => 'question',
                 'orderby' => 'rand', 
                 'posts_per_page' => $number,
@@ -1815,32 +1704,30 @@ function wplms_dynamic_quiz_select_questions($quiz_id=NULL){
                     'terms' => $tags
                   ),
                 )
-              );
-      $the_query = new WP_Query( $args );
-      while ( $the_query->have_posts() ) {
-        $the_query->the_post();
-        $quiz_questions['ques'][]=get_the_ID();
-        $quiz_questions['marks'][]=$marks;
-      }
-      wp_reset_postdata();
-  }else{
-    $quiz_questions = vibe_sanitize(get_post_meta($quiz_id,'vibe_quiz_questions',false));
-    $randomize=get_post_meta($quiz_id,'vibe_quiz_random',true);
-    if(isset($randomize) && $randomize == 'S'){ // If Radomise is not set.
-      if(isset($quiz_questions['ques']) && is_array($quiz_questions['ques']) && count($quiz_questions['ques']) > 1){
-          $randomized_keys = array_rand($quiz_questions['ques'], count($quiz_questions['ques'])); 
-          
-          shuffle($randomized_keys);
-          
-           foreach($randomized_keys as $current_key) { 
-               $rand_quiz_questions['ques'][] = $quiz_questions['ques'][$current_key];
-               $rand_quiz_questions['marks'][] = $quiz_questions['marks'][$current_key]; 
-           }
+        );
+        $the_query = new WP_Query( $args );
+        while ( $the_query->have_posts() ) {
+            $the_query->the_post();
+            $quiz_questions['ques'][]=get_the_ID();
+            $quiz_questions['marks'][]=$marks;
         }
-       $quiz_questions = $rand_quiz_questions;   
-      }
-  }
-  update_post_meta($quiz_id,'quiz_questions'.$user_id,$quiz_questions);
+        wp_reset_postdata();
+    }else{
+        $quiz_questions = vibe_sanitize(get_post_meta($quiz_id,'vibe_quiz_questions',false));
+        $randomize=get_post_meta($quiz_id,'vibe_quiz_random',true);
+        if(isset($randomize) && $randomize == 'S'){ // If Radomise is not set.
+            if(isset($quiz_questions['ques']) && is_array($quiz_questions['ques']) && count($quiz_questions['ques']) > 1){
+                $randomized_keys = array_rand($quiz_questions['ques'], count($quiz_questions['ques'])); 
+                shuffle($randomized_keys);
+                foreach($randomized_keys as $current_key) { 
+                    $rand_quiz_questions['ques'][] = $quiz_questions['ques'][$current_key];
+                    $rand_quiz_questions['marks'][] = $quiz_questions['marks'][$current_key]; 
+                }
+            }
+            $quiz_questions = $rand_quiz_questions;   
+        }
+    }
+    update_post_meta($quiz_id,'quiz_questions'.$user_id,$quiz_questions);
 }
 
 add_filter('vibe_course_duration_parameter','wplms_custom_course_duration_parameter');
@@ -2027,7 +1914,7 @@ function wplms_front_end_quiz_stats_hook(){
 
 function user_unit_join_module_tag($join) {
     global $wp_query, $wpdb;
-    if (!empty($wp_query->query_vars['taxonomy']) && $wp_query->query_vars['taxonomy'] == 'module-tag') {
+    if (!is_admin() && !empty($wp_query->query_vars['taxonomy']) && $wp_query->query_vars['taxonomy'] == 'module-tag') {
         $join .= "LEFT JOIN $wpdb->usermeta ON $wpdb->posts.ID = $wpdb->usermeta.meta_key ";
     }
 
@@ -2036,7 +1923,7 @@ function user_unit_join_module_tag($join) {
 function user_unit_where_module_tag($where){
   global $wp_query, $wpdb;
     $user_id = get_current_user_id();
-    if (!empty($wp_query->query_vars['taxonomy']) && $wp_query->query_vars['taxonomy'] == 'module-tag') {
+    if (!is_admin() && !empty($wp_query->query_vars['taxonomy']) && $wp_query->query_vars['taxonomy'] == 'module-tag') {
         $where .= "AND $wpdb->usermeta.user_id = $user_id";
     }
   return $where;
@@ -2134,3 +2021,4 @@ function grassblade_wplms_content_completed($statement, $content_id, $user) {
   }
 }
 add_action("grassblade_completed", "grassblade_wplms_content_completed", 10, 3);
+

@@ -44,6 +44,7 @@ $vibe_customizer = array(
                                                         ''=>__('Default','vibe'),
                                                         'minimal'=>__('Minimal','vibe'),
                                                         'elegant'=>__('Elegant','vibe'),
+                                                        'modern'=>__('Modern','vibe'),
                                                         ),
                                                     'default' => ''
                                                 ),
@@ -122,6 +123,7 @@ $vibe_customizer = array(
                                                     'type'  => 'select',
                                                     'choices' => array(
                                                         ''=>__('Default','vibe'),
+                                                        'generic'=>__('Generic','vibe'),
                                                         'sleek'=>__('Sleek','vibe'),
                                                         'transparent'=>__('Transparent','vibe'),
                                                         'center'=>__('Center Aligned','vibe'),
@@ -185,6 +187,11 @@ $vibe_customizer = array(
                                                     'type'  => 'color',
                                                     'default' => '#FFF'
                                                     ),  
+                            'header_font_size' => array(
+                                                    'label' => 'Header Text / Menu Text Font size (in px)',
+                                                    'type'  => 'slider',
+                                                    'default' => '13'
+                                                    ),  
                             'nav_bg' => array(
                                                     'label' => 'Sub Navigation Background Color',
                                                     'type'  => 'color',
@@ -195,6 +202,11 @@ $vibe_customizer = array(
                                                     'type'  => 'color',
                                                     'default' => '#FFF'
                                                     ),  
+                            'nav_font_size' => array(
+                                                    'label' => 'Sub-Nav Font size (in px)',
+                                                    'type'  => 'slider',
+                                                    'default' => '12'
+                                                    ),
                             'nav_font' => array(
                                                     'label' => 'Navigation Font Family',
                                                     'type'  => 'select',
@@ -219,12 +231,12 @@ $vibe_customizer = array(
                             'login_light_color' => array(
                                                     'label' => 'Login drop light text color',
                                                     'type'  => 'color',
-                                                    'default' => '#FFF'
+                                                    'default' => '#fafafa'
                                                 ),
                             'login_dark_color' => array(
                                                     'label' => 'Login drop dark text color',
                                                     'type'  => 'color',
-                                                    'default' => '#FFF'
+                                                    'default' => '#fff'
                                                 ),                                                                                              
 
                             ),
@@ -358,6 +370,34 @@ $vibe_customizer = array(
                                                             'type'  => 'slider',
                                                             'default' => '12'
                                                             ), 
+                             'heading_font' => array(
+                                                            'label' => 'Heading : Font Family',
+                                                            'type'  => 'select',
+                                                            'choices' => $fonts,
+                                                            'default' => ''
+                                                            ),   
+                             'heading_font_weight' => array(
+                                                            'label' => 'Heading : Font Weight',
+                                                            'type'  => 'select',
+                                                            'choices' => array(
+                                                                '300'=>'300 : Light',
+                                                                '400'=>'400 : Normal',
+                                                                '600'=>'600 : Bold',
+                                                                '700'=>'700 : Bolder',
+                                                                '800'=>'800 : Bolder'
+                                                            ),
+                                                            'default' => '600'
+                                                            ),   
+                                'heading_size' => array(
+                                                            'label' => 'Heading : Font Size (in px)',
+                                                            'type'  => 'slider',
+                                                            'default' => '16'
+                                                            ),                             
+                             'heading_color' => array(
+                                                            'label' => 'Heading : Font Color',
+                                                            'type'  => 'color',
+                                                            'default' => '#474747'
+                                                            ),
                             'widget_title_font' => array(
                                                             'label' => 'Widget Title Font Family',
                                                             'type'  => 'select',
@@ -453,26 +493,37 @@ $vibe_customizer = array(
                                                         'type'  => 'select',
                                                         'choices' => $fonts,
                                                         'default' => ''
-                                                        ),                               
+                                                        ), 
+                            'single_menu_font_size' => array(
+                                                    'label' => 'Single Menu font size',
+                                                    'type'  => 'slider',
+                                                    'default' => '11'
+                                                    ),              
+                            'single_menu_font_family' => array(
+                                                    'label' => 'Single Menu font family',
+                                                    'type'  => 'select',
+                                                    'choices' => $fonts,
+                                                    'default' => ''
+                                                    ),                                                          
                             'single_dark_color' => array(
-                                                    'label' => 'Single Menu Dark Background',
+                                                    'label' => 'Single Menu Dark Background Color',
                                                     'type'  => 'color',
                                                     'default' => '#232b2d'
                                                     ),
                             'single_dark_text' => array(
                                                     'label' => 'Single Menu Dark Text Color',
                                                     'type'  => 'color',
-                                                    'default' => '#232b2d'
+                                                    'default' => '#ffffff'
                                                     ),
                             'single_light_color' => array(
-                                                    'label' => 'Single Menu Light Background',
+                                                    'label' => 'Single Menu Light Background Color',
                                                     'type'  => 'color',
                                                     'default' => '#313b3d'
                                                     ),
                             'single_light_text' => array(
-                                                    'label' => 'Single Menu Light Text',
+                                                    'label' => 'Single Menu Light Text Color',
                                                     'type'  => 'color',
-                                                    'default' => '#313b3d'
+                                                    'default' => '#ffffff'
                                                     ),   
                             'main_button_color' => array(
                                                     'label' => 'Main Button Color',

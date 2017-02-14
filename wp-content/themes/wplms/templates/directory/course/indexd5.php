@@ -1,6 +1,6 @@
 <?php
 
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 $id= vibe_get_bp_page_id('course');
 
 
@@ -10,8 +10,17 @@ $id= vibe_get_bp_page_id('course');
         <div class="row">
              <div class="col-md-12">
                 <div class="pagetitle center">
-                	<h1><?php echo vibe_get_title($id); ?></h1>
-                    <?php the_sub_title($id); ?>
+                	<?php 
+                		if(is_tax()){
+                			echo '<h1>';
+                			single_cat_title();
+                			echo '</h1>';
+                			echo do_shortcode(category_description());
+                		}else{
+	                		echo '<h1>'.vibe_get_title($id).'</h1>';
+	                		the_sub_title($id);
+                		} 
+                	?>
                     <div class="dir-search" role="search">
 						<?php bp_directory_course_search_form(); ?>
 					</div><!-- #group-dir-search -->
@@ -41,9 +50,9 @@ $id= vibe_get_bp_page_id('course');
 						<ul>
 							<li class="selected" id="course-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_course_root_slug() ); ?>"><?php printf( __( 'All Courses <span>%s</span>', 'vibe' ), bp_course_get_total_course_count( ) ); ?></a></li>
 							<?php if ( is_user_logged_in() ) : ?>
-								<li id="course-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'My Courses <span>%s</span>', 'vibe' ), bp_course_get_total_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+								<li id="course-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug()); ?>"><?php printf( __( 'My Courses <span>%s</span>', 'vibe' ), bp_course_get_total_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 								<?php if(is_user_instructor()): ?>
-									<li id="course-instructor"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'Instructing Courses <span>%s</span>', 'vibe' ), bp_course_get_instructor_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+									<li id="course-instructor"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug()); ?>"><?php printf( __( 'Instructing Courses <span>%s</span>', 'vibe' ), bp_course_get_instructor_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 								<?php endif; ?>		
 							<?php endif; ?>
 							<?php do_action( 'bp_course_directory_filter' ); ?>

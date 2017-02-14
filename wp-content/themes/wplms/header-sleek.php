@@ -15,7 +15,7 @@ wp_head();
     <div class="pagesidebar">
         <div class="sidebarcontent">    
             <h2 id="sidelogo">
-                <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                <a href="<?php echo vibe_site_url('','sidelogo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','pagesidebar'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
             </h2>
             <?php
                 $args = apply_filters('wplms-mobile-menu',array(
@@ -58,7 +58,7 @@ wp_head();
                                 echo '<h2 id="logo">';
                             }
                         ?>
-                            <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                            <a href="<?php echo vibe_site_url('','logo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
                             if(is_home()){
                                 echo '</h1>';
@@ -77,7 +77,7 @@ wp_head();
                         ?>
                     </div>
                     <div class="col-md-3 col-sm-8 col-xs-8">
-                        <div id="searchicon"><i class="icon-search-2"></i></div>
+                        <div id="searchicon"><i class="fa fa-search"></i></div>
                         <?php
                             if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
                                 ?>
@@ -86,7 +86,7 @@ wp_head();
                                     <?php
                                     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
                                     ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-cart"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
                                     <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
                                     </li>
                                     <?php
@@ -97,11 +97,11 @@ wp_head();
                             else :
                                 ?>
                                 <ul class="topmenu">
-                                    <li><a href="#login" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>
+                                    <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>
                                     <?php
                                     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
                                     ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-cart"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
                                     <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
                                     </li>
                                     <?php

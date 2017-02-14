@@ -20,7 +20,7 @@ if ( ! class_exists( 'WPLMS_Install' ) ) :
  */
 class WPLMS_Install {
 
-	public $version = '2.1.1';
+	public $version = '2.5.0';
 	/**
 	 * Hook in tabs.
 	 */
@@ -190,7 +190,6 @@ class WPLMS_Install {
 		update_option('require_name_email','');
 		update_option('comment_moderation','');
 		update_option('comment_whitelist','');
-		update_option('comment_registration',1);
 		update_option('posts_per_page',6);
 		update_option('comments_per_page',5);
 		update_option('users_can_register',1);
@@ -369,7 +368,11 @@ class WPLMS_Install {
 					'name' => 'Instructor',
 					'description' => 'Instructor only field group'
 				);
-
+				$social_field_group=array(
+					'name' => 'Social Profiles',
+					'description' => 'Links to social profiles'
+				);
+				$social_field_group_id=xprofile_insert_field_group($social_field_group);
 				$group_id=xprofile_insert_field_group($field_group);
 				$fields = array(
 					array(
@@ -389,6 +392,18 @@ class WPLMS_Install {
 						'type'=>'textbox',
 						'name'=>'Speciality',
 						'description'=>'Instructor Speciality'
+					),
+					array(
+						'field_group_id'=>$social_field_group_id,
+						'type'=>'url',
+						'name'=>'Facebook',
+						'description'=>'Facebook profile link'
+					),
+					array(
+						'field_group_id'=>$social_field_group_id,
+						'type'=>'url',
+						'name'=>'Twitter',
+						'description'=>'Twitter profile link'
 					),
 				);
 
@@ -432,7 +447,7 @@ class WPLMS_Install {
 				}
 			}
 		}
-	
+	 
 		global $wpdb;
 		$table_name = $wpdb->prefix . "layerslider";
 		foreach($sample_slider as $key => $val) {
@@ -476,8 +491,7 @@ class WPLMS_Install {
 		update_option('ls-google-fonts', array());
 	}
 	function wplms_flush_permalinks(){
-		flush_rewrite_rules();
-		flush_rewrite_rules(false);
+		update_option('medium_size_w',460);
 	}
 }
 

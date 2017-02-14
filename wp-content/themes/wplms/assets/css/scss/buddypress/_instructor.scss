@@ -164,3 +164,12 @@
 		}
 	}
 }
+
+.grid{
+	.instructor_action_buttons{
+		border:none;
+		& > li{
+			padding: 5px;
+		}
+	}
+}

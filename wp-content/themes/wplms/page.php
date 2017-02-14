@@ -4,8 +4,8 @@ get_header(vibe_get_header());
 
 if ( have_posts() ) : while ( have_posts() ) : the_post();
 
-$title=get_post_meta(get_the_ID(),'vibe_title',true);
-if(vibe_validate($title) || empty($title)){
+
+
 ?>
 <section id="title">
     <div class="<?php echo vibe_get_container(); ?>">
@@ -16,16 +16,18 @@ if(vibe_validate($title) || empty($title)){
                         $breadcrumbs=get_post_meta(get_the_ID(),'vibe_breadcrumbs',true);
                         if(vibe_validate($breadcrumbs) || empty($breadcrumbs))
                             vibe_breadcrumbs(); 
+
+                        $title=get_post_meta(get_the_ID(),'vibe_title',true);
+                        if(vibe_validate($title) || empty($title)){
                     ?>
                     <h1><?php the_title(); ?></h1>
-                    <?php the_sub_title(); ?>
+                    <?php the_sub_title(); }?>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <?php
-}
 
     $v_add_content = get_post_meta( $post->ID, '_add_content', true );
  

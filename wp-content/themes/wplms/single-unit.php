@@ -1,7 +1,8 @@
 <?php
+if ( !defined( 'ABSPATH' ) ) exit;
 get_header(vibe_get_header());
 $unit_comments = vibe_get_option('unit_comments');
-
+ 
 if ( have_posts() ) : while ( have_posts() ) : the_post();
 $id = get_the_ID();
 ?>
@@ -17,33 +18,28 @@ $id = get_the_ID();
             <div class="col-md-3 col-sm-4">
                 <?php
                 if(isset($_GET['id']) && is_numeric($_GET['id'])){
-                  if(strpos($_SERVER["REQUEST_URI"],'/edit/')){
-                    $edit_course = vibe_get_option('create_course');
-                    if(isset($edit_course) && is_numeric($edit_course))
-                        echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($edit_course).'?action='.$_GET['id'].'" class="course_button button full">'.__('Back to Edit Course','vibe').'</a>';
-                    else
-                        echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($_GET['id']).'?action=curriculum" class="course_button button full">'.__('Back to Course','vibe').'</a>';      
-                  }else{
-                    echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($_GET['id']).'?action=curriculum" class="course_button button full">'.__('Back to Course','vibe').'</a>';  
-                  }
-                }else{
+                
                   global $wpdb;
                   $uid=get_the_ID();
-                  $course_id = '';
-                  if(function_exists('bp_course_get_unit_course_id')){
+                  $course_id = $_GET['id'];
+                  if(function_exists('bp_course_get_unit_course_id') && empty($course_id)){
                     $course_id = bp_course_get_unit_course_id($uid);
                   }
                   if(is_numeric($course_id) && get_post_type($course_id) == 'course'){
                     $extension = '';
-                    $settings = WPLMS_tips::init();
-                    if(!empty($settings->settings) && empty($settings->settings['course_curriculum_below_description'])){
-                      
-                        $permalinks = get_option( 'vibe_course_permalinks' );
-            
-                        $curriculum_slug = (!empty($permalinks['drive_slug'])?$permalinks['curriculum_slug']:'curriculum');
-                        if(!empty($curriculum_slug)){
-                           $extension = $curriculum_slug.'/';
+                    if(class_exists('WPLMS_tips')){
+                      $settings = WPLMS_tips::init();
+                      if(!empty($settings->settings) && empty($settings->settings['course_curriculum_below_description'])){
+                        
+                        
+                          $permalinks = get_option( 'vibe_course_permalinks' );
+                          $curriculum_slug = (!empty($permalinks['curriculum_slug'])?$permalinks['curriculum_slug']:'curriculum');
+                          if(!empty($curriculum_slug) && empty($settings->settings['revert_permalinks'])){
+                             $extension = $curriculum_slug.'/';
+                          }else{
+                          $extension = '?action=curriculum&curriculum/';
                         }
+                      }
                     }
                     
                     echo '<input id="course_id" type="hidden" value="'.$course_id.'"><a href="'.get_permalink($course_id).$extension.'" class="course_button button full">'.__('Back to Course','vibe').'</a>';

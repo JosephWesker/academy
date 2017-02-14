@@ -1,5 +1,7 @@
 <?php 
 
+if ( !defined( 'ABSPATH' ) ) exit;
+
 $redirect_course_cat_directory = vibe_get_option('redirect_course_cat_directory');
 if(!empty($redirect_course_cat_directory)){
 	locate_template( array( 'course/index.php' ), true );	
@@ -16,7 +18,7 @@ get_header( vibe_get_header() ); ?>
                 <div class="pagetitle">
                 	<?php vibe_breadcrumbs(); ?> 
                    	<h1><?php single_cat_title(); ?></h1>
-                    <h5><?php echo category_description(); ?></h5>
+                    <h5><?php echo do_shortcode(category_description()); ?></h5>
                 </div>
             </div>
         </div>
@@ -31,9 +33,12 @@ get_header( vibe_get_header() ); ?>
 			<div class="col-md-9 col-sm-8">
 				<div class="content">
 				<?php
+				$style = vibe_get_option('default_course_block_style');
+				if(Empty($style)){$style = apply_filters('wplms_instructor_courses_style','course2');}
+				
 					if ( have_posts() ) : while ( have_posts() ) : the_post();
 
-					echo '<div class="col-md-4 col-sm-6 clear3">'.thumbnail_generator($post,'course2','3','0',true,true).'</div>';
+					echo '<div class="col-md-4 col-sm-6 clear3">'.thumbnail_generator($post,$style,'3','0',true,true).'</div>';
 				
 					endwhile;
 					pagination();

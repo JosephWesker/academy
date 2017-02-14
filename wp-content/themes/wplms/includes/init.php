@@ -91,7 +91,6 @@ class WPLMS_Init{
         add_action('bp_activity_post_form_options',array($this,'activity_form_options'));
 
         add_filter('bp_course_wplms_filters',array($this,'course_category'));
-        add_action('bp_before_directory_course_content',array($this,'course_category_description'));
     }
 
     function body_class($classes){
@@ -123,7 +122,8 @@ class WPLMS_Init{
         if(!empty($course_layout)){
             $classes[] = $this->customizer['course_layout'];
         }
-        $theme_skin = $this->customizer['theme_skin'];
+
+        $theme_skin = $this->get_cutomizer('theme_skin');
         if(!empty($theme_skin)){
             $classes[] = $this->customizer['theme_skin'];
         }
@@ -203,7 +203,10 @@ class WPLMS_Init{
         if(empty($this->customizer))  
             $this->customizer = get_option('vibe_customizer');
 
-        return $this->customizer[$field];
+        if(isset($this->customizer[$field]))
+            return $this->customizer[$field];
+        else
+            return '';
     }
 
     function get_header(){
@@ -213,8 +216,10 @@ class WPLMS_Init{
 
         if(empty($this->customizer))
             return;
-
-        return $this->customizer['header_style'];
+        if(isset($this->customizer['header_style']))
+            return $this->customizer['header_style'];
+        else
+            return;
     }
 
     function get_footer(){
@@ -223,15 +228,17 @@ class WPLMS_Init{
 
         if(empty($this->customizer))
             return;
-
-        return $this->customizer['footer_style'];
+        if(isset($this->customizer['footer_style']))
+            return $this->customizer['footer_style'];
+        else
+            return;
     }
 
     function get_login_style(){
         if(empty($this->customizer))
             $this->customizer = get_option('vibe_customizer');
 
-        if(empty($this->customizer))
+        if(empty($this->customizer) || !isset($this->customizer['login_style']))
             return;
         
         return $this->customizer['login_style'];
@@ -295,20 +302,39 @@ class WPLMS_Init{
     }
 
     function vibe_login_logo() {    //Copy this function to customize WP Admin login screen
+        
         $url=vibe_get_option('logo');
+
+        $light_color = '#333';
+        $light_bg = '#fff';
+        $dark_color = '#fff';
+        $dark_bg = '#313b3d';
+        $primary_bg = '#009dd8';
+        $primary_color = '#fff';
         $customizer = array();
         $customizer=get_option('vibe_customizer');
-        if(!isset($customizer) || !is_array($customizer) || !count($customizer)){
-        
-        if(!isset($customizer['header_top_bg']) || $customizer['header_top_bg']=='')
-            $customizer['header_top_bg']='#232b2d';
-        if(!isset($customizer['header_top_color']) || $customizer['header_top_color']=='')
-             $customizer['header_top_color']= '#FFFFFF';
-        if(!isset($customizer['header_bg']) || $customizer['header_bg']=='')
-            $customizer['header_bg']='#313b3d';
-        if(!isset($customizer['header_color']) || $customizer['header_color']=='')
-             $customizer['header_color']= '#FFFFFF';
+        if(isset($customizer) && is_array($customizer) && count($customizer)){
+            if(isset($customizer['login_dark'])){
+                $dark_bg = $customizer['login_dark'];
+            }
+            if(isset($customizer['login_dark_color'])){
+                $dark_color = $customizer['login_dark_color'];
+            }
+            if(isset($customizer['login_light'])){
+                $light_bg = $customizer['login_light'];
+
+            }
+            if(isset($customizer['login_light_color'])){
+                $light_color = $customizer['login_light_color'];
+            }
+            if(isset($customizer['primary_bg'])){
+                $primary_bg = $customizer['primary_bg'];
+            }
+            if(isset($customizer['primary_color'])){
+                $primary_color = $customizer['primary_color'];
+            }
         }
+
         if(!isset($url) || $url == ''){
             $url = get_stylesheet_directory_uri().'/assets/images/logo.png';
         }
@@ -325,7 +351,7 @@ class WPLMS_Init{
                 background-size:100%;
             }
             html,body.login {
-                background: <?php echo $customizer['header_bg']; ?>;
+                background: <?php echo $dark_bg; ?>;
                 }
             body:before{
                 content:'';
@@ -336,32 +362,38 @@ class WPLMS_Init{
                 top:0;
                 left:0;
             }    
-            .login label{
-                color: <?php echo $customizer['header_color']; ?>;
+            body.login form#loginform label{
+                color: <?php echo $dark_color; ?>;
                 font-size:11px;
                 text-transform: uppercase;
                 font-weight:600;
                 opacity: 0.8;
             }
-            .login form{
-                background:none;
+            body.login input[type=checkbox]:checked:before{color: <?php echo $dark_color; ?>;}
+            body.login.wp-core-ui .button-primary{background:<?php echo $primary_bg; ?>;border:none;box-shadow:none;text-shadow:none;color:<?php echo $primary_color; ?>;}
+            body.login form#loginform {
+                background:<?php echo $light_bg; ?>;
                 box-shadow:none;
                 border-radius:2px;
                 margin:0;
             }    
-            .login form .input, .login input[type=text], .login form input[type=checkbox]{
-                background: <?php echo $customizer['header_top_bg']; ?>;
+            body.login form#loginform label{color:<?php echo $light_color; ?>;;}
+            body.login form#loginform .input,
+            body.login form#loginform input[type=text], 
+            body.login form#loginform input[type=checkbox]{
+                background: <?php echo $dark_bg; ?>;
                 border-color: rgba(255,255,255,0.1);
                 border-radius: 2px;
-                color:<?php echo $customizer['header_top_color']; ?>;
+                color:<?php echo $dark_color; ?>;
             }
-            .login #nav a, .login #backtoblog a{
-                color: <?php echo $customizer['header_color']; ?>;
+            body.login #nav a, body.login #backtoblog a{
+                color: <?php echo $dark_color; ?>;
                 text-transform: uppercase;
                 font-size: 11px;
                 opacity: 0.8;
             }
-            div.error, .login #login_error{border-radius:2px;}
+            body.login #nav a:hover, body.login #backtoblog a:hover{color:<?php echo $primary_bg; ?>}
+            div.error,body.login #login_error{border-radius:2px;}
             <?php
             $wp_login_screen = vibe_get_option('wp_login_screen');
             echo $wp_login_screen;
@@ -400,6 +432,9 @@ class WPLMS_Init{
     function bp_page_id($page){
         if(empty($this->bp_pages)){
             $this->bp_pages = get_option('bp-pages');
+        }
+        if(function_exists('icl_object_id')){
+            $this->bp_pages[$page] = icl_object_id($this->bp_pages[$page], 'page', true);
         }
         return $this->bp_pages[$page];
     }
@@ -680,19 +715,6 @@ class WPLMS_Init{
         return $args;
     }
 
-    function course_category_description(){
-        global $wp_query;
-        if(is_tax()){
-            ?>
-            <div class="course_category">
-                <h3><?php single_cat_title(); ?></h3>
-                <p><?php echo category_description(); ?></p>
-            </div>
-            <?php
-        }
-    }
-
-
     function better_comments($comment, $args, $depth) {
       $GLOBALS['comment'] = $comment;
      ?>
@@ -705,13 +727,13 @@ class WPLMS_Init{
              <div class="comment-body-content">
                <div class="comment-meta">
                  <?php echo get_comment_author_link(); 
-                       echo '<a href="'.htmlspecialchars( get_comment_link( $comment->comment_ID ) ) .'">'.sprintf(__('%1$s at %2$s','wplms_modern'), get_comment_date(),  get_comment_time()).'</a>'; 
+                       echo '<a href="'.htmlspecialchars( get_comment_link( $comment->comment_ID ) ) .'">'.sprintf(__('%1$s at %2$s','vibe'), get_comment_date(),  get_comment_time()).'</a>'; 
                        comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))); 
-                       edit_comment_link(__('(Edit)','wplms_modern'),'  ','');
+                       edit_comment_link(__('(Edit)','vibe'),'  ','');
                  ?>
                </div><!-- END comment-author vcard -->
                <?php if ($comment->comment_approved == '0') : ?>
-                 <em><?php _e('Your comment is awaiting moderation.','wplms_modern') ?></em>
+                 <em><?php _e('Your comment is awaiting moderation.','vibe') ?></em>
                  <br />
                <?php endif; ?>
                <div class="comment-text">
@@ -737,20 +759,20 @@ function vibe_admin_url($url='/') {
     }
 }
 
-function vibe_site_url($url='/') {
+function vibe_site_url($url='/',$location = null) {
     if (is_multisite()) {
         $link = home_url($url);
     } else {
         $link = site_url($url);
     }
-    return apply_filters('wplms_site_link',$link);
+    return apply_filters('wplms_site_link',$link,$location);
 }
 
 add_filter('wplms_logo_url','vibe_logo_url',10,2);
 function vibe_logo_url($url='/',$location = null){
     
     $logo=vibe_get_option('logo'); 
-
+    $alt = get_bloginfo('name');
     if(empty($logo)){
         $url = VIBE_URL.'/assets/images/logo.png';
     }else{
@@ -766,16 +788,31 @@ function vibe_logo_url($url='/',$location = null){
             case 'header':
                 $header = vibe_get_customizer('header_style');
                 $alt_logo=vibe_get_option('alt_logo');
+                $mobile_logo = vibe_get_option('mobile_logo');
                 if(empty($alt_logo)){
-                    $alt_logo .= VIBE_URL.'/assets/images/logo.png';
+                    $alt_logo = $url; 
                 }
-                if(in_array($header,array('sleek','transparent','center'))){
-                    $url .='" id="header_logo"><img id="header_alt_logo" src="'.$alt_logo;    
+                if(empty($mobile_logo)){
+                    $mobile_logo =$url; 
+                }
+                if(in_array($header,array('sleek','transparent','center','generic'))){
+                    $url .='" id="header_logo" alt="'.$alt.'"><img id="header_mobile_logo" src="'.$mobile_logo.'" class="hide" alt="'.$alt.'"><img id="header_alt_logo" alt="'.$alt.'" src="'.$alt_logo;    
                 }else{
                     if(!empty($alt_logo)) 
-                        $url .= '" data-alt-logo="'.$alt_logo;    
+                        $url .= '" data-alt-logo="'.$alt_logo; 
+
+                    if(!empty($mobile_logo)) 
+                        $url .= '" id="header_logo" alt="'.$alt.'"><img id="header_mobile_logo" alt="'.$alt.'" src="'.$mobile_logo.'" class="hide';
                 }
                 
+            break;
+            case 'standard_header':
+                $mobile_logo = vibe_get_option('mobile_logo');
+                if(empty($mobile_logo)){
+                    $mobile_logo = $url; 
+                }
+                 if(!empty($mobile_logo)) 
+                    $url .= '" id="header_logo" alt="'.$alt.'"><img id="header_mobile_logo" alt="'.$alt.'" src="'.$mobile_logo.'" class="hide';
             break;
             case 'footer':
                 $footer_logo=vibe_get_option('footer_logo');
@@ -784,14 +821,17 @@ function vibe_logo_url($url='/',$location = null){
             break;
             case 'headertop':
                 $alt_logo=vibe_get_option('alt_logo');
+                $mobile_logo = vibe_get_option('mobile_logo');
                 if(!empty($alt_logo)) 
-                    $url = $alt_logo;
+                    $url = $alt_logo.'" id="header_logo" alt="'.$alt.'"><img id="header_mobile_logo" alt="'.$alt.'" src="'.$mobile_logo.'" class="hide';
             break;
         }
     }
     if(is_ssl()){
-        if (substr($url, 0, 7) == "http://")
+        if (substr($url, 0, 7) == "http://"){
             $url = str_replace('http','https',$url);
+            $url = str_replace('httpss://','https://',$url); // Switch to remove unwanted changes
+        }
     }
     return $url;
 }
@@ -803,7 +843,7 @@ function count_user_posts_by_type( $userid, $post_type = 'post' ) {
     $where = get_posts_by_author_sql( $post_type, true, $userid );
     $count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} $where" );
     
-    $count = apply_filters('get_usernumposts', $count, $userid );
+    $count = apply_filters('wplms_count_user_posts_by_type', $count, $userid,$post_type );
     return $count;
 }
 
@@ -814,11 +854,37 @@ if(!function_exists('vibe_get_option')){
     }
 }
 
+if(!function_exists('vibe_update_option')){
+    function vibe_update_option($field,$value){    
+        $wplms = get_option(THEME_SHORT_NAME);
+        if(!empty($wplms)){
+            $wplms[$field] = $value;
+        }else{
+            $wplms = array($field => $value);
+        }
+        update_option(THEME_SHORT_NAME,$wplms);        
+        return; 
+    }
+}
 
 if(!function_exists('vibe_get_customizer')){
     function vibe_get_customizer($field){
         $wplms = WPLMS_Init::init();  
         return $wplms->get_cutomizer($field); 
+    }
+}
+
+if(!function_exists('vibe_update_customizer')){
+    function vibe_update_customizer($field,$value){
+        $wplms = WPLMS_Init::init();  
+        if(!empty($wplms->customizer)){
+            $wplms->customizer[$field] = $value;    
+        }else{
+            $wplms->customizer=array($field => $value);
+        }
+        
+        update_option('vibe_customizer',$wplms->customizer);
+        return; 
     }
 }
 
@@ -996,57 +1062,62 @@ function register_required_plugins() {
         $force_activate = false;
     else
         $force_activate = true;
-    
+
     $plugins = array(
         array(
             'name'                  => 'Buddypress', // The plugin name
             'slug'                  => 'buddypress', // The plugin slug (typically the folder name)
-            'source'                => 'https://downloads.wordpress.org/plugin/buddypress.2.5.3.zip', // The plugin source
+            'source'                => 'https://downloads.wordpress.org/plugin/buddypress.2.7.4.zip', // The plugin source
             'required'              => true, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.9', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '2.7.4', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => $force_activate, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'buddypress/bp-loader.php',
         ),
         array(
             'name'                  => 'WooCommerce', // The plugin name
             'slug'                  => 'woocommerce', // The plugin slug (typically the folder name)
-            'source'                => 'https://downloads.wordpress.org/plugin/woocommerce.2.6.0.zip', // The plugin source
+            'source'                => 'https://downloads.wordpress.org/plugin/woocommerce.2.6.8.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.6', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '2.6.8', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'woocommerce/woocommerce.php',
         ),
         array(
             'name'                  => 'BBPress', // The plugin name
             'slug'                  => 'bbpress', // The plugin slug (typically the folder name)
-            'source'                => 'https://downloads.wordpress.org/plugin/bbpress.2.5.9.zip', // The plugin source
+            'source'                => 'https://downloads.wordpress.org/plugin/bbpress.2.5.12.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.6', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '2.5.12', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'bbpress/bbpress.php',
         ),
         array(
             'name'                  => 'Buddydrive', // The plugin name
             'slug'                  => 'buddydrive', // The plugin slug (typically the folder name)
-            'source'                => 'https://downloads.wordpress.org/plugin/buddydrive.1.3.3.zip', // The plugin source
+            'source'                => 'https://downloads.wordpress.org/plugin/buddydrive.2.0.0.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.3.3', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '2.0.0', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'buddydrive/buddydrive.php',
         ),
         array(
             'name'                  => 'BP Social Connect', // The plugin name
             'slug'                  => 'bp-social-connect', // The plugin slug (typically the folder name)
-            'source'                => 'https://downloads.wordpress.org/plugin/bp-social-connect.1.4.zip', // The plugin source
+            'source'                => 'https://downloads.wordpress.org/plugin/bp-social-connect.1.4.1.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.4', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '1.4.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'bp-social-connect/bp-social-connect.php',
         ),
         array(
             'name'                  => 'Layer Slider', // The plugin name
@@ -1057,6 +1128,7 @@ function register_required_plugins() {
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'layerslider/layerslider.php',
         ),
         array(
             'name'                  => 'Revolution Slider', // The plugin name
@@ -1067,6 +1139,7 @@ function register_required_plugins() {
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'revslider/revslider.php',
         ),
         array(
             'name'                  => 'WP Visual Composer', // The plugin name
@@ -1077,6 +1150,7 @@ function register_required_plugins() {
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'js_composer/js_composer.php',
         ),
         array(
             'name'                  => 'EventON', // The plugin name
@@ -1087,6 +1161,7 @@ function register_required_plugins() {
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'eventON/eventon.php',
         ),
         array(
             'name'                  => 'WPLMS EventOn', // The plugin name
@@ -1097,6 +1172,7 @@ function register_required_plugins() {
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
+            'file'                  => 'wplms-eventon/wplms-eventon.php',
         ),
           array(
             'name'                  => 'Vibe Shortcodes', // The plugin name
@@ -1105,7 +1181,7 @@ function register_required_plugins() {
             'required'              => true, // If false, the plugin is only 'recommended' instead of required
             'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
+            'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
         ),
         
@@ -1116,11 +1192,19 @@ function register_required_plugins() {
             'source'                => VIBE_URL . '/plugins/wplms-customizer.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
             'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
+            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
+            'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
         ),
 
+        array(
+            'name' => 'Envato Market',
+            'slug' => 'envato-market',
+            'source' => 'https://envato.github.io/wp-envato-market/dist/envato-market.zip',
+            'required' => true,
+            'recommended' => true,
+            'force_activation' => true,
+        ),
     );
     
     if($force_activate){
@@ -1138,7 +1222,7 @@ function register_required_plugins() {
             'name'                  => 'WPLMS Dashboard', // The plugin name
             'slug'                  => 'wplms-dashboard', // The plugin slug (typically the folder name)
             'source'                => VIBE_URL . '/plugins/wplms-dashboard.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
+            'required'              => true, // If false, the plugin is only 'recommended' instead of required
             'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
@@ -1159,7 +1243,7 @@ function register_required_plugins() {
             'slug'                  => 'wplms-front-end', // The plugin slug (typically the folder name)
             'source'                => VIBE_URL . '/plugins/wplms-front-end.zip', // The plugin source
             'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '1.6', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => $force_activate, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
@@ -1168,13 +1252,15 @@ function register_required_plugins() {
             'name'                  => 'WPLMS Assignments', // The plugin name
             'slug'                  => 'wplms-assignments', // The plugin slug (typically the folder name)
             'source'                => VIBE_URL . '/plugins/wplms-assignments.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
+            'required'              => true, // If false, the plugin is only 'recommended' instead of required
             'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
             'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
             'force_deactivation'    => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
             'external_url'          => '', // If set, overrides default API URL and points to an external URL
         );
     }
+
+    
     $plugins = apply_filters('wplms_required_plugins',$plugins);
     // Change this to your theme text domain, used for internationalising strings
     $theme_text_domain = 'vibe';
@@ -1189,8 +1275,6 @@ function register_required_plugins() {
     $config = array(
         'domain'            =>'vibe',           // Text domain - likely want to be the same as your theme.
         'default_path'      => '',                          // Default absolute path to pre-packaged plugins
-        'parent_menu_slug'  => 'themes.php',                // Default parent menu slug
-        'parent_url_slug'   => 'themes.php',                // Default parent URL slug
         'menu'              => 'install-required-plugins',  // Menu slug
         'has_notices'       => true,                        // Show admin notices or not
         'is_automatic'      => true,                        // Automatically activate plugins after installation or not

@@ -10,6 +10,8 @@
 	clear:none !important;
 }
 
+img#header_mobile_logo { height: auto !important; }
+
 /*========================================================================*/
 /*   05. NEWS
 /*========================================================================*/
@@ -38,6 +40,7 @@
 
 .field-visibility-settings-close{color:#CF4F2F;}
 
+label[for="signup_password"]>span{float:right;}
 /*========================================================================*/
 /*   05. ASSIGNMENT DIRECTORY
 /*========================================================================*/
@@ -233,7 +236,7 @@ th.title+.title, td.field-visibility {
 	display: none;
 	a{
 		padding: 5px 10px;
-		display: block;
+		display: block;line-height:1;
 	    background: rgba(255,255,255,1);
     	color: rgba(0,0,0,0.6);
 		&:first-child{
@@ -300,7 +303,6 @@ th.title+.title, td.field-visibility {
 		}
 	}
 }
-
 
 .item-avatar a{width:100%;}
 

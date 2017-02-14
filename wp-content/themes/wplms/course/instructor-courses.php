@@ -6,7 +6,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.1
+ * @version     2.1
  */
 if ( !defined( 'ABSPATH' ) ) exit;
 $user_id=get_current_user_id();
@@ -19,7 +19,7 @@ $user_id=get_current_user_id();
 
 if ( bp_course_has_items( bp_ajax_querystring( 'course' ).$append )) : ?>
 <?php // global $items_template; var_dump( $items_template ) ?>
-	<div id="pag-top" class="pagination no-ajax">
+	<div id="pag-top" class="pagination">
 
 		<div class="pag-count" id="course-dir-count-top">
 
@@ -38,7 +38,38 @@ if ( bp_course_has_items( bp_ajax_querystring( 'course' ).$append )) : ?>
 	<?php do_action( 'bp_before_directory_course_list' ); ?>
 
 	<ul id="course-list" class="item-list" role="main">
+		<?php /*while ( bp_course_has_items() ) : bp_course_the_item(); ?>
 
+			<?php 
+			global $post;
+			$cache_duration = vibe_get_option('cache_duration'); if(!isset($cache_duration)) $cache_duration=86400;
+			if($cache_duration){
+				$course_key= 'course_'.$post->ID;
+				if(is_user_logged_in()){
+					$user_id = get_current_user_id();
+					$user_meta = get_user_meta($user_id,$post->ID,true);
+					if(isset($user_meta)){
+						$course_key= 'course_'.$user_id.'_'.get_the_ID();
+					}
+				}
+				$result = wp_cache_get($course_key,'course_loop');
+			}else{$result=false;}
+
+			if ( false === $result) {
+				ob_start();
+				if(function_exists('bp_course_item_view')){
+					bp_course_item_view();
+				}
+				$result = ob_get_clean();
+			}
+			if($cache_duration)
+			wp_cache_set( $course_key,$result,'course_loop',$cache_duration);
+
+			echo $result;
+			?>
+			
+
+	<?php endwhile;  */?>
 	<?php while ( bp_course_has_items() ) : bp_course_the_item(); ?>
 
 		<li>
@@ -51,10 +82,10 @@ if ( bp_course_has_items( bp_ajax_querystring( 'course' ).$append )) : ?>
 				<div class="col-md-9 col-sm-8">
 
 					<div class="item">
-						<div class="item-title"><?php bp_course_title() ?></div>
-						<div class="item-meta"><?php bp_course_meta() ?></div>
+						<div class="item-title"><?php bp_course_title(); ?></div>
+						<div class="item-meta"><?php bp_course_meta(); ?></div>
 						<div class="item-action-buttons">
-							<?php bp_course_instructor_controls() ?>
+							<?php bp_course_instructor_controls(); ?>
 						</div>
 						<?php do_action( 'bp_directory_instructing_course_item' ); ?>
 

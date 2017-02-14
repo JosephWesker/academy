@@ -18,7 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $answer = end($answers);
         $content = $answer->comment_content;
     }else{
-        $content='';
+      if(function_exists('bp_core_get_user_displayname'))
+        $content=$post->post_title.' - '.bp_core_get_user_displayname($user_id);
+      else
+        $content ='';
     }
  
     $fields =  array(

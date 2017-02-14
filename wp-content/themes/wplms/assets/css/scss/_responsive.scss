@@ -27,8 +27,9 @@
 }	
 @media (max-width: 767px) {
 	
-	
-
+	#header_logo,#header_alt_logo,
+	.sleek.fixed #header_alt_logo{display:none !important;}
+	#header_mobile_logo.hide{display:block !important;}
 	.meta .date {
 		margin: 0;
 		position: absolute;
@@ -116,14 +117,13 @@
 	.note-tabs ul li{
 		width:100%;
 	}
-
+	.blogpost .featured{margin:0;}
+	.blogpost .date{display:none;}
 	.blogpost .excerpt.thumb,
 	.blogpost .excerpt{
 		margin-left:0;
 	}
 	.blogpost .meta{margin:0 10px 10px 0;}
-	header.app #login_trigger{line-height:2.2;}
-	header.app #login_trigger img{width:36px;height:36px;}
 	.grid_list_wrapper{display:inline-block;margin: 10px 0;}
 	#buddypress .item-list-tabs#subnav ul li.switch_view{
 		width: 100%;
@@ -202,8 +202,10 @@
 		clear:both;
 		float:left;
 	}
+	#buddypress div.item-list-tabs#subnav ul li a,
+	#buddypress div.item-list-tabs .dir-search,
 	#buddypress div.item-list-tabs ul li.last select{
-		width:200px;
+		width:100%;
 	}
 
 	.total_students{font-size:14px;}
@@ -217,7 +219,8 @@
 		display: none;
 	}
 	#buddypress div.item-list-tabs#subnav ul li{
-		width:100%;
+		width:100% !important;
+		float:none !important;
 		text-align: center;
 	}
 	#buddypress table.profile-fields tr td { display: block; }

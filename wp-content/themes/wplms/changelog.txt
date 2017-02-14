@@ -1,3 +1,339 @@
+* 2.5.2
+* translations fixed and updated
+* styling bug fixes
+* fix for remote get
+* slider import failed issue resolved
+* customizer switch issue resolved.
+* Visual composer added in setup wizard
+* forgotpassword email
+* fix error message handling in Ajax login
+* course review follow discussion order setting fix.
+* html check in sub title
+* wplms signon function ajax based
+* Default course block not showing in the course category fix.
+* styling bug fixes
+* fix for remote get
+* slider import failed issue resolved
+* customizer switch issue resolved.
+* Visual composer added in setup wizard
+* forgotpassword email
+* fix error message handling in Ajax login
+* Fuzzy Translations Fixed.
+* course review follow discussion order setting fix.
+* html check in sub title
+* wplms signon function ajax based
+* Default course block not showing in the course category fix.
+* Category title and description removed before course content
+* The category title in page title for category redirect to course directory
+* comment approved check for ratings.
+* WPML support for options panel pages
+* links to resources changed
+* redirect on activate fix
+* ajax registration and forgot password
+* s3 url for slider download
+* misc fixes
+* 2.5.1
+* custom walker
+* slider issues in demo content import
+* login template fixes
+* course status link in options
+* welcome change
+* styling changes
+* popup login style fix
+* plugin versions updated
+* fixed notices
+* updated fixes
+* customizer - options panel saperated from Settings
+* co-author filter change and course by instructor fix
+* 2.5
+* translation files updated
+* the_author for post SOE meta data
+* deleted course certificates should not be displayed
+* styling fixes
+* eventon upgrade notice
+* welcome changes
+* enable_signup handling.
+* vibe_update_option fix
+* only replace values if non-existent in options apnel and customizer
+* custom signup page option
+* styling fixes
+* style changes
+* security parameter in certificates
+* rating appearing in Assignments
+* 2.5 version update
+* default course status template
+* customiser changes
+* regenerate certificate if not generated
+* styling fixes
+* download button added
+* pursue panel content block added for flexible course curriculum area.
+* Plugins based on features fixes
+* options updated in installer
+* updated options panel imported data
+* course status template css
+* clear imported ids for reimport
+* Course status templates added.
+* redirect  to my courses on activation fix
+* eventon page templates
+* Minor Text fix.
+* Page hierarchy in breadcrumbs
+* course status page template updated
+* upload field type updated
+* 404 page fix for multi-language.
+* Ratings form not working correctly with custom course slug
+* importer complete.
+* sliders hosted on vibe API
+* installer ready for demo1-6
+* shopping cart icon changes
+* remove backup
+* search icon change
+* gulp changes
+* demo3 content ready
+* hide additional li in login popup
+* demo2 installer function
+* demo2 installer ready
+* demo1 final backup
+* setup installer fixes
+* Theme selection in Envato setup
+* js color added for color selection
+* demo1 installer complete
+* demo1 import complete
+* default logo
+* include installer in functions
+* plugin installer updated
+* Installer init
+* Add friend button added in course members area.
+* Bp pages site lock bypass filter added.
+* Create group button visible to everyone fixed.
+* Hide page title bug with breadcrumbs fixed.
+* wpml config updated
+* course comments check
+* welcome changes
+* 2.4.1
+* welcome page fixes
+* is_customiser_preview check
+* 2.4
+* translation update
+* Welcome page changes
+* RTL Fixes
+* responsive fixes for tabs
+* Buddydrive fixes
+* Plugin versions updated for install
+* Buddydrive update message
+* customizer changes
+* Buddydrive updated
+* Activation Redirect fix
+* option panel changes
+* styling changes
+* inset box shadow in app login
+* add height to full browser height on single activity page
+* add hook wplms_after_course_directory
+* missing title component in fullwidth template
+* add widget classes in footer for widget selection and custom styling
+* customizer fixes
+* Course Category/Level Location redirection
+* redirection on activation for dashboard/profile and courses option
+* abspath check for WP execution
+* flexbox in modern login
+* Nofollow on #login link in header
+* Directory Page fix for WPML
+* Breadcrumbs fix for courses
+* Badges HTML only visible if present.
+* Skip course status page option
+* Display instructor fix
+* reverse the Rating order in courses
+* items added in gitignore
+* remove bower components in git, added in gitignore
+* nodemodules removed from git added in gitignore
+* New options
+* setup
+* Instructing courses in Profile
+* notifications check in logins
+* function usage bp_course_curriculum for batch specific curriculums
+* close icon on certificate template
+* Importer updated
+* Registration page would show content from Page content area defaults to static text
+* WP Admin login form colors come from Login panel in customizer
+* Breadcrumbs now follow parent child category heirarchy
+* excluded courses not visible for Coauthors
+* customiser changes
+* Badge should not appear when deactivated for course.
+* close icon for certificate
+* Page loading styles
+* Course action controls
+* Notice fixed on redefining constants
+* & removed from class object.
+* customizer fixes
+* New translation files simplified chinese
+* Node modules added for Vagrant box
+* Footer scroll to top positioning fix.
+* 2.3.1
+* demo data install fix
+* app style header fix
+* 2.3
+* version update
+* related course diplay only when available
+* warning message fixes
+* translation files updated
+* Welcome changes
+* welcome changes
+* version update for plugin init
+* bbpress user topics/replies pagination fix
+* customizer fixes for app style header
+* Template version update
+* shopping cart blank fix
+* Generic header fix
+* profile display in default
+* notification in drip
+* Alt attribute for logos
+* MEga menu max elements not saving fix
+* retake fix
+* css and js fixes
+* default style in instructor courses
+* Drip feed fixes
+* contact page fixes
+* id value for course tabs
+* Yoast SEO for buddypress fix
+* customizer fixes
+* drip functionality fix on page reload
+* css fixes
+* Yoast SEO compatibility with BuddyPress
+* get unfinished unit error message improvements
+* Related courses
+* Default course block
+* Revert "drip"
+* drip
+* update medium option.
+* default archive
+* course status check in Stats section
+* include fonts only when included
+* buddydrive removed from recommended list
+* woocommerce error link fix
+* user stats fix
+* default archive style
+* translation bug in pt_br
+* function to get unit course id
+* certificate class for stopscreenshot
+* auto width in fixed headertop
+* jq definition bug fix
+* domain path added
+* force compelte removed
+* importer update
+* uni reusablity
+* translation fixes
+* wp 4.6 updated language codes
+* Header generic added
+* default avatar support
+* customizer changes
+* force enable progress bar in courses
+* translation fixes
+* pmpro connect fix
+* translation fixes
+* styling fixes
+* translation fixes
+* social field group for buddypress profiles
+* Headings font sizes and colors
+* Minify the style generated by customiser
+* New skin and Header
+* Tempalte files security fixes
+* translation files
+* recalculate counting on delete comment
+* attachment thumbnail sizes check in course cat edit panel
+* registration form css
+* Ajax loader changed
+* wplms_modern translation string found in main theme
+* removed touch punch
+* Yoast SEO duplicate titles fix
+* Fix : Singup translation fix in login popup
+* Course Review button hide when Reviews disabled.
+* 2.2.2
+* cached files version update
+* httpss check and fix in some reported cases
+* added vk in social icons
+* sign up was not translatable in popuplogin
+* Live search in Directories
+* All course directory bug in Mobiles
+* New Featured block
+* Custom fixes
+* Iframe request check for WPLMS S3 addon
+* General Featured block
+* Duplicate Slugs in Directories
+* course nav walker string fix
+* Course reviews fix when course directory permalink active
+* doing ajax check @Buddydev
+* wplms_alladmins filter
+* Course class on course category redirect
+* BuddyPress init object do not run for Course object
+* Light text color applied for quiz marks
+* Notices fixed
+* BUF FIX: Module Tag fixed
+* Header style fixes
+* 2.2
+* welcome changes
+* Language Files
+* read more in translations for index.php
+* small image size in default header
+* line height 1 for checkboxes
+* Grid li initial
+* app style header fixes
+* Read more not in translation files in index.php
+* z-index on fixed WooCommerce checkout bug fix
+* Back to course button added on single forums
+* Customiser colors fix
+* Sitelock fix
+* Single activity view in transparent header bug
+* Directory course names in Uppercase fix
+* customizer changes
+* Students currently taking this course heading removed
+* knob.js fixes
+* page id in register and activation pages
+* sitelock home url
+* CSS/JS changes for mobile logo, member and course category carousel
+* pre-populate upload type assignment
+* Search background in transparent header fix
+* Use deprecated UI for buddypress
+* Customiser changes
+* Mobile logo feature
+* removed nprogress.js
+* Start course page with page builder repeating twice issue
+* do shortcode for taxonomy descriptions
+* Site Lock new Homepage update
+* single unit fixes
+* style fixes for new buddydrive
+* styling fixes
+* Nav menu font size and family
+* mega menu walker changes
+* notice removal on buddydrive
+* margin bottom in featured image on course
+* directory grid css fixes
+* span font sizeajax results fix
+* opactiy on loading submit button
+* My courses and Insturcting courses fix
+* Bradcrumbs last / design issue
+* Member carousel CSS
+* Force tabs to text align center on responsive mode
+* Mega Menu width js fix
+* Pagination in MY courses
+* Filter in course admin tabs
+* updated language for News section
+* removed excerpt from course header 3
+* check isset action in buddydrive
+* search in instructing courses
+* my courses search fix
+* customiser menu - Font sizes for header and menu
+* Instructing courses loop fix
+* Warning fixes for theme customiser settings
+* Mega Menu Width option and compatibility with Nav Menu roles plugin
+* favicon not displaying fix
+* My courses fix
+* excerpt removed above description in c5
+* checkbox line height fix
+* scrolltop color fixed to white
+* Responsive mobile fixes
+* minimal theme border fixes
+* customizer fixes
+* customiser fix for create course
+* changelog
 * 2.1.1
 * Welcome changes
 * Google Maps API key
@@ -38,6 +374,7 @@
 * pmpro connect
 * css fixes
 * %s in language files
+* Misssing %s in Submitted %s string in translated files fix
 * registration login
 * unit comments css
 * styling bug fixes

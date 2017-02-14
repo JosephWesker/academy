@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/wordpress-importer/
 Description: Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
 Author: wordpressdotorg
 Author URI: http://wordpress.org/
-Version: 0.6.1
+Version: 0.6.3
 Text Domain: wordpress-importer
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
@@ -15,7 +15,7 @@ if ( ! defined( 'WP_LOAD_IMPORTERS' ) )
 	return;
 */
 /** Display verbose errors */
-define( 'IMPORT_DEBUG', true );
+define( 'IMPORT_DEBUG', false );
 
 // Load Importer API
 require_once ABSPATH . 'wp-admin/includes/import.php';
@@ -66,7 +66,7 @@ class WP_Import extends WP_Importer {
 	var $url_remap = array();
 	var $featured_images = array();
 
-	function WP_Import() { /* nothing */ }
+	public function __construct(){ /* nothing */ }
 
 	/**
 	 * Registered callback function for the WordPress Importer
@@ -419,6 +419,7 @@ class WP_Import extends WP_Importer {
 				'cat_name' => $cat['cat_name'],
 				'category_description' => $category_description
 			);
+			$catarr = wp_slash( $catarr );
 
 			$id = wp_insert_category( $catarr );
 			if ( ! is_wp_error( $id ) ) {
@@ -431,6 +432,8 @@ class WP_Import extends WP_Importer {
 				echo '<br />';
 				continue;
 			}
+
+			$this->process_termmeta( $cat, $id['term_id'] );
 		}
 
 		unset( $this->categories );
@@ -457,6 +460,7 @@ class WP_Import extends WP_Importer {
 				continue;
 			}
 
+			$tag = wp_slash( $tag );
 			$tag_desc = isset( $tag['tag_description'] ) ? $tag['tag_description'] : '';
 			$tagarr = array( 'slug' => $tag['tag_slug'], 'description' => $tag_desc );
 
@@ -471,6 +475,8 @@ class WP_Import extends WP_Importer {
 				echo '<br />';
 				continue;
 			}
+
+			$this->process_termmeta( $tag, $id['term_id'] );
 		}
 
 		unset( $this->tags );
@@ -503,6 +509,7 @@ class WP_Import extends WP_Importer {
 				$parent = term_exists( $term['term_parent'], $term['term_taxonomy'] );
 				if ( is_array( $parent ) ) $parent = $parent['term_id'];
 			}
+			$term = wp_slash( $term );
 			$description = isset( $term['term_description'] ) ? $term['term_description'] : '';
 			$termarr = array( 'slug' => $term['slug'], 'description' => $description, 'parent' => intval($parent) );
 
@@ -517,9 +524,72 @@ class WP_Import extends WP_Importer {
 				echo '<br />';
 				continue;
 			}
+
+			$this->process_termmeta( $term, $id['term_id'] );
 		}
 
 		unset( $this->terms );
+	}
+
+	/**
+	 * Add metadata to imported term.
+	 *
+	 * @since 0.6.2
+	 *
+	 * @param array $term    Term data from WXR import.
+	 * @param int   $term_id ID of the newly created term.
+	 */
+	protected function process_termmeta( $term, $term_id ) {
+		if ( ! isset( $term['termmeta'] ) ) {
+			$term['termmeta'] = array();
+		}
+
+		/**
+		 * Filters the metadata attached to an imported term.
+		 *
+		 * @since 0.6.2
+		 *
+		 * @param array $termmeta Array of term meta.
+		 * @param int   $term_id  ID of the newly created term.
+		 * @param array $term     Term data from the WXR import.
+		 */
+		$term['termmeta'] = apply_filters( 'wp_import_term_meta', $term['termmeta'], $term_id, $term );
+
+		if ( empty( $term['termmeta'] ) ) {
+			return;
+		}
+
+		foreach ( $term['termmeta'] as $meta ) {
+			/**
+			 * Filters the meta key for an imported piece of term meta.
+			 *
+			 * @since 0.6.2
+			 *
+			 * @param string $meta_key Meta key.
+			 * @param int    $term_id  ID of the newly created term.
+			 * @param array  $term     Term data from the WXR import.
+			 */
+			$key = apply_filters( 'import_term_meta_key', $meta['key'], $term_id, $term );
+			if ( ! $key ) {
+				continue;
+			}
+
+			// Export gets meta straight from the DB so could have a serialized string
+			$value = maybe_unserialize( $meta['value'] );
+
+			add_term_meta( $term_id, $key, $value );
+
+			/**
+			 * Fires after term meta is imported.
+			 *
+			 * @since 0.6.2
+			 *
+			 * @param int    $term_id ID of the newly created term.
+			 * @param string $key     Meta key.
+			 * @param mixed  $value   Meta value.
+			 */
+			do_action( 'import_term_meta', $term_id, $key, $value );
+		}
 	}
 
 	/**
@@ -558,10 +628,26 @@ class WP_Import extends WP_Importer {
 			$post_type_object = get_post_type_object( $post['post_type'] );
 
 			$post_exists = post_exists( $post['post_title'], '', $post['post_date'] );
+
+			/**
+			* Filter ID of the existing post corresponding to post currently importing.
+			*
+			* Return 0 to force the post to be imported. Filter the ID to be something else
+			* to override which existing post is mapped to the imported post.
+			*
+			* @see post_exists()
+			* @since 0.6.2
+			*
+			* @param int   $post_exists  Post ID, or 0 if post did not exist.
+			* @param array $post         The post array to be inserted.
+			*/
+			$post_exists = apply_filters( 'wp_import_existing_post', $post_exists, $post );
+
 			if ( $post_exists && get_post_type( $post_exists ) == $post['post_type'] ) {
 				printf( __('%s &#8220;%s&#8221; already exists.', 'vibe'), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
 				echo '<br />';
 				$comment_post_ID = $post_id = $post_exists;
+				$this->processed_posts[ intval( $post['post_id'] ) ] = intval( $post_exists );
 			} else {
 				$post_parent = (int) $post['post_parent'];
 				if ( $post_parent ) {
@@ -594,6 +680,8 @@ class WP_Import extends WP_Importer {
 
 				$original_post_ID = $post['post_id'];
 				$postdata = apply_filters( 'wp_import_post_data_processed', $postdata, $post );
+
+				$postdata = wp_slash( $postdata );
 
 				if ( 'attachment' == $postdata['post_type'] ) {
 					$remote_url = ! empty($post['attachment_url']) ? $post['attachment_url'] : $post['guid'];
@@ -800,7 +888,8 @@ class WP_Import extends WP_Importer {
 		}
 
 		foreach ( $item['postmeta'] as $meta )
-			$$meta['key'] = $meta['value'];
+			${$meta['key']} = $meta['value'];
+			//$$meta['key'] = $meta['value'];
 
 		if ( 'taxonomy' == $_menu_item_type && isset( $this->processed_terms[intval($_menu_item_object_id)] ) ) {
 			$_menu_item_object_id = $this->processed_terms[intval($_menu_item_object_id)];
@@ -1035,7 +1124,7 @@ class WP_Import extends WP_Importer {
 	// Display import page title
 	function header() {
 		echo '<div class="wrap">';
-		screen_icon();
+		//screen_icon();
 		echo '<h2>' . __( 'Import WordPress', 'vibe' ) . '</h2>';
 
 		$updates = get_plugin_updates();
@@ -1113,7 +1202,7 @@ class WP_Import extends WP_Importer {
 	 * Added to http_request_timeout filter to force timeout at 60 seconds during import
 	 * @return int 60
 	 */
-	function bump_request_timeout() {
+	function bump_request_timeout( $val ) {
 		return 60;
 	}
 

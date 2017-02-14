@@ -1,12 +1,14 @@
 @import 'defaults';
+
 @import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../../bower_components/font-awesome/scss/font-awesome';
+
 @import '../../bower_components/select2/src/scss/core.scss';
 @import '../../bower_components/magnific-popup/src/css/main.scss';
 
 @import 'general';
 @import 'animation';
-@import 'header/default';
+
 @import 'header/general';
 @import 'header/login';
 @import 'header/navigation';

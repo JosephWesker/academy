@@ -1,6 +1,6 @@
 <?php
 $header_style =  vibe_get_customizer('header_style');
-if($header_style == 'transparent'){ 
+if($header_style == 'transparent' || $header_style == 'generic'){ 
 	echo '<section id="title"></section>';
 }
 ?>

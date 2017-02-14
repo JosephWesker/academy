@@ -10,7 +10,7 @@
  * @version     2.0
  */
 
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 global $post;
 $id= get_the_ID();
 
@@ -19,6 +19,7 @@ do_action('wplms_course_before_front_main');
 
 do_action('wplms_before_course_description');
 ?>
+
 <div class="course_description">
 	<?php if(!empty($post->post_excerpt) && strpos($post->post_content,$post->post_excerpt) === false){ echo '<h6>';the_excerpt(); echo '</h6>';} ?>
 	<div class="small_desc">

@@ -40,6 +40,10 @@
 	padding: 20px;
 	border:none;
 	font-size:12px;
+	.inside_login_form{
+    	position:relative;
+    	overflow:hidden;
+	}
 	span{
 		background: #fa7252;
 		padding: 1px 6px;
@@ -56,7 +60,7 @@
 		border:7px solid;
 		border-color: transparent transparent $topheaderbg transparent;
 	}
-	input[type="text"],input[type="password"]{
+	input[type="text"],input[type="password"],input[type="email"]{
 		background: rgba(0,0,0,0.2);
 		border: 1px solid rgba(255,255,255,0.2);
 		padding: 6px;
@@ -66,6 +70,10 @@
 		font-size: 14px;
 		color: $topheadercolor;
 		margin-bottom: 10px;
+		&.error{
+			text-transform:none;
+			border-color:#F16645 !important;
+		}
 	}
 	input[type="submit"]{
 		padding:7px 20px;
@@ -224,6 +232,74 @@
 			}
 		}
 	}
+	#wplms_custom_registration_form,
+    #wplms_forgot_password_form{
+    	background:#232b2d;
+    }
+
+
+	#wplms_custom_registration_form,
+	#wplms_forgot_password_form{
+        transition: all 200ms ease-in;
+	    transform: translateX(100%);
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    width:100%;
+	    ul{
+	    	width:100%;
+	    	li{
+	    		text-align:left;
+	    	}
+	    }
+	    &.active{
+	    	transform: translateX(0);
+	    }
+	    .message{display:inline-block;width:100%;}
+    }
+    #wplms_custom_registration_form{max-height:50vh;overflow-y:auto;}
+    #wplms_forgot_password_form{
+	    transform: translateX(-100%);
+	    button{
+	    	&.disabled{
+	    		opacity:0.9;
+	    	}
+	    }
+    }
+
+    .message_wrap{
+        position: absolute; 
+        left: 5px; bottom: 5px; 	
+        width: calc(100% - 10px); 
+        height: auto; 
+        padding: 15px; 
+        border: none; z-index:9;
+        background: rgba(0,0,0,.8); 
+        box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	    .message{
+	    	position:relative;
+	    	text-align: center;
+		    background: none;
+		    border: none;
+		    color: #fff;
+		    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	    	span{
+	    		position: absolute; 
+	    		top: -10px; 
+	    		right: -10px; 
+	    		width: 16px; 
+	    		height: 16px; 
+	    		background: 0 0;
+	    		&:before{
+	    			content:"\f00d";
+	    			font-family:fontawesome;
+	    			font-size:13px;
+	    			color:#fff;
+	    		}
+	    	}
+	    }
+	    
+    }
 }
 
 .logged-in{
@@ -256,7 +332,7 @@
 			    margin: 0 auto;
 			    margin-top:120px;
 			    padding: 60px;
-			    background: rgba(0,0,0,.2);
+			    background: #232b2d;
 			    border-radius: 4px;
 			    .login_logo{
 			    	max-width: 240px;
@@ -330,6 +406,7 @@
 			    color:#444;
 			    .inside_login_form{
 			    	position:relative;
+			    	overflow:hidden;
 			    	box-shadow:0 0 10px rgba(0,0,0,0.5);
 			    	letter-spacing:1px;
 			    	#close_full_popup{
@@ -377,16 +454,22 @@
 					    	padding-top:12px;
 					    }
 			    	}
-				    ul{
+				    .inside+ul{
 				    	padding:0;
 				    	margin:0;
 				    	clear: both;
 		    			width: 100%;
 				    	li{
 				    		list-style:none;
-				    		width:50%;
-				    		float: left;
+				    		float: left;position:static;
 						    text-align: center;
+						    &:first-child:nth-last-child(1){
+						    	width:100%;
+						    }
+						    &:first-child:nth-last-child(2),
+						    &:first-child:nth-last-child(2) ~ li{
+						    	width:50%;
+						    }
 						    input[type="submit"],.vbpregister{
 					    	    width: 100%;
 							    border: none;
@@ -398,10 +481,16 @@
 							    height:48px;
 							    &:hover{
 							    	opacity:1;
-							    }
+							    } 
 						    }
 				    	}
 				    }
+				    #wplms_custom_registration_form,
+					#wplms_forgot_password_form{
+						padding:30px;
+						background:#fff;
+						label{color:#444;}
+					}
 			    }
 		    }
 		}
@@ -442,7 +531,9 @@
 }
 
 .login_sidebar{
+	box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
 	.login_content{
+		overflow-x:hidden;
 		#vbp-login-form{
 			input[type="submit"],
 			.vbpregister{
@@ -451,12 +542,40 @@
 			    margin-bottom: 15px;
 			}
 			.vbpregister{background:$secondarybg;}
+			#wplms_custom_registration_form,
+			#wplms_forgot_password_form{
+		        transition: all 200ms ease-in;
+			    transform: translateX(100%);
+			    position: absolute;
+			    left: 0;
+			    top: 0;
+			    padding:120px 15px 60px;
+			    width:100%;
+			    ul{
+			    	width:100%;
+			    	li{
+			    		text-align:left;
+			    	}
+			    }
+			    &.active{
+			    	transform: translateX(0);
+			    }
+			    .message{display:inline-block;width:100%;background: rgba(0,0,0,0.8); border: none; box-shadow: 0 0 5px rgba(0,0,0,0.8);}
+		    }
+		    #wplms_forgot_password_form{
+			    transform: translateX(-100%);
+			    button{
+			    	&.disabled{
+			    		opacity:0.9;
+			    	}
+			    }
+		    }
 		}
 		.bp_social_connect a{min-width:none;}
 	}
 }
 /*========================================================================*/
-/*   06. RESPONSIVE
+/*   06. MODERN LOGIN
 /*========================================================================*/
 
 
@@ -467,20 +586,37 @@
 
 #vibe_bp_login{
 
+  	
 	#wplogin-modal {
-	  display:none;	
-	  width: 50vw;
-	  z-index: 10000;
-	  position: fixed;
-	  top: 10vh;
-	  left: 25vw;
-	  transition: all 0.2s ease-in-out;
-	  &.show{
-	  	display:block;
-	  }
-	  	.btn:hover{
-	  		background: #009dd8;
+	  	
+	  	display:none;	
+	  	z-index: 10000;
+	  	position: fixed;
+  	    left: 0;
+    	width: 100%;
+    	position: fixed;
+    	text-align: center;
+
+	  	transition: all 0.2s ease-in-out;
+	  	&.show{
+	  		display:block;
+	  		display: flex;
+			align-items: center;
+			justify-content: center;
+	  	}
+	  	
+  		.md-content{
+			width: 60%;
+    		display: inline-block;
+  			text-align:start;
   		}
+  		.Aligner-item--top {
+		  align-self: flex-start;
+		}
+
+		.Aligner-item--bottom {
+		  align-self: flex-end;
+		}	
 	}
 
 	#wplogin-modal-overlay{
@@ -497,7 +633,7 @@
 	  	}
 	  	#close-modal{
 	  		float:right;
-	  		margin:30px 30px 0 0;
+	  		margin:0 30px 0 0;
 	  		color:rgba(0,0,0,0.9);
 	  		&:after{
 	  			content: "\f00d";
@@ -509,8 +645,9 @@
 	}
 
 	#wplogin-modal{
-		max-width:760px;
-		margin:10vh auto;
+		margin:auto;
+		max-height:100vh;
+		overflow-y:scroll;
 		h3{
 			text-align:center;
 			margin:10px 0;
@@ -523,6 +660,9 @@
 			padding-right:0;
 			box-shadow:none;
 			background:none;
+			&.error{
+				border-bottom:2px solid #F16645;
+			}
 		}
 		.list-group{
 			margin-bottom:15px;
@@ -645,11 +785,40 @@
 		#forgot_password.slideshow{
 			transform:translateX(0vw);
 		}
+		#wplms_custom_registration_form,
+		#wplms_forgot_password_form{
+
+			background:rgba(255,255,255,0.9);
+			padding:45px 2px;
+			label{
+				color:#444;
+			}
+			input{
+				background:#fff;
+				color:#444;
+				border-color:#ddd;
+			}
+			ul{
+			    padding: 10px 0;
+			}
+		}
 	}
 	&.active{
 		#wplogin-modal,
 		#wplogin-modal-overlay{
 			display:block;	
+		}
+	}
+}
+
+/*========================================================================*/
+/*   06. RESPONSIVE
+/*========================================================================*/
+
+@media(max-width:768px){
+	.bigdrop_login{
+		.inside_login_form{
+			margin-top:15px;
 		}
 	}
 }

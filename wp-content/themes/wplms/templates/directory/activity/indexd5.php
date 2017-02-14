@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 $id= vibe_get_bp_page_id('activity');
 
 ?>

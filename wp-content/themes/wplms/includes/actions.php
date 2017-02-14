@@ -27,6 +27,7 @@ class WPLMS_Actions{
     	
 		add_action('init',array($this,'wplms_removeHeadLinks'));
 
+		add_action('wp_head',array($this,'add_loading_css'));
 		add_action('wp_head',array($this,'include_child_theme_styling'));
 
 		add_action('template_redirect',array($this,'site_lock'),1);
@@ -45,8 +46,6 @@ class WPLMS_Actions{
 		
 		add_action('woocommerce_share',array($this,'wplms_social_buttons_on_product'),1000);
 		add_action('bp_core_activated_user',array($this,'vibe_redirect_after_registration'),99,3);
-
-		add_Action('init',array($this,'wplms_course_yoast_Seo_fix'));
 
 		// Course Actions 
 		add_action('wplms_course_unit_meta',array($this,'vibe_custom_print_button'));
@@ -99,8 +98,262 @@ class WPLMS_Actions{
 
 		//Profile settings radio button fix
 		add_action('bp_activity_screen_notification_settings',array($this,'wrap_radio'));
+
+		// My Courses search and filter : Also check filter.php function 
+		add_action('bp_before_member_course_content',array($this,'mycourses_search'));
+
+		add_action('wplms_before_single_course',array($this,'check_404_in_course'));
+
+		//Related courses
+		add_action('wplms_single_course_content_end',array($this,'show_related'));
+
+		//BP Error in settings
+		add_action('bp_template_content',array($this,'show_bp_error'),1);
+
+		// Disable Controls on course status
+		add_action('course_action_points',array($this,'course_action_points'));
+
+		//Add hidden field for Course category/level/location detection
+		add_action('wplms_after_course_directory',array($this,'detect_cat_level_location'));
+
+		// Ajax Registration and login form styles
+		add_action('wp_ajax_nopriv_wplms_signon',array($this,'wplms_signon'));
+		add_action( 'login_form', array( $this, 'enable_ajax_registration_login'));
+		add_action( 'wp_ajax_nopriv_wplms_forgot_password',array($this,'wplms_forgot_password'));
     }
-    
+	
+
+    function add_loading_css(){
+
+    	$page_loader = vibe_get_option('page_loader');
+   		if(!empty($page_loader) && !is_customize_preview()){
+   			ob_start();
+   			if($page_loader == 'pageloader1'){
+	    	?>
+	    	<style>
+	    	body.loading .pusher:before{
+				content:'';
+				position:fixed;
+				left:0;
+				top:0;
+				width:100%;
+				height:100%;
+				background:rgba(255,255,255,0.95);
+				z-index:999;
+			}
+
+			body.loading.pageloader1 .global:before,
+			body.loading.pageloader1 .global:after{
+				content:'';
+				position:fixed;
+				left:50%;
+				top:50%;
+				margin:-20px 0 0 -20px;
+				width:40px;
+				height:40px;
+				border-radius:50%;
+				z-index:9999;
+				border: 4px solid transparent;
+				border-top-color:#009dd8;
+			    z-index: 9999;
+			    animation: rotate linear 1.5s infinite;
+			}
+			body.loading.pageloader1 .global:after{
+				margin:-27px 0 0 -27px;
+				width:54px;
+				height:54px;
+				border-top-color: transparent;
+			    border-left-color: #009dd8;
+			    animation: rotate linear 1s infinite;
+			}
+			
+			@keyframes rotate {
+			    0% {
+			        transform: rotate(0deg);      
+			    }
+			    50% {
+			        transform: rotate(180deg);
+			    }
+			    100% {
+			        transform: rotate(360deg);
+			    }
+			}
+			</style>
+	    	<?php
+	    	}else{
+
+	    	?>
+	    	<style>
+	    	body.loading .pusher:before{
+				content:'';
+				position:fixed;
+				left:0;
+				top:0;
+				width:100%;
+				height:100%;
+				background:rgba(255,255,255,0.95);
+				z-index:999;
+			}
+	    	body.loading.pageloader2 .global:before,
+			body.loading.pageloader2 .global:after{
+				content:'';
+				position:fixed;
+				left:50%;
+				top:50%;
+				margin:-8px 0 0 -8px;
+				width:15px;
+				height:15px;
+				border-radius:50%;
+				z-index:9999;
+				background:#009dd8;
+			    z-index: 9999;
+			    animation: flipzminus linear 1s infinite;
+			}
+			body.loading.pageloader2 .global:after{
+			    animation: flipzplus linear 1s infinite;
+			}
+			@keyframes flipzminus {
+			    0% {
+			        transform: translateX(-30px);
+			        opacity:1;
+			    }
+			    50% {
+			        transform: translateX(0px);
+			        opacity:0.5;
+			    }
+			    100% {
+			        transform: translate(30px);
+			        opacity:1;
+			    }
+			}
+			@keyframes flipzplus {
+			    0% {
+			        transform: translate(30px);
+			        opacity:1;
+			    }
+			    50% {
+			        transform: translateX(0px);
+			        opacity:0.5;
+			    }
+			    100% {
+			        transform: translateX(-30px);
+			        opacity:1;
+			    }
+			}
+	    	</style>
+	    	<?php
+	    	}
+	    	$css = ob_get_clean();
+	        $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+	        $buffer = str_replace(': ', ':', $buffer);
+	        $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
+	        echo($buffer);
+	    }
+    }
+	function check_404_in_course(){
+	 	if(is_404()){
+	   		$error404 = vibe_get_option('error404');
+	   		if(isset($error404)){
+	       		$page_id=  intval($error404);
+	       		if(function_exists('icl_object_id')){
+			        $page_id = icl_object_id($page_id, 'page', true);
+			    }
+	       		wp_redirect( get_permalink( $page_id ),301); 
+	       		exit;
+	   		}
+	 	}
+	}   
+
+	function course_action_points(){
+
+		$course_status_controls = vibe_get_option('course_status_controls');
+		if(empty($course_status_controls)){
+			return;
+		}
+		$action_controls = apply_filters('wplms_course_status_action_controls',array(
+			'hide_timeline'=>array(
+				'icon'=>'fa fa-exchange',
+				'title'=>_x('Hide Timeline','vibe'),
+				),
+			'fullscreen'=>array(
+				'icon'=>'fa fa-expand',
+				'title'=>_x('Go fullscreen','vibe'),
+				),
+			));
+		?>
+		<div class="course_action_controls">
+			<ul>
+			<?php
+				if(!empty($action_controls)){
+					foreach($action_controls as $key => $control){
+						?>
+						<li class="<?php echo $key; ?>">
+							<?php 
+								if(!empty($control['html'])){echo $control['html'];}
+								else{ ?>
+								<a class="<?php echo $control['icon']; ?> action_control"></a>
+							<?php } ?>
+						</li>
+						<?php
+					}
+				}
+			?>
+			</ul>
+		</div>
+		<?php
+	}
+
+    function mycourses_search(){
+    	if ( bp_is_current_action( BP_COURSE_RESULTS_SLUG ) || bp_is_current_action( BP_COURSE_STATS_SLUG )/* || bp_is_current_action('instructor-courses')*/)
+    		return;
+    	?>
+    	<div class="item-list-tabs" id="subnav" role="navigation">
+		<ul>
+			<?php do_action( 'bp_course_directory_course_types' ); ?>
+			<li>
+				<div class="dir-search" role="search">
+					<?php bp_directory_course_search_form(); ?>
+				</div><!-- #group-dir-search -->
+			</li>
+			<li class="switch_view">
+				<div class="grid_list_wrapper">
+					<a id="list_view" class="active"><i class="icon-list-1"></i></a>
+					<a id="grid_view"><i class="icon-grid"></i></a>
+				</div>
+			</li>
+			<li id="course-order-select" class="last filter">
+
+				<label for="course-order-by"><?php _e( 'Order By:', 'vibe' ); ?></label>
+				<select id="course-order-by">
+					<?php
+					?>
+					<option value=""><?php _e( 'Select Order', 'vibe' ); ?></option>
+					<?php
+						if(bp_is_current_action('instructor-courses')){
+							?>
+							<option value="draft"><?php _e( 'Draft courses', 'vibe' ); ?></option>
+							<option value="pending"><?php _e( 'Submitted for Approval', 'vibe' ); ?></option>
+							<option value="published"><?php _e( 'Published Courses', 'vibe' ); ?></option>
+							<?php
+						}else{
+							?>
+							<option value="pursuing"><?php _ex( 'Pursuing courses','Course Status filter in Profile My courses section', 'vibe' ); ?></option>
+							<option value="finished"><?php _ex( 'Finished Courses','Course Status filter in Profile My courses section','vibe' ); ?></option>
+							<option value="active"><?php _ex( 'Active courses','Course Status filter in Profile My courses section','vibe' ); ?></option>
+							<option value="expired"><?php _ex( 'Expired courses','Course Status filter in Profile My courses section','vibe' ); ?></option>
+							<?php
+						}
+					?>
+					<option value="newest"><?php _ex( 'Newly Published','filter in Profile My courses section','vibe' ); ?></option>
+					<option value="alphabetical"><?php _ex( 'Alphabetical','filter in Profile My courses section', 'vibe' ); ?></option>
+					<option value="start_date"><?php _ex( 'Start Date','filter in Profile My courses section', 'vibe' ); ?></option>
+					<?php do_action( 'bp_course_directory_order_options' ); ?>
+				</select>
+			</li>
+		</ul>
+	</div>
+    	<?php
+    }
     function wrap_radio(){
     	?>
     	<script>
@@ -119,7 +372,7 @@ class WPLMS_Actions{
     function transparent_header_title_background(){ 
     	$header_style =  vibe_get_customizer('header_style');
 
-    	if($header_style == 'transparent'){ 
+    	if($header_style == 'transparent' || $header_style == 'generic'){ 
 	    	if(is_page() || is_single() || (function_exists('bp_is_directory') &&  bp_is_directory()) || (function_exists('bp_current_component') &&  bp_current_component()) || is_archive() || is_search()){ 
 	    		global $post;
 
@@ -146,8 +399,7 @@ class WPLMS_Actions{
 	    		<style>.course_header,.group_header{background:url(<?php echo $title_bg; ?>) !important;}#title{background:url(<?php echo $title_bg; ?>) !important;padding-bottom:30px !important; background-size: cover;}
 	    		#title.dark h1,#title.dark h5,#title.dark a:not(.button),#title.dark,#title.dark #item-admins h3,#item-header.dark #item-header-content .breadcrumbs li+li:before,#title.dark .breadcrumbs li+li:before,.group_header.dark div#item-header-content,.group_header.dark #item-header-content h3 a,.bbpress.dark .bbp-breadcrumb .bbp-breadcrumb-sep:after,#item-header.dark #item-admins h3,#item-header.dark #item-admins h5,#item-header.dark #item-admins h3 a,#item-header.dark #item-admins h5 a,
 	    		#item-header.dark #item-header-content a,#item-header.dark #item-header-content{color:#222 !important;}
-	    		#title.light h1,#title.light h5,#title.light a:not(.button),#title.light,#title.light #item-admins h3,#item-header.light #item-header-content .breadcrumbs li+li:before,#item-header.light #item-admins h3,#item-header.light #item-admins h5,#item-header.light #item-admins h3 a,#item-header.light #item-admins h5 a,#title.light .breadcrumbs li+li:before,.group_header.light div#item-header-content,.group_header.light #item-header-content h3 a,.bbpress.light .bbp-breadcrumb .bbp-breadcrumb-sep:after,#item-header.light #item-header-content a,#item-header.light #item-header-content{color:#fff !important;}
-	    		.group_header #item-header{background-color:transparent !important;}</style>
+	    		#title.light h1,#title.light h5,#title.light a:not(.button),#title.light,#title.light #item-admins h3,#item-header.light #item-header-content .breadcrumbs li+li:before,#item-header.light #item-admins h3,#item-header.light #item-admins h5,#item-header.light #item-admins h3 a,#item-header.light #item-admins h5 a,#title.light .breadcrumbs li+li:before,.group_header.light div#item-header-content,.group_header.light #item-header-content h3 a,.bbpress.light .bbp-breadcrumb .bbp-breadcrumb-sep:after,#item-header.light #item-header-content a,#item-header.light #item-header-content{color:#fff !important;}.bp-user div#global .pusher .member_header div#item-header{background:url(<?php echo $title_bg; ?>);}.group_header #item-header{background-color:transparent !important;}</style>
 	    		<?php
 	    		}
 	    	}
@@ -160,7 +412,7 @@ class WPLMS_Actions{
     function transparent_header_fix(){
     	$header_style =  vibe_get_customizer('header_style');
 
-    	if($header_style == 'transparent'){ 
+    	if($header_style == 'transparent' || $header_style == 'generic'){ 
     		?>
     		<section id="title"></section>
     		<?php
@@ -177,9 +429,11 @@ class WPLMS_Actions{
     	$site_lock = vibe_get_option('site_lock');
     	$register_page_id = vibe_get_directory_page('register');
     	$activate_page_id = vibe_get_directory_page('activate');
+
     	$exlusions = apply_filters('wplms_site_lock_exclusions',array($register_page_id,$activate_page_id));
+    	$bypass = apply_filters('wplms_bp_page_site_lock_bypass',1);
     	global $post;
-    	if(!empty($site_lock) && !is_user_logged_in() && !is_front_page() && !in_Array($post->ID,$exlusions) && (bp_current_component()!='activate')){
+    	if(!empty($site_lock) && !is_user_logged_in() && !is_front_page() && !in_Array($post->ID,$exlusions) && (bp_current_component()!='activate') && $bypass){
     		wp_redirect( home_url() );
         	exit();
     	}
@@ -221,11 +475,6 @@ class WPLMS_Actions{
 		die();
 	}
 
-	function wplms_course_yoast_Seo_fix(){
-		if(function_exists('wpseo_frontend_head_init')){
-			add_action( 'template_redirect', 'wpseo_frontend_head_init', 1);
-		}
-	}
 
 	function wplms_be_instructor_button(){
 		$teacher_form = vibe_get_option('teacher_form');
@@ -249,7 +498,8 @@ class WPLMS_Actions{
 	  if ( function_exists('get_coauthors')) {
 	    if(isset($instructor) && $instructor !='*' && $instructor !='' && is_numeric($instructor)){
 	      $instructor_name = strtolower(get_the_author_meta('user_login',$instructor)); 
-	      $query->set('author_name', $instructor_name);
+	      //$query->set('author_name', $instructor_name);
+	      $query->query['author_name']=$instructor_name;
 	    }
 	  }else{
 	    if(isset($instructor) && $instructor !='*' && $instructor !=''){
@@ -324,9 +574,6 @@ class WPLMS_Actions{
 
 	function wplms_course_progressbar($course_id,$unit_id){
 	    $user_id=get_current_user_id();
-	    $course_progressbar = vibe_get_option('course_progressbar');
-	    if(!isset($course_progressbar) || !$course_progressbar)
-	       return;
 
 	    
 	    $percentage = bp_course_get_user_progress($user_id,$course_id);
@@ -464,6 +711,10 @@ class WPLMS_Actions{
 		if(current_user_can('manage_options'))
 			return;
 
+		//do not redirect if doing ajax - @Buddydev - Brajesh Singh.
+		if ( defined('DOING_AJAX') ) {
+			return ;
+		}
 
 	    if ( is_multisite() )
 	      $hashed_key = wp_hash( $key );
@@ -482,7 +733,18 @@ class WPLMS_Actions{
 	      bp_core_redirect( apply_filters ( 'wplms_registeration_redirect_url', bp_core_get_user_domain( $user_id ), $user_id ) );      
 	    }else{
 	    	wp_set_auth_cookie( $user_id, true, false );	
-	      	$link = get_permalink($pageid);
+	    	if($pageid == 'dashboard'){
+	    		if(defined('WPLMS_DASHBOARD_SLUG'))
+	    			$link = bp_core_get_user_domain($user_id).WPLMS_DASHBOARD_SLUG;
+	    	}else if($pageid == 'profile'){
+	    		if(function_exists('bp_loggedin_user_domain'))
+	    			$link = bp_core_get_user_domain($user_id);
+	    	}else if($pageid == 'mycourses'){
+	    		if(defined('BP_COURSE_SLUG'))
+	    			$link = trailingslashit( bp_core_get_user_domain($user_id). BP_COURSE_SLUG );
+	    	}else{
+	    		$link = get_permalink($pageid);
+	    	}
 	      	bp_core_redirect( apply_filters ( 'wplms_registeration_redirect_url',$link, $user_id ) );      
 	    }
 	}
@@ -778,7 +1040,14 @@ class WPLMS_Actions{
 					file_frame.on( 'select', function() {
 						var attachment = file_frame.state().get( 'selection' ).first().toJSON();
 						jQuery( '#course_cat_thumbnail_id' ).val( attachment.id );
-						jQuery( '#course_cat_thumbnail' ).find( 'img' ).attr( 'src', attachment.sizes.thumbnail.url );
+						if( attachment.sizes){
+						    if(   attachment.sizes.thumbnail !== undefined  ) url_image=attachment.sizes.thumbnail.url; 
+						    else if( attachment.sizes.medium !== undefined ) url_image=attachment.sizes.medium.url;
+						    else url_image=attachment.sizes.full.url;
+						}
+
+						jQuery( '#course_cat_thumbnail' ).find( 'img' ).attr( 'src', url_image );
+						
 						jQuery( '.remove_image_button' ).show();
 					});
 					file_frame.open();
@@ -861,7 +1130,14 @@ class WPLMS_Actions{
 							var attachment = file_frame.state().get( 'selection' ).first().toJSON();
 
 							jQuery( '#course_cat_thumbnail_id' ).val( attachment.id );
-							jQuery( '#course_cat_thumbnail' ).find( 'img' ).attr( 'src', attachment.sizes.thumbnail.url );
+
+							if( attachment.sizes){
+							    if(   attachment.sizes.thumbnail !== undefined  ) url_image=attachment.sizes.thumbnail.url; 
+							    else if( attachment.sizes.medium !== undefined ) url_image=attachment.sizes.medium.url;
+							    else url_image=attachment.sizes.full.url;
+							}
+
+							jQuery( '#course_cat_thumbnail' ).find( 'img' ).attr( 'src', url_image );
 							jQuery( '.remove_image_button' ).show();
 						});
 
@@ -1016,6 +1292,559 @@ class WPLMS_Actions{
 	      wp_redirect(get_permalink($id));
 	    exit();
 	  }
+	}
+
+	/*
+	Related Courses
+	 */
+	function show_related(){
+		
+		$related_courses = vibe_get_option('related_courses');
+		if(empty($related_courses))
+			return;
+		$style = vibe_get_option('default_course_block_style');
+		$terms = wp_get_post_terms(get_the_ID(),'course-cat');
+		$categories = array();
+		if(!empty($terms)){
+			foreach($terms as $term)
+			$categories[] = $term->term_id;
+		}
+		$args = apply_filters('vibe_related_courses',array(
+			'post_type' => 'course',
+			'posts_per_page'=>3,
+			'post__not_in'=>array(get_the_ID()),
+			'tax_query' => array(
+					'relation' => 'OR',
+					array(
+						'taxonomy' => 'course-cat',
+						'field'    => 'id',
+						'terms'    => $categories,
+					),
+			),
+			));
+		$courses = new WP_Query($args);
+		
+		if($courses->have_posts()):
+		?>
+		<div class="related_courses">
+		<h3 class="heading"><span><?php _e('Related Courses','vibe');?></span></h3>
+		<?php
+			
+			?>
+			<ul class="row">
+			<?php	
+			while($courses->have_posts()): $courses->the_post();
+			global $post;
+			echo '<li class="col-md-4">';
+			
+
+			if(empty($style))
+				$style = 'course4';
+
+			echo thumbnail_generator($post,$style,'medium');
+			echo '</li>';
+			endwhile;
+			?>
+			</ul>
+		</div>
+		<?php
+			endif;
+			wp_reset_postdata();
+	}
+
+	function get_course_unfinished_unit($course_id){
+		
+		if(!is_user_logged_in())
+	    	return;
+
+	  	$user_id = get_current_user_id();  
+
+	  	if(isset($_COOKIE['course'])){
+	      	$coursetaken=1;
+	  	}else{
+	      	$coursetaken=get_user_meta($user_id,$course_id,true);      
+	  	}
+	  	
+
+	  	$course_curriculum = array();
+	  	if(function_exists('bp_course_get_curriculum_units'))
+	    	$course_curriculum=bp_course_get_curriculum_units($course_id);	
+
+	  	$uid='';
+	  	$key = $pre_unit_key = 0;
+	  	if(isset($coursetaken) && $coursetaken){
+	      	if(isset($course_curriculum) && is_array($course_curriculum) && count($course_curriculum)){
+	        
+	        	foreach($course_curriculum as $key => $uid){
+	            	$unit_id = $uid; // Only number UIDS are unit_id
+	            	//Check if User has taken the Unit
+	            	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	                	$unittaken=bp_course_get_user_unit_completion_time($user_id,$uid,$course_id);//
+	            	}else{
+	                	$unittaken=bp_course_get_user_unit_completion_time($user_id,$uid);//
+	            	}
+					
+	            	if(!isset($unittaken) || !$unittaken){
+	              		break; // If not taken, we've found the last unfinished unit.
+	            	}
+	        	}
+
+	      	}else{
+	          	echo '<div class="error"><p>'.__('Course Curriculum Not Set','vibe').'</p></div>';
+	          	return;
+	      	}    
+	  	}
+	  	
+	  	$units = $course_curriculum;
+	  	$unit_id = apply_filters('wplms_get_course_unfinished_unit',$unit_id,$course_id);
+	  	$key = apply_filters('wplms_get_course_unfinished_unit_key',$key,$unit_id,$course_id);
+	  	$unitkey = $key; // USE FOR BACKUP
+
+
+	  	$flag = apply_filters('wplms_skip_course_status_page',false,$course_id);
+	  	if($flag && (isset($_POST['start_course']) || isset($_POST['continue_course']))){
+	  		return $unit_id;
+	  	}
+
+	  	/*=======
+	  	* NON_AJAX COURSE USECASE
+	  	* PROVIDE ACCESS IF CURRENT UNIT IS COMPLETE.
+	  	=======*/
+	    if(function_exists('bp_course_check_unit_complete')){ 
+	        if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	            $x = bp_course_check_unit_complete($unit_id,$user_id,$course_id);            
+	        }else{
+	            $x = bp_course_check_unit_complete($unit_id,$user_id);
+	        }
+	    
+	        if($x)
+	           return $unit_id;
+	    } //end function exists check
+	    
+
+
+	  	$flag=apply_filters('wplms_next_unit_access',true,$units[$pre_unit_key]);
+	  	$drip_enable= apply_filters('wplms_course_drip_switch',get_post_meta($course_id,'vibe_course_drip',true),$course_id);
+
+
+	  	if(vibe_validate($drip_enable)){
+
+
+	  		// BY PASS 
+	  		// DRIP FOR FIRST UNIT
+	  		if($key == 0){ 
+	  		//SET DRIP ACCESS TIME FOR FIRST UNIT
+		  		if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	            	$x=bp_course_get_drip_access_time($units[$key],$user_id,$course_id);
+	        	}else{
+	            	$x=bp_course_get_drip_access_time($units[$key],$user_id);
+	        	}
+	        	// SET DRIP TIME IF NOT EXISTS
+	        	if(empty($x)){	
+			  		if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+		            	bp_course_update_unit_user_access_time($units[$key],$user_id,time(),$course_id);
+		        	}else{
+		            	bp_course_update_unit_user_access_time($units[$key],$user_id,time());
+		        	}	
+		        }
+
+		  		return $unit_id;
+		  	}
+
+	  		/*=======
+		  	* NON_AJAX COURSE USECASE &  RANDOM UNIT ACCESS
+		  	* GET CURRENT & PREVIOUS UNIT KEY
+		  	=======*/
+		    for($i=($key-1);$i>=0;$i--){
+		    	if(function_exists('bp_course_check_unit_complete')){
+
+		        	//CHECK IF PRE_UNIT MARKED COMPLETE
+		        	//IF YES THEN RECALCULATE CURRENT UNIT AND PREV_UNIT
+		            if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+		                $x = bp_course_check_unit_complete($units[$i],$user_id,$course_id);
+		            }else{
+		                $x = bp_course_check_unit_complete($units[$i],$user_id);
+		            }
+		            // ABOVE IS REQUIRED BECAUSE INSTRUCTOR CAN 
+		            // MARK THE UNIT COMPLETE FROM THE BACKEND
+		            if(!empty($x)){
+		                $pre_unit_key = $i;
+		                // IF PREVIOUS UNIT IS COMPLETE
+		                // CHECK IF DRIP TIME EXISTS
+		                if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+			            	$x=bp_course_get_drip_access_time($units[$i],$user_id,$course_id);
+			        	}else{
+			            	$x=bp_course_get_drip_access_time($units[$i],$user_id);
+			        	}
+			        	// SET DRIP TIME IF NOT EXISTS
+			        	if(empty($x)){	
+			        		if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+				            	bp_course_update_unit_user_access_time($units[$pre_unit_key],$user_id,time(),$course_id);
+				        	}else{
+				            	bp_course_update_unit_user_access_time($units[$pre_unit_key],$user_id,time());
+				        	}	
+			        	}
+		                
+		                
+		                $unitkey = $pre_unit_key+1;
+		                break;
+		            }else{
+		            	//IF NOT MARKED COMPELTE, 
+		            	//CHECK IF PRE-UNIT DRIP ACCESS TIME EXISTS
+		            	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+			            	$x=bp_course_get_drip_access_time($units[$i],$user_id,$course_id);
+			        	}else{
+			            	$x=bp_course_get_drip_access_time($units[$i],$user_id);
+			        	}
+
+			        	if(!empty($x) && ($x < time())){ // NOT SET AS FUTURE FOR DRIP ORIGIN
+			                $pre_unit_key = $i; // UNIT ACCESSED BUT NOT MARKED COMPLETE
+			                $unitkey = $pre_unit_key+1;
+			                break;
+			            }
+		            }
+		        }
+		    }//end for
+			
+			//Set the NEW KEY 
+			if(!empty($unitkey)){
+				$key = $unitkey;	
+				$unit_id = $units[$key];
+			}
+			
+			if(empty($pre_unit_key)){
+				$pre_unit_key = 0;
+			}
+	
+	      	$drip_duration_parameter = apply_filters('vibe_drip_duration_parameter',86400,$course_id);
+	      	$drip_duration = get_post_meta($course_id,'vibe_course_drip_duration',true);
+	      
+	      	$total_drip_duration = apply_filters('vibe_total_drip_duration',($drip_duration*$drip_duration_parameter),$course_id,$unit_id,$units[$pre_unit_key]);
+
+	      	$this->element = apply_filters('wplms_drip_feed_element_in_message',__('Unit','vibe'),$course_id);
+
+	      	if($key > 0){
+
+	        	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	            	$pre_unit_time=bp_course_get_drip_access_time($units[$pre_unit_key],$user_id,$course_id);
+	        	}else{
+	            	$pre_unit_time=bp_course_get_drip_access_time($units[$pre_unit_key],$user_id);
+	        	}
+	        	
+	        	if(!empty($pre_unit_time)){
+	          
+	            	$value = $pre_unit_time + $total_drip_duration;
+	            
+	            	$value = apply_filters('wplms_drip_value',$value,$units[$pre_unit_key],$course_id,$units[$key],$units);
+	            	
+	            	if($value > time()){
+	                	$flag=0;
+	                	$this->value = $value;
+	                	add_action('wplms_before_start_course_content',function(){
+	                    	$remaining = tofriendlytime($this->value - time());
+	                    	echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.sprintf(__('Next %s will be available in %s','vibe'),$this->element,$remaining).'</p></div></div></div></div>';
+	                	});
+	              		return $units[$pre_unit_key];
+	            	}else{
+
+	                	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	                    	$cur_unit_time=bp_course_get_drip_access_time($units[$key],$user_id,$course_id);
+	                	}else{
+	                    	$cur_unit_time=bp_course_get_drip_access_time($units[$key],$user_id);
+	                	}
+
+	                	
+	                	if(!isset($cur_unit_time) || $cur_unit_time ==''){
+
+	                    	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	                        	bp_course_update_unit_user_access_time($units[$key],$user_id,time(),$course_id);
+	                    	}else{
+	                        	bp_course_update_unit_user_access_time($units[$key],$user_id,time());      
+	                    	}
+
+	                    	//Parmas : Next Unit, Next timestamp, course_id, userid
+	                    	do_action('wplms_start_unit',$units[$key],$course_id,$user_id,$units[$pre_unit_key],(time()+$total_drip_duration));
+	                	}
+	                	
+	                	return $units[$pre_unit_key];
+	                	
+	            	} 
+	        	}else{
+
+	            	if(isset($pre_unit_key )){
+
+	                	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	                    	$completed = bp_course_get_user_unit_completion_time($user_id,$units[$pre_unit_key],$course_id);
+	                	}else{
+	                    	$completed = get_user_meta($user_id,$units[$pre_unit_key],true);
+	                	}
+	                
+	                
+	                	if(!empty($completed)){
+	                    	if(defined('BP_COURSE_MOD_VERSION') && version_compare(BP_COURSE_MOD_VERSION,'2.3') >= 0){
+	                        	bp_course_update_unit_user_access_time($units[$pre_unit_key],$user_id,time(),$course_id);  
+	                    	}else{
+	                        	bp_course_update_unit_user_access_time($units[$pre_unit_key],$user_id,time());  
+	                    	}
+	                    
+	                    	$pre_unit_time = time();
+	                    	$value = $pre_unit_time + $total_drip_duration;
+	                    	$value = apply_filters('wplms_drip_value',$value,$units[$pre_unit_key],$course_id,$units[$key],$units);
+	                    	
+	                    	$this->value = $value-$pre_unit_time;
+	                    	add_action('wplms_before_start_course_content',function(){
+	                        	echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.sprintf(__('Next %s will be available in %s','vibe'),$this->element,tofriendlytime($this->value)).'</p></div></div></div></div>';
+	                    	});
+	                   
+	                    	return $units[$pre_unit_key];
+	                	}else{
+	                   		add_action('wplms_before_start_course_content',function(){
+	                        	echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.sprintf(__('Requested %s can not be accessed.','vibe'),$this->element).'</p></div></div></div></div>';
+	                    	});
+	                  
+	                  		return $units[$pre_unit_key];
+	                	}
+	            	}else{
+	            		add_action('wplms_before_start_course_content',function(){  
+	                        echo '<div class="container top30"><div class="row"><div class="col-md-9"><div class="message"><p>'.sprintf(__('Requested %s can not be accessed.','vibe'),$this->element).'</p></div></div></div></div>';
+	                    });
+	                 
+	                    return $units[$pre_unit_key];
+	            	}
+	            	die();
+	        	} //Empty pre-unit time
+
+	    	}
+	    }  // End Drip Enable check
+
+  
+	  	if(isset($unit_id) && $flag && isset($key)){// Should Always be set 
+		    if($key == 0){
+		      	$unit_id =''; //Show course start if first unit has not been started
+		    }else{
+		      	$unit_id=$unit_id; // Last un finished unit
+		    }
+	  	}else{
+		    if(isset($key) && $key > 0){ 
+		       $unit_id=$units[($key-1)];
+		    }else{
+		      	$unit_id = '' ;
+		    }
+	  	} 
+		return $unit_id;
+	}
+
+	function show_bp_error(){
+		global $bp;
+    	if(!empty($bp->template_message)){
+        	echo '<div class="message '.$bp->template_message_type.'">'.$bp->template_message.'</div>';
+    	}
+	}
+
+	/*
+	DETECT COURSE CATEGORY / LEVEL / LOCATION REDIRECT 
+	 */
+	function detect_cat_level_location(){
+		
+		if(is_tax(array('course-cat','level','location'))){
+			$tax = get_query_var( 'taxonomy' );
+			$term = get_query_var( 'term' );
+			echo '<input type="hidden" class="current-course-cat" data-cat="'.$tax.'" data-slug="'.$term.'" value="'.$term.'"/>';
+		}
+		
+	}
+
+	/*
+	ENABLE AJAX BASED SIGNON
+	 */
+	function wplms_signon(){
+
+		$response = array();
+		if(empty($_POST['data']) || !isset($_POST['security'])){
+			$response['error'] = _x('Missing data.','ajax signon message','vibe');
+			$response['target'] = 'input[type="password"]';
+			echo json_encode($response);
+			die();
+		}
+
+		if(!isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'wplms_signon')){
+			$response['error'] = _x('Missing security.','ajax signon message','vibe');
+			echo json_encode($response);
+			die();
+		}
+
+		$data = json_decode(stripslashes($_POST['data']));
+		
+		if(!username_exists($data->user)){
+			$response['error'] = _x('Invalid username.','ajax signon message','vibe');
+			$response['target'] = 'input[type="text"]';
+			echo json_encode($response);
+			die();
+		}
+
+
+		$user = get_user_by( 'login', $data->user );
+		
+		$flag = apply_filters( 'authenticate',$user->data, $data->user, $data->pass);
+
+		if(is_wp_error($flag)){
+			$response['error'] = '';
+			if(is_array($flag->errors)){
+				foreach($flag->errors as $errors){
+					if(is_array($errors)){
+						foreach($errors as $error ){
+							$response['error'] .= $error;
+						}
+					}else{
+						$response['error'] .= $errors;
+					}
+				}
+			}else{
+				$response['error'] .= $flag->errors;
+			}
+			
+			$response['target'] = 'input[type="password"]';
+			echo json_encode($response);
+			die();
+		}
+		if ( $user && wp_check_password( $data->pass, $user->data->user_pass, $user->data->ID)) {
+			wp_set_current_user( $user->data->ID, $user->data->user_login );
+
+			$remember = 0;
+			if(isset($data->remember)){$remember = $data->remember;}
+
+			wp_set_auth_cookie( $user->data->ID,$remember );
+			
+			$redirect_link = apply_filters('login_redirect','','',$user);
+
+			$response['success']=$redirect_link;
+		}else{
+			$response['error'] = _x('Invalid password.','ajax signon message','vibe');
+			$response['target'] = 'input[type="password"]';
+		}
+
+		
+		echo json_encode($response);
+		die();
+	}
+	/*
+	Enable Ajax registration and Login
+	 */
+	
+	function enable_ajax_registration_login(){
+
+		$enable_ajax_registration_login = vibe_get_option('enable_ajax_registration_login');
+		if(empty($enable_ajax_registration_login) || (stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_login_url(), '/')) !== false))
+			return;
+		
+		if($enable_ajax_registration_login == 2){
+
+			
+			$forms = get_option('wplms_registration_forms');	
+			
+			if(!empty($forms)){
+				$count = 0;
+
+				foreach($forms as $name=>$form){
+					if(isset($form['default'])){
+						break;
+					}else{
+						$count++;
+					}
+				}	
+
+				if($count < count($forms) && isset($name)){ // we have a default form
+					?>
+					<div id="wplms_custom_registration_form">
+						<a class="back_to_login small">&lsaquo; <?php _ex('back to login','back to login in login panel','vibe'); ?></a>
+						<?php
+							echo do_shortcode('[wplms_registration_form name="'.$name.'"]');
+						?>
+					</div>
+					<?php
+				}
+			}
+		}
+		?>
+		<div id="wplms_forgot_password_form">
+			<a class="back_to_login small">&lsaquo; <?php _ex('back to login','back to login in login panel','vibe'); ?></a>
+			<form method="post">
+				<input type="email" placeholder="<?php _ex('Enter registered email id','fotgot password email placeholder','vibe'); ?>" class="form_field" value="" />
+				<button id="vbp_forgot_password" class="button" data-security="<?php echo wp_create_nonce('wplms_forgot_password'); ?>"><?php _ex('Get reset password link','forgot password form submit label','vibe'); ?></button>
+			</form>
+		</div>
+		<?php
+	}
+
+
+	function wplms_forgot_password(){
+
+		if(empty($_POST['email']) || !isset($_POST['security'])){
+			_ex('Missing email.','forgot password email message','vibe');
+			die();
+		}
+
+		if(!isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'wplms_forgot_password')){
+			_ex('Missing security.','forgot password email message','vibe');
+			die();
+		}
+
+		if(!email_exists($_POST['email'])){
+			_ex('No registered user found with this mail id !','forgot password email message','vibe');
+			die();
+		}
+
+		$user_data = get_user_by( 'email', trim( $_POST['email'] ) );
+		// Redefining user_login ensures we return the right case in the email.
+		$user_login = $user_data->user_login;
+		$user_email = $user_data->user_email;
+
+		//Important WordPress hooks
+		do_action( 'retreive_password', $user_login );
+
+		do_action( 'retrieve_password', $user_login );
+		
+		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
+		if ( ! $allow ) {
+			_e('Password reset is not allowed for this user','vibe');
+			die();
+		} elseif ( is_wp_error( $allow ) ) {
+			_e('Password reset is not allowed.','vibe');
+			die();
+		}
+
+		// Generate something random for a password reset key.
+		$key = wp_generate_password( 20, false );
+
+		do_action( 'retrieve_password_key', $user_login, $key );
+
+		// Now insert the key, hashed, into the DB.
+		if ( empty( $wp_hasher ) ) {
+			require_once ABSPATH . WPINC . '/class-phpass.php';
+			$wp_hasher = new PasswordHash( 8, true );
+		}
+
+		global $wpdb;
+		$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+
+		
+		$email_type = $args['action'];
+        $bpargs = array(
+            'tokens' => array(
+            	'user.username'=>$user_login,
+            	'user.forgotpasswordlink'=> '<a href="'.network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login').'">'.network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login').'</a>',
+            	),
+        );
+        
+
+		if ( !bp_send_email( 'wplms_forgot_password',$user_email, $bpargs )){
+			wp_die( __('The e-mail could not be sent.','vibe') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.','vibe') );
+		}else{
+			_ex('Please check your email for password recovery !','forgot password mail message','vibe');
+		}
+
+		die();
 	}
 }
 
