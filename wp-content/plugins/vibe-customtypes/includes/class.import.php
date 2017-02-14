@@ -303,13 +303,14 @@ class wplms_import{
         return $upload_mb;
     }
 
+
     function parse_value($value,$field,$id_map){
     	if(strpos($value,'|')){
     		$value_array = explode('|',$value);
     		foreach($value_array as $k => $item){
     			if(strpos($item,',')){
-    				$exploded =explode(',',$item);
     				if($field == 'vibe_quiz_questions'){
+    					$exploded =explode(',',$item);
     					if($k ==0){
     						foreach($exploded as $k => $explode){
     							if(is_numeric($explode) && isset($id_map[$explode]))
@@ -320,7 +321,7 @@ class wplms_import{
     					if($k==1)
     						$value_array['marks']=$exploded;
     				}else{
-    					$value_array[$k]=$exploded;
+    					$value_array[$k]=$item;
     				}
     			}else if(is_numeric($item)){
     				if(isset($id_map[$item]))

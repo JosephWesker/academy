@@ -752,6 +752,7 @@ function lms_stats_download(){
 							<option value="course" <?php selected('course',$_POST['module']); ?>><?php _e( 'Course', 'vibe-customtypes' ); ?></option>
 							<option value="instructor" <?php selected('instructor',$_POST['module']); ?>><?php _e( 'Instructor', 'vibe-customtypes' ); ?></option>
 							<option value="student" <?php selected('student',$_POST['module']); ?>><?php _e( 'Students', 'vibe-customtypes' ); ?></option>
+							<?php do_action('wplms_download_stats_modules'); ?>
 					</select><br /><hr />
 					<?php
 					if($_POST['generate_report']){
@@ -1144,7 +1145,7 @@ function vibe_my_course_module_overview($subtab='') {
 	    LEFT JOIN {$wpdb->postmeta} AS rel ON posts.ID = rel.post_id
 	    WHERE 	posts.post_type 	= 'course'
 		AND 	posts.post_status 	= 'publish'
-		AND 	rel.meta_key   = 'badge',
+		AND 	rel.meta_key   = 'badge'
 		AND     posts.post_author = $user_id
 	"));
 	
@@ -1157,7 +1158,7 @@ function vibe_my_course_module_overview($subtab='') {
 	    LEFT JOIN {$wpdb->postmeta} AS rel ON posts.ID = rel.post_id
 	    WHERE 	posts.post_type 	= 'course'
 		AND 	posts.post_status 	= 'publish'
-		AND 	rel.meta_key   = 'pass',
+		AND 	rel.meta_key   = 'pass'
 		AND     posts.post_author = $user_id
 	"));
 	$total_certificates=$ps[0]->total_pass;
@@ -1241,7 +1242,7 @@ function vibe_my_course_module_overview($subtab='') {
 	$courses_started = apply_filters('vibe_reports_sales_overview_orders', $wpdb->get_results( "
 		SELECT activity.user_id, activity.date_recorded 
 		FROM $table_name AS activity
-		LEFT JOIN $meta_table_name AS rel ON posts.id = rel.activity_id
+		LEFT JOIN $meta_table_name AS rel ON activity.id = rel.activity_id
 		WHERE 	activity.component 	= 'course'
 		AND 	activity.type 	= 'start_course'
 		AND 	date_recorded > '" . date('Y-m-d', $start_date ) . "'

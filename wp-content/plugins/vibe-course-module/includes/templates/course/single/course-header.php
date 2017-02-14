@@ -6,7 +6,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8
+ * @version     2.1
  */
 
 do_action( 'bp_before_course_header' );

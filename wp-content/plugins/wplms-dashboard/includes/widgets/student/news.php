@@ -13,8 +13,35 @@ class wplms_dash_news extends WP_Widget {
     $widget_ops = array( 'classname' => 'wplms_dash_news', 'description' => __('News for Members', 'wplms-dashboard') );
     $control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'wplms_dash_news' );
     parent::__construct( 'wplms_dash_news', __(' DASHBOARD : Member News', 'wplms-dashboard'), $widget_ops, $control_ops );
+
+    add_action( 'pre_get_posts',array($this,'check_course_news_for_students'));
   }
+    
+    function check_course_news_for_students($query){
+      if(!is_post_type_archive('news') || !$query->is_main_query())
+        return;
+
+      if(!is_user_logged_in())
+        return;
+
+      $user_id = get_current_user_id();
+
+      if(current_user_can('edit_posts')){
         
+        $query->set('author',$user_id);
+
+      }else{
+        $course_ids = bp_course_get_user_courses($user_id);
+        $query->set('meta_query', array(
+                array(
+                'meta_key' => 'vibe_news_course',
+                'compare' => 'IN',
+                'value' => $course_ids,
+                'type' => 'numeric'
+                ),
+            ) );
+      }
+    }  
  
     /** @see WP_Widget::widget -- do not rename this */
     function widget( $args, $instance ) {
@@ -25,8 +52,12 @@ class wplms_dash_news extends WP_Widget {
     $num =  $instance['number'];
     $width =  $instance['width'];
     echo '<div class="'.$width.'"><div class="dash-widget '.(($title)?'':'notitle').'">'.$before_widget;
-      
+      if ( $title )
+        echo $before_title . $title . $after_title;
 			echo '<div class="news_block">';
+
+       
+      
       global $wpdb;
 
       $user_id=get_current_user_id();

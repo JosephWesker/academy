@@ -260,13 +260,24 @@ class WPLMS_Front_End_Fields {
 							'label'=> __('Drip Feed','wplms-front-end' ),
 							'text'=>__('Course Drip Feed','wplms-front-end' ),
 							'type'=> 'conditionalswitch',
-							'hide_nodes'=> array('vibe_course_section_drip','vibe_course_drip_duration','vibe_course_drip_duration_type','vibe_drip_duration_parameter'),
+							'hide_nodes'=> array('vibe_course_section_drip','vibe_course_drip_origin','vibe_course_drip_duration','vibe_course_drip_duration_type','vibe_drip_duration_parameter'),
 							'options'  => array('H'=>__('DISABLE','wplms-front-end' ),'S'=>__('ENABLE','wplms-front-end' )),
 							'style'=>'',
 							'id' => 'vibe_course_drip',
 							'from'=> 'meta',
 							'default'=>'H',
 							'desc'=> __('Drip Feed courses, units are released one by one after certain duration of time.','wplms-front-end' ),
+							),
+						array(
+							'label'=> __('Drip Feed Origin','wplms-front-end' ),
+							'text'=>__('Drip Feed Origin','wplms-front-end' ),
+							'type'=> 'switch',
+							'options'  => array('H'=>__('PREVIOUS UNIT','wplms-front-end' ),'S'=>__('STARTING POINT','wplms-front-end' )),
+							'style'=>'',
+							'id' => 'vibe_course_drip_origin', 
+							'from'=> 'meta',
+							'default'=>'H',
+							'desc'=> __('Drip Feed origin, count time from Previous Unit Access Time (default) OR Course starting date/time (if start date not set) .','wplms-front-end' )
 							),
 						array(
 							'label'=> __('Drip Feed Type','wplms-front-end' ),
@@ -277,7 +288,7 @@ class WPLMS_Front_End_Fields {
 							'id' => 'vibe_course_section_drip', 
 							'from'=> 'meta',
 							'default'=>'H',
-							'desc'=> __('Drip Feed courses, units are released one by one after certain duration to the user.','wplms-front-end' )
+							'desc'=> __('Drip Feed type, release units or sections.','wplms-front-end' )
 							),
 						array(
 							'label'=> __('Drip Feed Duration Type','wplms-front-end' ),
@@ -289,7 +300,7 @@ class WPLMS_Front_End_Fields {
 							'id' => 'vibe_course_drip_duration_type',
 							'from'=> 'meta',
 							'default'=>'H',
-							'desc'=> __('Drip Feed courses, units are released one by one after certain duration to the user.','wplms-front-end' )
+							'desc'=> __('Time gap between adjacent Units/Sections release.','wplms-front-end' )
 							),
 						array(
 							'label'=> __('Drip Duration','wplms-front-end' ),
@@ -409,7 +420,7 @@ class WPLMS_Front_End_Fields {
 							'id' => 'vibe_max_students',
 							'default'=> 0,
 							'from'=> 'meta',
-							'desc'=> __('Set number of times a student can re-take the course (0 to disable)','wplms-front-end' ),
+							'desc'=> __('Maximum number of seats in course (blank to disable, 9999 for infinite)','wplms-front-end' ),
 							),
 						array(
 							'label'=> __('Course Start Date','wplms-front-end' ),
@@ -616,7 +627,7 @@ class WPLMS_Front_End_Fields {
             			if(isset($tab['fields']) && is_array($tab['fields']) && count($tab['fields'])){
             				echo '<article class="container-fluid"><ul class="'.$key.'">';
             				foreach($tab['fields'] as $field){
-            					echo '<li class="vibe_'.$field['id'].'">'; 
+            					echo '<li class="vibe_'.(isset($field['id'])?$field['id']:'').'">'; 
             					$this->generate_fields($field);
             					echo '</li>';
             				}
@@ -665,7 +676,11 @@ class WPLMS_Front_End_Fields {
 
 		$user_id=get_current_user_id();
 		if(!empty($this->course_id)){
-			switch($field['from']){
+			$from ='';
+			if(isset($field['from'])){
+				$from = $field['from'];
+			}
+			switch($from){
 				case 'post':
 					$field['value'] = get_post_field($field['id'],$this->course_id);
 				break;
@@ -676,12 +691,12 @@ class WPLMS_Front_End_Fields {
 					}
 				break;
 				default:
-					if($field['value_type'] == 'array'){
+					if(isset($field['value_type']) && $field['value_type'] == 'array'){
 						$single = false;
 					}else{
 						$single = true;
 					}
-					if(empty($field['value']))
+					if(empty($field['value']) && isset($field['id']))
 					$field['value'] = get_post_meta($this->course_id,$field['id'],$single);
 
 				break;
@@ -691,31 +706,37 @@ class WPLMS_Front_End_Fields {
 				$field['value'] = $field['default'];
 		}
 		
-		switch($field['type']){
+		$field_type ='';
+		if(isset($field['type'])){
+			$field_type = $field['type'];
+		}
+
+		switch($field_type){
+
 			case 'heading':
 				echo '<strong>'.$field['label'].'</strong>';
 			break;
 			case 'number': 
-				echo '<div class="field_wrapper '. $field['style'].'">
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">
 					   <label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(!empty($field['text'])?'<strong>'.$field['text'].'</strong>':''); 
-				echo (!empty($field['text'])?'<div class="right">':'').'<input type="number" id="" class="small_box post_field '.(empty($field['text'])?'form_field':'').'" data-id="'.$field['id'].'" data-type="'.$field['type'].'" placeholder="'.$field['default'].'" value="'.$field['value'].'"/>'.(isset($field['extra'])?$field['extra']:'').'</div>';
+				echo (!empty($field['text'])?'<div class="right">':'').'<input type="number" id="" class="small_box post_field '.(empty($field['text'])?'form_field':'').'" data-id="'.$field['id'].'" data-type="'.$field['type'].'" placeholder="'.(isset($field['default'])?$field['default']:'').'" value="'.$field['value'].'"/>'.(isset($field['extra'])?$field['extra']:'').'</div>';
 				echo   (!empty($field['text'])?'</div>':'');
 			break;
 			case 'text':
-				echo   '<div class="field_wrapper '. $field['style'].'">';
+				echo   '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo   '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo   (!empty($field['text'])?'<strong>'.$field['text'].'</strong>':''); 
-				echo   '<input type="text" placeholder="'.$field['default'].'" data-id="'.$field['id'].'" data-type="'.$field['type'].'" class="mid_box post_field '.(empty($field['text'])?'form_field':'').'" value="'.$field['value'].'"/>'.(isset($field['extra'])?$field['extra']:'');
+				echo   '<input type="text" placeholder="'.(isset($field['default'])?$field['default']:'').'" data-id="'.$field['id'].'" data-type="'.$field['type'].'" class="mid_box post_field '.(empty($field['text'])?'form_field':'').'" value="'.$field['value'].'"/>'.(isset($field['extra'])?$field['extra']:'');
 				echo   '</div>';
 			break;
 			case 'title':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo '<input type="text"  class="megatext post_field" data-id="'.$field['id'].'" data-type="'.$field['type'].'" placeholder="'.$field['default'].'" value="'.(($field['default'] != $field['value'])?$field['value']:'').'" />';
 				echo   '</div>';
 			break;
 			case 'taxonomy':
-			echo '<div class="field_wrapper '. $field['style'].'">';
+			echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				?>
 				<ul id="<?php echo $field['id']; ?>" class="wplms-taxonomy">
@@ -753,7 +774,7 @@ class WPLMS_Front_End_Fields {
 				echo '<hr />';
 			break;
 			case 'featured_image':
-			echo '<div class="field_wrapper '. $field['style'].'">';
+			echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
                  ?>      
                 <div id="<?php echo $field['id']; ?>" class="upload_image_button" data-input-name="<?php echo $field['id']; ?>" data-uploader-title="<?php echo $field['upload_title'];?>" data-uploader-button-text="<?php echo $field['upload_button'];?>" data-uploader-allow-multiple="false">
@@ -774,7 +795,7 @@ class WPLMS_Front_End_Fields {
             echo   '</div>';    
 			break;
 			case 'media':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo (empty($field['text'])?'':'<strong>'.$field['text'].'</strong>').'
 					<div class="upload_button">';
@@ -826,13 +847,13 @@ class WPLMS_Front_End_Fields {
 				</div>';
 			break;
 			case 'textarea':
-			echo '<div class="field_wrapper '. $field['style'].'">';
+			echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo '<textarea id="'.$field['id'].'" class="post_field" data-id="'.$field['id'].'" data-type="'.$field['type'].'">'. $field['value'].'</textarea>'.(empty($field['extras'])?'':$field['extras']);
 			echo   '</div>';	
 			break;
 			case 'editor':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].'</label>';
 				wp_editor($field['value'],$field['id'],array('editor_class'=>'post_field'));
 				echo   '</div>';
@@ -847,7 +868,7 @@ class WPLMS_Front_End_Fields {
 			break;
 			case 'date':
 			case 'calendar':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo (!empty($field['text'])?'<strong>'.$field['text'].'</strong><div class="right">':''); 
 				echo '<input type="text" placeholder="'.$field['default'].'" value="'.$field['value'].'" data-id="'.$field['id'].'" class="mid_box date_box post_field '.(empty($field['text'])?'form_field':'').'" data-id="'.$field['id'].'" data-type="'.$field['type'].'"/>';
@@ -860,7 +881,7 @@ class WPLMS_Front_End_Fields {
 		                });});</script><style>.ui-datepicker{z-index:99 !important;}</style></div>';
 			break;
 			case 'time':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				echo (!empty($field['text'])?'<strong>'.$field['text'].'</strong><div class="right">':''); 
 				echo '<input type="text" placeholder="'.$field['default'].'" value="'.$field['value'].'" data-id="'.$field['id'].'" class="mid_box time_box post_field '.(empty($field['text'])?'form_field':'').'" data-id="'.$field['id'].'" data-type="'.$field['type'].'"/>';
@@ -876,14 +897,14 @@ class WPLMS_Front_End_Fields {
                 });});</script></div>';
 			break;
 			case 'group':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				?>
 				<input type="hidden" id="vibe_group" class="post_field" value="<?php echo $field['value']; ?>" <?php echo 'data-id="'.$field['id'].'" data-type="'.$field['type'].'" '; ?> />
 				<?php
 				echo '<span class="dashicons dashicons-dismiss clear_input" data-id="vibe_group"><div class="hide"><span>'.$field['text'].'</span></div></span>';
 				echo '<h3>';
-				if(empty($field['value']) || $field['value'] == $field['default']){
+				if(empty($field['value']) || (isset($field['default']) && $field['value'] == $field['default'])){
 					echo '<span>'.$field['text'].'</span>';
 					$flag=0;
 				}else{
@@ -920,14 +941,14 @@ class WPLMS_Front_End_Fields {
 				echo   '</div>';
 			break;
 			case 'forum':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'. $field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>';
 				?>
 				<input type="hidden" id="vibe_forum" class="post_field" value="<?php echo $field['value']; ?>" <?php echo 'data-id="'.$field['id'].'" data-type="'.$field['type'].'"'; ?> />
 				<?php
 				echo '<span class="dashicons dashicons-dismiss clear_input" data-id="vibe_forum"><div class="hide"><span>'.$field['text'].'</span></div></span>';
 				echo '<h3>';
-				if(empty($field['value']) || $field['value'] == $field['default']){
+				if(empty($field['value']) || (isset($field['default']) && $field['value'] == $field['default'])){
 					echo '<span>'.$field['text'].'</span>';
 					$flag=0;
 				}else{
@@ -963,7 +984,7 @@ class WPLMS_Front_End_Fields {
 			break;
 			case 'yesno':
 			case 'showhide':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label><strong>'.$field['text'].'</strong><div class="switch">';
 				$i=0;
 				foreach($field['options'] as $option){
@@ -973,7 +994,7 @@ class WPLMS_Front_End_Fields {
 	            echo '<span class="switch-selection"></span></div></div>';
 			break;
 			case 'switch':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label><strong>'.$field['text'].'</strong><div class="switch">';
 				$i=0;
 				if(empty($field['value'])){
@@ -990,7 +1011,7 @@ class WPLMS_Front_End_Fields {
 	            echo '<span class="switch-selection"></span></div></div>';
 			break;
 			case 'conditionalswitch':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label><strong>'.$field['text'].'</strong>
 				<div class="switch conditional">';
 				$i=0;
@@ -1039,7 +1060,7 @@ class WPLMS_Front_End_Fields {
 		        }    	
 			break;
 			case 'reverseconditionalswitch':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label><strong>'.$field['text'].'</strong>
 				<div class="switch conditional">';
 				$i=0;
@@ -1079,9 +1100,9 @@ class WPLMS_Front_End_Fields {
 		        }
 			break;
 			case 'select':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(!empty($field['text'])?'<strong>'.$field['text'].'</strong>':''); 
-				echo '<select class="post_field" style="width: 100%;" data-id="'.$field['id'].'" data-type="'.$field['type'].'" >';
+				echo '<select class="post_field" data-id="'.$field['id'].'" data-type="'.$field['type'].'" >';
 				if(!empty($field['options'])){
 					foreach($field['options'] as $option){
 						echo '<option value="'.$option['value'].'" '.(($field['value'] == $option['value'])?'selected="selected"':'').'>'.$option['label'].'</option>';
@@ -1090,7 +1111,7 @@ class WPLMS_Front_End_Fields {
 				echo '</select></div>';
 			break;
 			case 'duration':
-		        echo '<div class="field_wrapper '. $field['style'].'">';
+		        echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(!empty($field['text'])?'<strong>'.$field['text'].'</strong>':''); 
 				echo '<select data-id="'.$field['id'].'" class="post_field" data-type="'.$field['type'].'" >';
 				$field['options'] = array(
@@ -1110,7 +1131,7 @@ class WPLMS_Front_End_Fields {
 				echo '</select></div>';     
 			break;
 			case 'selectcpt':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(!empty($field['text'])?'<strong>'.$field['text'].'</strong>':''); 
 				if(empty($field['post_status'])){
 					$field['post_status'] = 'publish';
@@ -1244,7 +1265,7 @@ class WPLMS_Front_End_Fields {
 				}
 			break;
 			case 'multiselect':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label><strong>'.$field['text'].'</strong>';
 				echo '<select class="chosen post_field" data-id="'.$field['id'].'" style="width: 100%;" multiple >';
 				if(!empty($field['options'])){
@@ -1258,7 +1279,7 @@ class WPLMS_Front_End_Fields {
 				echo '</select></div>';
 			break;
 			case 'selectmulticpt':
-				echo '<div class="field_wrapper '. $field['style'].'">';
+				echo '<div class="field_wrapper '.(isset($field['style'])?$field['style']:'').'">';
 				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(!empty($field['text'])?'<strong>'.$field['text'].'</strong>':'');
 				if(empty($field['post_status'])){
 					$field['post_status'] = 'publish';
@@ -1319,6 +1340,11 @@ class WPLMS_Front_End_Fields {
                                         'post_type'=>'wplms-assignment',
                                         'post_meta'=>'vibe_assignment_course'
                                         ),
+                                    'product'=>array(
+                                        'label'=>__('Delete Product','wplms-front-end' ),
+                                        'post_type'=>'product',
+                                        'post_meta'=>'vibe_product'
+                                        ),
                                     ));
 
                                 echo '<div class="in_details"><ul class="clear">';
@@ -1368,6 +1394,82 @@ class WPLMS_Front_End_Fields {
 					}
 				}
 				echo '</select>';
+			break; 
+			case 'dynamic_quiz_questions':
+				echo '<label>'.$field['label'].(empty($field['desc'])?'':'<a class="tip" title="'.$field['desc'].'"><i class="icon-question"></i></a>').'</label>'.(empty($field['text'])?'':'<strong>'.$field['text'].'</strong>');
+				$terms = get_terms($field['taxonomy']);
+				$terms_array  = array();
+				if(!empty($terms)){
+					foreach($terms as $term){
+						$terms_array[$term->term_id] = array('id'=>$term->term_id,'name'=>$term->name,'count'=>$term->count);
+					}
+				}
+				echo '<br class="clear"><a class="button small primary add_dynamic_question_tag">'.__('ADD DYNAMIC QUESTION SECTION TAGS','wplms-front-end').'</a>';
+				?>
+
+				<div class="dynamic_quiz_tags_headings"><strong><?php _ex('Question Tags','dynamic quiz settings','wplms-front-end');?></strong><span><?php _ex('Number','dynamic quiz settings','wplms-front-end');?></span><span><?php _ex('per Marks','dynamic quiz settings','wplms-front-end');?></span></div>
+				<ul id="<?php echo $field['id']; ?>" data-id="<?php echo $field['id']; ?>" class="repeatable post_field">
+				<?php
+				if(!empty($field['value'])){
+						$tags = $numbers = array();
+						if(!isset($field['value']['tags'])){
+							global $post;
+							$tags[0] = $field['value'];
+							$numbers[0] = get_post_meta(get_the_ID(),'vibe_quiz_number_questions',true);
+							$marks[0] = get_post_meta(get_the_ID(),'vibe_quiz_marks_per_question',true);
+						}else{
+							$tags = $field['value']['tags'];
+							$numbers = $field['value']['numbers'];
+							if(isset($field['value']['marks'])){
+								$marks = $field['value']['marks'];	
+							}else{
+								$marks[0] = get_post_meta(get_the_ID(),'vibe_quiz_marks_per_question',true);
+							}
+							
+						}
+
+						foreach($tags as $i=>$tag){
+							$tags_string = '';
+							if(!is_array($tag)){
+								$tag = unserialize($tag);
+							}
+							if(is_array($tag)){
+								foreach($tag as $t){
+									$tags_string.= '<span>'.$terms_array[$t]['name'].' ('.$terms_array[$t]['count'].')<input type="hidden" value="'.$terms_array[$t]['id'].'"></span> ,';	
+								}
+							}else{
+								$tags_string.= '<span>'.$terms_array[$tag]['name'].' ('.$terms_array[$tag]['count'].')<input type="hidden" value="'.$terms_array[$tag]['id'].'"></span>';	
+							}
+							if(!isset($marks[$i]) && isset($marks[0])){$marks[$i]=$marks[0];}
+							echo '<li><span class="dashicons dashicons-sort"></span> &nbsp;<strong style="display:inline-block;">'.$tags_string.'</strong> <input type="text" class="count" value="'.$numbers[$i].'"> &nbsp;  <input type="text" class="marks" value="'.(isset($marks[$i])?$marks[$i]:0).'"><a class="remove_tag" title="'.__('Remove','wplms-front-end' ).'"><span class="dashicons dashicons-no-alt"></span></a></li>';
+						}
+				}
+				?>
+				</ul>
+				<div class="hidden_block hide">
+					<span class="dashicons dashicons-sort"></span>
+					<select data-id="<?php echo $field['id'].'[tags]'; ?>" multiple>
+						<?php
+							if(!empty($terms_array)){
+								foreach($terms_array as $term){
+									echo '<option value="'.$term['id'].'">'.$term['name'].' ('.$term['count'].') </option>';
+								}
+							}
+						?>
+					</select>	
+					<input type="text" class="count" data-id="<?php echo $field['id'].'[numbers]'; ?>" value="0" />	
+					<input type="text" class="marks" data-id="<?php echo $field['id'].'[marks]'; ?>" value="0" />	
+					<a class="remove_tag" title="<?php _e('Remove','wplms-front-end' ); ?>"><span class="dashicons dashicons-no-alt"></span></a>				
+				</div>
+				<strong style="font-size:16px;margin:30px 30px 0 0;display:inline-block;"><span><?php _ex('Total Question Count','Total question count in quiz','wplms-front-end'); ?></span> &nbsp; <span id="total_question_count"><?php echo (isset($numbers)?array_sum($numbers):0); ?></span></strong>
+				<strong style="font-size:16px;"><span><?php _ex('Total Marks','total marks label','wplms-front-end'); ?></span> &nbsp; <span id="total_question_marks"><?php 
+					if(!empty($numbers)){
+						foreach($numbers as $k=>$n){
+							$total_marks = $total_marks + intval($n) * intval($marks[$k]);
+						} 
+					} 
+					echo (isset($total_marks)?$total_marks:0);?></span></strong>
+				<?php
 			break;
 			case 'repeatable_count':
 				?>
@@ -1450,6 +1552,7 @@ class WPLMS_Front_End_Fields {
 				<?php
 					if(!empty($field['value']) && !empty($field['value']['ques'])){
 						foreach($field['value']['ques'] as $k=>$question_id){
+							$question_id = intval($question_id);
 							?>
 							<div class="list-group-item question_block">
 								<span class="dashicons dashicons-sort"></span>
@@ -1462,7 +1565,7 @@ class WPLMS_Front_End_Fields {
                                     <li><a class="delete_sub" title="'.__('Delete','wplms-front-end' ).'"><span class="dashicons dashicons-trash"></span></a></li>
                                 </ul>' ?>
 								<div class="right">
-									<input type="number" class="small_box question_marks" value="<?php echo ((isset($field['value']) && isset($field['value']['marks']) && isset($field['value']['marks'][$k]))?$field['value']['marks'][$k]:0); ?>" />
+									<input type="number" class="small_box question_marks" value="<?php echo ((isset($field['value']) && is_array($field['value']) && isset($field['value']) && isset($field['value']['marks']) && isset($field['value']['marks'][$k]))?$field['value']['marks'][$k]:0); ?>" />
 									<span><?php _e('Marks','wplms-front-end'); ?></span>
 								</div>									
 							</div>	
@@ -1522,7 +1625,8 @@ class WPLMS_Front_End_Fields {
 						              array( 'label' =>__('Fill in the Blank','vibe-customtypes'),'value'=>'fillblank'),
 						              array( 'label' =>__('Dropdown Select','vibe-customtypes'),'value'=>'select'),
 						              array( 'label' =>__('Small Text','vibe-customtypes'),'value'=>'smalltext'),
-						              array( 'label' =>__('Large Text','vibe-customtypes'),'value'=>'largetext')
+						              array( 'label' =>__('Large Text','vibe-customtypes'),'value'=>'largetext'),
+						              array( 'label' =>__('Survey Type','vibe-customtypes'),'value'=>'survey')
 						            ));
 								?>
 								<select class="chosen" id="vibe_question_template">
@@ -1552,22 +1656,22 @@ class WPLMS_Front_End_Fields {
                         foreach($curriculum as $kid){
                             if(is_numeric($kid)){
                                 if(get_post_type($kid) == 'unit'){
-                                    echo '<li><strong class="title" data-id="'.$kid.'"><i class="icon-file"></i> '.get_the_title($kid).'</strong>
+                                    echo '<li><strong class="title" data-id="'.$kid.'"><i class="icon-file"></i> '.get_the_title($kid).'</strong>'.apply_filters('wplms_front_end_curriculum_edit_sub','
                                             <ul class="data_links">
                                                 <li><a class="edit" title="'.__('Edit Unit','wplms-front-end' ).'"><span class="dashicons dashicons-edit"></span></a></li>
                                                 <li><a class="preview" title="'.__('Preview','wplms-front-end' ).'" target="_blank"><span class="dashicons dashicons-visibility"></span></a></li>
                                                 <li><a class="remove" title="'.__('Remove','wplms-front-end' ).'"><span class="dashicons dashicons-no-alt"></span></a></li>
                                                 <li><a class="delete" title="'.__('Delete','wplms-front-end' ).'"><span class="dashicons dashicons-trash"></span></a></li>
-                                            </ul>
+                                            </ul>',$kid,'unit').'
                                         </li>';
                                 }else{
-                                    echo '<li><strong class="title" data-id="'.$kid.'"><i class="icon-task"></i> '.get_the_title($kid).'</strong>
+                                    echo '<li><strong class="title" data-id="'.$kid.'"><i class="icon-task"></i> '.get_the_title($kid).'</strong>'.apply_filters('wplms_front_end_curriculum_edit_sub','
                                             <ul class="data_links">
                                                 <li><a class="edit" title="'.__('Edit Quiz','wplms-front-end' ).'"><span class="dashicons dashicons-edit"></span></a></li>
                                                 <li><a class="preview" title="'.__('Preview','wplms-front-end' ).'" target="_blank"><span class="dashicons dashicons-visibility"></span></a></li>
                                                 <li><a class="remove" title="'.__('Remove','wplms-front-end' ).'"><span class="dashicons dashicons-no-alt"></span></a></li>
                                                 <li><a class="delete" title="'.__('Delete','wplms-front-end' ).'"><span class="dashicons dashicons-trash"></span></a></li>
-                                            </ul>
+                                            </ul>',$kid,'quiz').'
                                           </li>';
                                 }
                             }else{
@@ -1587,7 +1691,7 @@ class WPLMS_Front_End_Fields {
                 <ul class="hide">
 					<li><strong class="title" data-id=""><i class="icon-task"></i> <span></span></strong>
                         <ul class="data_links">
-                            <li><a class="edit" title="<?php _e('Edit Quiz','wplms-front-end' ); ?>"><span class="dashicons dashicons-edit"></span></a></li>
+                            <li><a class="edit" title="<?php _e('Edit','wplms-front-end' ); ?>"><span class="dashicons dashicons-edit"></span></a></li>
                             <li><a class="preview" title="<?php _e('Preview','wplms-front-end' ); ?>" target="_blank"><span class="dashicons dashicons-visibility"></span></a></li>
                             <li><a class="remove" title="<?php _e('Remove','wplms-front-end' ); ?>"><span class="dashicons dashicons-no-alt"></span></a></li>
                             <li><a class="delete" title="<?php _e('Delete','wplms-front-end' ); ?>"><span class="dashicons dashicons-trash"></span></a></li>
@@ -1652,6 +1756,7 @@ class WPLMS_Front_End_Fields {
                 		}
                 	?>
                 </div>
+                <?php do_action('wplms_course_curriculum_front_end_generator',$_GET['action']);?>
                 <a id="save_course_curriculum_button" class="button hero"><?php _e('SAVE CURRICULUM','wplms-front-end' ); ?></a>
 			<?php
 			break;

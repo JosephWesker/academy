@@ -201,15 +201,19 @@ class wplms_instructor_commission_stats extends WP_Widget {
       $order_items_table= $wpdb->prefix.'woocommerce_order_items';
 
       // CALCULATED COMMISSIONS
-      $product_sales=$wpdb->get_results("
-        SELECT order_meta.meta_value as value,order_meta.order_item_id as item_id,MONTH(post_meta.meta_value) as date,order_items.order_id as order_id
-        FROM $item_meta_table AS order_meta
-        LEFT JOIN $order_items_table as order_items ON order_items.order_item_id = order_meta.order_item_id
-        LEFT JOIN {$wpdb->postmeta} as post_meta ON post_meta.post_id = order_items.order_id
-        WHERE   order_meta.meta_key = 'commission$user_id'
-        AND  post_meta.meta_key = '_completed_date'
-        ",ARRAY_A);
 
+      $product_sales=$wpdb->get_results("
+       SELECT order_meta.meta_value as value,order_meta.order_item_id as item_id,MONTH(post_meta.meta_value) as date,order_items.order_id as order_id
+       FROM $item_meta_table AS order_meta
+       LEFT JOIN $order_items_table as order_items ON order_items.order_item_id = order_meta.order_item_id
+       LEFT JOIN {$wpdb->postmeta} as post_meta ON post_meta.post_id = order_items.order_id
+        LEFT JOIN {$wpdb->posts} as posts ON posts.ID = order_items.order_id
+       WHERE  (order_meta.meta_key = 'commission$user_id' 
+       OR order_meta.meta_key = '_commission$user_id')
+       AND  post_meta.meta_key = '_completed_date' 
+       AND posts.post_status='wc-completed'
+       AND post_meta.meta_value!='NULL'
+       ",ARRAY_A);
 
       $sales_pie=array();
       $i=count($product_sales);
@@ -226,7 +230,7 @@ class wplms_instructor_commission_stats extends WP_Widget {
         }
       }
 
-
+      /*
       $oquery = "SELECT order_meta.meta_value as value,order_meta.order_item_id as item_id,MONTH(post_meta.meta_value) as date,order_items.order_id as order_id
         FROM $item_meta_table AS order_meta
         LEFT JOIN $order_items_table as order_items ON order_items.order_item_id = order_meta.order_item_id
@@ -268,7 +272,7 @@ class wplms_instructor_commission_stats extends WP_Widget {
           $total_commission += $val;
           $daily_val[$sale['date']]+=$val;
         }
-      } 
+      }*/ 
 
 
         if(is_array($daily_val)){

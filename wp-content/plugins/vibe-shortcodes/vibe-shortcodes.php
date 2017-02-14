@@ -5,9 +5,10 @@ Plugin Name: Vibe ShortCodes
 Plugin URI: http://www.vibethemes.com
 Description: Create unlimited shortcodes
 Author: VibeThemes
-Version: 2.1.1
+Version: 2.5.2
 Author URI: http://www.vibethemes.com
 Text Domain: vibe-shortcodes
+Domain Path: /languages/
 */
 
 
@@ -62,5 +63,3 @@ function vibe_shortcodes_update() {
 	new WPLMS_ZIP_UPLOAD_HANDLER();
 }
 
-
-?>

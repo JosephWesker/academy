@@ -121,28 +121,43 @@ class BP_COURSE {
 				'paged'		 => $paged,
 			);
 
+			if(!empty($post__in)){
+				$query_args['post__in'] = $post__in;
+			}
+
 			if(isset($search_terms) && $search_terms)
 				$query_args['s']=$search_terms;
 
 			if(isset($meta_key) && $meta_key)
 				$query_args['meta_key']=$meta_key;
 
-			if(isset($meta_query) && is_array($meta_query))
+			if(isset($meta_query) && is_array($meta_query)){
 				$query_args['meta_query']= $meta_query;
-
-			if(isset($tax_query) && is_array($tax_query))
-				$query_args['tax_query']= $tax_query;
-
-			if(current_user_can('edit_posts')){
-				$query_args['post_status'] = array('publish','draft','pending','future','private');
+			}else{
+				unset($query_args['meta_query']);
 			}
+
+			if(isset($tax_query) && is_array($tax_query)){
+				$query_args['tax_query']= $tax_query;
+			}else{
+				unset($query_args['tax_query']);
+			}
+
+			if(!empty($post_status)){
+				$query_args['post_status']=$post_status;
+			}else{
+				if(current_user_can('edit_posts')){
+					$query_args['post_status'] = array('publish','draft','pending','future','private');
+				}	
+			}
+			
 			
 			// Some optional query args
 			// Note that some values are cast as arrays. This allows you to query for multiple
 			// authors/recipients at a time
 			if ( isset($instructor )){
 				if ( function_exists('get_coauthors')) {
-					$instructor_name = get_the_author_meta('user_login',$instructor);
+					$instructor_name = get_the_author_meta('user_nicename',$instructor);
 					if(isset($instructor_name))
 						$query_args['author_name'] = $instructor_name;
 					else
@@ -152,7 +167,33 @@ class BP_COURSE {
 			}
 
 			if(isset($author__in) && is_array($author__in) && count($author__in)){
-				$query_args['author__in']=$author__in;
+				
+				if ( function_exists('get_coauthors')) {
+					$author_names = array();
+					foreach($author__in as $author_id){
+						$instructor_name = get_the_author_meta('user_nicename',$author_id);
+						$author_names[] = $instructor_name;
+					}
+
+					if(isset($tax_query) && is_array($tax_query)){
+						$query_args['tax_query'][]= array(
+								'taxonomy'=>'author',
+								'field'=>'name',
+								'terms' => $author_names,
+							);
+					}else{
+						$query_args['tax_query']= array(
+							'relation' => 'AND',
+								array(
+									'taxonomy'=>'author',
+									'field'=>'name',
+									'terms' => $author_names,
+								)
+							);
+					}
+				}else
+					$query_args['author__in']=$author__in;
+
 			}
 			if(isset($id) && $id){
 				$query_args['p']=$id;
@@ -162,16 +203,22 @@ class BP_COURSE {
 				global $bp;
 				if(bp_is_my_profile()){
 					unset($query_args['tax_query']);
-					$query_args['meta_query']=array(array(
-					'key' => $user,
-					'compare' => 'EXISTS'
-					));
+					if(empty($query_args['meta_query'])){
+						$query_args['meta_query']=array(array(
+							'key' => $user,
+							'compare' => 'EXISTS'
+						));
+					}else{
+						$query_args['meta_query'][]=array(
+							'key' => $user,
+							'compare' => 'EXISTS'
+						);
+					}
 				}
 			}
 
 			$query_args = apply_filters('bp_course_wplms_filters',$query_args);
-
-
+		
 			if(isset($id) && $id){
 				$this->query = new WP_Query( $query_args );
 			}else{
@@ -190,6 +237,7 @@ class BP_COURSE {
 				$cache_key=str_replace('draft_pending_future_private','dpfp',$cache_key);
 
 				if ( false === $this->query) {
+
 					$this->query = new WP_Query( $query_args );
 					if($cache_duration)
 						set_transient($cache_key,$this->query,$cache_duration);
@@ -315,7 +363,7 @@ class BP_COURSE {
 		);
 		$my_posts = get_posts($args);
 
-		if(get_post_type( $my_posts[0]->ID ) == BP_COURSE_SLUG){
+		if(bp_course_get_post_type( $my_posts[0]->ID ) == BP_COURSE_SLUG){
 			return true;
 		}else
 			return false;

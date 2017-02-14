@@ -6,7 +6,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.2
+ * @version     2.1
  */
 
 		$course_id=get_the_ID();

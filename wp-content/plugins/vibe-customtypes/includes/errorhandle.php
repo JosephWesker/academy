@@ -2,7 +2,7 @@
 
  if ( ! defined( 'ABSPATH' ) ) exit;
 class VibeErrors {
-	function VibeErrors() {
+	function __construct() {
 		$this->localizionName = '';
 		$this->errors = new WP_Error();
 		$this->initialize_errors();

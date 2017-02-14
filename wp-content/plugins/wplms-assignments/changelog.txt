@@ -1,3 +1,41 @@
+* 2.5.2
+* notice message removed
+* Fuzzy translation Fixed.
+* Minor bug fixed.
+* Text domain fixed in several places
+* 2.5.1
+* blank upload assignment check in plupload
+* php notice fixes
+* 2.5.0
+* translation files updated
+* check Attachment function fix size fix
+* metadata attachment
+* show allowed file type and size for instructor also .
+* instructor attach file in evaluate form
+* delete if not allowed mime type
+* some css fixes
+* checked mimetype of file with php
+* plupload in assignmnets
+* 2.4.1
+* 2.4
+* Translation files updated
+* csv increment for Assignment marks stats.
+* 2.3.1
+* 2.3
+* translation files added
+* remaining time filter for submission date for assignment
+* assignment allignment in results
+* code allignment
+* Static class and Added Assignments in Course - User - Stats
+* Coverted to Static class
+* Course assignments function
+* 2.2.2
+* Disable all assignments in Admin panel
+* 2.2
+* Translation files updated
+* Update : Confirm in assignment removal
+* Language change for MEssage
+* 2.1.1
 * 2.1
 * query fix
 * PSD file upload fix

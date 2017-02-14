@@ -181,6 +181,7 @@ jQuery(document).ready(function($){
             return;
 
         $this.addClass('disabled');
+
         $('body').trigger('modal_open');
 
         tinyMCE.triggerSave();
@@ -225,16 +226,15 @@ jQuery(document).ready(function($){
                           },
                     cache: false,
                     success: function (html) {
-                   
-                        $this.removeClass('disabled');
                         if($.isNumeric(html)){
                             $('#course_id').val(html);
-                            $('#create_course_button').attr('id','save_course_button');
+                            $('#create_course_button').attr('id','save_course_button').removeClass('disabled');
                             $('#course_creation_tabs>ul').addClass('islive');
                             $('#course_creation_tabs').trigger('increment');
                         }else{
                             $this.html(html);
                             setTimeout(function(){$this.html(defaulttxt);}, 5000);
+                            $this.removeClass('disabled');
                         }
                     }
             });
@@ -469,8 +469,14 @@ jQuery(document).ready(function($){
     /*===== Curriculum ====*/
     $('.data_links .edit').on('click',function(){
         var $this = $(this);
-        var defaulttxt = $this.html();
 
+        if($this.hasClass('disabled'))
+            return;
+        
+        $this.addClass('disabled');
+        var defaulttxt = $this.html();
+        $this.closest('div.active').css('opacity','0.6');
+        $this.closest('div.active').append('<div id="ajaxloader"></div>');
         $.ajax({
                 type: "POST",
                 url: ajaxurl,
@@ -482,6 +488,8 @@ jQuery(document).ready(function($){
                 cache: false,
                 success: function (html) {
                     var parent;
+                    $('#ajaxloader').remove();
+                    $this.closest('div.active').css('opacity','1');
                     if($('#course_curriculum').hasClass('active')){
                         parent = $('#course_curriculum');
                     }else if($('#events').hasClass('active')){
@@ -679,6 +687,11 @@ jQuery(document).ready(function($){
         placeholder: $(this).attr('data-placeholder'),
         closeOnSelect: true,
         allowClear: true,
+        language: {
+          inputTooShort: function() {
+            return vibe_course_module_strings.enter_more_characters;
+          }
+        },
         ajax: {
             url: ajaxurl,
             type: "POST",
@@ -703,6 +716,11 @@ jQuery(document).ready(function($){
         placeholder: $(this).attr('data-placeholder'),
         closeOnSelect: true,
         allowClear: true,
+        language: {
+          inputTooShort: function() {
+            return vibe_course_module_strings.enter_more_characters;
+          }
+        },
         ajax: {
             url: ajaxurl,
             type: "POST",
@@ -755,6 +773,11 @@ jQuery(document).ready(function($){
             placeholder: placeholder,
             closeOnSelect: true,
             allowClear: true,
+            language: {
+              inputTooShort: function() {
+                return vibe_course_module_strings.enter_more_characters;
+              }
+            },
             ajax: {
                 url: ajaxurl,
                 type: "POST",
@@ -1049,7 +1072,7 @@ jQuery(document).ready(function($){
         if($(this).hasClass('disabled'))
             return;
 
-        $('ul.curriculum li').each(function() {
+        $('ul.curriculum > li').each(function() {
 
             if($(this).hasClass('new_section')){
 
@@ -1146,7 +1169,62 @@ jQuery(document).ready(function($){
           tolerance: 'pointer',
         });//.disableSelection();
 
+        $('.add_dynamic_question_tag').unbind('click');
+        $('.add_dynamic_question_tag').on('click',function(){
+            var $this = $(this);
+            var length = $this.parent().find('ul.post_field > li').length;
+            if(typeof length == 'undefined')
+                length = 0;
+            
+            $this.parent().find('.hidden_block select').attr('data-id', $this.parent().find('.hidden_block select').attr('data-id')+'['+length+'][]');
+            $this.parent().find('.hidden_block input').attr('data-id', $this.parent().find('.hidden_block input').attr('data-id')+'['+length+']');
 
+            var newblock = $this.parent().find('.hidden_block').html();
+            
+            $this.parent().find('ul.post_field').append('<li>'+newblock+'</li>');
+            $this.parent().find('ul.post_field').find('select').select2();
+
+            $('#vibe_quiz_tags input').on('change',function(){
+                var total_count = parseInt(0);var total_marks = parseInt(0);
+                $('#vibe_quiz_tags input.count').each(function(){
+                    var val = parseInt($(this).val());
+                    if(val == 'NAN' || val ==''){val=parseInt(0);}
+                    total_count += val;
+                });
+                $('#vibe_quiz_tags input.marks').each(function(i,item){
+                    var val = parseInt($(this).val());
+                     var c = $(this).parent().find('input.count').val();
+                    if(c == 'NAN' || c ==''){c=parseInt(0);}
+                    if(val == 'NAN' || val ==''){val=parseInt(0);}
+                    total_marks += val*c;
+                });
+
+                $('#total_question_count').text(total_count);
+                $('#total_question_marks').text(total_marks);
+            });
+            $('.remove_tag').on('click',function(){$(this).parent().remove();});
+        });
+
+        $('#vibe_quiz_tags input').on('change',function(){
+            var total_count = parseInt(0);var total_marks = parseInt(0);
+            $('#vibe_quiz_tags input.count').each(function(){
+                var val = parseInt($(this).val());
+                if(val == 'NAN' || val ==''){val=parseInt(0);}
+                total_count += val;
+            });
+            $('#vibe_quiz_tags input.marks').each(function(i,item){
+                var val = parseInt($(this).val());
+                 var c = $(this).parent().find('input.count').val();
+                if(c == 'NAN' || c ==''){c=parseInt(0);}
+                if(val == 'NAN' || val ==''){val=parseInt(0);}
+                total_marks += val*c;
+            });
+
+            $('#total_question_count').text(total_count);
+            $('#total_question_marks').text(total_marks);
+        });
+
+        $('.remove_tag').on('click',function(){$(this).parent().remove();});
 
         $('.selectcpt.select2').each(function(){
 
@@ -1223,11 +1301,33 @@ jQuery(document).ready(function($){
                             }
                         }
                         if($(this).hasClass('repeatable')){
-                            var values = {};
-                            $(this).find('li').each(function(i,selected){
-                                values[i] = $(this).find('input').val();
-                            });
-                            var data = {id:$(this).attr('data-id'),value: values};
+                            if($(this).is('#vibe_quiz_tags')){
+                                var tags ={};
+                                var numbers ={};
+                                var marks ={};
+                                $('#vibe_quiz_tags > li').each(function(i,selected){
+                                    var t ={};
+                                    $(this).find('input[type="hidden"]').each(function(j,s){
+                                        t[j]=$(this).val();
+                                    });
+
+                                    if($(this).find('select').length){
+                                        t=$(this).find('select').val();    
+                                    }
+
+                                    numbers[i] = $(this).find('input[type="text"].count').val();
+                                    marks[i] = $(this).find('input[type="text"].marks').val();
+                                    tags[i] = t;
+                                });
+                                var data = {id:$(this).attr('data-id'),value: {'tags':tags,'numbers':numbers,'marks':marks}};    
+                                
+                            }else{
+                                var values = {};
+                                $(this).find('li').each(function(i,selected){
+                                    values[i] = $(this).find('input').val();
+                                });
+                                var data = {id:$(this).attr('data-id'),value: values};    
+                            }
                         }
 
                         if($(this).hasClass('list-group-questions')){
@@ -1305,13 +1405,18 @@ jQuery(document).ready(function($){
             event.preventDefault();
             var $this = $(this);
             var parent = $this.parent().parent().parent();
+            
+
             if(parent.hasClass('loaded')){
                 parent.toggle('collapse');
             }
             if($this.hasClass('disabled'))
                 return;
 
+            $('.question_edit_settings_content').remove();
             $this.addClass('disabled');
+            parent.css('opacity','0.6');
+            parent.append('<div id="ajaxloader"></div>');
 
             $('#save_element_button').addClass('disabled');
             $.ajax({
@@ -1325,6 +1430,8 @@ jQuery(document).ready(function($){
                 success: function (html) {
                     $this.removeClass('disabled');
                     parent.hasClass('loaded');
+                    parent.css('opacity','1');
+                    parent.find('#ajaxloader').remove();
                     parent.append(html);
                     $('#course_curriculum').trigger('active');
                     $('select.chosen[multiple]').select2();
@@ -1420,11 +1527,13 @@ jQuery(document).ready(function($){
             }
         });//.disableSelection();
         $('ul.repeatable').on('update',function(){
-            var index=0;
-            $(this).find('li').each(function(){
-                index= $(this).index();
-                $(this).find('span').text((index+1));
-            });
+            if(!$(this).is('#vibe_quiz_tags')){
+                var index=0;
+                $(this).find('li').each(function(){
+                    index= $(this).index();
+                    $(this).find('span').text((index+1));
+                });
+            }
         });
 
         $('.add_repeatable_count_option').on('click',function(){
@@ -1452,7 +1561,7 @@ jQuery(document).ready(function($){
         $('.use_selected_question').on('click',function(){
             var id = $(this).parent().find('.selectcpt option:selected').val();
             var name = $(this).parent().find('.selectcpt option:selected').text();
-            var clone = $('.hidden_block').clone();
+            var clone = $('.list-group-questions .hidden_block').clone();
           
             clone.find('.title').text(name).attr('data-id',id);
             clone.find('.question_id').val(id);
@@ -1471,7 +1580,7 @@ jQuery(document).ready(function($){
             $this.addClass('disabled');
             var parent = $(this).parent();
             var defaulttxt = $(this).text();
-            var title = parent.find('#vibe_question_title').val();
+            var title = parent.find('#vibe_question_title').val(); 
             $.ajax({
                 type: "POST",
                 url: ajaxurl,
@@ -1486,7 +1595,7 @@ jQuery(document).ready(function($){
                 success: function (html) {
                     $this.removeClass('disabled');
                     if($.isNumeric(html)){
-                        var clone = $('.hidden_block').clone();
+                        var clone = $('.list-group-item.hidden_block').clone();
                         clone.find('.title').text(title).attr('data-id',html);
                         clone.find('.question_id').val(html);
                         clone.find('.question_marks').val('0');
@@ -1748,6 +1857,11 @@ jQuery(document).ready(function($){
                 placeholder: placeholder,
                 allowClear: true,
                 closeOnSelect: true,
+                language: {
+                  inputTooShort: function() {
+                    return vibe_course_module_strings.enter_more_characters;
+                  }
+                },
                 ajax: {
                     url: ajaxurl,
                     type: "POST",
@@ -1830,11 +1944,11 @@ jQuery(document).ready(function($){
         
 
     });
-    $('body').on('modal_open',function(){
+    /*$('body').on('modal_open',function(){
         $("body").click(function(e) {
             if ($(e.target).closest(".confirmation-modal").length) {
                $('.button.disabled').removeClass('disabled');
             }
         });
-    });
+    });*/
 });

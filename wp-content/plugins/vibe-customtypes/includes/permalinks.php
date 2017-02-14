@@ -394,29 +394,55 @@ class Vibe_CustomTypes_Permalinks{
 
 
 	function catch_vars(){ 
-		global $bp,$wp_query;	
+		global $bp,$wp_query,$post;
+		
+		$course_id = $post->ID;
 		
 		if(empty($this->permalinks))
 			$this->permalinks = get_option( 'vibe_course_permalinks' );
 
-		if(!empty($this->permalinks)){
+		if(!empty($this->permalinks) && is_object($bp)){
 			
 			if(!empty($this->permalinks) && !empty($this->permalinks['course_base'])){
 				$this->permalinks['course_base'] = str_replace('/','',$this->permalinks['course_base']);
 			}
+			
+			if( is_array($bp->unfiltered_uri) && isset($bp->unfiltered_uri[1]) && ($bp->unfiltered_uri[0] == $this->permalinks['course_base'] || $bp->unfiltered_uri[0] == BP_COURSE_SLUG)){
 
-			if($bp->unfiltered_uri[0] == $this->permalinks['course_base'] || $bp->unfiltered_uri[0] == BP_COURSE_SLUG){
-				
+				$bp->current_component = BP_COURSE_SLUG;
+				if(empty($course_id)){
+					$posts = get_posts(array('post_type' => BP_COURSE_SLUG,
+				    'posts_per_page' => 1,
+				    'post_name__in'  => array($bp->unfiltered_uri[1])
+				    ));
+				    if(!empty($posts)){
+				    	$course_id = $posts[0]->ID;	
+				    	global $post;
+				    	$post = $posts[0];	
+				    }
+				}else{
+					$bp->current_item = $course_id;	
+				}
+		    	
 				foreach($this->permalinks  as $key => $item){ 
 					$item = str_replace('/','',$item);
-				    if( get_query_var( $item ) && in_array($key,$this->end_points)){ 
-				    	$bp->current_component = BP_COURSE_SLUG;
-				    	$bp->current_item = get_The_ID();
+					if( get_query_var( $item ) && in_array($key,$this->end_points)){ 
 				        $bp->current_action = str_replace('_slug','',$key);
 				    }
 				}
-				//add_filter( 'wp_title', array($this, 'course_title'), 20);
+
+				add_filter('body_class',function($class){$class[]='single-course';return $class;});
 				if(function_exists('bp_get_template_part')){
+					global $wp_query,$post,$withcomments;
+					
+					status_header( 200 );
+					$wp_query->queried_object = $post;
+					$wp_query->queried_object_id = $post->ID;
+					$wp_query->is_single = true;
+					$wp_query->is_404      = false;
+					if($post->comments_status  == 'open'){
+						$withcomments = true;
+					}
 					bp_get_template_part('course/single/home');
 					exit;
 				}

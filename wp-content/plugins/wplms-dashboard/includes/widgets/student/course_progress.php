@@ -80,6 +80,7 @@ class wplms_course_progress extends WP_Widget {
         $query->the_post();
         $course_id = get_the_ID();
         $percentage = bp_course_get_user_progress($user_id,$course_id);
+        $percentage = apply_filters('wplms_course_progress_display',  $percentage ,$course_id);
         if(empty($percentage)){
           $percentage = 0;
         }

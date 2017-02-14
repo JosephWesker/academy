@@ -135,7 +135,7 @@ class wplms_dash_stats extends WP_Widget {
           break;
           case 'units':
           $user_id = get_current_user_id();
-            $marks=$wpdb->get_var($wpdb->prepare("
+            $marks_old=$wpdb->get_var($wpdb->prepare("
               SELECT count(meta_key) as count
                 FROM {$wpdb->posts} AS posts
                 LEFT JOIN {$wpdb->usermeta} AS rel ON posts.ID = rel.meta_key
@@ -143,8 +143,14 @@ class wplms_dash_stats extends WP_Widget {
                 AND   posts.post_status   = %s
                 AND   rel.user_id = %d
                 AND   rel.meta_value > 0",'unit','publish',$user_id));
-          
-          
+
+            $marks_new=$wpdb->get_var($wpdb->prepare("
+              SELECT count(meta_value) as count
+                FROM {$wpdb->usermeta}
+                WHERE user_id = %d
+                AND   meta_key LIKE %s",$user_id,'%complete_unit_%'));
+            
+          $marks = $marks_new + $marks_old;
           if ( $title )
             $label = $title;
           else

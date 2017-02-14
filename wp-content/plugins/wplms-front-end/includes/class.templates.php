@@ -68,12 +68,12 @@ class WPLMS_Content_Templates {
 					);
 			break;
 			case 'select':
-				$this->settings['post_content'] = __('Question Statement : Select correct answer out of the following','wplms-front-end').' [select]';
+				$this->settings['post_content'] = __('Question Statement : Select correct answer out of the following','wplms-front-end').' [select options="1,2,3"] and another [select options="4,5,6"]';
 				$this->settings['meta_fields'] = array(
 						'vibe_question_type'=> $type,
-						'vibe_question_options'=>array(__('Option 1','wplms-front-end'),__('Option 2','wplms-front-end'),__('Option 3','wplms-front-end'),__('Option 4','wplms-front-end')),
-						'vibe_question_answer'=>'1',
-						'vibe_question_hint'=> __(' Option 1','wplms-front-end'),
+						'vibe_question_options'=>array(__('Option 1','wplms-front-end'),__('Option 2','wplms-front-end'),__('Option 3','wplms-front-end'),__('Option 4','wplms-front-end'),__('Option 5','wplms-front-end'),__('Option 6','wplms-front-end')),
+						'vibe_question_answer'=>'1|4',
+						'vibe_question_hint'=> __(' Option 1 and Option 4','wplms-front-end'),
 						'vibe_question_explaination'=>__('Some explaination to this question.','wplms-front-end')
 					);
 			break;
@@ -88,7 +88,7 @@ class WPLMS_Content_Templates {
 					);
 			break;
 			case 'match':
-				$this->settings['post_content'] = __('Question Statement : Arrange the below options in following order: 4,3,2,1','wplms-front-end').'<br />[match]<ul><li>'.__('First Order','wplms-front-end').'</li><li>'.__('Second Order','wplms-front-end').'</li><li>'.__('Third order','wplms-front-end').'</li><li>'.__('Fourth Order','wplms-front-end').'</li></ul>';
+				$this->settings['post_content'] = __('Question Statement : Arrange the below options in following order: 4,3,2,1','wplms-front-end').'<br />[match]<ul><li>'.__('First Order','wplms-front-end').'</li><li>'.__('Second Order','wplms-front-end').'</li><li>'.__('Third order','wplms-front-end').'</li><li>'.__('Fourth Order','wplms-front-end').'</li></ul>[/match]';
 				$this->settings['meta_fields'] = array(
 						'vibe_question_type'=> $type,
 						'vibe_question_options'=>array(__('Option 1','wplms-front-end'),__('Option 2','wplms-front-end'),__('Option 3','wplms-front-end'),__('Option 4','wplms-front-end')),
@@ -98,11 +98,11 @@ class WPLMS_Content_Templates {
 					);
 			break;
 			case 'fillblank':
-				$this->settings['post_content'] = __('Question Statement : Fill in the blank','wplms-front-end').' [fillblank]';
+				$this->settings['post_content'] = __('Question Statement : Fill in the blank','wplms-front-end').' [fillblank] and another [fillblank]';
 				$this->settings['meta_fields'] = array(
 						'vibe_question_type'=> $type,
 						'vibe_question_options'=>array(),
-						'vibe_question_answer'=>'somevalue',
+						'vibe_question_answer'=>'somevalue|anothervalue',
 						'vibe_question_hint'=> __('some value','wplms-front-end'),
 						'vibe_question_explaination'=>__('Some explaination to this question.','wplms-front-end')
 					);
@@ -115,6 +115,16 @@ class WPLMS_Content_Templates {
 						'vibe_question_answer'=>'some answer',
 						'vibe_question_hint'=> __('some hint','wplms-front-end'),
 						'vibe_question_explaination'=>__('Some explaination to this question.','wplms-front-end')
+					);
+			break;
+			case 'survey':
+				$this->settings['post_content'] = __('Survey Question : How likely are you to going to pick the number 7 out of 0 to 10 ?','wplms-front-end');
+				$this->settings['meta_fields'] = array(
+						'vibe_question_type'=> $type,
+						'vibe_question_options'=>array('1','2','3','4','5'),
+						'vibe_question_answer'=>'4',
+						'vibe_question_hint'=> __('Help text for survey question. Each choice has marks used to end result','wplms-front-end'),
+						'vibe_question_explaination'=>__('Scores are connected with the marked answer','wplms-front-end')
 					);
 			break;
 			case 'largetext':

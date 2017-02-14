@@ -54,7 +54,7 @@ function bp_course_record_activity( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
-	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( apply_filters('bp_course_record_activity',array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) ));
 }
 
 function bp_course_record_activity_meta($args=''){
@@ -140,7 +140,7 @@ class bp_course_activity{
 		add_action('wplms_dashboard_course_announcement',array($this,'wplms_dashboard_course_announcement'),10,4);
 		add_action('publish_post',array($this,'wplms_course_news'),10,2);
 
-		add_action('wplms_course_subscribed',array($this,'course_subscribed'),10,3);
+		add_action('wplms_course_subscribed',array($this,'course_subscribed'),10,4);
 		add_action('wplms_start_course',array($this,'start_course'),10,2);
 		add_action('wplms_submit_course',array($this,'submit_course'),10,2);
 		add_action('wplms_evaluate_course',array($this,'evaluate_course'),10,3); 
@@ -189,19 +189,20 @@ class bp_course_activity{
 
 	function bp_course_activity_setup_nav() {
 		global $bp;
-		
-		$em_link = $bp->displayed_user->domain . $bp->activity->slug.'/' ;
-
-		bp_core_new_subnav_item( array(
-			'name' => __('Course','vibe'),
-			'slug' => BP_COURSE_SLUG,
-			'parent_url' => $em_link ,
-			'parent_slug' => $bp->activity->slug,
-			'position' => 45,
-			'screen_function' => array($this,'bp_course_my_course_activity'),
-			)
-		);
-		
+		if(is_object($bp)){
+			if(is_object($bp->displayed_user) && is_object($bp->activity)){
+				$em_link = $bp->displayed_user->domain . $bp->activity->slug.'/' ;
+				bp_core_new_subnav_item( array(
+					'name' => __('Course','vibe'),
+					'slug' => BP_COURSE_SLUG,
+					'parent_url' => $em_link ,
+					'parent_slug' => $bp->activity->slug,
+					'position' => 45,
+					'screen_function' => array($this,'bp_course_my_course_activity'),
+					)
+				);
+			}
+		}
 	}
 
 	function bp_course_my_course_activity(){
@@ -249,11 +250,12 @@ class bp_course_activity{
 		      'primary_link'=>get_permalink($course_id),
         ));
 	}
-	function course_subscribed($course_id,$user_id,$group_id = null){
+	function course_subscribed($course_id,$user_id,$group_id = null,$args=null){
 		
 		if(empty($group_id))
 			$group_id = '';
-		bp_course_record_activity(array(
+		
+		$activity_id = bp_course_record_activity(array(
 		      'action' => sprintf(__('Student subscribed for course %s','vibe'),get_the_title($course_id)),
 		      'content' => sprintf(__('Student %s subscribed for course %s','vibe'),bp_core_get_userlink( $user_id ),get_the_title($course_id)),
 		      'type' => 'subscribe_course',
@@ -261,6 +263,16 @@ class bp_course_activity{
 		      'primary_link'=>get_permalink($course_id),
 		      'secondary_item_id'=>$user_id
         ));
+
+        if(!empty($args)){
+        	foreach($args as $key=>$value){
+        		bp_course_record_activity_meta(array(
+		              'id' => $activity_id,
+		              'meta_key' => $key,
+		              'meta_value' => $value
+		        ));
+        	}
+        }
 	}
 	function start_course($course_id,$user_id = NULL){
 
@@ -304,6 +316,7 @@ class bp_course_activity{
 	      'primary_link' => get_permalink($course_id),
 	      'type' => 'course_evaluated',
 	      'item_id' => $course_id,
+	      'user_id'=>$user_id,
 	      ));
 	    
 	    bp_course_record_activity_meta(array(
@@ -312,6 +325,7 @@ class bp_course_activity{
 	      'meta_value' => get_post_field( 'post_author', $course_id )
 	    ));
 
+	    
 		do_action('badgeos_wplms_evaluate_course',$course_id,$marks,$user_id); // BadgeOS integration 
 
 		
@@ -327,7 +341,7 @@ class bp_course_activity{
 	    ));
 	}
 	function course_retake($course_id,$user_id){
-		      bp_course_record_activity(array(
+	      	bp_course_record_activity(array(
 		      'action' => __('Student retake Course ','vibe'),
 		      'content' => sprintf(__('Course %s is retaken by student %s','vibe'),get_the_title($course_id),bp_core_get_userlink($user_id)),
 		      'type' => 'retake_course',
@@ -358,7 +372,7 @@ class bp_course_activity{
 		$user_id = get_current_user_id();
 		bp_course_record_activity(array(
 	      'action' => sprintf(__('Student reviewed Course %s','vibe'),get_the_title($course_id)),
-	      'content' => sprintf(__('Student %s reviewd the Course %s','vibe'),bp_core_get_userlink($user_id),get_the_title($course_id)),
+	      'content' => sprintf(__('Student %s reviewed the Course %s','vibe'),bp_core_get_userlink($user_id),get_the_title($course_id)),
 	      'type' => 'review_course',
 	      'primary_link' => get_permalink($course_id),
 	      'item_id' => $course_id,
@@ -401,14 +415,15 @@ class bp_course_activity{
             'type' => 'renew_course',
             'item_id' => $course_id,
             'primary_link'=>get_permalink($course_id),
+            'user_id'=>$user_id
 	    )); 
 	}
 
 	function start_unit($unit_id,$course_id,$user_id){
 		bp_course_record_activity(array(
           'action' => __('Student started a unit','vibe'),
-          'content' => sprintf(('Estudiante inició la unidad %s en el curso %s'),get_the_title($unit_id),get_the_title($course_id)),
-          'type' => 'unit',
+          'content' => sprintf(__('Student started the unit %s in course %s','vibe'),get_the_title($unit_id),get_the_title($course_id)),
+          'type' => 'start_unit',
           'primary_link' => get_permalink($unit_id),
           'item_id' => $course_id,
           'secondary_item_id' => $unit_id,
@@ -439,7 +454,8 @@ class bp_course_activity{
 	      'type' => 'unit_instructor_complete',
 	      'primary_link' => get_permalink($unit_id),
 	      'item_id' => $course_id,
-	      'secondary_item_id' => $unit_id
+	      'secondary_item_id' => $unit_id,
+	      'user_id'=>$user_id
 	    ));
 	}
 
@@ -451,7 +467,8 @@ class bp_course_activity{
 	      'type' => 'unit_instructor_complete',
 	      'primary_link' => get_permalink($unit_id),
 	      'item_id' => $course_id,
-	      'secondary_item_id' => $unit_id
+	      'secondary_item_id' => $unit_id,
+	      'user_id'=>$user_id
 	    ));
 	}
 
@@ -483,7 +500,7 @@ class bp_course_activity{
 		$id = get_post_meta($quiz_id,'vibe_quiz_course',true);
 		bp_course_record_activity(array(
 	      'action' => __('Student submitted the Quiz','vibe'),
-	      'content' => sprintf(__('Quiz %s was submitted by student','vibe'),get_the_title($quiz_id),bp_core_get_userlink( $user_id )),
+	      'content' => sprintf(__('Quiz %s was submitted by student %s','vibe'),get_the_title($quiz_id),bp_core_get_userlink( $user_id )),
 	      'type' => 'submit_quiz',
 	      'primary_link' => get_permalink($quiz_id),
 	      'item_id' => empty($id)?$quiz_id:$id,
@@ -501,6 +518,7 @@ class bp_course_activity{
 	      'primary_link' => trailingslashit( bp_core_get_user_domain( $user_id ) . bp_get_course_slug()) . BP_COURSE_RESULTS_SLUG . '/?action='.$quiz_id ,
 	      'item_id' => empty($id)?$quiz_id:$id,
           'secondary_item_id' => $quiz_id,
+          'user_id'=>$user_id,
 	      ));
 
 	    bp_course_record_activity_meta(array(
@@ -508,7 +526,13 @@ class bp_course_activity{
 	      'meta_key' => 'instructor',
 	      'meta_value' => get_post_field( 'post_author', $quiz_id )
 	    ));
-	    do_action('badgeos_wplms_evaluate_quiz',$quiz_id,$marks,$user_id); 
+	    $percentage = round((100*$marks/$max),2);
+	    bp_course_record_activity_meta(array(
+	      'id' => $activity_id,
+	      'meta_key' => 'percentage',
+	      'meta_value' => $percentage,
+	    ));
+	    do_action('badgeos_wplms_evaluate_quiz',$quiz_id,$marks,$user_id,$max); 
 	}
 
 	function quiz_retake($quiz_id,$user_id){
@@ -520,6 +544,7 @@ class bp_course_activity{
 	        'primary_link' => get_permalink($quiz_id),
 	        'item_id' => empty($id)?$quiz_id:$id,
           	'secondary_item_id' => $quiz_id,
+          	'user_id'=>$user_id,
 	      ));
 	}
 
@@ -532,7 +557,7 @@ class bp_course_activity{
 	      'primary_link' => get_permalink($quiz_id),
 	      'item_id' => empty($id)?$quiz_id:$id,
           'secondary_item_id' => $quiz_id,
-	      ));
+	    ));
 	}
 
 	function bulk_action($action,$course_id,$members){

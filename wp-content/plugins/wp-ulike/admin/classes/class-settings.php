@@ -218,6 +218,7 @@ class wp_ulike_settings {
   {
     wp_enqueue_media();
     wp_enqueue_script( 'wm-settings', plugins_url( 'js/settings.js' , __FILE__ ), array( 'jquery', 'wp-color-picker' ) );
+	  wp_enqueue_script("jquery-effects-core");
     wp_localize_script( 'wm-settings', 'ajax', array(
       'url' => admin_url( 'admin-ajax.php' ),
       'spinner' => admin_url( 'images/spinner.gif' )

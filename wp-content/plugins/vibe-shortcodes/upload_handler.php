@@ -181,14 +181,12 @@ class WPLMS_ZIP_UPLOAD_HANDLER{
 	function getDirs(){
 		$paths = $this->getUploadsPath();
 		if(file_exists($paths)){
-			$myDirectory = opendir();
+			$myDirectory = opendir($paths);
 			$dirArray = array();
 			$i=0;
-			// get each entry
 			while($entryName = readdir($myDirectory)) {
 				if ($entryName != "." && $entryName !=".." && is_dir($this->getUploadsPath().$entryName)):
 				$dirArray[$i]['dir'] = $entryName;
-				// store the filenames - need to iterate to get story.html or player.html
 				$dirArray[$i]['file'] = $this->getFile($this->getUploadsPath().$entryName);
 				$i++;
 				endif;
@@ -209,10 +207,11 @@ class WPLMS_ZIP_UPLOAD_HANDLER{
 				$f = $this->getUploadsPath().$entryName;
 				$fname = pathinfo ($f, PATHINFO_FILENAME);
 				$ext = pathinfo ($f,PATHINFO_EXTENSION);
-				if (in_array($ext,array('html','mov','avi','mp4','mp3','txt'))): 
-				closedir($myDirectory);
-				return $entryName;
-				endif;
+
+				if (in_array($ext,array('html','htm','mov','avi','mp4','mp3','txt'))){
+					closedir($myDirectory);
+					return $entryName;
+				}
 			}
 		}
 		return false;

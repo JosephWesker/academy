@@ -235,15 +235,15 @@ class wplms_instructor_stats extends WP_Widget {
                 else
                   $i=0;
 
-                 if($value >= $begin && $value < $end){
+                 if($value >= $begin && $value <= $end){
                    $i++;
                    $student_range[$begin.'-'.$end]=array(
                     'range'=>$begin.'-'.$end,
                     'value'=> $i 
                     );
                  }else{
-                    $i=0;
-                   while(($value < $begin) || $value > $end){
+                  $i=0;
+                   while($value > $end){
                       $begin = $begin+$range_val; 
                       $end=$end+$range_val;
                       if($end > $max)

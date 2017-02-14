@@ -119,11 +119,17 @@ input[type="text"].ccf_text{
 		    display: inline-block;
 		    width: 100%;
 		    padding: 15px 0;
+		    &+
 		    .wplms-taxonomy{
 		    	& > li{
 		    		max-width:33%;
 		    	}
 		    }
+	    }
+	    .vibe_level,.vibe_location{
+	        padding-bottom: 15px;
+		    display: inline-block;
+		    width: 100%;
 	    }
 	}
 }
@@ -831,3 +837,62 @@ input[type="text"].ccf_text{
 		}
 	}
 }
+
+/*
+MISCELLANEOUS
+ */
+
+.attachments-browser .media-toolbar {margin-top:20px !Important;height:160px !Important;}
+
+ul.attachments{margin-top:60px !important;}
+
+.attachment-filters{
+
+margin-top:0px !Important;
+
+width:30% !important;
+
+height: 35px !important;
+
+padding:0 10px !important;
+
+}.media-modal-content .attachments-browser .search{width:auto;}
+
+.screen-reader-text{margin-right:10px !important;}
+
+.media-toolbar-primary { height:0px !Important;}
+
+.media-toolbar-secondary{margin-top:0px;height: 0px !important;}
+
+ul#vibe_quiz_tags{
+	li{
+		clear:both;
+		.dashicons{
+			padding:12px 0 0;
+		}
+		input {
+		    width:50px; 
+		}
+		strong,
+		select[multiple]{
+			width:320px;
+		}
+	}	
+}  
+
+.dynamic_quiz_tags_headings {
+	text-transform:uppercase;
+	font-size:11px;
+	font-weight:600;
+	opacity:0.6;
+	strong{
+		width:350px;
+		display:inline-block;
+		text-align:center;
+	}
+	span{
+		width:60px;
+		display:inline-block;
+	}
+}
+

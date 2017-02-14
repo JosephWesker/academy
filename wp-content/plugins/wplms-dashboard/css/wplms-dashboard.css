@@ -3,6 +3,15 @@
 /*========================================================================*/
 .morris-hover{position:absolute;z-index:1000}.morris-hover.morris-default-style{border-radius:10px;padding:6px;color:#666;background:rgba(255,255,255,0.8);border:solid 2px rgba(230,230,230,0.8);font-family:sans-serif;font-size:12px;text-align:center}.morris-hover.morris-default-style .morris-hover-row-label{font-weight:bold;margin:0.25em 0}
 .morris-hover.morris-default-style .morris-hover-point{white-space:nowrap;margin:0.1em 0}
+/* FOR REGULAR WIDGETS INSERTED IUN DASHBOARD */
+.wplms-dashboard.row .widget,
+.wplms-dashboard.row .widget_display_topics {
+    margin: 0 15px 30px;
+    clear: both;
+    padding: 20px;
+    background:#fff;
+    border: 1px solid #eee;
+}
 
 /*========================================================================*/
 /*   01. DASHBOARD
@@ -555,13 +564,7 @@ border-radius: 2px;
 	color:rgba(255,255,255,0.6);
 }
 
-.error-block{
-	padding:20px;
-	font-weight:600;
-	background: #fad733;
-	text-transform: uppercase;
-	font-size:11px;
-}
+
 
 /*========================================================================*/
 /*   01. DASH STATS

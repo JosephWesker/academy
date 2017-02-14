@@ -1,3 +1,50 @@
+* 2.5.2
+* dynamic quiz tags marks
+* Translation Files Fixed.
+* changelog updated
+* 2.5.0
+* translations updated
+* Edit quiz changed in template to edit
+* Delete product with course deletion from front end added.
+* 2.4.1
+* 2.4
+* translations updated
+* WP Media attachments browser fix
+* save button fix for sub elements
+* Fillblank and Select question templates modified for multiple use
+* Survey question template added.
+* Filter to check correct author
+* Wrong set, is_string instead of Isset
+* Add disabled class on edit icon so that user do not edit it multiple times.
+* 2.3.1.1
+* Latex support from front end.
+* Latex shortcode accepted in question content
+* accept Latex and Dynamic quiz fixes
+* shortinput message
+* node modules ignore
+* remove node modules
+* Dynamic Quiz v 2 Front end.
+* 2.3.1
+* Course creation button disabled while ajax request is on.
+* duplicate course creation bug fix
+* min.js cache fix
+* 2.3
+* translation files updated
+* liveeditor call removed
+* notices & warning messages fixed
+* function users groups_get_group/s
+* Match quesntion type template fix
+* php7 fix
+* create course check typo
+* translation and drip fixes
+* attachment sizes fix in course front end creation
+* subscribe instructor to course forum
+* 2.2.2
+* removed FEE
+* Debug notices fixed
+* 2.2
+* action added : wplms_course_curriculum_front_end_generator
+* Course creation on editing
 * 2.1.1
 * Create course and then go back to edit bug
 * 2.1

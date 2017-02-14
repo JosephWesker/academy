@@ -52,7 +52,9 @@ class wplms_dash_contact_users extends WP_Widget {
         if(isset($users) && $users){
           echo '<select class="usergroup-dropdown chosen" data-placeholder="'.__('Select User group','wplms-dashboard').'">';
           echo '<option value="">'.__('Select a user group','wplms-dashboard').'</option>';
-          echo '<option value="get_friends">'.__('Friends','wplms-dashboard').'</option>';
+          if(bp_is_active('friends')){
+            echo '<option value="get_friends">'.__('Friends','wplms-dashboard').'</option>';
+          }
           echo '<option value="get_instructors">'.__('Instructor','wplms-dashboard').'</option>';
           echo '<option value="get_admins">'.__('Administrator','wplms-dashboard').'</option>';
           if(current_user_can('edit_posts'))

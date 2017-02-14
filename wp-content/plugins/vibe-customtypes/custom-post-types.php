@@ -111,7 +111,6 @@ function register_lms() {
 			'taxonomies' => array( 'course-cat'),
 			'supports' => array( 'title','editor','thumbnail','author','comments','excerpt','revisions','custom-fields', 'page-attributes'),
 			'hierarchical' => true,
-            'show_in_nav_menus' => true,
 			'rewrite' => array( 'slug' => $course_permalink, 'hierarchical' => true, 'with_front' => false )
 		)
 	);
@@ -136,7 +135,6 @@ function register_lms() {
 			'show_in_nav_menus' => true,
 			'supports' => array( 'title', 'editor', 'thumbnail','author','comments', 'post-formats', 'revisions','custom-fields' ),
 			'hierarchical' => true,
-            'show_in_nav_menus' => false,
 			'rewrite' => array( 'slug' => $unit_permalink, 'hierarchical' => true, 'with_front' => false )
 		)
 	 );   
@@ -179,7 +177,6 @@ function register_lms() {
 			'show_in_nav_menus' => true,
 			'supports' => array( 'title','author','thumbnail','editor', 'revisions','custom-fields' ),
 			'hierarchical' => true,
-            'show_in_nav_menus' => false,
 			'rewrite' => array( 'slug' => $quiz_permalink,'hierarchical' => true, 'with_front' => false )
 		)
 	 );  
@@ -222,7 +219,6 @@ function register_lms() {
 			'show_in_nav_menus' => true,
 			'supports' => array( 'title','author','editor', 'comments','revisions' ,'custom-fields'),
 			'hierarchical' => true,
-            'show_in_nav_menus' => false,
 			'rewrite' => array( 'slug' => WPLMS_QUESTION_SLUG,'hierarchical' => true, 'with_front' => false )
 		)
 	 ); 
@@ -271,7 +267,6 @@ function register_lms() {
 				'show_in_nav_menus' => true,
 				'supports' => array( 'title', 'editor', 'thumbnail','author', 'post-formats', 'revisions','custom-fields' ),
 				'hierarchical' => true,
-	            'show_in_nav_menus' => false,
 				'rewrite' => array( 'slug' => WPLMS_EVENT_SLUG, 'hierarchical' => true, 'with_front' => true )
 			)
 		 );   
@@ -322,7 +317,6 @@ function register_lms() {
 				'show_in_nav_menus' => true,
 				'supports' => array( 'title', 'editor','author', 'post-formats', 'revisions','custom-fields' ),
 				'hierarchical' => true,
-	            'show_in_nav_menus' => false,
 				'rewrite' => array( 'slug' => WPLMS_ASSIGNMENT_SLUG, 'hierarchical' => true, 'with_front' => true )
 			)
 		 );   
@@ -485,7 +479,6 @@ function register_testimonials() {
 			'hierarchical' => false,
 			'has_archive' => true,
             'menu_position' => 10,
-            'show_in_nav_menus' => false,
 			'rewrite' => array( 'slug' => WPLMS_TESTIMONIAL_SLUG, 'hierarchical' => true, 'with_front' => false )
 		)
 	);
@@ -513,7 +506,6 @@ function register_popups() {
 			'hierarchical' => false,
 			'has_archive' => false,
             'menu_position' => 8,
-            'show_in_nav_menus' => false,
 			'rewrite' => array( 'slug' => 'popup', 'hierarchical' => true, 'with_front' => false )
 		)
 	);

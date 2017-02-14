@@ -246,13 +246,13 @@ jQuery(document).ready(function($) {
         });
     });
 
-    $('#vibe_type').live('change', function() {
+    $('#vibe_type.vibe-cinput').live('change', function() {
         var crow=$(this).parent().parent().next();
        if($(this).val() == 'select'){
            crow.show();
-           crow.find('#vibe_options').show();
+           crow.find('#vibe_options').show(100);
        }else{
-           crow.hide();
+           crow.hide(100);
        }
     });
 });

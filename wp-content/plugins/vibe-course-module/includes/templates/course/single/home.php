@@ -6,7 +6,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.9.6
+ * @version     2.1
  */
 
 	get_header( 'buddypress' );

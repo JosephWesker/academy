@@ -87,7 +87,7 @@ class WPLMS_Front_End {
 
     function wplms_front_end_validate_action(){
         $create_course = vibe_get_option('create_course');
-        if(isset($_GET['action']) && is_page($course_course)){
+        if(isset($_GET['action']) && is_page($create_course)){
             if(is_numeric($_GET['action']) && (get_post_type($_GET['action']) == 'course')){
                 if ( current_user_can('edit_post', $_GET['action']) ){
                     
@@ -848,31 +848,38 @@ class WPLMS_Front_End {
 
         $fields = json_decode(stripslashes($_POST['fields']));
         
-        if(is_array($fields) && isset($fields))
-        foreach($fields as $key=>$c){
-            if($c->post_meta == 'vibe_course_curriculum'){
-                $curriculum = vibe_sanitize(get_post_meta($course_id,$c->post_meta,false));
-                if(!is_array($curriculum) || !count($curriculum)){
-                    echo '<div id="message"><p>'.__('Unable to delete curriclum','wplms-front-end').'</p></div>'; 
-                    die();
-                }
-                
-                foreach($curriculum as $key=>$uid){
-                    if(is_numeric($uid)){
-                        $post_type = get_post_type($uid);
-                        if($post_type == $c->post_type){
-                            wp_trash_post($uid);
+        if(is_array($fields) && isset($fields)){
+            foreach($fields as $key=>$c){
+                if($c->post_meta == 'vibe_course_curriculum'){
+                    $curriculum = vibe_sanitize(get_post_meta($course_id,$c->post_meta,false));
+                    if(!is_array($curriculum) || !count($curriculum)){
+                        echo '<div id="message"><p>'.__('Unable to delete curriclum','wplms-front-end').'</p></div>'; 
+                        die();
+                    }
+                    
+                    foreach($curriculum as $key=>$uid){
+                        if(is_numeric($uid)){
+                            $post_type = get_post_type($uid);
+                            if($post_type == $c->post_type){
+                                wp_trash_post($uid);
+                            }
                         }
                     }
                 }
-            }
-            if($c->post_meta == 'vibe_assignment_course'){
-                $results = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s and meta_value = %d",'vibe_assignment_course',$course_id));
-                if(is_array($results) && count($results)){
-                    foreach($results as $result){
-                        if(isset($result->post_id) && is_numeric($result->post_id)){
-                          wp_trash_post($result->post_id);
+                if($c->post_meta == 'vibe_assignment_course'){
+                    $results = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s and meta_value = %d",'vibe_assignment_course',$course_id));
+                    if(is_array($results) && count($results)){
+                        foreach($results as $result){
+                            if(isset($result->post_id) && is_numeric($result->post_id)){
+                              wp_trash_post($result->post_id);
+                            }
                         }
+                    }
+                }
+                if($c->post_meta == 'vibe_product'){
+                    $product_id = get_post_meta($course_id,'vibe_product',true);
+                    if(!empty($product_id)){
+                        wp_trash_post($product_id);
                     }
                 }
             }
@@ -880,6 +887,13 @@ class WPLMS_Front_End {
         if(wp_trash_post($course_id)){
 
             echo '<div id="message" class="success"><p>'.__('Course Deleted.','wplms-front-end').'</p></div>';
+            if(defined('BP_COURSE_SLUG') && defined('BP_COURSE_INSTRUCTOR_SLUG')){
+                ?>
+                <script>
+                window.location.replace("<?php echo bp_loggedin_user_domain() . BP_COURSE_SLUG .'/'. BP_COURSE_INSTRUCTOR_SLUG; ?>");
+                </script>
+                <?php
+            }
         }else{
            echo '<div id="message"><p>'.__('Unable to update Course, contact Site admin','wplms-front-end').'</p></div>'; 
         }

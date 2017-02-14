@@ -73,16 +73,27 @@ class BP_Course_Offline{
     }
 
     function auto_progress($progress,$course_id){
-    	
+    	$user_id = get_current_user_id();
     	$vibe_course_auto_progress = get_post_meta($course_id,'vibe_course_auto_progress',true);
 		if(vibe_validate($vibe_course_auto_progress)){
+             $course_duration = bp_course_get_course_duration($course_id,$user_id);
+
+            $activity = bp_activity_get( array(
+                'max'    => 1,
+                'filter' => array( 'user_id' => $user_id,'item_id'=>$course_id,'component'=>'course','action'=>'subscribe_course' )));
+
+            if(!empty($activity)){
+                $user_start_datetime = $activity['activities'][0]->date_recorded;
+                $user_start_datetime = strtotime($user_start_datetime);
+             
+            }
+
 
 			$course_duration_parameter = apply_filters('vibe_course_duration_parameter',86400,$course_id);
 			
-			$user_id = get_current_user_id();
-			if(bp_course_is_member($course_id,$user_id)){
 
-				$end_time = apply_filters('bp_course_auto_progress_user_start_time',get_user_meta($user_id,$course_id,true));
+			if(bp_course_is_member($course_id,$user_id)){
+				$end_time = apply_filters('bp_course_auto_progress_user_start_time',bp_course_get_user_expiry_time($user_id,$course_id));
 				
                 if(empty($end_time)){
 					$end_time = time();
@@ -115,7 +126,7 @@ class BP_Course_Offline{
             if($end_time < time()){
                 $progress = 100;
             }else{
-                $elapsed = ( $end_time - time() )/$course_duration_parameter;
+                $elapsed = (time() - $user_start_datetime )/$course_duration_parameter;
 
                 $total = get_post_meta($course_id,'vibe_duration',true);
                 $progress = round(($elapsed/$total),2)*100;

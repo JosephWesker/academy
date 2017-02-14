@@ -64,11 +64,7 @@ jQuery(document).ready(function($){
           countdown.html($text);
         }else{
             countdown.html(vibe_course_module_strings.timeout);
-            $('.submit_assignment').not('.clicked').trigger('click');
-            
-            if(!$('.submit_assignment').hasClass('.clicked'))
-              $('.submit_assignment').addClass('clicked');
-
+            $('#submit').hide(200).remove();
             $('.assignment_timer').trigger('end');
         }  
     });
@@ -99,9 +95,11 @@ jQuery(document).ready(function($){
       event.preventDefault();
       var $this = $(this);
       var defaulttxt = $this.html();
-      $this.prepend('<i class="icon-sun-stroke animated spin"></i>');
-
-      $.ajax({
+      $this.prepend('<i class="fa fa-spinner animated spin"></i>');
+      $.confirm({
+          text: wplms_assignment_messages.remove_attachment,
+          confirm: function() {
+            $.ajax({
               type: "POST",
               url: ajaxurl,
               data: { action: 'clear_previous_submissions', 
@@ -110,11 +108,19 @@ jQuery(document).ready(function($){
                     },
               cache: false,
               success: function (html) {
-                  $this.find('i').remove();
+                  $this.find('i.fa').remove();
                   $this.html(html);
                    setTimeout(function(){location.reload();}, 3000);
               }
+            });
+          },
+          cancel: function() {
+              $this.find('i.fa').remove();
+          },
+          confirmButton: vibe_course_module_strings.confirm,
+          cancelButton: vibe_course_module_strings.cancel
       });
+      
 
   });
 
@@ -173,6 +179,7 @@ jQuery(document).ready(function($){
                   $(this).removeClass('animated');
                   $(this).removeClass('spin');
                   $('.assignment_students').html(html);
+                  $('.tab-pane#assignment').trigger('evaluate_assignment_loaded');
               }
         });
     }); 

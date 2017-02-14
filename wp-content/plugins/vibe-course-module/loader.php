@@ -3,27 +3,28 @@
 Plugin Name: Vibe Course Module
 Plugin URI: http://www.VibeThemes.com
 Description: This is the Course module for WPLMS WordPress Theme by VibeThemes
-Version: 2.1.3
+Version: 2.5.2.1
 Requires at least: WP 3.8, BuddyPress 1.9 
-Tested up to: 2.4.1
+Tested up to: 2.7.2
 License: (Themeforest License : http://themeforest.net/licenses)
 Author: Mr.Vibe 
 Author URI: http://www.VibeThemes.com
 Network: false
 Text Domain: vibe
+Domain Path: /languages/
 */
 
 // Checks if Course Module is Installed
 define( 'BP_COURSE_MOD_INSTALLED', 1 );
 
 // Checks the Course Module Version and necessary changes are hooked to this component
-define( 'BP_COURSE_MOD_VERSION', '2.1.3' );
+define( 'BP_COURSE_MOD_VERSION', '2.5.2.1' );
 
 // FILE PATHS of Course Module
 define( 'BP_COURSE_MOD_PLUGIN_DIR', dirname( __FILE__ ) );
 
 /* Database Version for Course Module */
-define ( 'BP_COURSE_DB_VERSION', '2' );
+define ( 'BP_COURSE_DB_VERSION', '2.5.2.1' );
 
 define ( 'BP_COURSE_CPT', 'course' );
 
@@ -41,7 +42,7 @@ function bp_course_init() {
 add_action( 'bp_include', 'bp_course_init' );
 
 function bp_course_version(){
-    return '2.1';
+    return '2.5.2.1';
 }
 
 /* Setup procedures to be run when the plugin */
@@ -90,9 +91,3 @@ function vibe_course_module_translations(){
         load_textdomain( 'vibe', $mofile_local );
     }   
 }
-
-//Buddydrive deprecated UI
-add_filter( 'buddydrive_use_deprecated_ui', '__return_true' );
-
-
-

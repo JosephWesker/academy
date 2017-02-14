@@ -1,6 +1,5 @@
 jQuery(document).ready(function($){
-    $(".live-edit").liveEdit();
-
+    
     $('#course-category-select').change(function(event){
       
     	if($(this).val() === 'new'){
@@ -100,7 +99,14 @@ jQuery('.upload_image_button').on('click', function( event ){
             selection.map( function( attachment ) {
             attachment = attachment.toJSON();
             console.log(attachment);
-            button.html('<img src="'+attachment.sizes.thumbnail.url+'" width="'+attachment.sizes.thumbnail.width+'" height="'+attachment.sizes.thumbnail.height+'" class="submission_thumb thumbnail" /><input id="'+input_name+'" class="post_field" data-type="featured_image" data-id="'+input_name+'" name="'+input_name+'" type="hidden" value="'+attachment.id+'" />');
+            var url_image='';
+            if( attachment.sizes){
+                if(   attachment.sizes.thumbnail !== undefined  ) url_image=attachment.sizes.thumbnail.url; 
+                else if( attachment.sizes.medium !== undefined ) url_image=attachment.sizes.medium.url;
+                else url_image=attachment.sizes.full.url;
+            }
+            
+            button.html('<img src="'+url_image+'" class="submission_thumb thumbnail" /><input id="'+input_name+'" class="post_field" data-type="featured_image" data-id="'+input_name+'" name="'+input_name+'" type="hidden" value="'+attachment.id+'" />');
          });
 
     });
@@ -135,7 +141,13 @@ jQuery('.upload_badge_button').on('click', function( event ){
             input_name = button.data( 'input-name' );
             selection.map( function( attachment ) {
             attachment = attachment.toJSON();
-            button.html('<img src="'+attachment.sizes.full.url+'" width="'+attachment.sizes.full.width+'" height="'+attachment.sizes.full.height+'" class="submission_thumb thumbnail" /><input id="'+input_name+'" name="'+input_name+'" type="hidden" value="'+attachment.id+'" />');
+            var url_image='';
+            if( attachment.sizes){
+                if(   attachment.sizes.thumbnail !== undefined  ) url_image=attachment.sizes.thumbnail.url; 
+                else if( attachment.sizes.medium !== undefined ) url_image=attachment.sizes.medium.url;
+                else url_image=attachment.sizes.full.url;
+            }
+            button.html('<img src="'+url_image+'" class="submission_thumb thumbnail" /><input id="'+input_name+'" name="'+input_name+'" type="hidden" value="'+attachment.id+'" />');
          });
 
     });
@@ -201,7 +213,6 @@ jQuery('.upload_badge_button').on('click', function( event ){
                     cache: false,
                     success: function (html) {
                         $this.find('i').remove();
-                        $this.removeClass('disabled');
                         if($.isNumeric(html)){
                             var active=$('#course_creation_tabs li.active');
                             active.removeClass('active');
@@ -217,6 +228,7 @@ jQuery('.upload_badge_button').on('click', function( event ){
                             $this.html(html);
                             setTimeout(function(){$this.html(defaulttxt);}, 2000);
                         }
+                        $this.removeClass('disabled');
                     }
             });
           },

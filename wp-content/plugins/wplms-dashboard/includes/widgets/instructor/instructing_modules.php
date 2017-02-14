@@ -19,10 +19,20 @@ class wplms_dash_instructing_modules extends WP_Widget {
     /** @see WP_Widget::widget -- do not rename this */
     function widget( $args, $instance ) {
     extract( $args );
+      $defaults = array(
+        'title' => '',
+        'post_types'=>array(),
+        'number'=>5,
+        'orderby' => 'post_date',
+        'order' => 'DESC'
+        );
+
+      $post_args = wp_parse_args( $instance, $defaults );
+      extract($post_args);
+      $user_id = get_current_user_id();
 
     //Our variables from the widget settings.
-    $title = apply_filters('widget_title', $instance['title'] );
-    extract($instance);
+    $title = apply_filters('widget_title', $title );
 
     echo '<div class="'.$width.'">
             <div class="dash-widget">'.$before_widget;
@@ -31,114 +41,65 @@ class wplms_dash_instructing_modules extends WP_Widget {
     
     // Display the widget title 
     if ( $title )
-      	echo $before_title . $title . $after_title;
-    		
+        echo $before_title . $title . $after_title;
+        
         $user_id = get_current_user_id();
 
         echo '<div id="vibe-tabs-instructing-modules" class="tabs tabbable">
               <ul class="nav nav-tabs clearfix">';
 
         if(isset($course) && $course){
-            echo '<li><a href="#tab-mycourses" data-toggle="tab">'.__('Courses','wplms-dashboard').'</a></li>';
+          $post_types[] = 'course';
         }
         if(isset($quiz) && $quiz){
-            echo '<li><a href="#tab-myquizzes" data-toggle="tab">'.__('Quizzes','wplms-dashboard').'</a></li>';
+          $post_types[] = 'quiz';
         }
         if(isset($assignment) && $assignment){
-            echo '<li><a href="#tab-myassignments" data-toggle="tab">'.__('Assignments','wplms-dashboard').'</a></li>';
+          $post_types[] = 'wplms-assignment';
         }
         if(isset($unit) && $unit){
-            echo '<li><a href="#tab-myunits" data-toggle="tab">'.__('Units','wplms-dashboard').'</a></li>';
+          $post_types[] = 'unit';
         }
-        echo '</ul><div class="tab-content">';
-        if(isset($course) && $course){
-        echo '<div id="tab-mycourses" class="tab-pane">';
-          
-          $courses= $wpdb->get_results($wpdb->prepare("
-                SELECT ID,post_title
-                FROM {$wpdb->posts} AS posts
-                WHERE   posts.post_type   = 'course'
-                AND   posts.post_status   = 'publish'
-                AND   posts.post_author   = %d
-                LIMIT 0,%d",$user_id,$number));
-          if(count($courses)){
-            echo '<ul class="dashboard-mycourses">';
-            foreach($courses as $course){
-                echo '<li><a href="'.get_permalink($course->ID).'">'.$course->post_title.'</a></li>';
+        if(!empty($post_types)){
+          foreach($post_types as $post_type){
+            if(function_exists('post_type_exists') && post_type_exists($post_type)){
+                $posttype_obj=get_post_type_object($post_type);
+                echo '<li><a href="#tab-my'. $post_type.'" data-toggle="tab">'.$posttype_obj->labels->name.'</a></li>';
             }
-            echo '</ul>';  
-          }else{
-            echo '<div class="message error">'.__('No Courses found','wplms-dashboard').'</div>';
           }
-        echo '</div>';
-      }
-      if(isset($quiz) && $quiz){
-        echo '<div id="tab-myquizzes" class="tab-pane">';
-         
-          $quizzes= $wpdb->get_results($wpdb->prepare("
-                SELECT ID,post_title
-                FROM {$wpdb->posts} AS posts
-                WHERE   posts.post_type   = 'quiz'
-                AND   posts.post_status   = 'publish'
-                AND   posts.post_author   = %d
-                LIMIT 0,%d",$user_id,$number));
-          if(count($quizzes)){
-            echo '<ul class="dashboard-myquizzes">';
-            foreach($quizzes as $quiz){
-                echo '<li><a href="'.get_permalink($quiz->ID).'">'.$quiz->post_title.'</a></li>';
+           echo '</ul><div class="tab-content">';
+            foreach($post_types as $post_type){
+              if(function_exists('post_type_exists') && post_type_exists($post_type)){
+                $posttype_obj=get_post_type_object($post_type);
+                  echo '<div id="tab-my'.$post_type.'" class="tab-pane">';
+                  $args = apply_filters('wplms_dashboard_instrcuting_modules_args',array(
+                      'post_type' => $post_type,
+                      'post_status' => 'publish',
+                      'author' => $user_id,
+                      'posts_per_page' => $number,
+                      'orderby' =>$orderby,
+                      'order' => $order
+                       ));
+     
+                $the_posts= new Wp_Query($args);
+                if($the_posts->have_posts()){
+                  echo '<ul class="dashboard-my'.$post_type.'">';
+                  while($the_posts->have_posts()){
+                      $the_posts->the_post();
+                      global $post;
+                      echo '<li><a href="'.get_permalink($post->ID).'">'.$post->post_title.'</a></li>';
+                  }
+                  echo '</ul>';  
+                }else{
+                  echo '<div class="message error">'.sprintf(__('No %s found','wplms-dashboard'),$posttype_obj->labels->name).'</div>';
+                }
+                wp_reset_postdata();
+                echo '</div>';
+              }
             }
-            echo '</ul>';  
-          }else{
-            echo '<div class="message error">'.__('No quizzes found','wplms-dashboard').'</div>';
-          }
-        echo '</div>';
-      }
-      if(isset($assignment) && $assignment){
-         echo '<div id="tab-myassignments" class="tab-pane">';
-          
-          $assignments= $wpdb->get_results($wpdb->prepare("
-                SELECT ID,post_title
-                FROM {$wpdb->posts} AS posts
-                WHERE   posts.post_type   = 'wplms-assignment'
-                AND   posts.post_status   = 'publish'
-                AND   posts.post_author   = %d
-                LIMIT 0,%d",$user_id,$number));
-          if(count($assignments)){
-            echo '<ul class="dashboard-myassignments">';
-            foreach($assignments as $assignment){
-                echo '<li><a href="'.get_permalink($assignment->ID).'">'.$assignment->post_title.'</a></li>';
-            }
-            echo '</ul>';  
-          }else{
-            echo '<div class="message error">'.__('No assignments found','wplms-dashboard').'</div>';
-          }
-        echo '</div>';
-      }
-      if(isset($unit) && $unit){
-        echo '<div id="tab-myunits" class="tab-pane">';
-          
-
-          $units= $wpdb->get_results($wpdb->prepare("
-                SELECT ID,post_title
-                FROM {$wpdb->posts} AS posts
-                WHERE   posts.post_type   = 'unit'
-                AND   posts.post_status   = 'publish'
-                AND   posts.post_author   = %d
-                LIMIT 0,%d",$user_id,$number));
-
-          if(count($units)){
-            echo '<ul class="dashboard-myunits">';
-            foreach($units as $unit){
-                echo '<li><a href="'.get_permalink($unit->ID).'">'.$unit->post_title.'</a></li>';
-            }
-            echo '</ul>';  
-          }else{
-            echo '<div class="message error">'.__('No units found','wplms-dashboard').'</div>';
-          }
-        echo '</div>';
-      }
-
-        echo '</div></div>'.$after_widget.'
+             echo '</div>';
+        }
+       echo '</div></div>'.$after_widget.'
         </div>
         </div>';
                 
@@ -146,65 +107,108 @@ class wplms_dash_instructing_modules extends WP_Widget {
  
     /** @see WP_Widget::update -- do not rename this */
     function update($new_instance, $old_instance) {   
-	    $instance = $old_instance;
-	    $instance['title'] = strip_tags($new_instance['title']);
-	    $instance['course'] = $new_instance['course'];
-      $instance['quiz'] = $new_instance['quiz'];
-      $instance['assignment'] = $new_instance['assignment'];
-      $instance['unit'] = $new_instance['unit'];
+      $instance = $old_instance;
+      $instance['title'] = strip_tags($new_instance['title']);
+      $instance['post_types'] = $new_instance['post_types'];
       $instance['number'] = $new_instance['number'];
-	    $instance['width'] = $new_instance['width'];
-	    return $instance;
+      $instance['orderby'] = $new_instance['orderby'];
+      $instance['order'] = $new_instance['order'];
+      $instance['width'] = $new_instance['width'];
+      if(!empty($instance['course'])) unset($instance['course'] );
+      if(!empty($instance['unit'])) unset($instance['course'] );
+      if(!empty($instance['assignment'])) unset($instance['course'] );
+      if(!empty($instance['quiz'])) unset($instance['course'] );
+      return $instance;
     }
  
     /** @see WP_Widget::form -- do not rename this */
-    function form($instance) {  
+    function form($instance) { 
+     $ptypes = get_post_types(array('public'   => true),'objects');
+     $posts = array();
+     foreach($ptypes as $k => $p){
+      $posts[]=$p->name;
+     } 
+     
         $defaults = array( 
                         'title'  => __('Instructing Modules','wplms-dashboard'),
-                        'width' => 'col-md-6 col-sm-12'
+                        'width' => 'col-md-6 col-sm-12',
+                        'post_types' => array('course')
                     );
-  		  $instance = wp_parse_args( (array) $instance, $defaults );
+      $instance = wp_parse_args( (array) $instance, $defaults );
         $title  = esc_attr($instance['title']);
         $course = esc_attr($instance['course']);
         $quiz = esc_attr($instance['quiz']);
         $unit = esc_attr($instance['unit']);
         $assignment = esc_attr($instance['assignment']);
         $number= esc_attr($instance['number']);
+        $orderby= esc_attr($instance['orderby']);
+        $order= esc_attr($instance['order']);
         $width = esc_attr($instance['width']);
+        $post_types = $instance['post_types'];
+        if(empty($post_types)){
+          $post_types = array();
+        }
+
         ?>
         <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','wplms-dashboard'); ?></label> 
           <input class="regular_text" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
         </p>
         <p>
-          <label for="<?php echo $this->get_field_id('course'); ?>"><?php _e('Show My Courses','wplms-dashboard'); ?></label> 
-          <input class="checkbox" id="<?php echo $this->get_field_id( 'course' ); ?>" name="<?php echo $this->get_field_name( 'course' ); ?>" type="checkbox" value="1"  <?php checked($course,1,true) ?>/>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('quiz'); ?>"><?php _e('Show My Quizzes','wplms-dashboard'); ?></label> 
-          <input class="checkbox" id="<?php echo $this->get_field_id( 'quiz' ); ?>" name="<?php echo $this->get_field_name( 'quiz' ); ?>" type="checkbox" value="1"  <?php checked($quiz,1,true) ?>/>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('assignment'); ?>"><?php _e('Show My Assignments','wplms-dashboard'); ?></label> 
-          <input class="checkbox" id="<?php echo $this->get_field_id( 'assignment' ); ?>" name="<?php echo $this->get_field_name( 'assignment' ); ?>" type="checkbox" value="1"  <?php checked($assignment,1,true) ?>/>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('unit'); ?>"><?php _e('Show My Units','wplms-dashboard'); ?></label> 
-          <input class="checkbox" id="<?php echo $this->get_field_id( 'unit' ); ?>" name="<?php echo $this->get_field_name( 'unit' ); ?>" type="checkbox" value="1"  <?php checked($unit,1,true) ?>/>
+          <label for="<?php echo $this->get_field_id('post_types'); ?>"><?php _e('Select Post Types:','wplms-dashboard'); ?></label> 
+          <select class="select" id="<?php echo $this->get_field_id('post_types'); ?>" name="<?php echo $this->get_field_name('post_types'); ?>[]" multiple>
+          <?php
+           
+            if(!empty($course)){$post_types[]='course';}
+            if(!empty($quiz)){$post_types[]='quiz';}
+            if(!empty($assignment)){$post_types[]='wplms-assignment';}
+            if(!empty($unit)){$post_types[]='unit';}
+    
+            foreach($ptypes as $ptype){
+
+              echo '<option value="'.$ptype->name.'" '.(in_array($ptype->name,$post_types)?'selected':'').'>'.$ptype->label.'</option>';
+            }
+          ?>
+          </select>
         </p>
         <p>
           <label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of items','wplms-dashboard'); ?></label> 
           <input class="regular_text" id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" />
         </p>
         <p>
+        <label for="<?php echo $this->get_field_id('orderby'); ?>"><?php _e('Order by','wplms-dashboard'); ?></label> 
+          <select id="<?php echo $this->get_field_id( 'orderby' ); ?>" name="<?php echo $this->get_field_name( 'orderby' ); ?>">
+              <?php
+              $orderby_array=apply_filters('wplms_dashboard_instructing_modules_settings',array(
+                  'date' => __('Publish Date','wplms-dashboard'),
+                  'title' =>__('Alphabetical','wplms-dashboard'),
+                  'menu_order' => __('Menu order','wplms-dashboard'),
+                  
+                ));
+              foreach($orderby_array as $key => $value){
+                echo '<option value="'.$key.'" '.selected($key,$orderby,false).'>'.$value.'</option>';
+              }
+              ?>
+            </select>
+            </p>
+             <p>
+             <label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Order','wplms-dashboard'); ?></label> 
+            <select id="<?php echo $this->get_field_id( 'order' ); ?>" name="<?php echo $this->get_field_name( 'order' ); ?>">
+              <?php
+                echo '<option value="DESC" '.selected("DESC",$order,false).'>DESC</option><option value="ASC" '.selected("ASC",$order,false).'>ASC</option>';
+              ?>
+            </select>
+            
+        </p>
+        <p>
           <label for="<?php echo $this->get_field_id('width'); ?>"><?php _e('Select Width','wplms-dashboard'); ?></label> 
           <select id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>">
-          	<option value="col-md-3 col-sm-6" <?php selected('col-md-3 col-sm-6',$width); ?>><?php _e('One Fourth','wplms-dashboard'); ?></option>
-          	<option value="col-md-4 col-sm-6" <?php selected('col-md-4 col-sm-6',$width); ?>><?php _e('One Third','wplms-dashboard'); ?></option>
-          	<option value="col-md-6 col-sm-12" <?php selected('col-md-6 col-sm-12',$width); ?>><?php _e('One Half','wplms-dashboard'); ?></option>
+            <option value="col-md-3 col-sm-6" <?php selected('col-md-3 col-sm-6',$width); ?>><?php _e('One Fourth','wplms-dashboard'); ?></option>
+            <option value="col-md-4 col-sm-6" <?php selected('col-md-4 col-sm-6',$width); ?>><?php _e('One Third','wplms-dashboard'); ?></option>
+            <option value="col-md-6 col-sm-12" <?php selected('col-md-6 col-sm-12',$width); ?>><?php _e('One Half','wplms-dashboard'); ?></option>
             <option value="col-md-8 col-sm-12" <?php selected('col-md-8 col-sm-12',$width); ?>><?php _e('Two Third','wplms-dashboard'); ?></option>
              <option value="col-md-8 col-sm-12" <?php selected('col-md-9 col-sm-12',$width); ?>><?php _e('Three Fourth','wplms-dashboard'); ?></option>
-          	<option value="col-md-12" <?php selected('col-md-12',$width); ?>><?php _e('Full','wplms-dashboard'); ?></option>
+            <option value="col-md-12" <?php selected('col-md-12',$width); ?>><?php _e('Full','wplms-dashboard'); ?></option>
           </select>
         </p>
         <?php 

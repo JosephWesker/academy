@@ -481,9 +481,9 @@ function wplms_check_plugin_notice() {
 	}else{
 		$wplms = wp_get_theme(THEME_SHORT_NAME);
 		$value=$wplms->get('Version');
-		if (version_compare($value, "2.0.8") < 0) {
-			echo '<div class="error">
-			    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.0.8').'</p>
+		if (version_compare($value, "2.3") < 0) {
+			echo '<div class="error notice is-dismissible">
+			    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.3').'</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
 			  </div>';
 		}
 	}

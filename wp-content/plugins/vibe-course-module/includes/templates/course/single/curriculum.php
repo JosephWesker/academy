@@ -6,64 +6,77 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8.2
+ * @version     2.2
  */
 
 
 global $post;
 $id= get_the_ID();
 
-?>
+$class='';
+if(class_exists('WPLMS_tips')){
+	$wplms_settings = WPLMS_tips::init();
+	$settings = $wplms_settings->lms_settings;
+	if(isset($settings['general']['curriculum_accordion'])){
+		$class="accordion";	
+	}
+}
 
+
+?>
 <div class="course_title">
 	<h2><?php  _e('Course Curriculum','vibe'); ?></h2>
 </div>
 
-<div class="course_curriculum">
+<div class="course_curriculum <?php echo $class; ?>">
 <?php
 do_action('wplms_course_curriculum_section',$id);
-$course_curriculum = vibe_sanitize(get_post_meta($id,'vibe_course_curriculum',false));
 
-if(isset($course_curriculum)){
+$course_curriculum = bp_course_get_full_course_curriculum($id); 
 
+if(!empty($course_curriculum)){
 
-	foreach($course_curriculum as $lesson){
-		if(is_numeric($lesson)){
-			$icon = get_post_meta($lesson,'vibe_type',true);
-			$post_type = get_post_type($lesson);
-			if( $post_type == 'quiz')
-				$icon='task';
-
-					$href=get_the_title($lesson);
-					$free='';
-					$free = get_post_meta($lesson,'vibe_free',true);
-
-					$curriculum_course_link = apply_filters('wplms_curriculum_course_link',0);
-					if(vibe_validate($free) || ($post->post_author == get_current_user_id()) || current_user_can('manage_options') || $curriculum_course_link){
-						$href=apply_filters('wplms_course_curriculum_free_access','<a href="'.get_permalink($lesson).'?id='.get_the_ID().'">'.get_the_title($lesson).(vibe_validate($free)?'<span>'.__('FREE','vibe').'</span>':'').'</a>',$lesson,$free);
-					}
-
-			echo '<div class="course_lesson">
-					<i class="icon-'.$icon.'"></i><h6>'.apply_filters('wplms_curriculum_course_lesson',$href,$lesson,$post_type).'</h6>';
-					$minutes=0;
-					$hours=0;
-					$min = get_post_meta($lesson,'vibe_duration',true);
-					$minutes = $min;
-					if($minutes){
-						if($minutes > 60){
-							$hours = intval($minutes/60);
-							$minutes = $minutes - $hours*60;
-						}
-					echo apply_filters('wplms_curriculum_time_filter','<span><i class="icon-clock"></i> '.(isset($hours)?$hours.__(' Hours','vibe'):'').' '.$minutes.' '.__('minutes','vibe').'</span><b>'.((isset($hours) && $hours)?$hours:"00").':'.$minutes.'</b>',$min);
-					}	
-
-					echo '</div>';
-		}else{
-			echo '<h5 class="course_section">'.$lesson.'</h5>';
+	echo '<table class="table">';
+	foreach($course_curriculum as $lesson){ 
+		switch($lesson['type']){
+			case 'unit':
+				?>
+				<tr class="course_lesson unit_<?php echo $lesson['id']; ?>">
+					<td class="curriculum-icon"><i class="icon-<?php echo $lesson['icon']; ?>"></i></td>
+					<td><?php echo apply_filters('wplms_curriculum_course_lesson',(!empty($lesson['link'])?'<a href="'.$lesson['link'].'">':''). $lesson['title']. (!empty($lesson['link'])?'</a>':''),$lesson['id'],$id); ?></td>
+					<td><?php echo $lesson['labels']; ?> </td>
+					<td><?php echo $lesson['duration']; ?></td>
+				</tr>
+				<?php
+				do_action('wplms_curriculum_course_unit_details',$lesson);
+			break;
+			case 'quiz':
+				?>
+				<tr class="course_lesson">
+					<td class="curriculum-icon"><i class="icon-<?php echo $lesson['icon']; ?>"></i></td>
+					<td><?php echo apply_filters('wplms_curriculum_course_quiz',(($lesson['link'])?'<a href="'.$lesson['link'].'">':''). $lesson['title'].(isset($lesson['free'])?$lesson['free']:'') . (!empty($lesson['link'])?'</a>':''),$lesson['id'],$id); ?></td>
+					<td><?php echo $lesson['labels']; ?> </td>
+					<td><?php echo $lesson['duration']; ?></td>
+				</tr>
+				<?php
+				do_action('wplms_curriculum_course_quiz_details',$lesson);
+			break;
+			case 'section':
+				?>
+				<tr class="course_section">
+					<td colspan="4"><?php echo $lesson['title']; ?></td>
+				</tr>
+				<?php
+			break;
 		}
 	}
-}
+	echo '</table>';
+}else{
 	?>
+	<div class="message"><?php echo _x('No curriculum found !','Error message for no curriculum found in course curriculum ','vibe'); ?></div>
+	<?php	
+}
+?>
 </div>
 
 <?php

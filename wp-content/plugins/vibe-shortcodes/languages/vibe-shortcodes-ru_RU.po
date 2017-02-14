@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vibe Shortcodes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-02 15:34+0530\n"
-"PO-Revision-Date: 2016-04-02 15:34+0530\n"
+"POT-Creation-Date: 2017-02-03 14:18+0530\n"
+"PO-Revision-Date: 2017-02-03 14:18+0530\n"
 "Last-Translator: vibethemes@gmail.com <vibethemes@gmail.com>\n"
 "Language-Team: Olymproject <info@olymproject.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.8\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -18,176 +18,65 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ajaxcalls.php:77 ajaxcalls.php:115
+#: ajaxcalls.php:74 ajaxcalls.php:112
 msgid "Unable to send message! Please try again later.."
 msgstr "Невозможно отправить сообщение! Пожалуйста, попробуйте позже.."
 
-#: ajaxcalls.php:95
+#: ajaxcalls.php:92
 msgid "Contact Form Submission"
 msgstr "Отправка формы для связи"
 
-#: ajaxcalls.php:113
+#: ajaxcalls.php:110
 msgid "Message sent!"
 msgstr "Сообщение отправлено!"
 
-#: shortcodes.php:138 shortcodes.php:156
+#: ajaxcalls.php:260
+msgid "Security check Failed. Contact Administrator."
+msgstr ""
+
+#: ajaxcalls.php:273 shortcodes.php:2186
+msgid "Auto generate username from email"
+msgstr ""
+
+#: ajaxcalls.php:274 shortcodes.php:2187
+msgid "Show password meter"
+msgstr ""
+
+#: ajaxcalls.php:275 shortcodes.php:2188
+msgid "Show Field group labels"
+msgstr ""
+
+#: ajaxcalls.php:276 shortcodes.php:2189
+msgid "Google Captcha"
+msgstr ""
+
+#: ajaxcalls.php:277 shortcodes.php:2190
+msgid "Register & Login simultaneously"
+msgstr ""
+
+#: ajaxcalls.php:278 shortcodes.php:2191
+msgid "Skip Mail verification"
+msgstr ""
+
+#: ajaxcalls.php:398
 #, php-format
+msgid "%s is a required field"
+msgstr ""
+
+#: ajaxcalls.php:402 ajaxcalls.php:404
+#, php-format
+msgid "%s is not of type %s"
+msgstr ""
+
+#: ajaxcalls.php:451
+msgid "Congratulations ! you have been successfully registered !"
+msgstr ""
+
+#: ajaxcalls.php:483
 msgid ""
-"You do not have access to this content. <a href=\"%s\" class=\"button\"> "
-"Puchase </a> content for %s"
+"Congratulations ! you have been successfully registered, Please check your "
+"email to activate the account"
 msgstr ""
-
-#: shortcodes.php:141 shortcodes.php:159
-msgid "You do not have access to this content"
-msgstr ""
-
-#: shortcodes.php:266
-msgid "EARNED"
-msgstr "НАБРАНО "
-
-#: shortcodes.php:289
-msgid "Check all Courses created by "
-msgstr "Все курсы автора "
-
-#: shortcodes.php:290
-msgid "More Courses by "
-msgstr "Другие курсы автора "
-
-#: shortcodes.php:1545
-msgid "MEMBERS"
-msgstr ""
-
-#: shortcodes.php:1548
-msgid "COURSES"
-msgstr ""
-
-#: shortcodes.php:1551
-msgid "INSTRUCTORS"
-msgstr ""
-
-#: shortcodes.php:1554
-msgid "GROUPS"
-msgstr ""
-
-#: shortcodes.php:1557
-msgid "SUBSCRIPTIONS"
-msgstr ""
-
-#: shortcodes.php:1560
-msgid "SALES"
-msgstr ""
-
-#: shortcodes.php:1563
-msgid "EARNINGS"
-msgstr ""
-
-#: shortcodes.php:1594
-msgid "SHOW HINT"
-msgstr ""
-
-#: shortcodes.php:1595
-msgid "HINT"
-msgstr ""
-
-#: shortcodes.php:1607
-msgid "FALSE"
-msgstr ""
-
-#: shortcodes.php:1607
-msgid "TRUE"
-msgstr ""
-
-#: shortcodes.php:1660 shortcodes.php:1663
-msgid "Type Answer"
-msgstr ""
-
-#: shortcodes.php:1671
-msgid "Check Answer"
-msgstr ""
-
-#: shortcodes.php:1686
-#, fuzzy
-msgid "Explanation"
-msgstr "Проверка данных"
-
-#: shortcodes.php:1712
-msgid "Type Keywords.."
-msgstr ""
-
-#: shortcodes.php:1713
-msgid "Search"
-msgstr ""
-
-#: upload_handler.php:17
-msgid "Upload ZIP"
-msgstr "Загрузить ZIP "
-
-#: upload_handler.php:38 upload_handler.php:333
-msgid "Upload Library"
-msgstr "Загрузить в библиотеку"
-
-#: upload_handler.php:39 upload_handler.php:237 upload_handler.php:324
-msgid "Upload File"
-msgstr "Загрузить файл "
-
-#: upload_handler.php:94
-msgid "Iframe source"
-msgstr ""
-
-#: upload_handler.php:103
-msgid "Maximum height of iFrame"
-msgstr ""
-
-#: upload_handler.php:104
-msgid "Insert Into Post"
-msgstr "Вставить в запись "
-
-#: upload_handler.php:130
-#, php-format
-msgid "Showing Content %d - %d from %d"
-msgstr ""
-
-#: upload_handler.php:155
-msgid "No packages available"
-msgstr ""
-
-#: upload_handler.php:220
-#, fuzzy
-msgid "Please upload a Zip package with index.html file"
-msgstr "Пожалуйста, выберите .zip архив"
-
-#: upload_handler.php:221
-msgid "No data found!"
-msgstr ""
-
-#: upload_handler.php:222
-msgid "Are you sure you want to remove this package?"
-msgstr ""
-
-#: upload_handler.php:236
-msgid "Choose a file to upload"
-msgstr ""
-
-#: upload_handler.php:240
-msgid "Please choose a .zip package file"
-msgstr "Пожалуйста, выберите .zip архив"
-
-#: upload_handler.php:264
-msgid "The Upload file must be zip archive"
-msgstr "Файл должен представлять собой ZIP архив"
-
-#: upload_handler.php:274
-msgid "File too big"
-msgstr ""
-
-#: upload_handler.php:295
-msgid "Please upload zip file, Index.html file not found in package"
-msgstr ""
-
-#: upload_handler.php:299
-#, fuzzy
-msgid "Upload failed !"
-msgstr "Загрузить файл "
 
 #: autoupdate/class-envato-protected-api.php:67
 msgid "Please enter your Envato Marketplace Username."
@@ -274,7 +163,7 @@ msgstr "Добавить ключ"
 msgid "User name"
 msgstr "Логин"
 
-#: autoupdate/class-plugin-update.php:638
+#: autoupdate/class-plugin-update.php:638 shortcodes.php:2097
 msgid "Email"
 msgstr "Email"
 
@@ -282,21 +171,142 @@ msgstr "Email"
 msgid "Themeforest User name ( for Auto-Updates )"
 msgstr "Логин на сайте Themeforest (для автообновления)"
 
-#: classes/vibeshortcodes.class.php:43
+#: classes/vibeshortcodes.class.php:49
 msgid "Sending mail"
 msgstr "Отправляю сообщение "
 
-#: classes/vibeshortcodes.class.php:44
+#: classes/vibeshortcodes.class.php:50
 msgid "Error :"
 msgstr "Ошибка : "
 
-#: classes/vibeshortcodes.class.php:45
+#: classes/vibeshortcodes.class.php:51
 msgid "Invalid "
 msgstr "Неверно "
 
-#: classes/vibeshortcodes.class.php:46
+#: classes/vibeshortcodes.class.php:52
 msgid "Captcha Mismatch"
 msgstr "Несовпадение кода  "
+
+#: shortcodes.php:148 shortcodes.php:166
+#, php-format
+msgid ""
+"You do not have access to this content. <a href=\"%s\" class=\"button\"> "
+"Puchase </a> content for %s"
+msgstr ""
+
+#: shortcodes.php:151 shortcodes.php:169
+msgid "You do not have access to this content"
+msgstr ""
+
+#: shortcodes.php:276
+msgid "EARNED"
+msgstr "НАБРАНО "
+
+#: shortcodes.php:299
+msgid "Check all Courses created by "
+msgstr "Все курсы автора "
+
+#: shortcodes.php:300
+msgid "More Courses by "
+msgstr "Другие курсы автора "
+
+#: shortcodes.php:1136
+#, php-format
+msgid "%d out of %d"
+msgstr ""
+
+#: shortcodes.php:1138 shortcodes.php:1141
+msgid "N.A"
+msgstr ""
+
+#: shortcodes.php:1753
+msgid "MEMBERS"
+msgstr ""
+
+#: shortcodes.php:1756
+msgid "COURSES"
+msgstr ""
+
+#: shortcodes.php:1759
+msgid "INSTRUCTORS"
+msgstr ""
+
+#: shortcodes.php:1762
+msgid "GROUPS"
+msgstr ""
+
+#: shortcodes.php:1765
+msgid "SUBSCRIPTIONS"
+msgstr ""
+
+#: shortcodes.php:1768
+msgid "SALES"
+msgstr ""
+
+#: shortcodes.php:1771
+msgid "EARNINGS"
+msgstr ""
+
+#: shortcodes.php:1808
+msgid "SHOW HINT"
+msgstr ""
+
+#: shortcodes.php:1809
+msgid "HINT"
+msgstr ""
+
+#: shortcodes.php:1821
+msgid "FALSE"
+msgstr ""
+
+#: shortcodes.php:1821
+msgid "TRUE"
+msgstr ""
+
+#: shortcodes.php:1874 shortcodes.php:1877
+msgid "Type Answer"
+msgstr ""
+
+#: shortcodes.php:1885
+msgid "Check Answer"
+msgstr ""
+
+#: shortcodes.php:1900
+msgid "Explanation"
+msgstr ""
+
+#: shortcodes.php:1975
+msgid "Type Keywords.."
+msgstr ""
+
+#: shortcodes.php:1976
+msgid "Search"
+msgstr ""
+
+#: shortcodes.php:2094
+msgid "Username"
+msgstr ""
+
+#: shortcodes.php:2094
+msgid "Login Username"
+msgstr ""
+
+#: shortcodes.php:2099
+msgid "Password"
+msgstr ""
+
+#: shortcodes.php:2139
+#, php-format
+msgid "This field can be seen by: %s"
+msgstr ""
+
+#: shortcodes.php:2154
+msgid "Who can see this field?"
+msgstr ""
+
+#: shortcodes.php:2212
+msgid "Register"
+msgstr ""
 
 #: tinymce/config.php:13
 msgid "Open first"
@@ -459,9 +469,8 @@ msgid "Total delay in finishing counter"
 msgstr ""
 
 #: tinymce/config.php:207
-#, fuzzy
 msgid "Add the total duration of counter increment"
-msgstr "Добавить содержание колонки. "
+msgstr ""
 
 #: tinymce/config.php:212
 msgid "Increment unit"
@@ -472,9 +481,8 @@ msgid "Increment the counter by this value"
 msgstr ""
 
 #: tinymce/config.php:217
-#, fuzzy
 msgid "Insert Counter Shortcode"
-msgstr "Введите короткий код курса"
+msgstr ""
 
 #: tinymce/config.php:230
 msgid "Icon type"
@@ -661,24 +669,20 @@ msgid "Select progressbar color"
 msgstr "Выберите цвет бара"
 
 #: tinymce/config.php:464
-#, fuzzy
 msgid "Bar Color"
-msgstr "Цвет фона"
+msgstr ""
 
 #: tinymce/config.php:465
-#, fuzzy
 msgid "Bar color"
-msgstr "Цвет границы"
+msgstr ""
 
 #: tinymce/config.php:469
-#, fuzzy
 msgid "Bar Background Color"
-msgstr "Цвет фона"
+msgstr ""
 
 #: tinymce/config.php:470
-#, fuzzy
 msgid "Bar Background color"
-msgstr "Цвет фона"
+msgstr ""
 
 #: tinymce/config.php:474
 msgid "Insert Progressbar Shortcode"
@@ -838,9 +842,8 @@ msgid "Insert Course Shortcode"
 msgstr "Введите короткий код курса"
 
 #: tinymce/config.php:746
-#, fuzzy
 msgid "Select Side"
-msgstr "Выбрать размер искиза"
+msgstr ""
 
 #: tinymce/config.php:758
 msgid "Insert PullQuote Shortcode"
@@ -953,9 +956,8 @@ msgid "Subject of email"
 msgstr "Тема email сообщения"
 
 #: tinymce/config.php:909
-#, fuzzy
 msgid "Generate Contact Form Shortcode"
-msgstr "Сгенерировать короткий код формы"
+msgstr ""
 
 #: tinymce/config.php:915
 msgid "Label Text"
@@ -1034,6 +1036,119 @@ msgstr ""
 #: tinymce/config.php:1013
 msgid "Insert iFrame Shortcode"
 msgstr "Вставить короткий код iFrame"
+
+#: tinymce/config.php:1026
+msgid "Enter Quiz id (optional)"
+msgstr ""
+
+#: tinymce/config.php:1027
+msgid "Quiz id for which Survey results are to be displayed."
+msgstr ""
+
+#: tinymce/config.php:1032
+msgid "Enter User id (optional)"
+msgstr ""
+
+#: tinymce/config.php:1033
+msgid "User id for which Survey results are to be displayed."
+msgstr ""
+
+#: tinymce/config.php:1038
+msgid "Enter result Upper limit "
+msgstr ""
+
+#: tinymce/config.php:1039
+msgid "Message to be displayed if survey score is less than this value"
+msgstr ""
+
+#: tinymce/config.php:1044
+msgid "Enter result Lower limit "
+msgstr ""
+
+#: tinymce/config.php:1045
+msgid "Message to be displayed if survey score is more than this value"
+msgstr ""
+
+#: tinymce/config.php:1050
+msgid "Enter Survey result message"
+msgstr ""
+
+#: tinymce/config.php:1051
+msgid "Enter message for result"
+msgstr ""
+
+#: tinymce/config.php:1055
+msgid "Insert Survey Result Shortcode in Quiz completion message"
+msgstr ""
+
+#: upload_handler.php:17
+msgid "Upload ZIP"
+msgstr "Загрузить ZIP "
+
+#: upload_handler.php:38 upload_handler.php:336
+msgid "Upload Library"
+msgstr "Загрузить в библиотеку"
+
+#: upload_handler.php:39 upload_handler.php:240 upload_handler.php:327
+msgid "Upload File"
+msgstr "Загрузить файл "
+
+#: upload_handler.php:94
+msgid "Iframe source"
+msgstr ""
+
+#: upload_handler.php:103
+msgid "Maximum height of iFrame"
+msgstr ""
+
+#: upload_handler.php:104
+msgid "Insert Into Post"
+msgstr "Вставить в запись "
+
+#: upload_handler.php:130
+#, php-format
+msgid "Showing Content %d - %d from %d"
+msgstr ""
+
+#: upload_handler.php:155
+msgid "No packages available"
+msgstr ""
+
+#: upload_handler.php:223
+msgid "Please upload a Zip package with index.html file"
+msgstr ""
+
+#: upload_handler.php:224
+msgid "No data found!"
+msgstr ""
+
+#: upload_handler.php:225
+msgid "Are you sure you want to remove this package?"
+msgstr ""
+
+#: upload_handler.php:239
+msgid "Choose a file to upload"
+msgstr ""
+
+#: upload_handler.php:243
+msgid "Please choose a .zip package file"
+msgstr "Пожалуйста, выберите .zip архив"
+
+#: upload_handler.php:267
+msgid "The Upload file must be zip archive"
+msgstr "Файл должен представлять собой ZIP архив"
+
+#: upload_handler.php:277
+msgid "File too big"
+msgstr ""
+
+#: upload_handler.php:298
+msgid "Please upload zip file, Index.html file not found in package"
+msgstr ""
+
+#: upload_handler.php:302
+msgid "Upload failed !"
+msgstr ""
 
 #~ msgid "Stripe Bg Color"
 #~ msgstr "Цвет заднего фона "

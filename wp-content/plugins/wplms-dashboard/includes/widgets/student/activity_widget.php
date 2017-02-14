@@ -35,6 +35,9 @@ class wplms_dash_activity extends WP_Widget {
     $width =  $instance['width'];
     echo '<div class="'.$width.'"><div class="dash-widget">'.$before_widget;
 
+     if ( $title )
+        echo $before_title . $title . $after_title;
+      
     echo '<div id="vibe-tabs-student-activity" class="tabs tabbable">
               <ul class="nav nav-tabs clearfix">';
 

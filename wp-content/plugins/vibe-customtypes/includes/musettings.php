@@ -95,7 +95,7 @@ class lms_settings{
 	    $tabs = apply_filters('wplms_lms_settings_tabs',array( 
 	    		'general' => __('General','vibe-customtypes'), 
 	    		'commissions' => __('Commissions','vibe-customtypes'), 
-	    		'functions' => __('Admin Functions','vibe-customtypes'),
+	    		'functions' => __('Functions','vibe-customtypes'),
 	    		'import-export' => __('Import/Export','vibe-customtypes'),
 	    		'touch' => __('Touch Points','vibe-customtypes'),
 	    		'emails' => __('Emails','vibe-customtypes'),
@@ -186,6 +186,9 @@ class lms_settings{
 						case 'schedule':
 							$option = 'schedule';
 						break;
+						case 'scheduled_emails':
+							$option = 'scheduled_emails';
+						break;
 						default:
 							$option = 'email_settings';
 						break;
@@ -209,420 +212,489 @@ class lms_settings{
 
 	function lms_general_settings(){
 		echo '<h3>'.__('LMS General Settings','vibe-customtypes').'</h3>';
-		
-		$settings= apply_filters('lms_general_settings',array(
-		array(
-			'label'=>__('User Login & Registration Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-				'label' => __('Student Login redirect','vibe-customtypes'),
-				'name' =>'student_login_redirect',
-				'class' => 'hide',
-				'type' => 'select',
-				'options'=>apply_filters('wplms_student_login_redirect_filters',array(
-					'' => __('Disable','vibe-customtypes'),
-					'home' => __('Home page','vibe-customtypes'),
-					'profile' => __('Profile page','vibe-customtypes'),
-					'mycourses'=> __('My Courses page','vibe-customtypes'),
-					'dashboard'=> __('Dashboard page','vibe-customtypes'),
-					'same' => __('Same page','vibe-customtypes'),
-					)),
-				'desc' => __('Default is home page','vibe-customtypes') 
-			),
-		array(
-				'label' => __('Instructor Login redirect','vibe-customtypes'),
-				'name' =>'instructor_login_redirect',
-				'type' => 'select',
-				'options'=>apply_filters('wplms_instructor_login_redirect_filters',array(
-					'' => __('Disable','vibe-customtypes'),
-					'home' => __('Home page','vibe-customtypes'),
-					'profile' => __('Profile page','vibe-customtypes'),
-					'mycourses'=> __('My Courses page','vibe-customtypes'),
-					'instructing_courses'=> __('Instructing Courses page','vibe-customtypes'),
-					'dashboard'=> __('Dashboard page','vibe-customtypes'),
-					'same' => __('Same page','vibe-customtypes'),
-					)),
-				'desc' => __('Default is home page','vibe-customtypes')
-			),
-		array(
-				'label' => __('Enable One session per user','vibe-customtypes'),
-				'name' => 'one_session_per_user',
-				'type' => 'checkbox',
-				'desc' => __('A User can login from one unique user id (excludes administrators)','vibe-customtypes')
-			),
-		array(
-				'label' => __('Hide Administrators in Instructors','vibe-customtypes'),
-				'name' =>'admin_instructor',
-				'type' => 'checkbox',
-				'desc' => __('Hide Administrator in all instructors page & elsewhere','vibe-customtypes')
-			),
-		array(
-				'label' => __('Enable message to Instructor in Course Page','vibe-customtypes'),
-				'name' =>'show_message_instructor',
-				'type' => 'checkbox',
-				'desc' => sprintf(__('Enables a Message icon to send message to Instructor, see %s tutorial %s','vibe-customtypes'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/show-contact-instructor-in-course/" target="_blank">','</a>'),
-			),
-		array(
-	            'label' => __('Enable Create course button in instructor profile menu', 'vibe-customtypes'),
-	            'name' => 'enable_inst_create_course',
-	            'desc' => __('Adds a create course link in intructor profile menu', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Show WooCommerce/Pmpro account in profile', 'vibe-customtypes'),
-	            'name' => 'woocommerce_account',
-	            'desc' => __('Display WooCommerce account in profile', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-				'label' => __('Set a terms and conditions page for BuddyPress registration','vibe-customtypes'),
-				'name' => 'terms_conditions_in_registration',
-				'type' => 'cptselect',
-				'cpt'=>'page',
-				'desc' => __('Set a terms and conditions page in BuddPress registration.','vibe-customtypes')
-			),
-		array(
-	            'label' => __('Enable Student menus', 'vibe-customtypes'),
-	            'name' => 'enable_student_menus',
-	            'desc' => __('Adds New menu locations for Students', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable Instructor menus', 'vibe-customtypes'),
-	            'name' => 'enable_instructor_menus',
-	            'desc' => __('Adds New menu locations for Instructors', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-			'label'=>__('Course Home Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-			'label'=>__('Course Members Visibility','vibe-customtypes' ),
-			'type'=> 'select',
-			'style'=>'',
-			'name' => 'vibe_display_course_members',
-			'options'=>array(
-				0=>__('Everyone','vibe-customtypes'),
-				1=>__('Logged in Users','vibe-customtypes'),
-				2=>__('Course Users','vibe-customtypes'),
-				3=>__('Instructors and Admins','vibe-customtypes'),
-			),
-			'desc'=> __('Set Course/Members Visibility','vibe-customtypes' ),
-		),
-		array(
-			'label'=>__('Course Curriculum Visibility','vibe-customtypes' ),
-			'type'=> 'select',
-			'style'=>'',
-			'name' => 'vibe_display_course_curriculum',
-			'options'=>array(
-				0=>__('Everyone','vibe-customtypes'),
-				1=>__('Logged in Users','vibe-customtypes'),
-				2=>__('Course Users','vibe-customtypes'),
-				3=>__('Instructors and Admins','vibe-customtypes'),
-			),
-			'desc'=> __('Set Course/Curriculum Visibility','vibe-customtypes' ),
-		),
-		array(
-			'label'=>__('Course Events Visibility','vibe-customtypes' ),
-			'type'=> 'select',
-			'style'=>'',
-			'name' => 'vibe_display_course_events',
-			'options'=>array(
-				0=>__('Everyone','vibe-customtypes'),
-				1=>__('Logged in Users','vibe-customtypes'),
-				2=>__('Course Users','vibe-customtypes'),
-				3=>__('Instructors and Admins','vibe-customtypes'),
-			),
-			'desc'=> __('Set Course/Events Visibility','vibe-customtypes' ),
-		),
-		array(
-			'label'=>__('Course Activity Visibility','vibe-customtypes' ),
-			'type'=> 'select',
-			'style'=>'',
-			'name' => 'vibe_display_course_activity',
-			'options'=>array(
-				0=>__('Everyone','vibe-customtypes'),
-				1=>__('Logged in Users','vibe-customtypes'),
-				2=>__('Course Users','vibe-customtypes'),
-				3=>__('Instructors and Admins','vibe-customtypes'),
-			),
-			'desc'=> __('Set Course/Activity Visibility','vibe-customtypes' ),
-		),
-		array(
-			'label'=>__('Course Drive Visibility','vibe-customtypes' ),
-			'type'=> 'select',
-			'style'=>'',
-			'name' => 'vibe_display_course_drive',
-			'options'=>array(
-				0=>__('Everyone','vibe-customtypes'),
-				1=>__('Logged in Users','vibe-customtypes'),
-				2=>__('Course Users','vibe-customtypes'),
-				3=>__('Instructors and Admins','vibe-customtypes'),
-			),
-			'desc'=> __('Set Course/Drive Visibility','vibe-customtypes' ),
-		),
-		array(
-				'label' => __('Change Pre-Required Course Condition from submitted to Evaluated','vibe-customtypes'),
-				'name' => 'enable_pre_required_on_evaluation',
-				'type' => 'checkbox',
-				'desc' => __('After enabling this students will have to wait for course evaluation by the instructor to move on to courses which have pre-requisite course under evaluation. Default : Students get access on course finish.','vibe-customtypes')
-			),
-		array(
-				'label' => __('Hide Members section in Single Course page','vibe-customtypes'),
-				'name' =>'hide_course_members',
-				'type' => 'checkbox',
-				'desc' => __(' Hides member section in course pages','vibe-customtypes')
-			),
-		array(
-				'label' => __('Show curriculum below Course description','vibe-customtypes'),
-				'name' =>'course_curriculum_below_description',
-				'type' => 'checkbox',
-				'desc' => __('Show curriculum below course description','vibe-customtypes')
-			),
-		array(
-			'label'=>__('Course Status Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-				'label' => __('Course Timeline Accordion style','vibe-customtypes'),
-				'name' =>'curriculum_accordion',
-				'type' => 'checkbox',
-				'desc' => __('Show curriculum accordion style','vibe-customtypes')
-			),
-		array(
-				'label' => __('Disable ajax in Course unit load','vibe-customtypes'),
-				'name' => 'disable_ajax',
-				'type' => 'checkbox',
-				'desc' => __('Ajax disabled in course unit loads','vibe-customtypes')
-			),
-		array(
-	            'label' => __('Remove Finished Courses from directory', 'vibe-customtypes'),
-	            'name' => 'remove_finished_course',
-	            'desc' => __('Auto remove finished courses from course directory for user', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-			'label'=>__('Course Pricing Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-	            'label' => __('Coming soon courses', 'vibe-customtypes'),
-	            'name' => 'course_coming_soon',
-	            'desc' => __('Enable coming soon option for courses', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable Course Codes', 'vibe-customtypes'),
-	            'name' => 'course_codes',
-	            'desc' => __('Student can purchase/access courses by using custom defined codes for courses in course pricing section. Requires BuddyPress Activity.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable Course external link', 'vibe-customtypes'),
-	            'name' => 'course_external_link',
-	            'desc' => __('Connect "Take this Course" button with an external link, defined in Course Pricing section.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Disable Auto allocation of Free courses', 'vibe-customtypes'),
-	            'name' => 'disable_autofree',
-	            'desc' => __('Disables auto allocation of free courses', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-			'label'=>__('Drip Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
+		echo '<p>'.__('Import LMS functions can be managed from here.','vibe-customtypes').'</p>';
 
-		array(
-	            'label' => __('Enable Unit Time as Drip Duration', 'vibe-customtypes'),
-	            'name' => 'course_unit_drip_section',
-	            'desc' => __('Drip feed is applied based on specified Unit time.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable Section Drip feed', 'vibe-customtypes'),
-	            'name' => 'course_drip_section',
-	            'desc' => __('Drip feed is applied section wise instead of unit wise.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-
-
-		array(
-			'label'=>__('Unit settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-
-		array(
-				'label' => __('Show Unit Description in Course curriculum','vibe-customtypes'),
-				'name' =>'course_curriculum_unit_description',
-				'type' => 'checkbox',
-				'desc' => __('Unit descriptions appear below Unit titles in Course curriculum','vibe-customtypes')
-			),
-		
-		array(
-				'label' => __('Show User progress in Course Admin','vibe-customtypes'),
-				'name' =>'user_progress_course_admin',
-				'type' => 'checkbox',
-				'desc' => __('Small progress bar is displayed for every user below her name in course -> admin section','vibe-customtypes')
-			),
-		array(
-				'label' => __('Enable Unit/Quiz Start Date time','vibe-customtypes'),
-				'name' =>'unit_quiz_start_datetime',
-				'type' => 'checkbox',
-				'desc' => __('Units and Quizzes start at a particular date and time','vibe-customtypes')
-			),
-		
-		
-		array(
-	            'label' => __('Unit Comments/Notes', 'vibe-customtypes'),
-	            'name' => 'unit_comments',
-	            'desc' => __('Enable Unit Comments only where Unit comments are enabled in post settings.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		
-		array(
-			'label'=>__('Quiz Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-				'label' => __('Enable In-Course Quiz','vibe-customtypes'),
-				'name' => 'in_course_quiz',
-				'type' => 'checkbox',
-				'desc' => __('Quizzes open inside course like units','vibe-customtypes')
-			),
-		array(
-				'label' => __('In-Course Quiz questions per page','vibe-customtypes'),
-				'name' => 'in_course_quiz_paged',
-				'type' => 'number',
-				'desc' => __('set number of questions appearing per page in in-course quizzes','vibe-customtypes')
-			),
-		array(
-	            'label' => __('Enable passing score for Quiz', 'vibe-customtypes'),
-	            'name' => 'quiz_passing_score',
-	            'desc' => __('Student progress to next', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Force Quiz availability to Course students', 'vibe-customtypes'),
-	            'name' => 'course_students_quiz',
-	            'desc' => __('Only Course students can take the quiz. Quiz must be connected to the course in quiz settings.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Hide correct answers', 'vibe-customtypes'),
-	            'name' => 'quiz_correct_answers',
-	            'desc' => __('Correct answers in quizzes are not displayed unless student has finished/submitted the course.', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable negative marking', 'vibe-customtypes'),
-	            'name' => 'quiz_negative_marking',
-	            'desc' => __('Enables negative marking for questions in quizzes', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-			'label'=>__('Front End Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-	            'label' => __('Force Administrator Approval on every setting', 'vibe-customtypes'),
-	            'name' => 'wplms_force_admin_approval',
-	            'desc' => __('Instructors courses will go to pending mode when settings/pricing/curriculum is saved. *Requires Admin Approval enabled in WPLMS - Course Manager', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-	            'label' => __('Enable Front end course deletion', 'vibe-customtypes'),
-	            'name' => 'wplms_course_delete',
-	            'desc' => __('Instructors will be able to delete course and related content from front end', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-			'label'=>__('Miscellaneous Settings','vibe-customtypes' ),
-			'type'=> 'heading',
-		),
-		array(
-				'label' => __('Revert pretty permalinks for Courses','vibe-customtypes'),
-				'name' => 'revert_permalinks',
-				'type' => 'checkbox',
-				'desc' => __('Revert permalinks from coursname/admin to coursename/?action-','vibe-customtypes')
-			),
-		array(
-	            'label' => __('Show Assignments in Course Curriculum', 'vibe-customtypes'),
-	            'name' => 'wplms_course_assignments',
-	            'desc' => __('Assignments will be displayed in Course Curriculum', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-
-		array(
-	            'label' => __('Enable Course forum privacy', 'vibe-customtypes'),
-	            'name' => 'enable_forum_privacy',
-	            'desc' => __('Only course students can access course forums', 'vibe-customtypes'),
-	            'type' => 'checkbox',
-			),
-		array(
-				'label' => __('Display Submission time in Course/Quiz/Assignment submissions','vibe-customtypes'),
-				'name' => 'submission_meta',
-				'type' => 'checkbox',
-				'desc' => __('Displays time (eg 2 hrs) with manual submissions, * requires activity to be enabled','vibe-customtypes')
-			),
-		
-		array(
-				'label' => __('Default order in course directory','vibe-customtypes'),
-				'name' =>'default_order',
-				'type' => 'select',
-				'options'=>array(
-					'date' => __('Recent','vibe-customtypes'),
-					'title' => __('Alphabetical','vibe-customtypes'),
-					'popular' => __('Number of Students','vibe-customtypes'),
-					'rated' => __('Rating','vibe-customtypes'),
-					'start_date' => __('Upcoming courses via Start date','vibe-customtypes'),
-					'rand'  => __('Random','vibe-customtypes'),
+		$template_array = apply_filters('wplms_lms_commission_tabs',array(
+			''=> __('General Settings','vibe-customtypes'),
+			'registration'=> __('Registration Forms','vibe-customtypes'),
+			//'member_types'=> __('Member Types','vibe-customtypes'),
+			//'group_types'=> __('Group Types','vibe-customtypes'),
+			));
+		echo '<ul class="subsubsub">';
+		foreach($template_array as $k=>$value){
+			echo '<li><a href="?page=lms-settings&tab=general&sub='.$k.'" '.((isset($_GET['sub']) && ($k == $_GET['sub']))?'class="current"':'').'>'.$value.'</a>  &#124; </li>';
+		}
+		echo '</ul><div class="clear"><hr/>';
+		if(!isset($_GET['sub'])){$_GET['sub']='';}
+		switch($_GET['sub']){
+			case 'registration':
+				$this->lms_registration_forms();
+			break;
+			case 'member_types':
+				$this->lms_member_types();
+			break;
+			case 'group_types':
+				$this->lms_group_types();
+			break;
+			default:
+				$settings= apply_filters('lms_general_settings',array(
+				array(
+					'label'=>__('User Login & Registration Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+						'label' => __('Student Login redirect','vibe-customtypes'),
+						'name' =>'student_login_redirect',
+						'class' => 'hide',
+						'type' => 'select',
+						'options'=>apply_filters('wplms_student_login_redirect_filters',array(
+							'' => __('Disable','vibe-customtypes'),
+							'home' => __('Home page','vibe-customtypes'),
+							'profile' => __('Profile page','vibe-customtypes'),
+							'mycourses'=> __('My Courses page','vibe-customtypes'),
+							'dashboard'=> __('Dashboard page','vibe-customtypes'),
+							'same' => __('Same page','vibe-customtypes'),
+							)),
+						'desc' => __('Default is home page','vibe-customtypes') 
 					),
-				'desc' => __('Default is menu order','vibe-customtypes')
-			),
-		array(
-				'label' => __('Default order in Members directory (clear cookies to test)','vibe-customtypes'),
-				'name' =>'members_default_order',
-				'type' => 'select',
-				'options'=>array(
-					''=> __('None','vibe-customtypes'),
-					'active' => __('Last active','vibe-customtypes'),
-					'newest' => __('Newest registered','vibe-customtypes'),
-					'alphabetical' => __('Alphabetical','vibe-customtypes'),
+				array(
+						'label' => __('Instructor Login redirect','vibe-customtypes'),
+						'name' =>'instructor_login_redirect',
+						'type' => 'select',
+						'options'=>apply_filters('wplms_instructor_login_redirect_filters',array(
+							'' => __('Disable','vibe-customtypes'),
+							'home' => __('Home page','vibe-customtypes'),
+							'profile' => __('Profile page','vibe-customtypes'),
+							'mycourses'=> __('My Courses page','vibe-customtypes'),
+							'instructing_courses'=> __('Instructing Courses page','vibe-customtypes'),
+							'dashboard'=> __('Dashboard page','vibe-customtypes'),
+							'same' => __('Same page','vibe-customtypes'),
+							)),
+						'desc' => __('Default is home page','vibe-customtypes')
 					),
-				'desc' => __('Default is menu order','vibe-customtypes')
-			),
-		array(
-				'label' => __('Ninja Forms ID for Instructor Signup (Optional)','vibe-customtypes'),
-				'name' =>'instructor_signup_ninja_form_id',
-				'type' => 'number',
-				'desc' => __('Connect Ninja Form ID for Make instructor button in form','vibe-customtypes')
-			),
-		array(
-				'label' => __('Limit Number of Courses per Instructor','vibe-customtypes'),
-				'name' =>'course_limit',
-				'type' => 'number',
-				'desc' => __('( 0 for unlimited course per instructor )','vibe-customtypes')
-			),
-		array(
-			'label' => __('Limit Number of Units Created per Instructor','vibe-customtypes'),
-			'name' =>'unit_limit',
-			'type' => 'number',
-			'desc'=>__(' ( 0 for unlimited )','vibe-customtypes')
-			),
-		array(
-			'label' => __('Limit Number of Quiz Created per Instructor ','vibe-customtypes'),
-			'name' =>'quiz_limit',
-			'type' => 'number',
-			'desc' =>__('(0 for unlimited course per instructor )','vibe-customtypes'),
-			),
-		));
+				array(
+						'label' => __('Enable One session per user','vibe-customtypes'),
+						'name' => 'one_session_per_user',
+						'type' => 'checkbox',
+						'desc' => __('A User can login from one unique user id (excludes administrators)','vibe-customtypes')
+					),
+				array(
+						'label' => __('Hide Administrators in Instructors','vibe-customtypes'),
+						'name' =>'admin_instructor',
+						'type' => 'checkbox',
+						'desc' => __('Hide Administrator in all instructors page & elsewhere','vibe-customtypes')
+					),
+				array(
+						'label' => __('Enable message to Instructor in Course Page','vibe-customtypes'),
+						'name' =>'show_message_instructor',
+						'type' => 'checkbox',
+						'desc' => sprintf(__('Enables a Message icon to send message to Instructor, see %s tutorial %s','vibe-customtypes'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/show-contact-instructor-in-course/" target="_blank">','</a>'),
+					),
+				array(
+			            'label' => __('Enable Create course button in instructor profile menu', 'vibe-customtypes'),
+			            'name' => 'enable_inst_create_course',
+			            'desc' => __('Adds a create course link in intructor profile menu', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Show WooCommerce/Pmpro account in profile', 'vibe-customtypes'),
+			            'name' => 'woocommerce_account',
+			            'desc' => __('Display WooCommerce account in profile', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+						'label' => __('Set a terms and conditions page for BuddyPress registration','vibe-customtypes'),
+						'name' => 'terms_conditions_in_registration',
+						'type' => 'cptselect',
+						'cpt'=>'page',
+						'desc' => __('Set a terms and conditions page in BuddPress registration.','vibe-customtypes')
+					),
+				array(
+			            'label' => __('Enable Student menus', 'vibe-customtypes'),
+			            'name' => 'enable_student_menus',
+			            'desc' => __('Adds New menu locations for Students', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable Instructor menus', 'vibe-customtypes'),
+			            'name' => 'enable_instructor_menus',
+			            'desc' => __('Adds New menu locations for Instructors', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Assign Free courses to students on account activation', 'vibe-customtypes'),
+			            'name' => 'assign_free_courses',
+			            'desc' => __('Enables auto-subscription to all the "free" courses in site to students when they signup/register and activate their account.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				/*array(
+			            'label' => __('Enable Custom menu in Logged in Menu', 'vibe-customtypes'),
+			            'name' => 'custom_logged_in_menu',
+			            'desc' => __('Enables custom menu location at logged in menu, set the menu at WP Admin - Menus and it will be available in Logged in menu dropdown.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),*/
+				array(
+					'label'=>__('Course Home Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+					'label'=>__('Course Members Visibility','vibe-customtypes' ),
+					'type'=> 'select',
+					'style'=>'',
+					'name' => 'vibe_display_course_members',
+					'options'=>array(
+						0=>__('Everyone','vibe-customtypes'),
+						1=>__('Logged in Users','vibe-customtypes'),
+						2=>__('Course Users','vibe-customtypes'),
+						3=>__('Instructors and Admins','vibe-customtypes'),
+					),
+					'desc'=> __('Set Course/Members Visibility','vibe-customtypes' ),
+				),
+				array(
+					'label'=>__('Course Curriculum Visibility','vibe-customtypes' ),
+					'type'=> 'select',
+					'style'=>'',
+					'name' => 'vibe_display_course_curriculum',
+					'options'=>array(
+						0=>__('Everyone','vibe-customtypes'),
+						1=>__('Logged in Users','vibe-customtypes'),
+						2=>__('Course Users','vibe-customtypes'),
+						3=>__('Instructors and Admins','vibe-customtypes'),
+					),
+					'desc'=> __('Set Course/Curriculum Visibility','vibe-customtypes' ),
+				),
+				array(
+					'label'=>__('Course Events Visibility','vibe-customtypes' ),
+					'type'=> 'select',
+					'style'=>'',
+					'name' => 'vibe_display_course_events',
+					'options'=>array(
+						0=>__('Everyone','vibe-customtypes'),
+						1=>__('Logged in Users','vibe-customtypes'),
+						2=>__('Course Users','vibe-customtypes'),
+						3=>__('Instructors and Admins','vibe-customtypes'),
+					),
+					'desc'=> __('Set Course/Events Visibility','vibe-customtypes' ),
+				),
+				array(
+					'label'=>__('Course Activity Visibility','vibe-customtypes' ),
+					'type'=> 'select',
+					'style'=>'',
+					'name' => 'vibe_display_course_activity',
+					'options'=>array(
+						0=>__('Everyone','vibe-customtypes'),
+						1=>__('Logged in Users','vibe-customtypes'),
+						2=>__('Course Users','vibe-customtypes'),
+						3=>__('Instructors and Admins','vibe-customtypes'),
+					),
+					'desc'=> __('Set Course/Activity Visibility','vibe-customtypes' ),
+				),
+				array(
+					'label'=>__('Course Drive Visibility','vibe-customtypes' ),
+					'type'=> 'select',
+					'style'=>'',
+					'name' => 'vibe_display_course_drive',
+					'options'=>array(
+						0=>__('Everyone','vibe-customtypes'),
+						1=>__('Logged in Users','vibe-customtypes'),
+						2=>__('Course Users','vibe-customtypes'),
+						3=>__('Instructors and Admins','vibe-customtypes'),
+					),
+					'desc'=> __('Set Course/Drive Visibility','vibe-customtypes' ),
+				),
+				array(
+						'label' => __('Disable Instructor display in Courses','vibe-customtypes'),
+						'name' => 'disable_instructor_display',
+						'type' => 'checkbox',
+						'desc' => __('Disables display of instructor in the site. Suitable for 1 instructors','vibe-customtypes')
+					),
+				array(
+						'label' => __('Change Pre-Required Course Condition from submitted to Evaluated','vibe-customtypes'),
+						'name' => 'enable_pre_required_on_evaluation',
+						'type' => 'checkbox',
+						'desc' => __('After enabling this students will have to wait for course evaluation by the instructor to move on to courses which have pre-requisite course under evaluation. Default : Students get access on course finish.','vibe-customtypes')
+					),
+				array(
+						'label' => __('Hide Members section in Single Course page','vibe-customtypes'),
+						'name' =>	'hide_course_members',
+						'type' => 'checkbox',
+						'desc' => __(' Hides member section in course pages','vibe-customtypes')
+					),
+				array(
+						'label' => __('Show curriculum below Course description','vibe-customtypes'),
+						'name' =>'course_curriculum_below_description',
+						'type' => 'checkbox',
+						'desc' => __('Show curriculum below course description','vibe-customtypes')
+					),
+				array(
+			            'label' => __('Disable Course Certificate image mode', 'vibe-customtypes'),
+			            'name' => 'disable_certificate_screenshot',
+			            'desc' => sprintf(__('Disable course certificate in image mode. %s tutorial %s', 'vibe-customtypes'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/disable-certificate-image-mode/" target="_blank">','</a>'),
+			            'type' => 'checkbox',
+					),
+				array(
+						'label' => __('Free units should only be accessible to logged in members','vibe-customtypes'),
+						'name' =>'force_free_unit_access',
+						'type' => 'checkbox',
+						'desc' => __('Disable free unit access for the world, only logged in users can view free units.','vibe-customtypes')
+					),
+				array(
+						'label' => __('Fix Course Menu on Scroll','vibe-customtypes'),
+						'name' =>'fix_course_menu_on_scroll',
+						'type' => 'checkbox',
+						'desc' => __('Fix the course menu on scroll only in c2, c3 and c5 layout','vibe-customtypes')
+					),
+				array(
+					'label'=>__('Course Status Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+						'label' => __('Course Timeline Accordion style','vibe-customtypes'),
+						'name' =>'curriculum_accordion',
+						'type' => 'checkbox',
+						'desc' => __('Show curriculum accordion style','vibe-customtypes')
+					),
+				array(
+						'label' => __('Disable ajax in Course unit load','vibe-customtypes'),
+						'name' => 'disable_ajax',
+						'type' => 'checkbox',
+						'desc' => __('Ajax disabled in course unit loads','vibe-customtypes')
+					),
+				array(
+			            'label' => __('Remove Finished Courses from directory', 'vibe-customtypes'),
+			            'name' => 'remove_finished_course',
+			            'desc' => __('Auto remove finished courses from course directory for user', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),	
+				array(
+		            'label' => __('Auto-mark unit complete when user proceeds to next unit', 'vibe-customtypes'),
+		            'name' => 'mark_unit_complete_when_next_unit',
+		            'desc' => __('Hides "Mark Unit Complete" button and auto marks the unit as completed when user proceeds to next unit.', 'vibe-customtypes'),
+		            'type' => 'checkbox',
+				),	
+				array(
+			            'label' => __('Skip Course status page', 'vibe-customtypes'),
+			            'name' => 'skip_course_status',
+			            'desc' => __('Skip the introductory page, course status description on course start or continue', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),			
+				array(
+					'label'=>__('Course Pricing Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+			            'label' => __('Coming soon courses', 'vibe-customtypes'),
+			            'name' => 'course_coming_soon',
+			            'desc' => __('Enable coming soon option for courses', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable Course Codes', 'vibe-customtypes'),
+			            'name' => 'course_codes',
+			            'desc' => __('Student can purchase/access courses by using custom defined codes for courses in course pricing section. Requires BuddyPress Activity.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable Course external link', 'vibe-customtypes'),
+			            'name' => 'course_external_link',
+			            'desc' => __('Connect "Take this Course" button with an external link, defined in Course Pricing section.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Disable Auto allocation of Free courses', 'vibe-customtypes'),
+			            'name' => 'disable_autofree',
+			            'desc' => __('Disables auto allocation of free courses', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+					'label'=>__('Drip Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
 
-		$this->lms_settings_generate_form('general',$settings);
+				array(
+			            'label' => __('Enable Unit Time as Drip Duration', 'vibe-customtypes'),
+			            'name' => 'course_unit_drip_section',
+			            'desc' => __('Drip feed is applied based on specified Unit time.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable Section Drip feed', 'vibe-customtypes'),
+			            'name' => 'course_drip_section',
+			            'desc' => __('Drip feed is applied section wise instead of unit wise.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
 
+
+				array(
+					'label'=>__('Unit settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+
+				array(
+						'label' => __('Show Unit Description in Course curriculum','vibe-customtypes'),
+						'name' =>'course_curriculum_unit_description',
+						'type' => 'checkbox',
+						'desc' => __('Unit descriptions appear below Unit titles in Course curriculum','vibe-customtypes')
+					),
+				
+				array(
+						'label' => __('Show User progress in Course Admin','vibe-customtypes'),
+						'name' =>'user_progress_course_admin',
+						'type' => 'checkbox',
+						'desc' => __('Small progress bar is displayed for every user below her name in course -> admin section','vibe-customtypes')
+					),
+				array(
+						'label' => __('Enable Unit/Quiz Start Date time','vibe-customtypes'),
+						'name' =>'unit_quiz_start_datetime',
+						'type' => 'checkbox',
+						'desc' => __('Units and Quizzes start at a particular date and time','vibe-customtypes')
+					),
+				
+				
+				array(
+			            'label' => __('Unit Comments/Notes', 'vibe-customtypes'),
+			            'name' => 'unit_comments',
+			            'desc' => __('Enable Unit Comments only where Unit comments are enabled in post settings.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				
+				array(
+					'label'=>__('Quiz/Assignment Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+						'label' => __('Enable In-Course Quiz','vibe-customtypes'),
+						'name' => 'in_course_quiz',
+						'type' => 'checkbox',
+						'desc' => __('Quizzes open inside course like units','vibe-customtypes')
+					),
+				array(
+						'label' => __('In-Course Quiz questions per page','vibe-customtypes'),
+						'name' => 'in_course_quiz_paged',
+						'type' => 'number',
+						'desc' => __('set number of questions appearing per page in in-course quizzes','vibe-customtypes')
+					),
+				array(
+			            'label' => __('Enable passing score for Quiz', 'vibe-customtypes'),
+			            'name' => 'quiz_passing_score',
+			            'desc' => __('Set a passing score for every quiz, Student progress to next unit/quiz is restricted if user fails in quiz', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Force Quiz availability to Course students', 'vibe-customtypes'),
+			            'name' => 'course_students_quiz',
+			            'desc' => __('Only Course students can take the quiz. Quiz must be connected to the course in quiz settings.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Hide correct answers', 'vibe-customtypes'),
+			            'name' => 'quiz_correct_answers',
+			            'desc' => __('Correct answers in quizzes are not displayed unless student has finished/submitted the course.', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable negative marking', 'vibe-customtypes'),
+			            'name' => 'quiz_negative_marking',
+			            'desc' => __('Enables negative marking for questions in quizzes', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Show Assignments in Course Curriculum', 'vibe-customtypes'),
+			            'name' => 'wplms_course_assignments',
+			            'desc' => __('Assignments will be displayed in Course Curriculum', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+						'label' => __('Display Submission time in Course/Quiz/Assignment submissions','vibe-customtypes'),
+						'name' => 'submission_meta',
+						'type' => 'checkbox',
+						'desc' => __('Displays time (eg 2 hrs) with manual submissions, * requires activity to be enabled','vibe-customtypes')
+					),
+				array(
+					'label'=>__('Front End Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+			            'label' => __('Force Administrator Approval on every setting', 'vibe-customtypes'),
+			            'name' => 'wplms_force_admin_approval',
+			            'desc' => __('Instructors courses will go to pending mode when settings/pricing/curriculum is saved. *Requires Admin Approval enabled in WPLMS - Course Manager', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
+			            'label' => __('Enable Front end course deletion', 'vibe-customtypes'),
+			            'name' => 'wplms_course_delete',
+			            'desc' => __('Instructors will be able to delete course and related content from front end', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				
+				array(
+					'label'=>__('Miscellaneous Settings','vibe-customtypes' ),
+					'type'=> 'heading',
+				),
+				array(
+						'label' => __('Revert pretty permalinks for Courses','vibe-customtypes'),
+						'name' => 'revert_permalinks',
+						'type' => 'checkbox',
+						'desc' => __('Revert permalinks from coursname/admin to coursename/?action-','vibe-customtypes')
+					),
+
+				array(
+			            'label' => __('Enable Course forum privacy', 'vibe-customtypes'),
+			            'name' => 'enable_forum_privacy',
+			            'desc' => __('Only course students can access course forums', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				
+				
+				array(
+						'label' => __('Default order in course directory','vibe-customtypes'),
+						'name' =>'default_order',
+						'type' => 'select',
+						'options'=>array(
+							'date' => __('Recent','vibe-customtypes'),
+							'title' => __('Alphabetical','vibe-customtypes'),
+							'popular' => __('Number of Students','vibe-customtypes'),
+							'rated' => __('Rating','vibe-customtypes'),
+							'start_date' => __('Upcoming courses via Start date','vibe-customtypes'),
+							'rand'  => __('Random','vibe-customtypes'),
+							),
+						'desc' => __('Default is menu order','vibe-customtypes')
+					),
+				array(
+						'label' => __('Default order in Members directory (clear cookies to test)','vibe-customtypes'),
+						'name' =>'members_default_order',
+						'type' => 'select',
+						'options'=>array(
+							''=> __('None','vibe-customtypes'),
+							'active' => __('Last active','vibe-customtypes'),
+							'newest' => __('Newest registered','vibe-customtypes'),
+							'alphabetical' => __('Alphabetical','vibe-customtypes'),
+							),
+						'desc' => __('Default is menu order','vibe-customtypes')
+					),
+				array(
+						'label' => __('Limit Number of Courses per Instructor','vibe-customtypes'),
+						'name' =>'course_limit',
+						'type' => 'number',
+						'desc' => __('( 0 for unlimited course per instructor )','vibe-customtypes')
+					),
+				array(
+					'label' => __('Limit Number of Units Created per Instructor','vibe-customtypes'),
+					'name' =>'unit_limit',
+					'type' => 'number',
+					'desc'=>__(' ( 0 for unlimited )','vibe-customtypes')
+					),
+				array(
+					'label' => __('Limit Number of Quiz Created per Instructor ','vibe-customtypes'),
+					'name' =>'quiz_limit',
+					'type' => 'number',
+					'desc' =>__('(0 for unlimited course per instructor )','vibe-customtypes'),
+					),
+				));
+
+				$this->lms_settings_generate_form('general',$settings);
+				break;
+		}
 	}
 
 
@@ -651,15 +723,440 @@ class lms_settings{
 	         $errors[] = __('You have reached your monthly post limit','vibe-customtypes');
 	    }
 	}
+	/*
+		REGISTRATION FORMS in LMS - SETTINGS
+	*/
+	function lms_registration_forms(){
+
+		echo '<h3>'.__('Registration Forms','vibe-customtypes').'</h3>';
+		echo '<p>'.sprintf(__('Build registration forms for Students and Instructors, refer %s tutorial %s','vibe-customtypes'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/custom-registration-forms-in-wplms/">','</a>').'</p>';
+		if(!function_exists('bp_xprofile_get_groups')){
+			echo _x('xProfile fields not enabled','error message displayed in registration forms when xprofile are disabled','vibe-customtypes');
+			return;
+		}
+
+		$groups = bp_xprofile_get_groups( array(
+			'fetch_fields' => true
+		) );
+
+		if(empty($groups)){
+			echo _x('No fields found !','error message displayed in registration forms when no xprofile fields exist','vibe-customtypes');
+			return;
+		}
+		global $wp_roles;
+
+		if ( ! isset( $wp_roles ) )
+		    $wp_roles = new WP_Roles();
+
+		//Sync with Vibe shortcodes Ajax calls and Shortcode.php
+		$form_settings = apply_filters('wplms_registration_form_settings',array(
+					'hide_username' =>  __('Auto generate username from email','vibe-customtypes'),
+					'password_meter' =>  __('Show password meter','vibe-customtypes'),
+					'show_group_label' =>  __('Show Field group labels','vibe-customtypes'),
+					'google_captcha' => __('Google Captcha','vibe-customtypes'),
+					'auto_login'=> __('Register & Login simultaneously','vibe-customtypes'),
+					'skip_mail' =>  __('Skip Mail verification','vibe-customtypes'),
+					'default_role' =>  $wp_roles->get_names(),
+		));
+
+		/*
+			FORM CREATION
+		*/
+		
+		$forms = get_option('wplms_registration_forms');
+		
+		if(!empty($_POST['wplms_create_registration_from']) && !empty($_POST['wplms_registration_form_security']) && !empty($_POST['wplms_add_registration_form'])){
+			if(wp_verify_nonce($_POST['wplms_registration_form_security'],'wplms_security')){
+				if(empty($forms)){$forms=array();}
+				$name = strtolower(strip_tags($_POST['wplms_add_registration_form']));
+				$name = str_replace(' ','_',$name);
+				$forms[$name] = array();
+				update_option('wplms_registration_forms',$forms);
+			}
+		}
+
+		
+
+		// SAVE FORM FIELDS
+		if(!empty($_POST['wplms_save_registration_fields']) && !empty($_POST['wplms_save_registration_form_fields'])){
+			if(wp_verify_nonce($_POST['wplms_save_registration_form_fields'],'wplms_fields_security')){
+				if(!empty($forms) && !empty($_POST)){
+
+					foreach($forms as $k=>$v){
+						$k = str_replace(' ','_',$k); //Sanitize form names
+						$forms[$k]=$v;
+					}
+					$form_names = array_keys($forms);
+					foreach($form_names as $name){
+						unset($forms[$name]['fields']);
+					}
+					
+					foreach($_POST as $label=>$value){
+						if(!in_array($label,array('wplms_save_registration_form_fields','_wp_http_referer','wplms_save_registration_fields'))){
+							$names = explode('|',$label);							
+							if(!empty($names) && isset($forms[$names[1]])){
+								if(empty($forms[$names[1]])){
+									$forms[$names[1]] = array('fields'=>array($names[0]));
+								}else if(empty($forms[$names[1]]['fields'])) {
+									$forms[$names[1]]['fields'] = array($names[0]);
+								}else if(!in_array($names[0],$forms[$names[1]]['fields'])){
+									$forms[$names[1]]['fields'][] = $names[0];
+								}
+							}
+						}
+					}
+					update_option('wplms_registration_forms',$forms);
+				}
+			}
+		}
+
+		
+
+		if(!empty($_POST['wplms_registration_form_sub_security']) && !empty($_POST['registration_form_name'])){
+			if(wp_verify_nonce($_POST['wplms_registration_form_sub_security'],'wplms_sub_security')){
+				
+				if(isset($_POST['default_registration_form'])){ 
+					// UNSET ALL DEFAULT KEYS
+					foreach($forms as $key=>$f){
+						if(!empty($f) && isset($f['default'])){
+							unset($forms[$key]['default']);
+						}
+					}
+					//SET THE CURRENT DEFAULT KEY
+					if(empty($forms[strip_tags($_POST['registration_form_name'])])){
+						$forms[strip_tags($_POST['registration_form_name'])] = array('default'=>1);
+					}else{
+						$forms[strip_tags($_POST['registration_form_name'])]['default'] = 1;
+					}
+				}else if($_POST['remove_registration_form']){
+					if(isset($forms[strip_tags($_POST['registration_form_name'])])){
+						unset($forms[strip_tags($_POST['registration_form_name'])]);
+					}
+				}
+				update_option('wplms_registration_forms',$forms);
+			}
+		}
+
+		if(!empty($_POST['save_form_settings']) && !empty($_POST['registration_form_name'])){
+			if(wp_verify_nonce($_POST['wplms_registration_form_sub_security'],'wplms_sub_security')){
+				$forms[$_POST['registration_form_name']]['settings'] = array();
+				foreach($_POST as $k => $la){
+					if(!in_array($k,array('registration_form_name','wplms_registration_form_sub_security','_wp_http_referer'))){
+						$sv = explode('|',$k);
+						$forms[$_POST['registration_form_name']]['settings'][$sv[0]]=$la;
+					}
+				}
+				update_option('wplms_registration_forms',$forms);
+			}
+		}
+		if(!empty($forms))
+			$form_names = array_keys($forms);
+
+		if(!empty($forms)){
+			$default = 0;
+			foreach($form_names as $i=>$name){
+				if($forms[$name]['default'] == 1){
+					$default = $name;
+				}
+			}
+			echo '<h3>'._x('Existing Registration forms','Forms registered in site','vibe-customtypes').'</h3>
+			<ul class="registration_field_groups">';
+			foreach($form_names as $i=>$name){
+				if(empty($default) && $i ==0){$default = $name;}
+				$name = str_replace(' ','_',$name);
+				echo '<li><form method="post"><label class="field_name">'.$name.'&nbsp;<br>
+
+				<span style="font-weight:400;text-transform:none;"><code id="'.$name.'" onclick="copyToClipboard(\'#'.$name.'\')">[wplms_registration_form name="'.$name.'" field_meta=1]</code>
+
+				</span> <small style="font-weight:200; font-size:12px;text-transform:none;">
+				<br>('.__('field_meta for field description & visbility','vibe-customtypes').')</small></label><input type="hidden" value="'.$name.'" name="registration_form_name"><input type="submit" name="default_registration_form" class="button '.(($default == $name)?'button-primary':'').'"  value="'.(($default == $name)?__('Default','vibe-customtypes'):_x('Set as default','set a default registration form','vibe-customtypes')).'">&nbsp;<a class="button" onClick="jQuery(this).parent().find(\'.registration_form_settings\').toggle(200);">'._x('Settings','delete button label','vibe-customtypes').'</a>&nbsp;<input type="submit" name="remove_registration_form" class="button" value="'._x('Delete','delete button label','vibe-customtypes').'">';
+				echo '<div class="registration_form_settings" style="display:none;">';
+				echo '<ul class="registration_field_groups" style="padding:10px;">';
+				
+				foreach($form_settings as $key => $label){
+					$key = str_replace(' ','_',$key);
+					echo '<li>';
+					if(is_array($label)){ 
+						echo '<label class="field_name">'.__('Assign User role','vibe-customtypes').'</label><select name="'.$key.'|'.$name.'"><option value="">'._x('Default role','role in registration form','vibe-customtypes').'</option>';
+						foreach($label as $k=>$l){
+							echo '<option value="'.$k.'" '.((isset($forms[$name]['settings'][$key]) && $forms[$name]['settings'][$key] == $k)?'selected':'').'>'.$l.'</option>';
+						}
+						echo '</select>';
+					}else{
+						echo '<label class="field_name">'.$label.'</label><input type="checkbox" name="'.$key.'|'.$name.'" '.(isset($forms[$name]['settings'][$key])?'checked':'').'/></li>';	
+					}
+				}
+				
+				do_action('wplms_registration_form_setting',$name);
+				echo '<li><input type="submit" name="save_form_settings" class="button-primary" value="'._x('Save','save form settings','vibe-customtypes').'" /></li>';
+				echo '</ul>';
+				echo '</div>';
+				wp_nonce_field('wplms_sub_security','wplms_registration_form_sub_security');
+			echo '</form></li>';
+			}
+			echo '</ul>';
+			?>
+			<script>
+			function copyToClipboard(element) {
+			    var $temp = jQuery("<input>");
+			    jQuery("body").append($temp);
+			    $temp.val(jQuery(element).text()).select();
+			    document.execCommand("copy");
+			    $temp.remove();
+			    alert('<?php _e('Shortcode Copied !','vibe-customtypes'); ?>');
+			}
+			</script>
+			<?php
+			
+		}
+		echo '<a id="create_registration_form" onClick="jQuery(this).next().toggle(200);" class="button-primary">'._x('Add Registration Form','create registration form button label','vibe-customtypes').'</a><form method="post" style="display:none;"><br>';
+		echo '<input type="text" name="wplms_add_registration_form" style="width:50%;" placeholder="'._x('Type the name of the form, avoid spaces and special characters','enter form name placeholder','vibe-customtypes').'"><input type="submit" name="wplms_create_registration_from" class="button" value="'._x('Add Form','Add form submit button label','vibe-customtypes').'" >';
+		wp_nonce_field('wplms_security','wplms_registration_form_security');
+		echo '</form>';
+
+		if(empty($forms)){
+			echo '<div class="message error"><p>'._x('No Registration forms found !','warning message when no registration forms are found','vibe-customtypes').'</p></div>';
+			return;
+		}
+
+		
+		echo '<br><hr><h3>'._x('Connect Forms with Fields','connect form heading','vibe-customtypes').'</h3>
+		<form method="post"><ul class="registration_field_groups">';
+		foreach($groups as $group){
+			echo '<h4>'._x('Field Group','field group prefix in registration form','vibe-customtypes').' : '.esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) ).'</h4>';
+			if ( !empty( $group->fields ) ) {
+				echo '<ul class="profile_fields">';
+				
+				//Form NAMES
+				echo '<li><label class="field_name">'._x('Field Name','','vibe-customtypes').'</label>';
+				if(!empty($form_names)){
+					foreach($form_names as $name){
+						echo '<label>'.$name.'</label>';
+					}
+				}
+				echo '</li>';
+
+				//CHECK IF FIELDS ENABLED
+				foreach ( $group->fields as $field ) {
+					$field = xprofile_get_field( $field->id );
+					echo '<li>';
+					echo '<label class="field_name">'.$field->name.' ( '.$field->type.''.(empty($field->can_delete)?', '._x('Necessary','necessary fields for buddypress registration','vibe-customtypes'):'').
+					')</label>';
+					if(!empty($form_names)){
+						foreach($form_names as $name){
+							$k = str_replace(' ','_',$field->name);
+							$name = str_replace(' ','_',$name);
+							echo '<label><input type="checkbox" name="'.$k.'|'.$name.'" '.((isset($forms[$name]['fields']) && in_array($k,$forms[$name]['fields']) || empty($field->can_delete))?'checked':'').' value="1"></label>';
+						}
+					}
+					echo '</li>';
+				} // end for
+				echo '</ul>';
+			}else { // !$group->fields ?>
+
+				<p class="nodrag nofields"><?php _e( 'There are no fields in this group.', 'buddypress' ); ?></p>
+			<?php
+			}
+		}
+		echo '</ul><br>';
+
+		wp_nonce_field('wplms_fields_security','wplms_save_registration_form_fields');
+		echo '<input type="submit" name="wplms_save_registration_fields" value="'._x('Save Form fields','save form fields label in registration forms lms - settings','vibe-customtypes').'" class="button-primary"/>';
+		echo '</form>';
+	}
+	/*
+		MEMBER TYPES
+	*/
+	function lms_member_types(){
+
+
+		/*
+		SAVE MEMBER TYPES
+		*/
+		if(!empty($_POST['wplms_create_registration_from']) && !empty($_POST['wplms_registration_form_security']) && !empty($_POST['wplms_add_registration_form'])){
+			if(wp_verify_nonce($_POST['wplms_registration_form_security'],'wplms_security')){
+				if(empty($forms)){$forms=array();}
+				$name = strtolower(strip_tags($_POST['wplms_add_registration_form']));
+				$forms[$name] = array();
+				update_option('wplms_registration_forms',$forms);
+			}
+		}
+		/*
+		GENERATE MEMBER TYPES
+		*/
+		
+		?>
+
+		<?php
+	}
+
+	/*
+		GROUP TYPES
+	*/
+	function lms_group_types(){
+		/*
+		SAVE GROUP TYPES
+		*/
+		if(!empty($_POST['wplms_create_registration_from']) && !empty($_POST['wplms_registration_form_security']) && !empty($_POST['wplms_add_registration_form'])){
+			if(wp_verify_nonce($_POST['wplms_registration_form_security'],'wplms_security')){
+				if(empty($forms)){$forms=array();}
+				$name = strtolower(strip_tags($_POST['wplms_add_registration_form']));
+				$forms[$name] = array();
+				update_option('wplms_registration_forms',$forms);
+			}
+		}
+		/*
+		GENERATE GROUP TYPES
+		*/
+	}
+	/*
+	FUNCTIONS TAB IN LMS - SETTINGS
+	 */
 	function lms_functions(){
 		do_action('wplms_admin_custom_admin_panel');
-		echo '<h3>'.__('LMS Admin Functions [ For Ad-Hoc Management]','vibe-customtypes').'</h3>';
-		echo '<form method="post"><ul class="lms-settings">';
-		echo '<li><label>'.__('Custom Field Value','vibe-customtypes').'</label><input type="text" name="id" placeholder="ID"><input type="text" name="field_name" placeholder="Field Name"><input type="text" name="field_value" placeholder="Field Value"><input type="submit" name="set_field" class="button button-primary" value="Set Field" />';
-		echo '<li><label>'.__('Custom Field for Student Value','vibe-customtypes').'</label><input type="text" name="student_id" placeholder="Student ID"><input type="text" name="field_name_student" placeholder="Field Name"><input type="text" name="field_value_student" placeholder="Field Value"><input type="submit" name="set_field_for_student" class="button button-primary" value="Set Field" />';
-		echo '<li><label>'.__('Current Time Stamp ','vibe-customtypes').'</label><span>'.time().'</span></li>';
-		wp_nonce_field('vibe_admin_adhoc','_vibe_admin_adhoc');
-		echo '</ul></form>';
+		echo '<h3>'.__('LMS Functions [ For Ad-Hoc Management]','vibe-customtypes').'</h3>';
+		echo '<p>'.__('Import LMS functions can be managed from here.','vibe-customtypes').'</p>';
+
+		$template_array = apply_filters('wplms_lms_commission_tabs',array(
+			''=> __('Sync Areas','vibe-customtypes'),
+			'adhoc'=> __('Ad Hoc','vibe-customtypes'),
+			));
+		echo '<ul class="subsubsub">';
+		foreach($template_array as $k=>$value){
+			echo '<li><a href="?page=lms-settings&tab=functions&sub='.$k.'" '.(($k == $_GET['sub'])?'class="current"':'').'>'.$value.'</a> '.(($k=='template')?'':' &#124; ').' </li>';
+		}
+		echo '</ul><div class="clear"><hr/>';
+		switch($_GET['sub']){
+			case 'adhoc':
+				echo '<form method="post"><ul class="lms-settings">';
+				echo '<li><label>'.__('Custom Field Value','vibe-customtypes').'</label><input type="text" name="id" placeholder="ID"><input type="text" name="field_name" placeholder="Field Name"><input type="text" name="field_value" placeholder="Field Value"><input type="submit" name="set_field" class="button button-primary" value="Set Field" />';
+				echo '<li><label>'.__('Custom Field for Student Value','vibe-customtypes').'</label><input type="text" name="student_id" placeholder="Student ID"><input type="text" name="field_name_student" placeholder="Field Name"><input type="text" name="field_value_student" placeholder="Field Value"><input type="submit" name="set_field_for_student" class="button button-primary" value="Set Field" />';
+				echo '<li><label>'.__('Current Time Stamp ','vibe-customtypes').'</label><span>'.time().'</span></li>';
+				wp_nonce_field('vibe_admin_adhoc','_vibe_admin_adhoc');
+				echo '</ul></form>';
+			break;
+			default:
+				echo '<h3>'.__('Synchronise LMS Data','vibe-customtypes').'</h3><p>'.__('Only required in special cases when data goes out of sync.','vibe-customtypes').'</p>';
+				echo '<table class="form-table">
+						<tbody>';
+				$sync_settings = apply_filters('wplms_sync_settings',array(
+					array(
+						'id'=>'course_students',
+						'label'=>__('Course - Students','vibe-customtypes'),
+						'description'=>__('Verify Course Student Status and expiry for all students and courses','vibe-customtypes'),
+					),
+					array(
+						'id'=>'unit_students',
+						'label'=>__('Unit - Students','vibe-customtypes'),
+						'description'=>__('Verify student unit completion for reusability','vibe-customtypes'),
+					),
+					array(
+						'id'=>'quiz_results',
+						'label'=>__('Quiz Results','vibe-customtypes'),
+						'description'=>__('Verify Quiz Student Status and results for all students and quizzes','vibe-customtypes'),
+					),
+					array(
+						'id'=>'course_forums',
+						'label'=>__('Course Forums','vibe-customtypes'),
+						'description'=>__('Auto-subscribe course users to course forums.','vibe-customtypes'),
+					),					
+					/*array(
+						'id'=>'instructor_commissions',
+						'label'=>__('Instructor Commissions','vibe-customtypes'),
+						'description'=>__('Verify all Instructor commissions','vibe-customtypes')
+					),*/
+				));			
+				foreach($sync_settings as $setting){
+					echo '<tr valign="top">
+							<th scope="row" class="titledesc">
+								<label>'.$setting['label'].'</label>
+								<p style="font-weight: 400;color: #888;">'.$setting['description'].'</p>
+							</th>
+							<td class="forminp"><a class="button sync_resync" data-id="'.$setting['id'].'">'.__('Sync Now','vibe-customtypes').'</a></td>
+						</tr>';
+				}
+				
+				//sync_resync_js  JS CALL
+						wp_nonce_field('sync_resync','sync_security');
+				?>
+				<script>
+					jQuery(document).ready(function($){
+
+						$('.sync_resync').on('click',function(){
+							var $this = $(this);
+							$this.after('<span class="status">Starting ...</span><div class="progress_wrap" style="margin: 30px 0;width: 300px;"><div class="progress" style="height: 10px;border-radius: 5px;"><div class="bar" style="width: 5%;"></div></div></div>');
+							//Show progress bar
+							$.ajax({
+					          	type: "POST",
+					          	url: ajaxurl,
+					          	dataType: "json",
+					          	data: { action: 'sync_resync', 
+					                  id: $this.attr('data-id'),
+					                  security: $('#sync_security').val(),
+					                },
+					          	cache: false,
+					          	success: function (json) {
+
+					            	$this.parent().find('.progress_wrap .bar').css('width','10%');
+					            	$this.parent().find('span.status').text('fetch '+json.length+' results, sync in progress...');
+					            	var defferred = [];
+					            	var current = 0;
+					            	$.each(json,function(i,item){
+					            		defferred.push(item);
+					            	});
+					            	recursive_step(current,defferred,$this);
+					            	//$.each() RUN loop on json and increment progress bar
+					            	$('body').on('end_recursive_sync',function(){
+					            		$.ajax({
+								          	type: "POST",
+								          	url: ajaxurl,
+								          	data: { action: $this.attr('data-id'), 
+								                  security: $('#sync_security').val(),
+								                },
+								          	cache: false,
+								          	success: function (text) {
+								          		$this.parent().find('span.status').text(text);
+								            	//Complete the progress
+								            	$this.parent().find('.progress_wrap .bar').css('width','100%');
+								            	setTimeout(function(){$this.parent().find('.progress_wrap,.status').hide(200);},3000);
+								          	}
+								        });
+					            	});
+					          	}
+					        });
+						});
+
+
+						function recursive_step(current,defferred,$this){
+						    if(current < defferred.length){
+						        $.ajax({
+						            type: "POST",
+						            url: ajaxurl,
+						            data: defferred[current],
+						            cache: false,
+						            success: function(){ 
+						                current++;
+						                $this.parent().find('span.status').text(current+'/'+defferred.length+' complete, sync in progress...');
+						                var width = 10 + 90*current/defferred.length;
+						                $this.parent().find('.bar').css('width',width+'%');
+						                if(defferred.length == current){
+						                    $('body').trigger('end_recursive_sync');
+						                }else{
+						                    recursive_step(current,defferred,$this);
+						                }
+						            }
+						        });
+						    }else{
+						    	$('body').trigger('end_recursive_sync');
+						    }
+						}//End of function
+
+					});
+				</script>
+				<?php		
+			break;
+		}
+
 		
 	}
 
@@ -816,7 +1313,8 @@ class lms_settings{
 		}
 		echo '</tbody>
 		</table>';
-		echo '<input type="submit" name="save" value="'.__('Save Settings','vibe-customtypes').'" class="button button-primary" /></form>';
+		if(!empty($settings))
+			echo '<input type="submit" name="save" value="'.__('Save Settings','vibe-customtypes').'" class="button button-primary" /></form>';
 	}	
 
 	function lms_commissions(){
@@ -914,7 +1412,7 @@ class lms_settings{
 					}
 					if(isset($instructors) && is_array($instructors)){
 						foreach($instructors as $k=>$instructor){
-							if(empty($commission[$course->ID][$instructor])){
+							if(!isset($commission[$course->ID][$instructor])){
 								$cval[$k] = $instructor_commission;
 							}else{
 								$cval[$k] = $commission[$course->ID][$instructor];		
@@ -922,7 +1420,7 @@ class lms_settings{
 							
 						}
 					}else{
-						if(empty($commission[$course->ID][$course->post_author])){
+						if(!isset($commission[$course->ID][$course->post_author])){
 							$val = $instructor_commission;	
 						}else{
 							$val = $commission[$course->ID][$course->post_author];	
@@ -1083,11 +1581,11 @@ class lms_settings{
 
 	}
 
-	function get_touch_points(){
+	static function get_touch_points(){
 
 		$settings=array(
 				'course_announcement'=>array(
-									'label' => __('Annoucements','vibe-customtypes'),
+									'label' => __('Announcements','vibe-customtypes'),
 									'name' =>'course_announcement',
 									'type' => 'touchpoint',
 									'hook' => 'wplms_dashboard_course_announcement',
@@ -1194,7 +1692,7 @@ class lms_settings{
 									'params'=>3,
 								),
 				'unit_instructor_uncomplete'=>array(
-									'label' => __('Unit marked uncomplete by Instructor for Student','vibe-customtypes'),
+									'label' => __('Unit marked incomplete by Instructor for Student','vibe-customtypes'),
 									'name' =>'unit_instructor_uncomplete',
 									'type' => 'touchpoint',
 									'hook' => 'wplms_unit_instructor_uncomplete',
@@ -1303,7 +1801,9 @@ class lms_settings{
 			'activate'=> __('Account Activation Email','vibe-customtypes'),
 			'forgot'=> __('Forgot Password Email','vibe-customtypes'),
 			'schedule'=> __('Email Schedule','vibe-customtypes'),
+			'scheduled_emails'=> __('Scheduled Emails','vibe-customtypes'),
 			'template'=> __('Email Template','vibe-customtypes'),
+			
 			));
 		echo '<ul class="subsubsub">';
 		foreach($template_array as $k=>$value){
@@ -1319,6 +1819,9 @@ class lms_settings{
 			break;
 			case 'schedule':
 				$this->email_schedule();
+			break;
+			case 'scheduled_emails':
+				$this->scheduled_emails();
 			break;
 			case 'template':
 				$this->lms_template();
@@ -1362,23 +1865,6 @@ class lms_settings{
 							'desc' => __('Set email charset','vibe-customtypes')
 						),
 				);
-			/*if(defined('BP_VERSION')){
-				if (version_compare(BP_VERSION, "2.5") > 0) {
-					$settings[]=array(
-							'label' => __('Use BuddyPress emails (BuddyPress version 2.5+)','vibe-customtypes'),
-							'name' =>'buddypress_emails',
-							'type' => 'checkbox',
-							'desc' => __('Register WPLMS emails in BuddyPress - Emails, overwrites all other email settings.','vibe-customtypes')
-						);
-					$imported = get_option('wplms_buddypress_emails_import_status');
-
-					if(!empty($_POST['buddypress_emails']) || (isset($imported) && empty($imported))){
-						if(empty($imported)){
-							echo '<br /><br /><div class="message updated clear"><p>'.sprintf(__('Import WPLMS emails in BuddyPress : %s Import Emails %s','vibe-customtypes'),'<a class="button-primary" id="import_wplms_emails_buddypress">','</a>').'</p></div>';
-						}
-					}
-				}
-			}*/
 			$this->settings = apply_filters('wplms_email_settings',$settings);
 			$this->lms_settings_generate_form('email_settings',$settings);
 	}
@@ -1563,6 +2049,84 @@ class lms_settings{
 				}</style>';		
 	}
 
+	function scheduled_emails(){
+
+		if(!function_exists('_get_cron_array'))
+			return;
+		if(!empty($_POST) && isset($_POST['remove_schedule'])){
+			if( wp_verify_nonce($_POST['remove_scheduled_email_security'],'remove_scheduled_email_'.$_POST['timestamp']) && !empty($_POST['cron_key'])){
+				$key = $_POST['cron_key'];
+				$crons = _get_cron_array();
+				$timestamp =  $_POST['timestamp'];
+				$hook = $_POST['hook'];
+			   
+			    unset( $crons[$timestamp][$hook][$key] );
+			    if ( empty($crons[$timestamp][$hook]) ){
+			        unset( $crons[$timestamp][$hook] );
+			    }
+			    if ( empty($crons[$timestamp]) ){
+			        unset( $crons[$timestamp] );
+			    }
+			    _set_cron_array( $crons );
+			    unset($_POST['remove_scheduled_email_security']);
+			    echo '<div class="clear"></div><div class="updated notice is-dismissible"><p>'.__('Cron removed.','vibe-customtypes').'</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">'.__('Dismiss this notice.','vibe-customtypes').'</span></button></div>';
+			}else{
+				echo '<div class="clear"></div><div class="notice notice-error"><p>'.__('There was an error while removing cron.','vibe-customtypes').'</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">'.__('Dismiss this notice.','vibe-customtypes').'</span></button></div>';
+			}
+		}
+		echo '<br style="clear:both"><table class="form-table">';
+		
+		$crons =  _get_cron_array();
+		if(!empty($crons)){
+			echo '<script>var confirm_message_cron= "'.__('Are you sure you want to remove this schedule?','vibe-customtypes').'";</script>';
+			$format = get_option('date_format') . ' - '. get_option('time_format');
+			$data = '';
+			$check_emails = 0;
+			foreach($crons as $timestamp => $cron){
+				if(isset($cron['wplms_send_course_expiry_mail']) || isset($cron['wplms_send_drip_mail'])){
+					$check_emails++;
+					if(isset($cron['wplms_send_course_expiry_mail'])){
+						$value = $cron['wplms_send_course_expiry_mail'];
+						$data = '<form method="post" id="expiry" class="remove_schedule" action="?page=lms-settings&tab=emails&sub=scheduled_emails"><input name="hook" value="wplms_send_course_expiry_mail" type="hidden"  data-hook="wplms_send_course_expiry_mail" >';
+						$data .= '<input type="hidden" name="remove_scheduled_email_security" value="'.wp_create_nonce('remove_scheduled_email_'.$timestamp).'" id="remove_scheduled_email_security">';
+						foreach($value as $v){
+							
+							$data .= '<input type="hidden" name="cron_key" value="'.md5(serialize($v['args'])).'"> ';
+							$data .= '<input name="timestamp" type="hidden" value="'.$timestamp.'">';
+							$data .= '<input type="submit" class="button-primary remove_schedule_submit button" name="remove_schedule" value="'.__('Remove Schedule','vibe-customtypes').'"></form>';
+							$course_id = $v['args'][0];
+							$user_id = $v['args'][1];
+							break;
+						}
+					}else{
+						$value = $cron['wplms_send_drip_mail'];
+						$data = '<form method="post" id="drip" class="remove_schedule" action="?page=lms-settings&tab=emails&sub=scheduled_emails"><input name="hook" value="wplms_send_drip_mail" type="hidden"  data-hook="wplms_send_drip_mail" >';
+						$data .='<input type="hidden" name="remove_scheduled_email_security" value="'.wp_create_nonce('remove_scheduled_email_'.$timestamp).'" id="remove_scheduled_email_security">';
+						foreach($value as $v){
+							
+							$data .= '<input name="timestamp" type="hidden" value="'.$timestamp.'">';
+							$data .= '<input type="hidden" name="cron_key" value="'.md5(serialize($v['args'])).'"> ';
+							$data .= '<input type="submit" class="button-primary remove_schedule_submit button" name="remove_schedule" value="'.__('Remove Schedule','vibe-customtypes').'"></form>';
+							
+							$course_id = $v['args'][1];
+							$user_id = $v['args'][2];
+							break;
+						}
+					}
+					 
+					echo '<tr><th><label>'.(isset($cron['wplms_send_course_expiry_mail'])?__('Course Expiry mail','vibe-customtypes'):__('Drip feed mail','vibe-customtypes')).'</label></th><td>'.get_date_from_gmt ( date( 'Y-m-d H:i:s', $timestamp ), $format ).'</td><td>'.get_the_title($course_id).'</td><td>'.(!empty($user_id)?bp_core_get_user_displayname($user_id):__('N.A','vibe-customtypes')).'</td><td>'.$data.'</td></tr>';
+
+				}
+			}
+			
+			if($check_emails == 0){
+				echo '<div class="message"><h3>'.__('No Scheduled emails','vibe-customtypes').'</h3></div>';
+			}
+		}else{
+			echo '<div class="message"><h3>'.__('No Scheduled emails','vibe-customtypes').'</h3></div>';
+		}
+		echo '</table>';
+	}
 	function lms_addons(){
 		
 		$addons = apply_filters('wplms_lms_addons',array(
@@ -1588,6 +2152,18 @@ class lms_settings{
 					'extra'=>array('Secure Files with expiring Links','Host Videos/Audios/Files on Amazon S3','Supports Instructor Privacy'),
 					'activated'=> (is_plugin_active('wplms-s3/wplms-s3.php')?true:false),
 					'price'=>'BUY $29',
+					'class'=>'featured'
+				),
+			'wplms-mailchimp' =>array(
+					'label'=> __('WPLMS Mailchimp','vibe-customtypes'),
+					'sub'=> __('Mailchimp Lists for WPLMS','vibe-customtypes'),
+					'icon'=> '<span class="dashicons dashicons-portfolio"></span>',
+					'requires'=> '',
+					'license_key'=>'wplms_mailchimp_license_key',
+					'link' => 'http://www.vibethemes.com/downloads/wplms-mailchimp/',
+					'extra'=>array('Sync Email Lists','Auto subscribe lists'),
+					'activated'=> (is_plugin_active('wplms-mailchimp/wplms-mailchimp.php')?true:false),
+					'price'=>'BUY $19',
 					'class'=>'featured'
 				),
 			'wplms-woocommerce' =>array(
@@ -1655,17 +2231,6 @@ class lms_settings{
 					'link' => 'https://wordpress.org/plugins/wplms-badgeos/',
 					'extra'=>array('Create Custom badges','Award Badges on various Course tasks'),
 					'activated'=> (is_plugin_active('wplms-badgeos/wplms-badgeos.php')?true:false),
-					'price'=>0,
-					'class'=>''
-				),
-			'wplms-mycred-addon' => array(
-					'label'=> __('WPLMS MyCred','vibe-customtypes'),
-					'sub'=> __('Integrated MyCred points system in WPLMS','vibe-customtypes'),
-					'icon'=> '<span class="dashicons dashicons-portfolio"></span>',
-					'requires'=> 'mycred',
-					'link' => 'https://wordpress.org/plugins/wplms-mycred-addon/',
-					'extra'=>array('Students use points to Take course','Students get points for various tasks'),
-					'activated'=> (is_plugin_active('wplms-mycred-addon/wplms-mycred-addon.php')?true:false),
 					'price'=>0,
 					'class'=>''
 				),
@@ -1808,8 +2373,23 @@ class wplms_miscellaneous_settings{
 		add_action('wp_ajax_load_coursetree',array($this,'load_coursetree'));
 		add_action('wp_ajax_vibe_update_license_key',array($this,'update_license_key'));
 		add_action('wp_ajax_lms_import_wplms_emails',array($this,'import_wplms_emails'));
+
+		/*==== Sync Functions ====*/
+		add_action('wp_ajax_sync_resync',array($this,'sync_resync'));
+		add_action('wp_ajax_sync_resync_course_students',array($this,'sync_resync_course_students'));
+		add_action('wp_ajax_course_students',array($this,'end_course_students_sync'));
+
+		add_action('wp_ajax_sync_resync_quiz_results',array($this,'sync_resync_quiz_results'));
+		add_action('wp_ajax_quiz_results',array($this,'end_quiz_results_sync'));
+
+		add_action('wp_ajax_sync_resync_unit_students',array($this,'sync_resync_unit_students'));
+		add_action('wp_ajax_unit_students',array($this,'end_unit_students_sync'));
+
+		add_action('wp_ajax_sync_resync_course_forums',array($this,'sync_resync_course_forums'));
+		add_action('wp_ajax_course_forums',array($this,'end_course_forums_sync'));
 	}
 	
+
 	function import_wplms_emails(){
 		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'vibe_lms_settings') ){
 		    _e('Security check Failed. Contact Administrator.','vibe-customtypes');
@@ -1937,6 +2517,235 @@ class wplms_miscellaneous_settings{
 		}
 		update_option($_POST['addon'],$_POST['key']);
 		echo apply_filters('wplms_addon_license_key_updated',__('Key Updated.','vibe-customtypes'));
+		die();
+	}
+	/*
+	SYNC FUNCTIONS
+	 */
+	function sync_resync(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		$this->deleted= 0;
+		switch($_POST['id']){
+			case 'course_students':
+				global $wpdb;
+				$data = $wpdb->get_results("SELECT p.ID as course_id,m.user_id as user_id FROM {$wpdb->posts} as p LEFT JOIN {$wpdb->usermeta} as m ON p.ID = m.meta_key WHERE p.post_type = 'course' AND p.post_status = 'publish'");
+				$course_data = array();
+				if(!empty($data)){
+					$security = wp_create_nonce('sync_resync_course_students');
+					foreach($data as $d){
+
+						if(empty($course_data[$d->course_id])){
+							$course_data[$d->course_id]=array('action'=>'sync_resync_course_students','security'=>$security,'course_id'=>$d->course_id,'users' => array($d->user_id));
+						}else{
+							if(!in_array($d->user_id,$course_data[$d->course_id]['users'])){
+								$course_data[$d->course_id]['users'][] = $d->user_id;
+							}
+						}
+					}
+				}
+				echo json_encode($course_data);
+			break;
+			case 'quiz_results':
+				global $wpdb;
+				$data = $wpdb->get_results("SELECT p.ID as quiz_id,m.user_id as user_id FROM {$wpdb->posts} as p LEFT JOIN {$wpdb->usermeta} as m ON p.ID = m.meta_key WHERE p.post_type = 'quiz' AND p.post_status = 'publish'");
+				$quiz_data = array();
+				if(!empty($data)){
+					$security = wp_create_nonce('sync_resync_quiz_results');
+					foreach($data as $d){
+
+						if(empty($quiz_data[$d->quiz_id]) && !empty($d->user_id)){
+							$quiz_data[$d->quiz_id]=array('action'=>'sync_resync_quiz_results','security'=>$security,'quiz_id'=>$d->quiz_id,'users' => array($d->user_id));
+						}else{
+							if(!in_array($d->user_id,$quiz_data[$d->quiz_id]['users']) && !empty($d->user_id)){
+								$quiz_data[$d->quiz_id]['users'][] = $d->user_id;
+							}
+						}
+					}
+				}
+				echo json_encode($quiz_data);
+			break;
+			case 'unit_students':
+				global $wpdb;
+				$data = $wpdb->get_results("SELECT p.ID as unit_id,m.user_id as user_id FROM {$wpdb->posts} as p LEFT JOIN {$wpdb->usermeta} as m ON p.ID = m.meta_key WHERE p.post_type = 'unit' AND p.post_status = 'publish'");
+				$unit_data = array();
+				if(!empty($data)){
+					$security = wp_create_nonce('sync_resync_unit_students');
+					foreach($data as $d){
+						if(empty($unit_data[$d->unit_id]) && !empty($d->user_id)){
+							$unit_data[$d->unit_id]=array('action'=>'sync_resync_unit_students','security'=>$security,'unit_id'=>$d->unit_id,'users' => array($d->user_id));
+						}else{
+							if(!in_array($d->user_id,$unit_data[$d->unit_id]['users']) && !empty($d->user_id)){
+								$unit_data[$d->unit_id]['users'][] = $d->user_id;
+							}
+						}
+					}
+				}
+				echo json_encode($unit_data);
+			break;
+			case 'course_forums':
+				global $wpdb;
+				$data = $wpdb->get_results("SELECT p.ID as course_id, m.meta_value as forum_id FROM {$wpdb->posts} as p LEFT JOIN {$wpdb->postmeta} as m ON p.ID = m.post_id WHERE p.post_type = 'course' AND p.post_status = 'publish' AND meta_key = 'vibe_forum'");
+				$course_data = array();
+				if(!empty($data)){
+					$security = wp_create_nonce('sync_resync_course_forums');
+					foreach($data as $d){
+						if(!empty($d->forum_id)){
+							$course_data[$d->course_id]=array('action'=>'sync_resync_course_forums','security'=>$security,'course_id'=>$d->course_id,'forum_id' => $d->forum_id);
+						}
+					}
+				}
+				echo json_encode($course_data);
+			break;
+			case 'instructor_commissions':
+			break;
+		}
+		die();
+	}
+
+	function sync_resync_course_students(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync_course_students')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		$course_id = $_POST['course_id'];
+		$users = $_POST['users'];
+		$users_string = implode(',',$users);
+		if(empty($users_string)){$users_string='0';}
+		global $wpdb;
+
+		//Remove Redundant users
+		$c = $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = $course_id AND meta_key REGEXP '^[0-9]+$' AND meta_value REGEXP '^[0-9]+$' AND meta_key NOT IN ($users_string)");
+		if($c && is_numeric($c)){$this->deleted += $c;};
+
+		$x = $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE user_id NOT IN ($users_string) AND meta_key = 'course_status$course_id'");	
+		if($x && is_numeric($x)){$this->deleted += $x;};
+		 
+		
+
+		if(!empty($users) && is_array($users)){
+			foreach($users as $user_id){
+				$status = get_user_meta($user_id,'course_status'.$course_id,true);
+				if(empty($status)){
+					update_user_meta($user_id,'course_status'.$course_id,1);
+				}
+				$course_marks = get_post_meta($course_id,$user_id,true);
+				if(!isset($course_marks)){
+					update_post_meta($course_id,$user_id,0);
+				}
+			}
+		}
+		die();
+	}
+
+	function end_course_students_sync(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		if(empty($this->deleted)){$this->deleted=0;}
+
+		printf(__('%s redundant records removed. Course Student verification completed.','vibe-customtypes'),$this->deleted);
+		die();
+	}
+
+	function sync_resync_quiz_results(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync_quiz_results')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		global $wpdb;
+		$quiz_id = $_POST['quiz_id'];
+		$users = $_POST['users'];
+		if(!empty($users) && function_exists('bp_course_get_quiz_questions')){
+			foreach($users as $user_id){
+				$questions = bp_course_get_quiz_questions($quiz_id,$user_id);
+				if(!empty($questions)){
+		    		$quess=$questions['ques'];
+		    		$marks=$questions['marks'];
+		    		$ques_string = implode(',',$quess);
+		    		$answer_ids = $wpdb->get_results("SELECT comment_ID FROM {$wpdb->comments} WHERE comment_post_ID IN ($ques_string) AND user_id = $user_id LIMIT 0,1");
+		    		if(!empty($answer_ids)){
+		    			foreach($answer_ids as $answer_id){
+		    				update_comment_meta($answer_id->comment_ID,'quiz_id',$quiz_id);
+		    			}
+		    		}
+		    	}
+			}
+		}
+		die();
+	}
+
+	function end_quiz_results_sync(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		echo __('Quiz results sync complete !','vibe-customtypes');
+		die();
+	}
+
+	function sync_resync_unit_students(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync_unit_students')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		global $wpdb;
+		$unit_id = $_POST['unit_id'];
+		$users = $_POST['users'];
+		if(!empty($users) && function_exists('bp_course_get_unit_course_id')){
+			$course_id = bp_course_get_unit_course_id($unit_id);
+
+			if(!empty($course_id)){
+				foreach($users as $user_id){
+					$time = get_user_meta($user_id,$unit_id,true); 
+					if(!empty($time)){
+						bp_course_update_user_unit_completion_time($user_id,$unit_id,$course_id,$time);
+						delete_user_meta($user_id,$unit_id);
+					}
+				}
+			}
+		}
+		die();
+	}
+
+	function end_unit_students_sync(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		echo __('Course - Units - Student sync complete !','vibe-customtypes');
+		die();
+	}
+
+	function sync_resync_course_forums(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync_course_forums')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		$course_id = $_POST['course_id'];
+		$forum_id = $_POST['forum_id'];
+		if(function_exists('bp_course_get_course_students') && !empty($forum_id) && function_exists('bbp_add_user_forum_subscription')){
+			$instructor_id = get_post_field('post_author',$course_id);
+			bbp_add_user_forum_subscription( $instructor_id, $forum_id);
+			$students = bp_course_get_course_students($course_id,0,9999);
+			if(!empty($students['students'])){
+				foreach($students['students'] as $user_id){
+				      bbp_add_user_forum_subscription( $user_id, $forum_id);
+				}
+			}
+		}
+		die();
+	}
+
+	function end_course_forums_sync(){
+		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'sync_resync')){
+	         _e('Security check Failed. Contact Administrator.','vibe-customtypes');
+	        die();
+		}
+		echo __('Course - Forums sync complete !','vibe-customtypes');
 		die();
 	}
 }

@@ -18,15 +18,37 @@ function bp_course_add_js() {
 	global $bp;
 	if ( ! function_exists( 'vibe_logo_url' ) ) return; // Checks if WPLMS is active in current site in WP Multisite
 
-	
+	$take_course_page_id = vibe_get_option('take_course_page');
+	$create_course_page_id = vibe_get_option('create_course');
+	if(function_exists('vibe_get_option') && function_exists('icl_object_id')){
+		$take_course_page_id = icl_object_id($take_course_page_id,'page',true);
+		$create_course_page_id = icl_object_id($create_course_page_id,'page',true);
+	}
 	wp_enqueue_script( 'bp-extras-js', plugins_url( '/vibe-course-module/includes/js/course-module-js.min.js' ),array('jquery'),bp_course_version(),true);
 	if(function_exists('vibe_get_option')){
-		if(is_singular('unit') || is_singular('question') || is_singular('quiz') || is_singular('wplms-assignment') || is_page(vibe_get_option('take_course_page')) || is_page(vibe_get_option('create_course')) || isset($_GET['edit']) ){
+		if(is_singular('unit') || is_singular('question') || is_singular('quiz') || is_singular('wplms-assignment') || is_page($take_course_page_id) || is_page($create_course_page_id) || isset($_GET['edit']) ){
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-sortable');
 			wp_enqueue_script('jquery-ui-droppable');
 			wp_enqueue_script('jquery-ui-datepicker');
 			wp_enqueue_script('knob-js',plugins_url( '/vibe-course-module/includes/js/jquery.knob.min.js'),array('jquery'),bp_course_version(),true);
+
+			add_action('wp_footer',function(){
+				?>
+				<script>
+				var isDesktop = (function() { 
+			      return !('ontouchstart' in window) // works on most browsers 
+			      || !('onmsgesturechange' in window); // works on ie10
+			     })();
+			     //edit, if you want to use this variable outside of this closure, or later use this:
+			     window.isDesktop = isDesktop;
+			     if( isDesktop ){ /* desktop things */}else{
+			        /* MOBILE THINGS */
+			        document.write('<script type="text/javascript" src="<?php echo plugins_url( '/vibe-course-module/includes/js/jquery.uitouchpunch.js' ); ?>"><\/script>');
+			     }
+				</script>
+				<?php
+			});
 		}
 		if(is_page(vibe_get_option('take_course_page'))){
 			wp_playlist_scripts('video');
@@ -66,6 +88,8 @@ function bp_course_add_js() {
 		'quiz_reset_button' => __( 'Confirm, Reset Quiz for this User','vibe' ), 
 		'marks_saved' => __( 'Marks Saved','vibe' ), 
 		'quiz_marks_saved' => __( 'Quiz Marks Saved','vibe' ), 
+		'save_quiz' => __( 'Save Quiz progress','vibe' ), 
+		'saved_quiz_progress' => __( 'Saved','vibe' ), 
 		'submit_quiz' => __( 'Submit Quiz','vibe' ), 
 		'sending_messages' => __( 'Sending Messages ...','vibe' ), 
 		'adding_students' => __( 'Adding Students to Course ...','vibe' ), 
@@ -91,9 +115,13 @@ function bp_course_add_js() {
 		'correct'=> __( 'Correct','vibe' ), 
 		'incorrect'=> __( 'Incorrect','vibe' ),
 		'confirm_apply'=> _x('Are you sure you want to apply for this Course ?','confirmation message when user clicks on apply for course','vibe'),
-		'instructor_uncomplete_unit' => _x('Are you sure you want mark this unit "uncomplete" for the user ?','Popup confirmation message when instructor marks the unit uncomplete for the user.','vibe'),
+		'instructor_uncomplete_unit' => _x('Are you sure you want mark this unit "incomplete" for the user ?','Popup confirmation message when instructor marks the unit uncomplete for the user.','vibe'),
 		'instructor_complete_unit'=> _x('Are you sure you want to mark this unit "complete" for the user ?','Popup confirmation message ','vibe'),
 		'unanswered_questions' => __( 'You have few unanswered questions. Are you sure you want to continue ?','vibe' ), 
+		'enter_more_characters' => __( 'Please enter 4 or more characters ...','vibe' ),
+		'correct_answer'=> __( 'Correct Answer','vibe' ), 
+		'explanation'=> __( 'Explanation','vibe' ), 
+		'And'=> __( 'and','vibe' ), 
 		);
 	wp_localize_script( 'bp-course-js', 'vibe_course_module_strings', $translation_array );
     	

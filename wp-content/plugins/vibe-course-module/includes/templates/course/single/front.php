@@ -7,7 +7,7 @@
  *
  * @author 		VibeThemes
  * @package 	vibe-course-module/templates
- * @version     1.8
+ * @version     2.0
  */
 
 
@@ -16,14 +16,13 @@ $id= get_the_ID();
 
 do_action('wplms_course_before_front_main');
 
-if(have_posts()):
-while(have_posts()):the_post();
+
 ?>
 
 <div class="course_title">
 	<?php vibe_breadcrumbs(); ?>
 	<h1><?php the_title(); ?></h1>
-	<h6><?php the_excerpt(); ?></h6>
+	<?php if(!empty($post->post_excerpt) && strpos($post->post_content,$post->post_excerpt) === false){ echo '<h6>';the_excerpt(); echo '</h6>';} ?>
 </div>
 <div class="students_undertaking">
 	<?php
@@ -44,10 +43,10 @@ while(have_posts()):the_post();
 	echo '</ul>';
 	?>
 </div>
-<?php
+<?php 
 do_action('wplms_before_course_description');
 ?>
-<div class="course_description" itemprop="description">
+<div class="course_description">
 	<div class="small_desc">
 	<?php 
 		$more_flag = 1;
@@ -56,38 +55,31 @@ do_action('wplms_before_course_description');
 		if($middle){
 			echo apply_filters('the_content',substr($content, 0, $middle));
 		}else{
-			$limit=apply_filters('wplms_course_excerpt_limit',1200);
-			$middle = strrpos(substr($content, 0, $limit), " ");
-
-			if(strlen($content) < $limit){
-				$more_flag = 0;
-			}
-			$check_vc=strpos( $post->post_content, '[vc_row]' );
-			if ( isset($check_vc) ) {
-				$more_flag=0;
-				echo apply_filters('the_content',$content);
-			}else{
-				echo apply_filters('the_content',substr($content, 0, $middle));
-			}
+			$more_flag=0;
+			echo apply_filters('the_content',$content);
 		}
 	?>
 	<?php 
-		if($more_flag)
+		if($more_flag){
 			echo '<a href="#" id="more_desc" class="link" data-middle="'.$middle.'">'.__('READ MORE','vibe').'</a>';
+		}
 	?>
 	</div>
-	<?php if($more_flag){ ?>
-	<div class="full_desc">
 	<?php 
-		echo apply_filters('the_content',substr($content, $middle,-1));
+		if($more_flag){ 
 	?>
-	<?php 
-		echo '<a href="#" id="less_desc" class="link">'.__('LESS','vibe').'</a>';
-	?>
-	</div>
+		<div class="full_desc">
+		<?php 
+			echo apply_filters('the_content',substr($content, $middle,-1));
+		?>
+		<?php 
+			echo '<a href="#" id="less_desc" class="link">'.__('LESS','vibe').'</a>';
+		?>
+		</div>
 	<?php
 		}
-	?>
+	?>	
+
 </div>
 <?php
 do_action('wplms_after_course_description');
@@ -98,8 +90,4 @@ do_action('wplms_after_course_description');
 	 comments_template('/course-review.php',true);
 ?>
 </div>
-
 <?php
-endwhile;
-endif;
-?>

@@ -10,8 +10,8 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
     if(strlen($custom_post->post_content) > $n)
         $read_more= '<a href="'.get_permalink($custom_post->ID).'" class="link">'.$more.'</a>';
 
-    $cache_duration = vibe_get_option('cache_duration'); if(!isset($cache_duration)) $cache_duration=0;
-    if($cache_duration){
+    $cache_duration = vibe_get_option('cache_duration');
+    if(!empty($cache_duration)){
         $key= $featured_style.'_'.$custom_post->post_type.'_'.$custom_post->ID;
         if(is_user_logged_in()){
             $user_id = get_current_user_id();
@@ -26,6 +26,7 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
     if ( false === $result ) {
                     
     switch($featured_style){
+
             case 'course':
             
                     $return .='<div class="block courseitem" data-id="'.$custom_post->ID.'">';
@@ -67,18 +68,19 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                         
                         $meta .='<span class="clear"></span>';
 
-                        
-                        $instructor_meta='';
-                        if(function_exists('bp_course_get_instructor'))
-                            $instructor_meta .= bp_course_get_instructor();
-                        
-                        $meta .= apply_filters('vibe_thumb_instructor_meta',$instructor_meta,$featured_style);
-
+                        $enable_instructor = apply_filters('wplms_display_instructor',true,$custom_post->ID);
+                        if($enable_instructor){
+                            $instructor_meta='';
+                            if(function_exists('bp_course_get_instructor'))
+                                
+                                $instructor_meta .= bp_course_get_instructor(array('instructor_id'=>$custom_post->post_author,'post_id'=>$custom_post->ID));
+                            
+                            $meta .= apply_filters('vibe_thumb_instructor_meta',$instructor_meta,$featured_style);
+                        }
                         $st = get_post_meta($custom_post->ID,'vibe_students',true);
                         if(isset($st) && $st !='')
                             $meta .= apply_filters('vibe_thumb_student_count','<strong><i class="fa fa-users"></i> '.$st.'</strong>');
-
-                        
+    
                         $return .= $meta;
                     }
                     $return .=apply_filters('wplms_course_thumb_extras',''); // Use this filter to add Extra HTML to the course featured block
@@ -132,13 +134,14 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
 
                         $meta .='<span class="clear"></span>';
 
-                        
-                        $instructor_meta='';
-                        if(function_exists('bp_course_get_instructor'))
-                            $instructor_meta .= bp_course_get_instructor();
-                        
-                        $meta .= apply_filters('vibe_thumb_instructor_meta',$instructor_meta,$featured_style);
-
+                        $enable_instructor = apply_filters('wplms_display_instructor',true,$custom_post->ID);
+                        if($enable_instructor){
+                            $instructor_meta='';
+                            if(function_exists('bp_course_get_instructor'))
+                                $instructor_meta .= bp_course_get_instructor();
+                            
+                            $meta .= apply_filters('vibe_thumb_instructor_meta',$instructor_meta,$featured_style);
+                        }
                         $meta .=bp_course_get_course_credits(array('id'=>$custom_post->ID));
 
                         $return .= $meta;
@@ -158,14 +161,16 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                     $return .= '<div class="block_content">';
                     $return .= '<h4 class="block_title"><a href="'.get_permalink($custom_post->ID).'" title="'.$custom_post->post_title.'">'.$custom_post->post_title.'</a></h4>';
                     $return .= '<div class="course_price">'.bp_course_get_course_credits().'</div>';
-                    $return .= '<a href="'.bp_core_get_user_domain($custom_post->post_author).'" class="course_instructor" 
-                    title="'.sprintf(__('Course Author %s','vibe-customtypes'),bp_core_get_user_displayname($custom_post->post_author )).'">'.
-                    bp_core_fetch_avatar(array(
-                                'item_id' => $custom_post->post_author, 
-                                'type' => 'thumb', 
-                                'width' => 64, 
-                                'height' => 64)).'</a>';
-
+                    $enable_instructor = apply_filters('wplms_display_instructor',true,$custom_post->ID);
+                    if($enable_instructor){
+                        $return .= '<a href="'.bp_core_get_user_domain($custom_post->post_author).'" class="course_instructor" 
+                        title="'.sprintf(__('Course Author %s','vibe-customtypes'),bp_core_get_user_displayname($custom_post->post_author )).'">'.
+                        bp_core_fetch_avatar(array(
+                                    'item_id' => $custom_post->post_author, 
+                                    'type' => 'thumb', 
+                                    'width' => 64, 
+                                    'height' => 64)).'</a>';
+                    }
                     $return .= '<div class="course_meta">';
                     $reviews = get_post_meta($custom_post->ID,'average_rating',true);
                     $students = get_post_meta($custom_post->ID,'vibe_students',true);
@@ -182,6 +187,7 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                         $reviews--;
                     }
                     $return .= '</div></div>';
+                    $return .=apply_filters('wplms_course_thumb_extras','');
                     $return .= '</div></div>';
 
 
@@ -194,14 +200,19 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                     $return .='</div>';
                     $return .= '<div class="block_content">';
                     $return .= '<h4 class="block_title"><a href="'.get_permalink($custom_post->ID).'" title="'.$custom_post->post_title.'">'.$custom_post->post_title.'</a></h4>';
-                    $return .= '<a href="'.bp_core_get_user_domain($custom_post->post_author).'" class="course_instructor" 
-                    title="'.__('Course Author','vibe-customtypes').'">'.bp_core_get_user_displayname($custom_post->post_author ).'</a>';
+
+                    $enable_instructor = apply_filters('wplms_display_instructor',true,$custom_post->ID);
+                    if($enable_instructor){
+                        $return .= '<a href="'.bp_core_get_user_domain($custom_post->post_author).'" class="course_instructor" 
+                        title="'.__('Course Author','vibe-customtypes').'">'.bp_core_get_user_displayname($custom_post->post_author ).'</a>';
+                    }
                     $return .= '<div class="course_block_bottom">';
                     $students = get_post_meta($custom_post->ID,'vibe_students',true);
                     $return .='<span class="fa fa-users">'.$students.'</span> ';
                     $return .= '<div class="course_price">'.bp_course_get_course_credits().'</div>';
-                    $return .= '</div></div>';
                     $return .= '</div>';
+                    $return .=apply_filters('wplms_course_thumb_extras','');
+                    $return .= '</div></div>';
 
 
                 break; 
@@ -221,8 +232,9 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                     }
                     $return .= '<div class="course_price">'.bp_course_get_course_credits().'</div>';
                     
-                    $return .= '</div></div>';
                     $return .= '</div>';
+                    $return .=apply_filters('wplms_course_thumb_extras','');
+                    $return .= '</div></div>';
 
 
                 break;     
@@ -328,19 +340,22 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                 
                     $author=  getPostMeta($custom_post->ID,'vibe_testimonial_author_name'); 
                     $designation=getPostMeta($custom_post->ID,'vibe_testimonial_author_designation');
-                    if(has_post_thumbnail($custom_post->ID)){
+                    if(has_post_thumbnail($custom_post->ID)  && $custom_post->post_type == 'testimonials'){
                         $image=get_the_post_thumbnail($custom_post->ID,'full'); 
                     }else{
-                        $image= get_avatar( 'email@example.com', 96 );
-                    } 
-                    
+                        $mail = get_userdata($custom_post->post_author);
+                        $image= get_avatar( $mail->user_email, 96 );    
+                        if(function_exists('vibe_get_option') && empty($image)){
+                            $av= vibe_get_option('default_avatar');
+                            if(!empty($av)){$image = '<img src="'.$av.'">';}else{$image = '<img src="'.VIBE_URL.'/assets/images/avatar.jpg">';}
+                        }
+
+                    }  
                     $return .= '<div class="testimonial_item style2 clearfix">
                                     <div class="testimonial-content">    
                                         <p>'.vibe_custom_types_excerpt($n,$custom_post->ID).(($n < strlen($custom_post->post_content))?$read_more:'').'</p>
                                        <div class="author">
-                                          '.$image.'  
-                                          <h4>'.html_entity_decode($author).'</h4>
-                                          <small>'.html_entity_decode($designation).'</small>
+                                          '.$image.(isset($author)?'<h4>'.html_entity_decode($author).'</h4>':'').(isset($designation)?'<small>'.html_entity_decode($designation).'</small>':'').'
                                         </div>     
                                     </div>        
                                     
@@ -352,14 +367,16 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                 
                     $author=  getPostMeta($custom_post->ID,'vibe_testimonial_author_name'); 
                     $designation=getPostMeta($custom_post->ID,'vibe_testimonial_author_designation');
-                    if(has_post_thumbnail($custom_post->ID)){
+                    if(has_post_thumbnail($custom_post->ID) && $custom_post->post_type == 'testimonials'){
                         $image=get_the_post_thumbnail($custom_post->ID,'full'); 
                     }else{
-                        if(function_exists('vibe_get_option')){
-                            $image = vibe_get_option('default_avatar');
-                        }else{
-                            $image= get_avatar( 'email@example.com', 96 );    
+                        $mail = get_userdata($custom_post->post_author);
+                        $image= get_avatar( $mail->user_email, 96 );    
+                        if(function_exists('vibe_get_option') && empty($image)){
+                            $av= vibe_get_option('default_avatar');
+                            if(!empty($av)){$image = '<img src="'.$av.'">';}else{$image = '<img src="'.VIBE_URL.'/assets/images/avatar.jpg">';}
                         }
+
                     } 
                     
                     $return .= '<div class="testimonial_item clearfix">
@@ -368,10 +385,8 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                                         <p>'.vibe_custom_types_excerpt($n,$custom_post->ID).(($n < strlen($custom_post->post_content))?$read_more:'').'</p>
                                     </div>        
                                     <div class="author">
-                                          '.$image.'  
-                                      <h4>'.html_entity_decode($author).'</h4>
-                                      <small>'.html_entity_decode($designation).'</small>
-                                    </div>  
+                                      '.$image.(!empty($author)?'<h4>'.html_entity_decode($author).'</h4>':'').(!empty($designation)?'<small>'.html_entity_decode($designation).'</small>':'').'
+                                    </div>    
                                 </div>';
                     $return .='</div>';
                 break;   
@@ -434,8 +449,55 @@ function thumbnail_generator($custom_post,$featured_style,$cols='medium',$n=100,
                     </div>';
                 
                 break;
-                         
-             default:
+            case 'general':
+                $return .='<div class="block general">';
+                $return .='<div class="block_media">';
+                
+                $return .= featured_component($custom_post->ID,$cols);
+                
+                $category='';
+                if($custom_post->post_type == 'post'){
+                    $cats = get_the_category(); 
+                    if(is_array($cats)){
+                        foreach($cats as $cat){
+                        $category .= '<a href="'.get_category_link($cat->term_id ).'">'.$cat->name.'</a> ';
+                        }
+                    }
+                }
+                
+                if($custom_post->post_type == 'product'){
+                    $category = get_the_term_list( $custom_post->ID, 'product_cat', '', ' / ' );
+                }
+
+                if($custom_post->post_type == 'course'){
+                    $category = get_the_term_list( $custom_post->ID, 'course-cat', '', ' / ' );
+                }
+
+                if($custom_post->post_type == 'quiz'){
+                    $category = get_the_term_list( $custom_post->ID, 'quiz-type', '', ' / ' );
+                }
+
+                if($custom_post->post_type == 'assignment'){
+                    $category = get_the_term_list( $custom_post->ID, 'assignment-type', '', ' / ' );
+                }
+
+                $return .='</div>';
+                $return .='<div class="block_content">';
+
+                if($custom_post->post_type == 'product'){
+                    if(function_exists('get_product')){
+                        $product = get_product( $custom_post->ID );
+                        $return .= '<div class="general_details">'.((strlen($category)>2)? $category:'').'/'.$product->get_price_html().'</div>';
+                    }
+                }else{
+                    $return .= '<div class="general_details">'.((strlen($category)>2)? $category:'').'</div>';
+                }
+                
+                $return .= apply_filters('vibe_thumb_heading','<h4 class="block_title"><a href="'.get_permalink($custom_post->ID).'" title="'.$custom_post->post_title.'">'.$custom_post->post_title.'</a></h4>',$featured_style);
+                $return .='</div>';
+                $return .='</div>';
+            break;          
+            default:
                    $return .='<div class="block">';
                     $return .='<div class="block_media">';
                     
@@ -522,10 +584,143 @@ function featured_component($custom_post_id,$cols='',$style=''){
     }else if(isset($default_image) && $default_image)
             $custom_post_thumbnail='<img src="'.$default_image.'" />';
                     
-    return $custom_post_thumbnail;   
+    if(isset($custom_post_thumbnail))          
+        return $custom_post_thumbnail;   
+    else
+        return '';  
 }        
 
+if(!function_exists('vibe_member_block')){
+    function vibe_member_block($user,$style,$field_names = null,$width='150',$link=0){
+        $member_html = '';
+        if(function_exists('bp_core_fetch_avatar')){
+            $avatar = bp_core_fetch_avatar(array('item_id' => $user->ID, 'type' => 'full', 'width' => $width, 'height' => $width));
+        }
+        if(empty($avatar)){
+            $avatar = '<img src="">';
+        }
+        switch($style){
+            case 'member2':
+                $link = bp_core_get_user_domain($user->ID);
+               $member_html .='<div class="member_block">';
+               $member_html .='<div class="member_avatar">'.(empty($link)?'':'<a href="'.$link.'">').$avatar.(empty($link)?'':'</a>').'</div>';
+               $member_html .='<div class="member_info">';
+               $member_html .='<h3><a href="'.$link.'">'.$user->display_name.'</a></h3>';
+               if(!empty($field_names)){
+                    foreach($field_names as $field){
+                        $member_html .= '<span>'.bp_get_profile_field_data('field='.$field.'&user_id='.$user->ID).'</span>';
+                    }
+               }
+               if(function_exists('vibe_get_option') && function_exists('bp_xprofile_get_groups')){
+                    $social_field_group = vibe_get_option('social_field_group');
 
+                    $bp_xprofile_groups = $groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
+                    $member_html .= '<ul class="socialicons">';
+                    if(!empty($bp_xprofile_groups)){
+                        foreach($bp_xprofile_groups as $g){
+                            if($g->name == $social_field_group){
+                                if ( !empty( $g->fields ) ) {
+                                    foreach ( $g->fields as $field ) {
+                                        $id = $field->id;
+                                        $url = strip_tags(bp_get_profile_field_data( array('user_id'=> $user->ID,'field'  => $field->name) ));
+                                        if(!empty($url) && strlen($url)>2){
+                                            $n = strtolower($field->name);
+                                            if(strpos($url,'http://') === false){$url = 'http://'.$url;}
+                                            $member_html .= '<li><a href="'.$url.'" class="'.$n.'"><i class="fa fa-'.$n.'"></i></a></li>';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $member_html .= '</ul>';
+               }
+               $member_html .='</div>';
+               $member_html .='</div>';
+            break;
+            case 'member3':
+                $link = bp_core_get_user_domain($user->ID);
+                $member_html .='<div class="member_block3">';
+                $member_html .='<div class="member_avatar">'.(empty($link)?'':'<a href="'.$link.'">').$avatar.(empty($link)?'':'</a>');
+                if(function_exists('vibe_get_option') && function_exists('bp_xprofile_get_groups')){
+                    $social_field_group = vibe_get_option('social_field_group');
+
+                    $bp_xprofile_groups = $groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
+                    $member_html .= '<ul class="socialicons">';
+                    if(!empty($bp_xprofile_groups)){
+                        foreach($bp_xprofile_groups as $g){
+                            if($g->name == $social_field_group){
+                                if ( !empty( $g->fields ) ) {
+                                    foreach ( $g->fields as $field ) {
+                                        $id = $field->id;
+                                        $url = strip_tags(bp_get_profile_field_data( array('user_id'=> $user->ID,'field'  => $field->name) ));
+                                        if(!empty($url) && strlen($url)>2){
+                                            $n = strtolower($field->name);
+                                            if(strpos($url,'http://') === false){$url = 'http://'.$url;}
+                                            $member_html .= '<li><a href="'.$url.'" class="'.$n.'"><i class="fa fa-'.$n.'"></i></a></li>';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $member_html .= '</ul>';
+               }
+               $member_html .='</div>';
+                $member_html .='<div class="member_info">';
+                $member_html .='<h3><a href="'.$link.'">'.$user->display_name.'</a></h3>';
+                if(!empty($field_names)){
+                    foreach($field_names as $field){
+                        $member_html .= '<span>'.bp_get_profile_field_data('field='.$field.'&user_id='.$user->ID).'</span>';
+                    }
+                }
+               
+               $member_html .='</div>';
+               $member_html .='</div>';
+            break;
+            default:
+                $link = bp_core_get_user_domain($user->ID);
+               $member_html .='<div class="member_block">';
+               $member_html .='<div class="member_avatar">'.(empty($link)?'':'<a href="'.$link.'">').$avatar.(empty($link)?'':'</a>').'</div>';
+               $member_html .='<div class="member_info">';
+               $member_html .='<h3><a href="'.$link.'">'.$user->display_name.'</a></h3>';
+               if(!empty($field_names)){
+                    foreach($field_names as $field){
+                        $member_html .= '<span>'.bp_get_profile_field_data('field='.$field.'&user_id='.$user->ID).'</span>';
+                    }
+               }
+               if(function_exists('vibe_get_option') && function_exists('bp_xprofile_get_groups')){
+                    $social_field_group = vibe_get_option('social_field_group');
+
+                    $bp_xprofile_groups = $groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
+                    $member_html .= '<ul class="socialicons">';
+                    if(!empty($bp_xprofile_groups)){
+                        foreach($bp_xprofile_groups as $g){
+                            if($g->name == $social_field_group){
+                                if ( !empty( $g->fields ) ) {
+                                    foreach ( $g->fields as $field ) {
+                                        $id = $field->id;
+                                        $url = strip_tags(bp_get_profile_field_data( array('user_id'=> $user->ID,'field'  => $field->name) ));
+                                        if(!empty($url) && strlen($url)>2){
+                                            $n = strtolower($field->name);
+                                            if(strpos($url,'http://') === false){$url = 'http://'.$url;}
+                                            $member_html .= '<li><a href="'.$url.'" class="'.$n.'"><i class="fa fa-'.$n.'"></i></a></li>';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $member_html .= '</ul>';
+               }
+               $member_html .='</div>';
+               $member_html .='</div>';
+            break;
+        }
+
+        return $member_html;
+    }
+}
 
 if(!function_exists('vibe_custom_types_excerpt')){
 
@@ -547,7 +742,12 @@ if(!function_exists('vibe_custom_types_excerpt')){
       
 
         $text = substr($text,0,intval($chars));
+        
+        if(function_exists('mb_convert_encoding'))
+            $text = mb_convert_encoding((string)$text, 'UTF-8', mb_list_encodings());   
 
+        $latin=preg_match("/\p{Han}+/u", $text);
+        if($latin !=1)
         $text = substr($text,0,strrpos($text,' '));
 
         if( $ellipsis == true && $chars > 1)

@@ -1,22 +1,23 @@
-#
+# Copyright (C) 2015 WP ULike
+# This file is distributed under the same license as the WP ULike package.
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: WP ULike\n"
-"POT-Creation-Date: 2015-05-21 11:28+0330\n"
-"PO-Revision-Date: 2015-05-21 11:28+0330\n"
-"Last-Translator: Alimir <info@alimir.ir>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/wp-ulike/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/wp-ulike\n"
+"POT-Creation-Date: 2015-05-21 11:36+0330\n"
+"PO-Revision-Date: 2017-01-20 21:23+0330\n"
+"Last-Translator: Alimir <alimir71@yahoo.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/wp-translations/wp-"
+"ulike/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: _e;__\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
@@ -61,9 +62,8 @@ msgid "Reviews"
 msgstr "点评"
 
 #: ../admin/about.php:125
-#, fuzzy
 msgid "Introducing WP ULike"
-msgstr "关于 WP ULike"
+msgstr ""
 
 #: ../admin/about.php:132 ../admin/admin.php:179 ../admin/stats.php:36
 msgid "About WP ULike"
@@ -81,9 +81,8 @@ msgstr ""
 "持很多选项设置。"
 
 #: ../admin/about.php:155
-#, fuzzy
 msgid "WP Ulike Extension"
-msgstr "WP ULike 设置"
+msgstr ""
 
 #: ../admin/about.php:156
 msgid ""
@@ -122,9 +121,8 @@ msgid ""
 msgstr ""
 
 #: ../admin/about.php:195
-#, fuzzy
 msgid "myCRED Points Support"
-msgstr "[不喜欢]支持"
+msgstr ""
 
 #: ../admin/about.php:196
 msgid ""
@@ -235,9 +233,8 @@ msgid "Activity Likes Logs"
 msgstr "活动喜欢日志"
 
 #: ../admin/admin.php:171 ../admin/logs.php:509 ../admin/stats.php:45
-#, fuzzy
 msgid "Topics Likes Logs"
-msgstr "文章喜欢日志"
+msgstr ""
 
 #: ../admin/classes/class-settings.php:17
 msgid "Custom Settings"
@@ -252,9 +249,8 @@ msgid "Reset Settings"
 msgstr "恢复默认设置"
 
 #: ../admin/classes/class-settings.php:44
-#, fuzzy
 msgid "Similar Settings"
-msgstr "保存设置"
+msgstr ""
 
 #: ../admin/classes/class-settings.php:48
 #: ../admin/classes/tmp/settings.php:124 ../admin/classes/tmp/settings.php:215
@@ -531,7 +527,7 @@ msgstr ""
 
 #: ../admin/classes/class-widget.php:288
 msgid "Simple"
-msgstr ""
+msgstr "简单"
 
 #: ../admin/classes/class-widget.php:289 ../admin/classes/tmp/settings.php:80
 #: ../admin/classes/tmp/settings.php:186 ../admin/classes/tmp/settings.php:334
@@ -548,9 +544,8 @@ msgid "Number of items to show:"
 msgstr ""
 
 #: ../admin/classes/class-widget.php:306
-#, fuzzy
 msgid "Thumbnail/Avatar size:"
-msgstr "用户头像大小："
+msgstr ""
 
 #: ../admin/classes/class-widget.php:312
 msgid "Profile URL:"
@@ -849,9 +844,8 @@ msgid "Loading Animation"
 msgstr "加载动画"
 
 #: ../admin/classes/tmp/settings.php:314
-#, fuzzy
 msgid "Custom CSS"
-msgstr "自定义样式"
+msgstr "自定义CSS"
 
 #: ../admin/classes/tmp/settings.php:348
 msgid "Activity Content"
@@ -875,9 +869,8 @@ msgid "insert new likes in buddyPress activity page"
 msgstr "插入喜欢按钮到buddyPress活动页面"
 
 #: ../admin/classes/tmp/settings.php:469
-#, fuzzy
 msgid "<strong>Only</strong> registered users have permission to like Topics."
-msgstr "<strong>只有</strong> 已注册的用户才有权限喜欢文章。"
+msgstr ""
 
 #: ../admin/classes/tmp/settings.php:504
 msgid "Users who have liked this topic:"
@@ -980,9 +973,8 @@ msgid "Topic ID"
 msgstr ""
 
 #: ../admin/logs.php:523
-#, fuzzy
 msgid "Topic Title"
-msgstr "文章标题"
+msgstr ""
 
 #: ../admin/stats.php:30
 msgid "Welcome to WP ULike Statistics!"
@@ -1061,9 +1053,8 @@ msgid "Total"
 msgstr "总计"
 
 #: ../admin/stats.php:192 ../admin/stats.php:351
-#, fuzzy
 msgid "Top Likers"
-msgstr "最多人喜欢的用户"
+msgstr ""
 
 #: ../admin/stats.php:227 ../admin/stats.php:233 ../admin/stats.php:239
 #: ../admin/stats.php:245
@@ -1089,9 +1080,8 @@ msgid "Activities Likes Stats"
 msgstr ""
 
 #: ../admin/stats.php:246 ../admin/stats.php:348
-#, fuzzy
 msgid "Topics Likes Stats"
-msgstr "文章喜欢日志"
+msgstr ""
 
 #: ../admin/stats.php:277 ../admin/stats.php:349
 msgid "Likes Percent"
@@ -1115,7 +1105,7 @@ msgstr ""
 
 #: ../inc/classes/class-mycred.php:209 ../inc/classes/class-mycred.php:226
 msgid "Limit"
-msgstr ""
+msgstr "限量"
 
 #: ../inc/classes/class-mycred.php:214 ../inc/classes/class-mycred.php:231
 #: ../inc/classes/class-mycred.php:243 ../inc/classes/class-mycred.php:255
@@ -1149,9 +1139,8 @@ msgid "Liking Content"
 msgstr ""
 
 #: ../inc/wp-functions.php:312
-#, fuzzy
 msgid "Liked Content"
-msgstr "最多人喜欢的评论"
+msgstr ""
 
 #: ../inc/wp-functions.php:313
 msgid "Unliking Content"
@@ -1166,9 +1155,8 @@ msgid "Recent Posts Liked"
 msgstr ""
 
 #: ../inc/wp-functions.php:341 ../inc/wp-functions.php:410
-#, fuzzy
 msgid "Recent Comments Liked"
-msgstr "评论喜欢日志"
+msgstr ""
 
 #: ../inc/wp-functions.php:386 ../inc/wp-functions.php:427
 msgid "This user has not made any likes."
@@ -1300,42 +1288,13 @@ msgid "Error: This Method Is Not Exist!"
 msgstr ""
 
 #: ../wp-ulike.php:124
-#, fuzzy
 msgid "Settings"
-msgstr "保存设置"
+msgstr "设置"
 
 #: ../wp-ulike.php:125
-#, fuzzy
 msgid "Statistics"
-msgstr "状态"
+msgstr "统计"
 
 #: ../wp-ulike.php:126
 msgid "About"
-msgstr ""
-
-#~ msgid "Novelty Of WP ULike"
-#~ msgstr "WP ULike 的新特色"
-
-#~ msgid "New setting panel"
-#~ msgstr "新设置面板"
-
-#~ msgid "Better coding on plugin files"
-#~ msgstr "更好的文件编码"
-
-#~ msgid "Buddypress likes support"
-#~ msgstr "Buddypress 喜欢支持"
-
-#~ msgid "Likes logs support"
-#~ msgstr "喜欢日志支持"
-
-#~ msgid "Overview"
-#~ msgstr "概述"
-
-#~ msgid "Text After Like"
-#~ msgstr "[喜欢]后的文字"
-
-#~ msgid "Like Me Again!"
-#~ msgstr "再喜欢一次！"
-
-#~ msgid "Text After Unlike"
-#~ msgstr "[不喜欢]后的文字"
+msgstr "关于"

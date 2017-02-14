@@ -1,22 +1,23 @@
-#
+# Copyright (C) 2015 WP ULike
+# This file is distributed under the same license as the WP ULike package.
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: WP ULike\n"
-"POT-Creation-Date: 2015-05-21 11:28+0330\n"
-"PO-Revision-Date: 2015-05-21 11:28+0330\n"
-"Last-Translator: Alimir <info@alimir.ir>\n"
-"Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/wp-"
-"ulike/language/nl_NL/)\n"
-"Language: nl_NL\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/wp-ulike\n"
+"POT-Creation-Date: 2015-05-21 11:36+0330\n"
+"PO-Revision-Date: 2017-01-20 21:22+0330\n"
+"Last-Translator: Alimir <alimir71@yahoo.com>\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/wp-translations/"
+"wp-ulike/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: _e;__\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
@@ -62,9 +63,8 @@ msgid "Reviews"
 msgstr "Beoordelingen"
 
 #: ../admin/about.php:125
-#, fuzzy
 msgid "Introducing WP ULike"
-msgstr "Over WP ULike"
+msgstr ""
 
 #: ../admin/about.php:132 ../admin/admin.php:179 ../admin/stats.php:36
 msgid "About WP ULike"
@@ -81,9 +81,8 @@ msgstr ""
 "reacties en BuddyPress activiteiten."
 
 #: ../admin/about.php:155
-#, fuzzy
 msgid "WP Ulike Extension"
-msgstr "WP ULike Instellingen"
+msgstr ""
 
 #: ../admin/about.php:156
 msgid ""
@@ -122,9 +121,8 @@ msgid ""
 msgstr ""
 
 #: ../admin/about.php:195
-#, fuzzy
 msgid "myCRED Points Support"
-msgstr "Niet meer like ondersteuning"
+msgstr ""
 
 #: ../admin/about.php:196
 msgid ""
@@ -235,9 +233,8 @@ msgid "Activity Likes Logs"
 msgstr "Evenementen likes log"
 
 #: ../admin/admin.php:171 ../admin/logs.php:509 ../admin/stats.php:45
-#, fuzzy
 msgid "Topics Likes Logs"
-msgstr "Berichten likes log"
+msgstr ""
 
 #: ../admin/classes/class-settings.php:17
 msgid "Custom Settings"
@@ -252,9 +249,8 @@ msgid "Reset Settings"
 msgstr "Instellingen resetten"
 
 #: ../admin/classes/class-settings.php:44
-#, fuzzy
 msgid "Similar Settings"
-msgstr "Instellingen opslaan"
+msgstr ""
 
 #: ../admin/classes/class-settings.php:48
 #: ../admin/classes/tmp/settings.php:124 ../admin/classes/tmp/settings.php:215
@@ -298,7 +294,7 @@ msgstr ""
 
 #: ../admin/classes/class-settings.php:57
 msgid "Template Variables"
-msgstr ""
+msgstr "Sjabloon Variabelen"
 
 #: ../admin/classes/class-settings.php:59
 msgid "Start the loop of logs"
@@ -536,7 +532,7 @@ msgstr ""
 
 #: ../admin/classes/class-widget.php:288
 msgid "Simple"
-msgstr ""
+msgstr "Simpel"
 
 #: ../admin/classes/class-widget.php:289 ../admin/classes/tmp/settings.php:80
 #: ../admin/classes/tmp/settings.php:186 ../admin/classes/tmp/settings.php:334
@@ -553,9 +549,8 @@ msgid "Number of items to show:"
 msgstr ""
 
 #: ../admin/classes/class-widget.php:306
-#, fuzzy
 msgid "Thumbnail/Avatar size:"
-msgstr "Grootte van avatar:"
+msgstr ""
 
 #: ../admin/classes/class-widget.php:312
 msgid "Profile URL:"
@@ -855,9 +850,8 @@ msgid "Loading Animation"
 msgstr "Animatie laden"
 
 #: ../admin/classes/tmp/settings.php:314
-#, fuzzy
 msgid "Custom CSS"
-msgstr "Aangepaste stijl"
+msgstr "Aangepast CSS"
 
 #: ../admin/classes/tmp/settings.php:348
 msgid "Activity Content"
@@ -881,10 +875,8 @@ msgid "insert new likes in buddyPress activity page"
 msgstr "nieuwe likes toevoegen aan buddyprefs activiteiten pagina"
 
 #: ../admin/classes/tmp/settings.php:469
-#, fuzzy
 msgid "<strong>Only</strong> registered users have permission to like Topics."
 msgstr ""
-"<strong>Alleen</strong> geregistreerde gebruikers mogen deze post likes."
 
 #: ../admin/classes/tmp/settings.php:504
 msgid "Users who have liked this topic:"
@@ -985,9 +977,8 @@ msgid "Topic ID"
 msgstr ""
 
 #: ../admin/logs.php:523
-#, fuzzy
 msgid "Topic Title"
-msgstr "Titel bericht"
+msgstr ""
 
 #: ../admin/stats.php:30
 msgid "Welcome to WP ULike Statistics!"
@@ -1055,7 +1046,7 @@ msgstr "Gisteren"
 
 #: ../admin/stats.php:148
 msgid "Week"
-msgstr ""
+msgstr "Week"
 
 #: ../admin/stats.php:153
 msgid "Month"
@@ -1066,9 +1057,8 @@ msgid "Total"
 msgstr "Totaal"
 
 #: ../admin/stats.php:192 ../admin/stats.php:351
-#, fuzzy
 msgid "Top Likers"
-msgstr "Gebruikers met meeste likes"
+msgstr ""
 
 #: ../admin/stats.php:227 ../admin/stats.php:233 ../admin/stats.php:239
 #: ../admin/stats.php:245
@@ -1094,9 +1084,8 @@ msgid "Activities Likes Stats"
 msgstr ""
 
 #: ../admin/stats.php:246 ../admin/stats.php:348
-#, fuzzy
 msgid "Topics Likes Stats"
-msgstr "Berichten likes log"
+msgstr ""
 
 #: ../admin/stats.php:277 ../admin/stats.php:349
 msgid "Likes Percent"
@@ -1120,7 +1109,7 @@ msgstr ""
 
 #: ../inc/classes/class-mycred.php:209 ../inc/classes/class-mycred.php:226
 msgid "Limit"
-msgstr ""
+msgstr "Limiet"
 
 #: ../inc/classes/class-mycred.php:214 ../inc/classes/class-mycred.php:231
 #: ../inc/classes/class-mycred.php:243 ../inc/classes/class-mycred.php:255
@@ -1154,9 +1143,8 @@ msgid "Liking Content"
 msgstr ""
 
 #: ../inc/wp-functions.php:312
-#, fuzzy
 msgid "Liked Content"
-msgstr "Meest gelikede reacties"
+msgstr ""
 
 #: ../inc/wp-functions.php:313
 msgid "Unliking Content"
@@ -1167,14 +1155,12 @@ msgid "Unliked Content"
 msgstr ""
 
 #: ../inc/wp-functions.php:336 ../inc/wp-functions.php:370
-#, fuzzy
 msgid "Recent Posts Liked"
-msgstr "De meeste bevallen"
+msgstr ""
 
 #: ../inc/wp-functions.php:341 ../inc/wp-functions.php:410
-#, fuzzy
 msgid "Recent Comments Liked"
-msgstr "Reactie likes log"
+msgstr ""
 
 #: ../inc/wp-functions.php:386 ../inc/wp-functions.php:427
 msgid "This user has not made any likes."
@@ -1306,42 +1292,13 @@ msgid "Error: This Method Is Not Exist!"
 msgstr ""
 
 #: ../wp-ulike.php:124
-#, fuzzy
 msgid "Settings"
-msgstr "Instellingen opslaan"
+msgstr "Settings"
 
 #: ../wp-ulike.php:125
-#, fuzzy
 msgid "Statistics"
-msgstr "WP ULike statistiek"
+msgstr "Statistieken"
 
 #: ../wp-ulike.php:126
 msgid "About"
-msgstr ""
-
-#~ msgid "Novelty Of WP ULike"
-#~ msgstr "Nieuw in WP ULike"
-
-#~ msgid "New setting panel"
-#~ msgstr "Nieuw configuratiescherm"
-
-#~ msgid "Better coding on plugin files"
-#~ msgstr "Betere code in de plugin"
-
-#~ msgid "Buddypress likes support"
-#~ msgstr "Buddypress Like ondersteuning"
-
-#~ msgid "Likes logs support"
-#~ msgstr "Ondersteuning voor likes logs"
-
-#~ msgid "Overview"
-#~ msgstr "Overzicht"
-
-#~ msgid "Text After Like"
-#~ msgstr "Tekst na like"
-
-#~ msgid "Like Me Again!"
-#~ msgstr "Like me opnieuw!"
-
-#~ msgid "Text After Unlike"
-#~ msgstr "Tekst na unlike"
+msgstr "Over"

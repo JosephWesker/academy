@@ -8,6 +8,7 @@
  * @version     2.0
  */
 
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 
@@ -50,6 +51,7 @@ class bp_course_filters{
 		add_filter('wplms_course_details_widget',array($this,'hide_price'),10,2);
 		add_filter('wplms_course_submission_tabs',array($this,'apply_course_submission_tab'),10,2);
         
+        add_filter('wplms_drip_feed_element_in_message',array($this,'drip_feed_element'),10,2);
         add_filter('wplms_drip_value',array($this,'evaluate_course_drip'),99,4);
         add_filter('vibe_total_drip_duration',array($this,'total_drip_duration'),10,4);
 
@@ -57,7 +59,54 @@ class bp_course_filters{
         add_filter('bp_course_next_unit_access',array($this,'next_unit_access'),10,2);
 
         add_filter('bp_activity_user_can_delete',array($this,'student_restricted_activities'),10,2);
-        //add_filter( 'bp_email_use_wp_mail', '__return_true' );
+        
+        add_filter('bp_get_course_certificate_url',array($this,'certificate_url'),10,3);
+		add_filter('bp_course_certificate_class',array($this,'certificate_class'),10,2);
+		//(isset($_GET['regenerate_certificate'])?'regenerate_certificate':'')
+		add_filter('question_the_content',array($this,'execute_shortcode_in_questions'));
+		add_filter('bp_get_profile_field_data',array($this,'check_for_array'),9,2);
+
+    }
+
+    function check_for_array($field,$args){
+    	if(!empty($field) && is_array($field))
+    		$field = implode($field,',');
+    	return $field;
+    }
+    function execute_shortcode_in_questions($q){
+    	return do_shortcode($q);
+    }
+    
+    function certificate_url($url,$course_id,$user_id){
+
+    	if(!empty($url) || empty($course_id) || empty($user_id) || isset($_GET['regenerate_certificate'])){
+
+    		return $url;
+    	}
+    	global $wpdb;
+    	$attachment_id = $wpdb->get_var($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_author = %d AND post_parent = %d AND post_name = %s",$user_id,$course_id,'certificate_'.$course_id.'_'.$user_id.''));
+
+    	$attachment = wp_get_attachment_image_src($attachment_id,'full');
+    	$url = $attachment[0];
+    	if(!empty($url)){$this->certificate_url[$course_id.'-'.$user_id]=$url;}
+    	
+    	return $url;
+    }
+
+    function certificate_class($class,$args){
+
+    	extract($args);
+
+    	if(empty($course_id) || empty($user_id))
+    		return;
+		
+
+    	if(!empty($this->certificate_url[$course_id.'-'.$user_id])){
+    		$class .=' certificate_image';
+    	}
+    	
+
+    	return $class;
     }
 
     function student_restricted_activities($flag, $activity){
@@ -74,7 +123,7 @@ class bp_course_filters{
     	return $flag;
     }
 
-	function next_unit_access($next_unit_access,$course_id){
+	function next_unit_access($next_unit_access,$course_id){ 
 		$next_unit_access = true;
 		if(function_exists('vibe_get_option')){
 			$nextunit_access = vibe_get_option('nextunit_access');	
@@ -159,14 +208,22 @@ class bp_course_filters{
     			return $title;
     		}
     	}
-    	$check = get_post_meta($course_id,'vibe_course_unit_content',true);
+    	if(empty($this->check_course_lesson)){
+    		$this->check_course_lesson = get_post_meta($course_id,'vibe_course_unit_content',true);
+    		if(vibe_validate($this->check_course_lesson)){
+    			add_action('wp_footer',array($this,'print_css_adjustments'));
+    		}
+    	}
     	
-    	if(vibe_validate($check)){
+    	if(vibe_validate($this->check_course_lesson)){
     		$title .= ' <a class="curriculum_unit_popup link" data-id="'.$unit_id.'" data-course="'.$course_id.'">'._x('Details','Unit details link anchor for full unit content','vibe').'</a>';
     	}
     	return $title;
     }
-
+    function print_css_adjustments(){ ?>
+		<style>.course_curriculum .course_lesson>td{padding-bottom:24px;}.curriculum_unit_popup{position:absolute;}</style>
+		<?php
+	}
 
 	function course_filter(){
 		global $bp;
@@ -195,6 +252,50 @@ class bp_course_filters{
 					$args['meta_key'] = 'vibe_start_date';
 					$args['meta_type'] = 'DATE';
 					$args['order'] = 'ASC';
+					if(empty($order['meta_query'])){
+						$args['meta_query']=array(array(
+						'key' => 'vibe_start_date',
+						'value' => current_time('mysql'),
+						'compare'=>'>='  
+						));
+					}
+				break;
+				case 'pursuing':
+					if(is_user_logged_in() && function_exists('bp_course_get_user_courses')){
+						$user_id = get_current_user_id();
+						$courses = bp_course_get_user_courses($user_id,'start_course');
+						$args['post__in'] = $courses;
+					}
+				break;
+				case 'finished':
+					if(is_user_logged_in()){
+						$user_id = get_current_user_id();
+						$courses = bp_course_get_user_courses($user_id,'course_evaluated');
+						$args['post__in'] = $courses;
+					}
+				break;
+				case 'active':
+					if(is_user_logged_in()){
+						$user_id = get_current_user_id();
+						$courses = bp_course_get_user_courses($user_id,'active');
+						$args['post__in'] = $courses;
+					}
+				break;
+				case 'expired':
+					if(is_user_logged_in()){
+						$user_id = get_current_user_id();
+						$courses = bp_course_get_user_courses($user_id,'expired');
+						$args['post__in'] = $courses;
+					}
+				break;
+				case 'draft':
+					$args['post_status'] = 'draft';
+				break;
+				case 'pending':
+					$args['post_status'] = 'pending';
+				break;
+				case 'published':
+					$args['post_status'] = 'publish';
 				break;
 				default:
 					$args['orderby'] = '';
@@ -210,12 +311,21 @@ class bp_course_filters{
 
 		if(isset($_POST['scope']) && $_POST['scope'] == 'personal'){
 			$uid=get_current_user_id();
-			$args['meta_query'] = array(
-				array(
-					'key' => $uid,
-					'compare' => 'EXISTS'
+			if(empty($args['meta_query'])){
+				$args['meta_query'] = array(
+					'relation'=>'AND',
+					array(
+						'key' => $uid,
+						'compare' => 'EXISTS'
 					)
 				);
+			}else{
+				$args['meta_query'][] = array(
+					'key' => $uid,
+					'compare' => 'EXISTS'
+				);
+			}
+			
 		}
 
 		if(isset($_POST['scope']) && $_POST['scope'] == 'instructor'){
@@ -270,7 +380,7 @@ class bp_course_filters{
 									'field'    => 'slug',
 								);
 			}
-			if(count($instructors)){
+			if(isset($instructors) && count($instructors)){
 				$args['author__in']=$instructors;
 			}
 			if($type){
@@ -294,7 +404,7 @@ class bp_course_filters{
 				}
 			}
 
-			if($offline){
+			if(isset($offline) && $offline){
 				switch($offline){
 					case 'S':
 					$args['meta_query']['relation'] = 'AND';
@@ -319,7 +429,7 @@ class bp_course_filters{
 				$args['meta_query'][]=array(
 					'key' => 'vibe_start_date',
 					'value' => $start_date,
-					'compare'=>'>='
+					'compare'=>'>='  
 				);
 			}
 			if(!empty($end_date)){
@@ -349,12 +459,14 @@ class bp_course_filters{
 
 		}
 
-
 	$loop_number=vibe_get_option('loop_number');
 	isset($loop_number)?$loop_number:$loop_number=5;
 
 	$args['per_page'] = $loop_number;
-
+	if(in_array($filter,array('pursuing','finished','expired','active')) && empty($args['post__in'])){
+		echo '<div class="message">'._x('No courses found !','No courses in current filter','vibe').'</div>';
+		die();
+	}
 	?>
 
 	<?php do_action( 'bp_before_course_loop' ); ?>
@@ -379,7 +491,7 @@ class bp_course_filters{
 		</div>
 
 		<?php do_action( 'bp_before_directory_course_list' );
-
+			$class = '';
 			$cookie=urldecode($_POST['cookie']);
 			if(stripos($cookie,'bp-course-list=grid')){
 				$class='grid';
@@ -554,7 +666,7 @@ class bp_course_filters{
 			return $string;
 
 		global $bp; 
-		
+		$course_activity = '';
 		if(is_singular('course')){
 			global $post;
 			$course_activity .='&primary_id='.$post->ID;
@@ -587,7 +699,7 @@ class bp_course_filters{
 	}
 
 	function wplms_incourse_quiz_stop_notes($class,$id){
-		if(get_post_type($id) == 'quiz'){
+		if(bp_course_get_post_type($id) == 'quiz'){
 			$class ='in_quiz stop_notes';
 		}
 		return $class;
@@ -739,9 +851,48 @@ function instructors_filter($query){
     		$this->course_button[$course_id] = $check;
     	}
     	if(vibe_validate($this->course_button[$course_id])){
+    		global $bp,$wpdb;
+    		
     		$label = _x('Apply for Course','Apply for Course label for course','vibe');
+
+    		$user_id = get_current_user_id();
+    		if(function_exists('bp_is_active') && bp_is_active('activity')){
+    			$activity = $wpdb->get_var($wpdb->prepare("
+    				SELECT id 
+    				FROM {$bp->activity->table_name} 
+    				WHERE item_id = %d 
+    				AND type = %s 
+    				AND user_id = %d
+    				AND date_recorded > (
+    					SELECT date_recorded 
+    					FROM {$bp->activity->table_name} 
+    					WHERE secondary_item_id = %d
+    					AND item_id = %d
+    					AND type = %s
+    					ORDER BY date_recorded DESC
+    					LIMIT 0,1
+    				)
+    				ORDER BY date_recorded DESC
+					LIMIT 0,1
+    				",$course_id,'course_application',$user_id,$course_id,$user_id,'course_application_reject'));
+    		}
+    		
+    		if( !empty($activity) ){
+    			$label = _x('Applied for Course','Apply for Course label for course','vibe');
+    			add_action('wp_footer',array($this,'remove_apply_for_course_id'));
+    		}
     	}
     	return $label;
+    }
+
+    function remove_apply_for_course_id(){
+    	?>
+    	<script>
+			jQuery(document).ready(function($){
+				$('body').find('#apply_course_button').removeAttr('id');
+			});
+		</script>
+		<?php
     }
 
     function apply_course_button_link($link,$course_id){
@@ -782,6 +933,13 @@ function instructors_filter($query){
     	return $tabs;
     }
 
+    function drip_feed_element($element,$course_id){
+    	$course_section_drip = get_post_meta($course_id,'vibe_course_section_drip',true);
+    	if(function_exists('vibe_validate') && vibe_validate($course_section_drip)){
+    		$element = __('Section','vibe');
+    	}
+    	return $element;
+    }
 
     function evaluate_course_drip($value,$pre_unit_id,$course_id,$unit_id){
 
@@ -824,7 +982,7 @@ function instructors_filter($query){
 				
 				//Get first unit in previous section
 				for($i=$k1;$i<=$k2;$i++){
-					if(is_numeric($curriculum[$i]) && get_post_type($curriculum[$i]) == 'unit') 
+					if(is_numeric($curriculum[$i]) && bp_course_get_post_type($curriculum[$i]) == 'unit') 
 						break;
 				}
 				
@@ -832,19 +990,19 @@ function instructors_filter($query){
 					return 0; // section drip feed disabled if a section has all quizzes
 				}
 				
-				$start_section_timestamp=bp_course_get_drip_access_time($curriculum[$i],$user_id);
+				$start_section_timestamp=bp_course_get_drip_access_time($curriculum[$i],$user_id,$course_id);
 				if(empty($start_section_timestamp)){
-					$start_section_timestamp = bp_course_get_user_unit_completion_time($user_id,$curriculum[$i]); // If access time not present check the unit completion time.
+					$start_section_timestamp = bp_course_get_user_unit_completion_time($user_id,$curriculum[$i],$course_id); // If access time not present check the unit completion time.
 					if(empty($start_section_timestamp)){ // If completion time not present set the access time as current timestamp.
 						$start_section_timestamp = time();
-						bp_course_update_unit_user_access_time($curriculum[$i],$user_id,$start_section_timestamp);
+						bp_course_update_unit_user_access_time($curriculum[$i],$user_id,$start_section_timestamp,$course_id);
 					}
 				}
 
 				if(vibe_validate($course_drip_duration_type)){
 					$total_drip_duration = 0;
 					for($i=$k1;$i<=$k2;$i++){
-						if(is_numeric($curriculum[$i]) && get_post_type($curriculum[$i]) == 'unit'){
+						if(is_numeric($curriculum[$i]) && bp_course_get_post_type($curriculum[$i]) == 'unit'){
 							$unit_duration = get_post_meta($curriculum[$i],'vibe_duration',true);
 							$unit_duration_parameter = apply_filters('vibe_unit_duration_parameter',60,$curriculum[$i]);
 							$total_drip_duration += $unit_duration*$unit_duration_parameter; // Sum of all unit durations in a section
@@ -863,7 +1021,7 @@ function instructors_filter($query){
 	function total_drip_duration($value,$course_id,$unit_id,$pre_unit_id){
 		$course_drip_duration_type = get_post_meta($course_id,'vibe_course_drip_duration_type',true);
 		
-		if(vibe_validate($course_drip_duration_type)){
+		if(vibe_validate($course_drip_duration_type)){ //unit duration
 			$unit_duration = get_post_meta($pre_unit_id,'vibe_duration',true);
 			$unit_duration_parameter = apply_filters('vibe_unit_duration_parameter',60,$pre_unit_id);
 			$value = $unit_duration*$unit_duration_parameter;

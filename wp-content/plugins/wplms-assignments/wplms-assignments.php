@@ -3,10 +3,12 @@
 Plugin Name: WPLMS Assignments
 Plugin URI: http://www.Vibethemes.com
 Description: COURSE Assignments plugin for WPLMS 
-Version: 2.1.1
+Version: 2.5.2
 Author: VibeThemes
 Author URI: http://www.vibethemes.com
 License: as Per Themeforest GuideLines
+Text Domain: wplms-assignments
+Domain Path: /languages/
 */
 /*
 Copyright 2014  VibeThemes  (email : vibethemes@gmail.com)
@@ -28,7 +30,7 @@ define ( 'WPLMS_ASSIGNMENTS_SLUG', 'assignment' );
 function initialize_assignments(){
 	register_activation_hook(__FILE__, 'wplms_assignments_activate');
     register_deactivation_hook(__FILE__,'wplms_assignments_deactivate');
-    $wplms_assignment = new WPLMS_Assignments();    
+    WPLMS_Assignments::init();    
 }
 if(class_exists('WPLMS_Assignments')){	
     add_action('plugins_loaded','initialize_assignments',100);
@@ -56,6 +58,9 @@ function wplms_assignments_update() {
 add_action('wp_enqueue_scripts','wplms_assignments_enqueue_scripts');
 
 function wplms_assignments_enqueue_scripts(){
+	if((function_exists('bp_current_action') && is_singular('course') && bp_current_action()=='submissions') || (isset($_GET['action']) && $_GET['action'] == 'admin' && isset($_GET['submissions']))){
+		wp_enqueue_script('plupload');	
+	}
 	if(is_singular('wplms-assignment') || (isset($_GET['action']) && $_GET['action'] == 'admin' && isset($_GET['submissions'])) || (function_exists('bp_current_action') && bp_current_action() == 'submissions')){
 
         wp_enqueue_style( 'wplms-assignments-css', plugins_url( 'css/wplms-assignments.css' , __FILE__ ));
@@ -68,6 +73,7 @@ function wplms_assignments_enqueue_scripts(){
 			'cancel' => __( 'Cancel','wplms-assignments' ),
 			'incorrect_file_format'=> __('Incorrect file format ','wplms-assignments'),
 			'duplicate_file'=> __('File already selected ','wplms-assignments'),
+			'remove_attachment'=>_x('Are you sure you want to remove this attachment ?','Notification when user removes the attachment from assignment','wplms-assignments'),
 			);
     	wp_localize_script( 'wplms-assignments-js', 'wplms_assignment_messages', $translation_array );
     }

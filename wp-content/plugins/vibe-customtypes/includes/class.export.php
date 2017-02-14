@@ -207,10 +207,10 @@ class wplms_export{
        			}
 
        			if($reviews)
-       				$this->get_comments($post->ID);
+       				$this->get_comments($post->ID,$post->post_type);
 
        			if($user_data)
-   					$this->get_user_data($post->ID);
+   					$this->get_user_data($post->ID,$post->post_type);
        			if($module)
        				$this->get_modules($post->ID,$post->post_type,$module,$data,$reviews,$user_data);
 
@@ -480,8 +480,13 @@ class wplms_export{
 				if(isset($user['user_id'])){
 					$this->csv[]=array($wpdb->prefix.'usermeta',$id,__('User Timestamp','vibe-customtypes'),$user['user_id'],$user['meta_value']);
 					$user_status=get_post_meta($id,$user['user_id'],true);
-					if(isset($user_status) && $user_status !='')
+					if(isset($user_status) && $user_status !=''){
 						$this->csv[]=array($wpdb->prefix.'postmeta',$id,$user['user_id'],__('User status','vibe-customtypes'),$user_status);
+						if($post_type == 'course'){
+							$course_status=get_user_meta($user['user_id'],'course_status'.$id,true);
+							$this->csv[]=array($wpdb->prefix.'usermeta','course_status'.$id,'COURSE STATUS',$user['user_id'],$course_status);
+						}
+					}
 				}
 			}
 		}

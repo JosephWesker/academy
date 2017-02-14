@@ -19,43 +19,56 @@ class bp_course_mails{
 
     private function __construct(){
 
-      if(class_exists('WPLMS_tips')){
-        $wplms_settings = WPLMS_tips::init();
-        $settings = $wplms_settings->lms_settings;
-      }else{
-        $settings = get_option('lms_settings');  
-      }
+        if(class_exists('WPLMS_tips')){
+            $wplms_settings = WPLMS_tips::init();
+            $settings = $wplms_settings->lms_settings;
+        }else{
+            $settings = get_option('lms_settings');  
+        }
       
-      if(isset($settings) && isset($settings['activate'])){
-        $this->activate = $settings['activate'];
-      }
+        if(isset($settings) && isset($settings['activate'])){
+            $this->activate = $settings['activate'];
+        }
 
-      if(isset($settings) && isset($settings['forgot'])){
-        $this->forgot = $settings['forgot'];
-      }
-      if($settings['email_settings']['enable_html_emails'] == 'on' || $settings['email_settings']['enable_html_emails'] === 'on'){
-         $this->html_emails = 1;  
-      }else{
-         $this->html_emails = 0; 
-      }
+        if(isset($settings) && isset($settings['forgot'])){
+            $this->forgot = $settings['forgot'];
+        }
+        if(isset($settings['email_settings']['enable_html_emails']) && ($settings['email_settings']['enable_html_emails'] == 'on' || $settings['email_settings']['enable_html_emails'] === 'on')){
+            $this->html_emails = 1;  
+        }else{
+            $this->html_emails = 0; 
+        }
       
 
-      add_filter('bp_core_signup_send_validation_email_to',array($this,'user_mail'));
+        add_filter('bp_core_signup_send_validation_email_to',array($this,'user_mail'));
 
-      add_filter('bp_core_signup_send_validation_email_subject',array($this,'bp_course_activation_mail_subject'));    
-      add_filter('bp_core_signup_send_validation_email_message',array($this,'bp_course_activation_mail_message'),10,3);
+        add_filter('bp_core_signup_send_validation_email_subject',array($this,'bp_course_activation_mail_subject'));    
+        add_filter('bp_core_signup_send_validation_email_message',array($this,'bp_course_activation_mail_message'),10,3);
 
-      add_filter ( 'retrieve_password_title', array($this,'forgot_password_subject'), 10, 1 );
-      add_filter ( 'retrieve_password_message', array($this,'forgot_password_message'), 10, 2 );
+        add_filter ( 'retrieve_password_title', array($this,'forgot_password_subject'), 10, 1 );
+        add_filter ( 'retrieve_password_message', array($this,'forgot_password_message'), 10, 2 );
 
-      add_filter('messages_notification_new_message_message',array($this,'bp_course_bp_mail_filter'),10,7);
-      add_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
-      add_filter( 'wp_mail_from', array($this,'custom_wp_mail_from' ));
-      add_filter( 'wp_mail_from_name', array($this,'custom_wp_mail_from_name' ));
+        add_filter('messages_notification_new_message_message',array($this,'bp_course_bp_mail_filter'),10,7);
+        add_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
+        add_filter( 'wp_mail_from', array($this,'custom_wp_mail_from' ));
+        add_filter( 'wp_mail_from_name', array($this,'custom_wp_mail_from_name' ));
 
-      //Enable BuddyPress Emails
-      add_filter( 'bp_email_use_wp_mail', '__return_false' );
-   }
+        //DISABLE BuddyPress Emails
+        //add_filter( 'bp_email_use_wp_mail', '__return_false');
+        //ADD ACTIVATION HOOK
+        
+        add_action( 'admin_notices', array($this,'wplms_emails_migrate_notice' ));
+        add_action('wp_ajax_wplms_emails_migrate',array($this,'wplms_emails_migrate'));
+        add_action('wp_ajax_wplms_emails_dismiss_migrate',array($this,'wplms_emails_dismiss_migrate'));
+
+        // Run on Installation
+        add_action('wplms_after_sample_data_import',array($this,'wplms_emails_migrate'),9999);
+    }
+
+    function email_content_type($x){
+        //If migrated return $x
+        return 'text/html';
+    }
 
     function enable_html(){
       return $this->html_emails;
@@ -72,6 +85,7 @@ class bp_course_mails{
       if(isset($settings) && isset($settings['email_settings']) && !empty($settings['email_settings']['from_email'])){
         return $settings['email_settings']['from_email'];
       }
+      return $original_email_address;
     }
 
     function custom_wp_mail_from_name( $original_email_from ) {
@@ -85,6 +99,8 @@ class bp_course_mails{
       if(isset($settings) && isset($settings['email_settings']) && !empty($settings['email_settings']['from_name'])){
         return $settings['email_settings']['from_name'];
       }
+
+      return $original_email_from;
     }
     
     function bp_course_bp_mail_filter($email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud){
@@ -168,6 +184,169 @@ class bp_course_mails{
         
     return $message;
   }
+
+  // BuddyPRess EMAIL MIGRATION
+
+    //MIGRATE EMAILS NOTICE
+    function emails_migrated(){
+
+        if(function_exists('vibe_get_option')){
+            $take_course_page = vibe_get_option('take_course_page') ;
+            if(empty($take_course_page)){
+                return true;
+            }
+        }
+        if(!function_exists('bp_get_email_post_type')){
+          return false;
+        }
+        if(isset($this->migration_status)){
+            return $this->migration_status;
+        }else{
+            $migrated = get_option('wplms_bp_emails');
+            if($migrated == bp_course_version()){
+                $this->migration_status = true;
+                return $this->migration_status;
+            }
+        }
+
+        $flag = 0;
+        $count = 0;
+        $emails = bp_course_all_mails();
+        $tax = bp_get_email_tax_type();
+        $terms = array_keys($emails);
+
+        foreach($terms as $term){
+          if(!term_exists($term,$tax)){
+            $flag = 1;
+            break;
+          }          
+        }
+
+        
+        if(empty($flag)){
+           $this->migration_status = true; // Show notice
+           //update_option('wplms_bp_emails',bp_course_version());
+        }else{
+          $this->migration_status = false;  // Do not show notice
+        }
+        
+        return $this->migration_status;
+    }
+
+    function wplms_emails_migrate_notice(){
+      $x = $this->emails_migrated(); // for php 5.4 and below
+        if(empty($x)){
+            $count=0;
+            //Count number of emails to be migrated
+            $emails = bp_course_all_mails();
+            $tax = bp_get_email_tax_type();
+            $terms = array_keys($emails);
+
+            foreach($terms as $term){
+              if(!term_exists($term,$tax)){
+                $count++;
+              }  
+            }
+
+            if(empty($count)){
+              update_option('wplms_bp_emails',bp_course_version());
+              return;
+            }
+            $class = 'notice notice-error is-dismissible';
+            $nonce = wp_create_nonce('wplms_emails_migrate_notice');
+            $message = sprintf(__( '%sMigrate WPLMS email templates to BuddyPress Emails.%s  %s mail templates will be migrated. Refer %s more information & tutorial%s   %s Migrate all email templates to BuddyPress %s %s No, Thanks, I like  different email templates. %s', 'vibe' ),'<strong>','</strong>',$count,'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/wplms-email-migration-to-buddypress-emails" target="_blank">','</a>','<br><br><a id="wplms_emails_migrate" class="button-primary" data-nonce="'.$nonce.'">','</a>','<a id="wplms_dismiss_emails_migrate" class="button" data-nonce="'.$nonce.'">','</a><div class="migrate_progress"><span></span></div>');
+
+            printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message ); 
+            ?>
+            <style>.migrate_progress{display:none;width:100%;overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,0.1);border-radius:2px;}.migrate_progress span{width:0%;display:block;padding:3px;background:#46b450;-webkit-transition: width 0.5s ease-in-out;
+    -moz-transition: width 0.5s ease-in-out;-o-transition: width 0.5s ease-in-out;transition: width 0.5s ease-in-out;}</style>
+            <script>
+            jQuery(document).ready(function($){
+                $('#wplms_emails_migrate').on('click',function(){
+                    var $this=$(this);
+                    
+                    if($this.hasClass('disabled'))
+                        return;
+
+                    $this.addClass('disabled');
+                    $this.parent().find('.button').hide(100);
+                    $('.migrate_progress').show(100);
+                    setTimeout(function(){$('.migrate_progress span').css('width','40%');},500);
+                    $.ajax({
+                        type: "POST",
+                        url: ajaxurl,
+                        data: { action: 'wplms_emails_migrate', 
+                                security:$this.attr('data-nonce'),
+                            },
+                        cache: false,
+                        success: function (html) {
+                            $('.migrate_progress span').css('width','80%');
+                            setTimeout(function(){$('.migrate_progress span').css('width','100%');
+                                $this.closest('.notice-error').removeClass('notice-error').addClass('notice-success');},500);
+                            $this.show(100).html(html).attr('id','wplms_emails_migrated');
+                            setTimeout(function(){$this.closest('.notice').fadeOut(1500);},500);
+                        }
+                    });
+                });
+                $('#wplms_dismiss_emails_migrate').on('click',function(){
+                    var $this=$(this);
+                    $this.closest('.notice').css('opacity','0.4');
+                    $.ajax({
+                        type: "POST",
+                        url: ajaxurl,
+                        data: { action: 'wplms_emails_dismiss_migrate', 
+                                security:$this.attr('data-nonce'),
+                            },
+                        cache: false,
+                        success: function (html) {
+                            $this.closest('.notice').fadeOut(1500);
+                        }
+                    });
+                });
+            });
+            </script>
+            <?php
+        }
+    }
+
+    function wplms_emails_migrate(){
+
+        $emails = bp_course_all_mails();
+        $post_type = bp_get_email_post_type();
+        $tax_type = bp_get_email_tax_type();
+        foreach($emails as $id=>$email){
+            
+            if(!term_exists($id,$tax_type)){
+              $id = wp_insert_term($id,$tax_type, array('description'=> $email['description']));
+              if(!is_wp_error($id)){
+                  $textbased = str_replace('titlelink','name',$email['message']);
+                  $textbased = str_replace('userlink','name',$email['message']);
+                  $post_id = wp_insert_post(array(
+                              'post_title'=> '[{{{site.name}}}] '.$email['subject'],
+                              'post_content'=> $email['message'],
+                              'post_excerpt'=> $textbased,
+                              'post_type'=> $post_type,
+                              'post_status'=> 'publish',
+                          ),true);
+
+                  wp_set_object_terms( $post_id, $id, $tax_type );
+              }
+            }
+        }
+
+        update_option('wplms_bp_emails',bp_course_version());
+
+        if(defined('DOING_AJAX') && isset($_POST['security']) && isset($_POST['action']) && $_POST['action'] == 'wplms_emails_migrate'){
+          _ex('Migration complete.','Migrate WPLMS emails to BuddyPress success message','vibe');
+          die();
+        }
+    }
+
+    function wplms_emails_dismiss_migrate(){
+        update_option('wplms_bp_emails',bp_course_version()); // Dismissed
+        die();
+    }
+
 }
 
 bp_course_mails::init();
@@ -178,24 +357,20 @@ bp_course_mails::init();
 
 function bp_course_wp_mail($to,$subject,$message,$args=''){
 
-/*=== BuddyPRess HTML emails do not Work properly, waiting for future BuddyPress version to fix this then we can import WPLMS Emails.
-
-  if(isset($args['student_course_announcement'])){
-      //add tokens to parse in email
+    /*=== Migartion to BuddyPRess HTML emails ==*/
+    $mails = bp_course_mails::init();
+    $x = $mails->enable_html(); // for php 5.4 and below
+    $y = $mails->emails_migrated(); // for php 5.4 and below
+    if( $y && !empty($args['tokens']) && empty($x)){
+     
+        $email_type = $args['action'];
         $bpargs = array(
-            'tokens' => array(
-                'site.name' => get_bloginfo( 'name' ),
-                'course.name'=>get_the_title($args['item_id']),
-                'course.announcement' => $message,
-            ),
+            'tokens' => $args['tokens'],
         );
-        
-        // send args and user ID to receive email
-    bp_send_email( 'student_course_announcement',$to, $bpargs );
- 
+        bp_send_email( $email_type,$to, $bpargs );
     return;
   }
-*/
+
   if(empty($to))
     return;
       
@@ -230,7 +405,7 @@ function bp_course_wp_mail($to,$subject,$message,$args=''){
         }
     }
     $headers .= "From: $name<$email>". "\r\n";
-    $mails = bp_course_mails::init();
+   
     if($mails->enable_html())
       $headers .= "Content-type: text/html; charset=$charset" . "\r\n";
     
@@ -239,6 +414,7 @@ function bp_course_wp_mail($to,$subject,$message,$args=''){
     if($flag){
       if($mails->enable_html()){
         if(is_array($to)){
+          $subject=html_entity_decode($subject);
           $message = bp_course_process_mail($to,$subject,$message,$args);
           $message = apply_filters('wplms_email_templates',$message,$to,$subject,$message,$args);
           foreach($to as $t){
@@ -364,7 +540,12 @@ function send_html( $message,    $user_id, $activate_url ) {
   return $message;
 }
 
-/*=== BUDDYPRESS EMAILS DO NOT WORK ==== REMOVING INTEGRATION === 
+/*=== BUDDYPRESS EMAILS ===*/
+
+
+
+
+
 
 function bp_course_email_tokens($args){
     switch($case){
@@ -376,6 +557,9 @@ function bp_course_email_tokens($args){
         break;
         case 'student.userlink':
           return bp_core_get_userlink($user_id);
+        break;
+        case 'student.name':
+          return bp_core_get_user_displayname($user_id);
         break;
         case 'course.code':
           return $code;
@@ -418,159 +602,319 @@ function bp_course_all_mails(){
         'student_course_subscribed'=>array(
             'description'=> __('Student : Student subscribes to course','vibe'),
             'subject' =>  sprintf(__('Subscribed for Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'re subscribed for course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'re subscribed for course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_subscribed'=>array(
             'description'=> __('Instructor : Student subscribes to course','vibe'),
             'subject' =>  sprintf(__('Student subscribed for course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s subscribed for course : %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s subscribed for course : %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_added'=>array(
-            'description'=> __('Student : Instructor adds Student to course','vibe'),
+            'description'=> __('Student : Student added to course','vibe'),
             'subject' =>  sprintf(__('Added to course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve been added to course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve been added to course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_added'=>array(
             'description'=> __('Instructor : Instructor adds Student to course','vibe'),
             'subject' =>  sprintf(__('Student added to course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('%d student added to course : %s , %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('%s student added to course : %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}'),
         ),
 
         'student_course_start'=>array(
             'description'=> __('Student : Student started a course','vibe'),
             'subject' =>  sprintf(__('You started course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve started the course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve started the course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_start'=>array(
             'description'=> __('Instructor : Student started a course','vibe'),
             'subject' =>  sprintf(__('Student started course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s started the course : %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s started the course : %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_submit'=>array(
             'description'=> __('Student : Student finishes a course','vibe'),
             'subject' =>  sprintf(__('Course %s submitted','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve submitted the course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve submitted the course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_submit'=>array(
             'description'=> __('Instructor : Student finishes a course','vibe'),
             'subject' =>  sprintf(__('Student submitted course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s submitted the course : %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s submitted the course : %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_reset'=>array(
             'description'=> __('Student : Instructor resets course for a Student','vibe'),
             'subject' =>  sprintf(__('Course %s reset','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('%s Course was reset by Instructor','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('%s Course was reset by Instructor','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_reset'=>array(
             'description'=> __('Instructor : Instructor resets course for a Student','vibe'),
             'subject' =>  sprintf(__('Course %s reset for Student','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Course %s was reset for student %s ','vibe'),'{{course.titlelink}}','{{student.userlink}}')
+            'message' =>  sprintf(__('Course %s was reset for student %s ','vibe'),'{{{course.titlelink}}}','{{{student.userlink}}}')
         ),
 
         'student_course_retake'=>array(
             'description'=> __('Student : Student retakes a course','vibe'),
             'subject' =>  sprintf(__('You retook the course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(___('You\'ve retaken the Course %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve retaken the Course %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_retake'=>array(
             'description'=> __('Instructor : Student retakes a course','vibe'),
             'subject' =>  sprintf(__('Course %s retaken by the Student','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Course %s was retaken by the student %s ','vibe'),'{{course.titlelink}}','{{student.userlink}}')
+            'message' =>  sprintf(__('Course %s was retaken by the student %s ','vibe'),'{{{course.titlelink}}}','{{{student.userlink}}}')
         ),
 
         'student_course_evaluation'=>array(
             'description'=> __('Student : Course evaluated for Student','vibe'),
             'subject' =>  sprintf(__('Course %s results available','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve obtained %s  in Course : %s','vibe'),'{{course.marks}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve obtained %s  in Course : %s','vibe'),'{{course.marks}}','{{{course.titlelink}}}')
         ),
         'instructor_course_evaluation'=>array(
             'description'=> __('Instructor : Course evaluated for Student','vibe'),
-            'subject' =>  sprintf(__('Students added to course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('%d students added to course : %s , %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'subject' =>  sprintf(__('Course %s results available','vibe'),'{{course.name}}'),
+            'message' =>  sprintf(__('Student %s got %s out of 100 in course : %s','vibe'),'{{{student.userlink}}}','{{course.marks}}','{{{course.titlelink}}}')
         ),
 
         'student_course_badge'=>array(
             'description'=> __('Student : Student obtained course badge','vibe'),
             'subject' =>  sprintf(__('You got a Badge in Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve obtained a Badge in Course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve obtained a Badge in Course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_badge'=>array(
             'description'=> __('Instructor : Student obtained course badge','vibe'),
             'subject' =>  sprintf(__('Student got a Badge in Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s got a Badge in Course %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s got a Badge in Course %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_certificate'=>array(
             'description'=> __('Student : Student obtained course certificate','vibe'),
             'subject' =>  sprintf(__('You got a Certificate in Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve obtained a certificate in Course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve obtained a certificate in Course : %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_certificate'=>array(
             'description'=> __('Instructor : Student obtained course certificate','vibe'),
             'subject' =>  sprintf(__('Student got a Certificate in Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s got a Certificate in Course %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s got a Certificate in Course %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_review'=>array(
             'description'=> __('Student : Student reviewed course','vibe'),
-            'subject' =>  sprintf(__('You submitted a review for Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You submitted a review Course : %s','vibe'),'{{course.titlelink}}')
+            'subject' =>  sprintf(__('You submitted a %s star review for Course %s','vibe'),'{{course.rating}}','{{course.name}}'),
+            'message' =>  sprintf(__('You submitted a %s star review Course %s - %s','vibe'),'{{course.rating}}','{{{course.titlelink}}}','{{course.review}}')
         ),
         'instructor_course_review'=>array(
             'description'=> __('Instructor : Student reviewed course','vibe'),
-            'subject' =>  sprintf(__('Student submitted a review for Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s submitted a review for the Course %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'subject' =>  sprintf(__('Student submitted a %s star review for Course %s','vibe'),'{{course.rating}}','{{course.name}}'),
+            'message' =>  sprintf(__('Student %s submitted a %s star review for the Course %s - %s','vibe'),'{{{student.userlink}}}','{{course.rating}}','{{{course.titlelink}}}','{{course.review}}')
         ),
 
         'student_course_unsubscribe'=>array(
             'description'=> __('Student : Student unsubscribed from course','vibe'),
             'subject' =>  sprintf(__('You\'re unsubscribed from course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'re unsubscribed from the Course %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'re unsubscribed from the Course %s','vibe'),'{{{course.titlelink}}}')
         ),
         'instructor_course_unsubscribe'=>array(
             'description'=> __('Instructor : Student unsubscribed from course','vibe'),
             'subject' =>  sprintf(__('Student unsubscribed from Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s unsubscribed from Course %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s unsubscribed from Course %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
 
         'student_course_codes'=>array(
             'description'=> __('Student : Student applied course code to course','vibe'),
             'subject' =>  sprintf(__('You applied course code in course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('You\'ve been added to course : %s','vibe'),'{{course.titlelink}}')
+            'message' =>  sprintf(__('You\'ve applied the code %s on the course : %s','vibe'),'{{course.code}}','{{{course.titlelink}}}')
         ),
         'instructor_course_codes'=>array(
             'description'=> __('Instructor : Student applied course code to course','vibe'),
             'subject' =>  sprintf(__('Student applied code for Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s applied code %s for Course %s','vibe'),'{{student.userlink}}','{{course.code}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s applied code %s for Course %s','vibe'),'{{{student.userlink}}}','{{course.code}}','{{{course.titlelink}}}')
         ),
 
         'student_unit_complete'=>array(
             'description'=> __('Student : Student completed a unit in course','vibe'),
             'subject' =>  sprintf(__('You completed unit %s in Course %s','vibe'),'{{unit.name}}','{{course.name}}'),
-            'message' =>  sprintf(__('You completed a unit %s in Course %s','vibe'),'{{unit.titlelink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('You completed a unit %s in Course %s','vibe'),'{{unit.name}}','{{{course.titlelink}}}')
         ),
         'instructor_unit_complete'=>array(
             'description'=> __('Instructor : Student completed a unit in course','vibe'),
             'subject' =>  sprintf(__('Student completed unit in Course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Student %s completed unit %s in Course %s','vibe'),'{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Student %s completed unit %s in Course %s','vibe'),'{{{student.userlink}}}','{{unit.name}}','{{{course.titlelink}}}')
         ),
 
         'student_unit_instructor_complete'=>array(
             'description'=> __('Student : Instructor marked unit complete for Student in course','vibe'),
             'subject' =>  sprintf(__('Instructor marked unit complete in course %s','vibe'),'{{course.name}}'),
-            'message' =>  sprintf(__('Unit %s was marked complete by Instructor %s in Course %s','vibe'),'{{unit.titlelink}}','{{course.instructorlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Unit %s was marked complete by Instructor %s in Course %s','vibe'),'{{unit.name}}','{{{course.instructorlink}}}','{{{course.titlelink}}}')
         ),
         'instructor_unit_instructor_complete'=>array(
-            'description'=> __('Instructor : Student completed a unit in course','vibe'),
+            'description'=> __('Instructor : Instructor marked unit complete for Student in course','vibe'),
             'subject' =>  sprintf(__('Instructor marked unit %s comple for Student in Course %s','vibe'),'{{unit.name}}','{{course.name}}'),
-            'message' =>  sprintf(__('Instructor %s completed the unit %s for Student %s in Course %s','vibe'),'{{instructor.userlink}}','{{unit.titlelink}}','{{student.userlink}}','{{course.titlelink}}')
+            'message' =>  sprintf(__('Instructor %s completed the unit %s for Student %s in Course %s','vibe'),'{{instructor.userlink}}','{{unit.name}}','{{{student.userlink}}}','{{{course.titlelink}}}')
         ),
-
+        'student_unit_instructor_uncomplete'=>array(
+            'description'=> __('Student : Instructor marked unit incomplete for Student in course','vibe'),
+            'subject' =>  sprintf(__('Instructor marked unit incomplete in course %s','vibe'),'{{course.name}}'),
+            'message' =>  sprintf(__('Unit %s was marked incomplete by Instructor %s in Course %s','vibe'),'{{unit.name}}','{{{course.instructorlink}}}','{{{course.titlelink}}}')
+        ),
+        'instructor_unit_instructor_uncomplete'=>array(
+            'description'=> __('Instructor : Instructor marked unit incomplete for Student in course','vibe'),
+            'subject' =>  sprintf(__('Instructor marked unit %s incomplete for Student in Course %s','vibe'),'{{unit.name}}','{{course.name}}'),
+            'message' =>  sprintf(__('Instructor %s marked the unit %s incomplete for Student %s in Course %s','vibe'),'{{instructor.userlink}}','{{unit.name}}','{{{student.userlink}}}','{{{course.titlelink}}}')
+        ),
+        'student_unit_comment'=>array(
+            'description'=> __('Student : Student added a comment in unit in course','vibe'),
+            'subject' =>  sprintf(__('You added a comment in unit %s','vibe'),'{{unit.name}}'),
+            'message' =>  sprintf(__('Comment "%s" was added to unit %s','vibe'),'{{comment.comment_content}}','{{unit.name}}')
+        ),
+        'student_unit_comment_reply'=>array(
+            'description'=> __('Student : Reply posted on your comment','vibe'),
+            'subject' =>  sprintf(__('Reply posted on your comment in %s','vibe'),'{{unit.name}}'),
+            'message' =>  sprintf(__('%s replied on your comment in Unit %s : %s ','vibe'),'{{{comment.userlink}}}','{{unit.name}}','{{comment.comment_content}}')
+        ),
+        'instructor_unit_comment'=>array(
+            'description'=> __('Instructor : Student added a comment on Unit','vibe'),
+            'subject' =>  sprintf(__('Student added a comment in unit %s','vibe'),'{{unit.name}}'),
+            'message' =>  sprintf(__('Student %s added a comment "%s" in unit %s in course','vibe'),'{{{student.userlink}}}','{{comment.comment_content}}','{{unit.name}}')
+        ),
+        'student_start_quiz'=>array(
+            'description'=> __('Student : You started the quiz','vibe'),
+            'subject' =>  sprintf(__('You started the  quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('You started the quiz %s ','vibe'),'{{{quiz.titlelink}}}')
+        ),
+        'instructor_start_quiz'=>array(
+            'description'=> __('Instructor : Student started a quiz','vibe'),
+            'subject' =>  sprintf(__('Student started the quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Student %s started the quiz %s','vibe'),'{{{student.userlink}}}','{{{quiz.titlelink}}}')
+        ),
+        'student_quiz_submit'=>array(
+            'description'=> __('Student : Quiz submitted','vibe'),
+            'subject' =>  sprintf(__('You submitted quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('You submitted quiz %s ','vibe'),'{{{quiz.titlelink}}}')
+        ),
+        'instructor_quiz_submit'=>array(
+            'description'=> __('Instructor : Student submitted quiz','vibe'),
+            'subject' =>  sprintf(__('Student submitted quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Student %s submitted quiz %s','vibe'),'{{{student.userlink}}}','{{{quiz.titlelink}}}')
+        ),
+        'student_quiz_evaluation'=>array(
+            'description'=> __('Student : Results available for quiz','vibe'),
+            'subject' =>  sprintf(__('Results available for quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('You obtained %s out of %s in quiz %s ','vibe'),'{{quiz.marks}}','{{quiz.max}}','{{{quiz.titlelink}}}')
+        ),
+        'instructor_quiz_evaluation'=>array(
+            'description'=> __('Instructor : Student results available for quiz','vibe'),
+            'subject' =>  sprintf(__('Quiz %s evaluated for Student','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Student %s got %s from %s in quiz %s','vibe'),'{{{student.userlink}}}','{{quiz.marks}}','{{quiz.max}}','{{{quiz.titlelink}}}')
+        ),
+        'student_quiz_retake'=>array(
+            'description'=> __('Student : Quiz retake','vibe'),
+            'subject' =>  sprintf(__('You retook the quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('You retook the quiz %s','vibe'),'{{{quiz.titlelink}}}')
+        ),
+        'instructor_quiz_retake'=>array(
+            'description'=> __('Instructor : Student retook quiz','vibe'),
+            'subject' =>  sprintf(__('Student retook the quiz %s','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Student %s retook the quiz %s','vibe'),'{{{student.userlink}}}','{{{quiz.titlelink}}}')
+        ),
+        'student_quiz_reset'=>array(
+            'description'=> __('Student : Quiz reset','vibe'),
+            'subject' =>  sprintf(__('Quiz %s has been reset','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Quiz %s was reset by Instructor','vibe'),'{{{quiz.titlelink}}}')
+        ),
+        'instructor_quiz_reset'=>array(
+            'description'=> __('Instructor : Quiz reset for Student','vibe'),
+            'subject' =>  sprintf(__('Quiz %s reset for Student','vibe'),'{{quiz.name}}'),
+            'message' =>  sprintf(__('Quiz %s was reset for Student %s','vibe'),'{{{quiz.titlelink}}}','{{{student.userlink}}}')
+        ),
+        'student_start_assignment'=>array(
+            'description'=> __('Student : Student started Assignment','vibe'),
+            'subject' =>  sprintf(__('You started the assignment %s','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('You started the assignment %s','vibe'),'{{{assignment.titlelink}}}')
+        ),
+        'instructor_start_assignment'=>array(
+            'description'=> __('Instructor : Student started an assignment','vibe'),
+            'subject' =>  sprintf(__('Student started the assignment %s','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('Student %s started the assignment %s','vibe'),'{{{student.userlink}}}','{{{assignment.titlelink}}}')
+        ),
+        'student_assignment_submit'=>array(
+            'description'=> __('Student : Results available for assignment','vibe'),
+            'subject' =>  sprintf(__('You submitted the assignment %s','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('You submitted the assignment %s ','vibe'),'{{{assignment.titlelink}}}')
+        ),
+        'instructor_assignment_submit'=>array(
+            'description'=> __('Instructor : Student submitted assignment','vibe'),
+            'subject' =>  sprintf(__('Student submitted the assignment %s','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('Student %s submitted the assignment %s','vibe'),'{{{student.userlink}}}','{{{assignment.titlelink}}}')
+        ),
+        'student_assignment_evaluation'=>array(
+            'description'=> __('Student : Results available for assignment','vibe'),
+            'subject' =>  sprintf(__('Results available for assignment %s','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('You obtained %s out of %s in assignment %s ','vibe'),'{{assignment.marks}}','{{assignment.max}}','{{{assignment.titlelink}}}')
+        ),
+        'instructor_assignment_evaluation'=>array(
+            'description'=> __('Instructor : Student results available for assignment','vibe'),
+            'subject' =>  sprintf(__('Assignment %s evaluated for Student','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('Student %s got %s from %s in assignment %s','vibe'),'{{{student.userlink}}}','{{assignment.marks}}','{{assignment.max}}','{{{assignment.titlelink}}}')
+        ),
+        'student_assignment_reset'=>array(
+            'description'=> __('Student : assignment reset','vibe'),
+            'subject' =>  sprintf(__('Assignment %s was reset','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('Assignment %s was reset by Instructor','vibe'),'{{{assignment.titlelink}}}')
+        ),
+        'instructor_assignment_reset'=>array(
+            'description'=> __('Instructor : assignment reset for Student','vibe'),
+            'subject' =>  sprintf(__('assignment %s reset for Student','vibe'),'{{assignment.name}}'),
+            'message' =>  sprintf(__('assignment %s was reset for Student %s','vibe'),'{{{assignment.titlelink}}}','{{{student.userlink}}}')
+        ),
+        'student_user_course_application'=>array(
+            'description'=> __('Student : Applied for Course','vibe'),
+            'subject' =>  sprintf(__('You applied for course %s','vibe'),'{{course.name}}'),
+            'message' =>  sprintf(__('You applied for course %s ','vibe'),'{{{course.titlelink}}}')
+        ),
+        'instructor_user_course_application'=>array(
+            'description'=> __('Instructor : Student applied for course','vibe'),
+            'subject' =>  sprintf(__('Student applied for course %s','vibe'),'{{course.name}}'),
+            'message' =>  sprintf(__('Student %s applied for course %s','vibe'),'{{{student.userlink}}}','{{{course.titlelink}}}')
+        ),
+        'student_manage_user_application'=>array(
+            'description'=> __('Student : Manage application Course','vibe'),
+            'subject' =>  sprintf(__('Your application was %s for course %s','vibe'),'{{course.application_status}}','{{course.name}}'),
+            'message' =>  sprintf(__('Your application was %s for course %s','vibe'),'{{course.application_status}}','{{course.name}}'),
+        ),
+        'instructor_manage_user_application'=>array(
+            'description'=> __('Instructor : Student applied for course','vibe'),
+            'subject' =>  sprintf(__('Student applied %s for course %s','vibe'),'{{course.application_status}}','{{course.name}}'),
+            'message' =>  sprintf(__('Student %s application was %s for course %s','vibe'),'{{{student.userlink}}}','{{course.application_status}}','{{{course.titlelink}}}')
+        ),
+        'instructor_course_go_live'=>array(
+            'description'=> __('Instructor : Go Live/Publish a Course','vibe'),
+            'subject' =>  sprintf(__('You %s the course %s','vibe'),'{{course.publish_status}}','{{course.name}}'),
+            'message' =>  sprintf(__('You  %s the course %s','vibe'),'{{course.publish_status}}','{{{course.titlelink}}}')
+        ),
+        'admin_course_go_live'=>array(
+            'description'=> __('Administrator : Go Live/Publish a Course','vibe'),
+            'subject' =>  sprintf(__('Instructor set the course %s to %s','vibe'),'{{course.publish_status}}','{{course.name}}'),
+            'message' =>  sprintf(__('Instructor %s set the course  %s to status %s','vibe'),'{{{course.instructorlink}}}','{{{course.titlelink}}}','{{course.publish_status}}')
+        ),
+        'wplms_drip_mail'=>array(
+            'description'=> __('Student : Drip Course Unit available ','vibe'),
+            'subject' =>  sprintf(__('Unit %s now available in course %s','vibe'),'{{unit.name}}','{{course.name}}'),
+            'message' =>  sprintf(__('Unit %s is now available in course %s','vibe'),'{{unit.name}}','{{{course.titlelink}}}')
+        ),
+        'wplms_expire_mail'=>array(
+            'description'=> __('Student : Course about to expire ','vibe'),
+            'subject' =>  sprintf(__('Subscription for course %s will expire soon','vibe'),'{{course.name}}'),
+            'message' =>  sprintf(__('Your subscription to course %s will expire soon','vibe'),'{{{course.titlelink}}}')
+        ),
+        'wplms_forgot_password' =>array(
+            'description'=> __('Forgot passowrd ','vibe'),
+            'subject' =>  __(' Password Reset','vibe'),
+            'message' =>  __('Someone requested that the password be reset for the following account: ','vibe') . "\r\n\r\n". network_home_url( '/' ) . "\r\n\r\n". sprintf(__('Username: %s','vibe'), '{{user.username}}') . "\r\n\r\n".__('If this was a mistake, just ignore this email and nothing will happen.','vibe') . "\r\n\r\n".sprintf(__('To reset your password, visit the following address: %s','vibe'),'{{{user.forgotpasswordlink}}}') . "\r\n\r\n",
+        ),
     );
     return apply_filters('bp_course_all_mails',$bp_course_mails);
 }
+
 
 /*===== END INTEGRATION === */

@@ -317,7 +317,7 @@ h3.course_status span .switch {
   .create_course_content #course_pricing .course_pricing > li .select2-container,
   .create_course_content #course_pricing .course_pricing > li input[type="text"],
   .create_course_content #course_pricing .course_pricing > li select {
-    max-width: 240px;
+    width: 240px;
     float: right; }
 .edit_course_content #course_pricing.active,
 .create_course_content #course_pricing.active {
@@ -1179,8 +1179,13 @@ input[type="text"].ccf_text {
   display: inline-block;
   width: 100%;
   padding: 15px 0; }
-  #create_course .create_course > li.vibe_course-cat .wplms-taxonomy > li {
+  #create_course .create_course > li.vibe_course-cat +
+  .wplms-taxonomy > li {
     max-width: 33%; }
+#create_course .create_course .vibe_level, #create_course .create_course .vibe_location {
+  padding-bottom: 15px;
+  display: inline-block;
+  width: 100%; }
 
 .edit_course_content #course-image .default {
   opacity: 0.4; }
@@ -3139,6 +3144,58 @@ input[type="text"].ccf_text {
 .course_components .new_batch_form select {
   float: left;
   margin-top: 5px; }
+
+/*
+MISCELLANEOUS
+ */
+.attachments-browser .media-toolbar {
+  margin-top: 20px !Important;
+  height: 160px !Important; }
+
+ul.attachments {
+  margin-top: 60px !important; }
+
+.attachment-filters {
+  margin-top: 0px !Important;
+  width: 30% !important;
+  height: 35px !important;
+  padding: 0 10px !important; }
+
+.media-modal-content .attachments-browser .search {
+  width: auto; }
+
+.screen-reader-text {
+  margin-right: 10px !important; }
+
+.media-toolbar-primary {
+  height: 0px !Important; }
+
+.media-toolbar-secondary {
+  margin-top: 0px;
+  height: 0px !important; }
+
+ul#vibe_quiz_tags li {
+  clear: both; }
+  ul#vibe_quiz_tags li .dashicons {
+    padding: 12px 0 0; }
+  ul#vibe_quiz_tags li input {
+    width: 50px; }
+  ul#vibe_quiz_tags li strong,
+  ul#vibe_quiz_tags li select[multiple] {
+    width: 320px; }
+
+.dynamic_quiz_tags_headings {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.6; }
+  .dynamic_quiz_tags_headings strong {
+    width: 350px;
+    display: inline-block;
+    text-align: center; }
+  .dynamic_quiz_tags_headings span {
+    width: 60px;
+    display: inline-block; }
 
 /*==== Media Modal Fixes ==== */
 .media-modal-content .media-frame-menu {

@@ -114,17 +114,22 @@ class bp_course_scheduler{
 		      if($this->schedule['drip'] === 'yes'){
 		        $subject = $this->schedule['drip_subject'];
 		        $message = $this->schedule['drip_message'];
+		        $unit_title = get_the_title($unit_id);
+		        $course_title = get_the_title($course_id);
+		        $username = bp_core_get_user_displayname($user_id);
 
-		        $subject = str_replace('{{unit}}',get_the_title($unit_id),$subject);
-		        $message = str_replace('{{unit}}',get_the_title($unit_id),$message);
-		        $subject = str_replace('{{course}}',get_the_title($course_id),$subject);
-		        $message = str_replace('{{course}}',get_the_title($course_id),$message);
-		        $subject = str_replace('{{user}}',bp_core_get_user_displayname($user_id),$subject);
-		        $message = str_replace('{{user}}',bp_core_get_user_displayname($user_id),$message);
+			    	$subject = str_replace('{{unit}}',$unit_title,$subject);
+			        $message = str_replace('{{unit}}',$unit_title,$message);
+			        $subject = str_replace('{{course}}',$course_title,$subject);
+			        $message = str_replace('{{course}}',$course_title,$message);
+			        $subject = str_replace('{{user}}',$username,$subject);
+			        $message = str_replace('{{user}}',$username,$message);	
 
-		        $user = get_user_by('id',$user_id);        
-		        bp_course_wp_mail($user->user_email,$subject,$message);
-
+		        $user = get_user_by('id',$user_id);       
+		        if(bp_course_is_member($course_id,$user_id)){
+		        	bp_course_wp_mail($user->user_email,$subject,$message,array('action'=>'wplms_drip_mail','tokens'=> array('unit.name'=>$unit_title,'course.name'=>$course_title,'student.userlink'=>$username,'course.titlelink'=>'<a href="'.get_permalink($course_id).'">'.$course_title.'</a>')));
+		        } 
+		        
 		        wp_clear_scheduled_hook('wplms_send_drip_mail',array($unit_id,$course_id,$user_id));
 		    }
 	    }
@@ -139,14 +144,16 @@ class bp_course_scheduler{
 	      if($this->schedule['expire'] === 'yes'){
 	        $subject = $this->schedule['expire_subject'];
 	        $message = $this->schedule['expire_message'];
-
-	        $subject = str_replace('{{course}}',get_the_title($course_id),$subject);
-	        $message = str_replace('{{course}}',get_the_title($course_id),$message);
-	        $subject = str_replace('{{user}}',bp_core_get_user_displayname($user_id),$subject);
-	        $message = str_replace('{{user}}',bp_core_get_user_displayname($user_id),$message);
-	         $user = get_user_by('id',$user_id);        
-	        bp_course_wp_mail($user->user_email,$subject,$message);
-	        wp_clear_scheduled_hook('wplms_send_course_expiry_mail',array($unit_id,$course_id,$user_id));
+	        $course_title = get_the_title($course_id);
+	        $username = bp_core_get_user_displayname($user_id);
+	        $subject = str_replace('{{course}}',$course_title ,$subject);
+	        $message = str_replace('{{course}}',$course_title ,$message);
+	        $subject = str_replace('{{user}}',$username,$subject);
+	        $message = str_replace('{{user}}',$username,$message);
+	         $user = get_user_by('id',$user_id);    
+   
+        	bp_course_wp_mail($user->user_email,$subject,$message,array('action'=>'wplms_expire_mail','tokens'=>array('course.name'=>$course_title,'course.titlelink'=>'<a href="'.get_permalink($course_id.'">'.$course_title.'</a>'))));
+	        wp_clear_scheduled_hook('wplms_send_course_expiry_mail',array($course_id,$user_id,$group_id));
 	      }
 	    }
 	}

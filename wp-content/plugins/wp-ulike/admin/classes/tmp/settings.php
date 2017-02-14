@@ -60,7 +60,22 @@
 			  'label' 			=> __('Format Number', WP_ULIKE_SLUG),
 			  'checkboxlabel' 	=> __('Activate', WP_ULIKE_SLUG),
 			  'description' 	=> __('Convert numbers of Likes with string (kilobyte) format.', WP_ULIKE_SLUG) . '<strong> (WHEN? likes>=1000)</strong>'
-			)
+			),
+			'notifications'    	=> array(
+			  'type'			=> 'checkbox',
+			  'default'			=> 0,
+			  'label' 			=> __('Notifications', WP_ULIKE_SLUG),
+			  'checkboxlabel' 	=> __('Activate', WP_ULIKE_SLUG),
+			  'description' 	=> __('Custom toast messages after each activity', WP_ULIKE_SLUG)
+			),
+			'like_notice'    	=> array(
+			  'default'		=> __('Thanks! You Liked This.',WP_ULIKE_SLUG),
+			  'label' 		=> __( 'Liked Notice Message', WP_ULIKE_SLUG)
+			),
+			'unlike_notice'    	=> array(
+			  'default'		=> __('Sorry! You unliked this.',WP_ULIKE_SLUG),
+			  'label' 		=> __( 'Unliked Notice Message', WP_ULIKE_SLUG)
+			)		  
 		)
 	);//end wp_ulike_general
 	

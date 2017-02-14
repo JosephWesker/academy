@@ -1,3 +1,271 @@
+* 2.5.2.1
+* 2.5.2
+* fuzzy translations removed and translations updated
+* notice fixed
+* do not show mail import message when count is 0
+* dynamic quiz fetch marks
+* error border color fixed
+* script version updated
+* boundary conditions updated in course progress
+* Fuzzy translation Fixed
+* checkbox as instructor field fix
+* shortcode not working in check answer explanation
+* In-course quiz use case fixed.
+* fillblank question shortcode check answer fix
+* function updates.
+* Forum subscription hook
+* Function for course duration changed in course details widget.
+* get_unit_duration / Quiz duration functions
+* Gift Course check added on order complete
+* Forum auto subscribe on course add hot fix
+* author_in coAuthors plus filter fix
+* check answer fixes
+* in course quiz check answer fix
+* passing score fix.
+* Fix for CDN links for certificate images
+* regenerate certificate fix
+* fullscreen course status page bugs
+* 2.5.1
+* fitvids fix
+* clear localstorage on quiz retake
+* function start date for batches
+* changelog updated
+* 2.5
+* Applied for course fixed
+* time based progress fix
+* download quiz stats
+* trnalsation files
+* Author display fixed in related course widget.
+* filter added for questions do_shortcode
+* apply filters changed for question content
+* css changes in fillblank
+* resize fix for course status
+* certificate improvements & fixes
+* remove certificate on course reset and remove certificate
+* certificate download fix
+* question reusability bug fix
+* quiz question reusability and marked answer  for t/f question type fixes
+* clear localstorage on login.
+* default value of content in marked answer
+* coauthors plus my courses bug fix
+* evaluate question check
+* quiz retake and question reusability fix.
+* fix for select question pre value in in-course quiz
+* course pursue panel script
+* reafy typo changed to ready
+* function exists check in fitvids and tooltip funcitons
+* fillblank fix
+* Unlimited retake button for instructors and admin added.
+* Course status hooks.
+* certificate generation and regeneration
+* partial marking system check
+* force retake count
+* Hide next unit bug fixed.
+* Applied for course button fixed.
+* Parameters to remove expiry email fixed.
+* 2.4.1.3
+* quiz reset missing global argument
+* product purchased hook parameter for batches
+* A2 : USer case fix Question reusability
+* question re-usability bug fix A1
+* 2.4.1.2
+* bp_course_is_member function update
+* 2.4.1.1
+* Get badge URL bug in Profile
+* 2.4.1
+* by default disable show message in results
+* Survey question recording
+* Survey question type save answer
+* Survey in in course display issue
+* Prevent Enter button on directory
+* in course start quiz scroll issue
+* 2.4
+* Double attempt check for questions
+* Check answers progressbar fix
+* removed min width on select2
+* translations updated
+* Fixed : Enter restricted in Directory search
+* Fix : Course category/Level/Location redirect
+* CSS for Error messages in registration forms
+* Fixed : Student count does not go to 0 when last user removed from course
+* Add course option in Forums, for back to course
+* Randomise reviews
+* Show  instructor switch in Course Directory
+* Translation fixes for statuses
+* script version update
+* trigger progress check
+* Check post id from $post than get_the_ID function
+* Send unit link to instructor when student adds a comment.
+* Fix the import mail for expired course mail
+* Check is correct answer isset rather than empty check
+* cache post types for reusability bp_course_get_post_Type implementation
+* post_type check
+* isset marks check
+* bp_course_get_post_Type function added
+* certificate close fix
+* close icon not visible fix.
+* check if check answer enabled in quizzes.
+* isset added to avoid warnings
+* translation bug in Pt_BR
+* Check answer in quizzes
+* Check question answer css
+* Option to remove Filter Courses button in Course Filters widget
+* count publish courses update
+* survey question type
+* check question answer
+* Correct answer and explanation
+* clear course cookies at user login
+* 2.3.1.4
+* empty check when quiz questions are not set.
+* 2.3.1.3
+* Add 4 or more characters now translatable
+* explanation and progress bar fix
+* using function for quiz_questions
+* Dynmic quiz v2
+* Dynamic quiz changes & Quiz results big fix.
+* 2.3.1.2
+* 2.3.1.2
+* Course add student not visible fix
+* Quiz Manual submission marking fix
+* spelling fix for Reviewed
+* 2.3.1
+* student.username added to emails for text emails
+* quiz marks displayed as 0 in emails
+* 2.3.1
+* course meta return missing
+* php notices fixed
+* 2.3
+* Message for email import
+* translation files updated
+* user forum subscriptions not cancelled when removed from course
+* fullbody mask added to avoid interference with quiz submissions
+* template version update
+* load scripts formobile
+* unit complete on next unit trigger
+* drag & drop questions in mobiles
+* Drip origin fix.
+* course reset - quiz reset bug fix
+* misc. fixes
+* save quiz status
+* filter for correct answer comparison for other languages (non-utf8)
+* filters for correct answer match algorithm.
+* auto evaluate quiz fix
+* pending submission in quiz results for on going quizzes
+* quiz status fix
+* live edit re-add
+* submit quiz,
+* live editor removed
+* auto matic submissions fixed in quizzes
+* live editor css removed.
+* template funcitons for post type and drip functions
+* quiz status removed on reset
+* unit access time parameteres changed
+* fixes
+* auto evaluation bug fix
+* incorrect bracket close leading to marked answer incorrect
+* version update
+* certificate stopscreenshot bug
+* unit comment notification bug fix
+* save answer marks question id missing
+* shift reset unit call
+* quiz status added
+* student name to be sent in mailer tokens
+* 2.3 WPLMS Theme notification
+* Course admin search bug searching all members fix
+* User ID passed in activity recording
+* drip access time function update
+* translation fix
+* start date meta query fix
+* course templates updated
+* Certificate stop screenshot and Unit page links
+* functions restructuring
+* check if course member before sneding scheduled emails.
+* functions moved to template.php
+* Reset Unit function added for unit reusability
+* css fixes
+* New class BP Course Template for faster processing
+* using check quiz and unit functions
+* course id call should later in get unit access time
+* show back to course button when not doing ajax
+* prepare for 2.3
+* quiz submission updated
+* save quiz progress bar
+* Save question answer function
+* Force active home in single course
+* Migration email message changes
+* Reusable units
+* WPML integration fixes
+* Do not allow users to cancel their course subscription via woocommerce order cancellation
+* Save Quiz progress functionality
+* 2.2.2
+* bp_instructor_widget for Instructor courses
+* 2.2.1
+* pagination fix
+* progress bar caulates in js, course - admin live search less than 5
+* hide directory in course taxonomy redirects
+* Course - Members not working
+* return default values in bp course mailers
+* added filter bp_course_record_activity for record activity
+* my courses pagination count
+* 2.2.1
+* Security checks and evaluation fixes for revert permalinks
+* Fillblank display fix
+* My courses count fix
+* PHP 5.4 or below fix
+* Security check bug fix for User - Stats
+* Move bp_course_generate_cookie to the top
+* Debug notices fixed in activity
+* Security check for bulk actions updated
+* Debug notices fixed
+* Remove saved quiz answers on quiz submission. Bulk action security
+* Quiz result not appearing fine.
+* add & strip slashes for fillblank and text type questions
+* Remove localstorage on submit quiz
+* check BuddyPress version in BP mailer
+* 2.2
+* Translation files updated
+* Last child check when adding students
+* checkbox in single quiz fix
+* Fix : Course directory default mode
+* When text removed from Course - Admin search
+* Fixes for SSubmit quiz auto trigger
+* BP Mails migration
+* mailer init
+* Share activity OG
+* Record percentage in quizzes
+* Bug fix : Course directory taking my courses filters
+* Unanswered questions check when submitting single quizzes
+* hide courses check in bp instructors widget
+* Questions must be stored in user meta instead of quiz meta
+* bp course mailer now checks if html emails is disabled in WPLMS
+* args in bp course add user to course function
+* Language change instructor marking the unit incomplete
+* breaking of curriculum when course started fix
+* record activity meta in course subscribed area
+* back to course button in quiz results
+* FIX : Security check issue for search members in course admin
+* FIX : Subject issue fix in mailer
+* Certificate on mobile devices fix
+* security value must be passed in course admin search
+* Empty checks in notifications to avoid php notices
+* update expiry time function
+* Fix live search in course - admin
+* css fixes
+* links in mailer
+* Pursuing Expires statuses in My Courses and Instructing courses section
+* Course Admin area fix
+* Search course members and pagination
+* fix css adjustemnets
+* scheduler changes
+* Drip and expired mails
+* BP Filter false
+* Optimisation of Touch points
+* Mail warnings fixed
+* BP Email migration test working for Start course, Add courses, subscribe course
+* bp mailer migrate
+* js error fix
+* Filter fix in my courses
+* personal status in my courses
 * 2.1.3
 * updated spinner
 * jQ fix for mobile browsers
@@ -51,6 +319,7 @@
 * quiz results function
 * renew spelling mistake
 * quiz results function
+* my courses  course button and instructor fixes
 * 2.0.9.1
 * buf fix for Tolower case
 * check answer fix

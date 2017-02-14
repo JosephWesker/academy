@@ -1,3 +1,33 @@
+* 2.5.2
+* Bug in news archieve page fixed.
+* Fuzzy Translations Fixed.
+* Course News Display issue for students fixed.
+* 2.5
+* translations updated
+* instructor stats issue fix for quizzes
+* unit count in dashboard plugin
+* course progress fix for time based progress
+* Friends component check added in contact widget.
+* 2.4.1
+* 2.4
+* translations update
+* duploicate post type bug fix instructing modules
+* modules widget check post types
+* no courses fix instrcuting modules widget
+* instructing  modules widget improvements
+* commissions  in dashboard fix
+* 2.3.1
+* instructor commission fix
+* 2.3
+* CSS fix for dashboard widgets
+* 2.2.2
+* Regular Widgets fix
+* Title in News widget
+* Title in Activity widget
+* 2.2
+* OR in commission graphs
+* removed error block
+* 2.1.1
 * 2.1
 * passing extra parameter for Coauthors plugin
 * instructor stats

@@ -3,7 +3,7 @@
 Plugin Name: WPLMS Dashboard
 Plugin URI: http://www.Vibethemes.com
 Description: Student/Instructor Dashboard for WPLMS theme
-Version: 2.1.1
+Version: 2.5.2
 Author: VibeThemes
 Author URI: http://www.vibethemes.com
 License: as Per Themeforest GuideLines

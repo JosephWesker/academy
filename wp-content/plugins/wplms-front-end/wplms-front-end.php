@@ -3,11 +3,12 @@
 Plugin Name: WPLMS Front End
 Plugin URI: http://www.Vibethemes.com
 Description: FRONT END Content Creation plugin for WPLMS 
-Version: 2.1.1
+Version: 2.5.2
 Author: VibeThemes
 Author URI: http://www.vibethemes.com
 License: as Per Themeforest GuideLines
 Text Domain: wplms-front-end
+Domain Path: /languages/
 */
 /*
 Copyright 2014  VibeThemes  (email : vibethemes@gmail.com)
@@ -28,14 +29,6 @@ if ( ! class_exists( 'WPLMS_Front_End' ) ) {
     require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/class.process_fields.php' );
     require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/class_wplms_front_end.php' );
     WPLMS_Front_End::instance();
-}
-
-if ( ! class_exists( 'WP_Front_End_Editor' ) ) {
-    $disable = get_option('wplms');
-    if(!isset($disable['disable_front_end_editor']) || !$disable['disable_front_end_editor']){ // 0 to enable, blank or 1 to disable
-        require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'front-end-editor/class-wp-front-end-editor.php' );
-        WP_Front_End_Editor::instance();
-    }
 }
 
 
@@ -79,8 +72,8 @@ function wplms_front_end_enqueue_scripts(){
 
 function wplms_front_end_loadscripts(){
         wp_enqueue_media();
-        wp_enqueue_style( 'wplms-front-end-css', plugins_url( 'assets/css/wplms_front_end.min.css' , __FILE__ ),array(),'2.0.9');
-        wp_enqueue_script( 'wplms-front-end-js', plugins_url( 'assets/js/wplms_front_end.min.js' , __FILE__ ), array( 'bp-course-js','jquery-ui-core','jquery-ui-sortable','jquery-ui-slider','jquery-ui-datepicker','bp-confirm' ) ,'2.0.9');
+        wp_enqueue_style( 'wplms-front-end-css', plugins_url( 'assets/css/wplms_front_end.min.css' , __FILE__ ),array(),'2.5');
+        wp_enqueue_script( 'wplms-front-end-js', plugins_url( 'assets/js/wplms_front_end.min.js' , __FILE__ ), array( 'bp-course-js','jquery-ui-core','jquery-ui-sortable','jquery-ui-slider','jquery-ui-datepicker','bp-confirm' ) ,'2.5.2');
         
         $translation_array = array(
             'course_title' => __( 'Please change the course title','wplms-front-end' ), 

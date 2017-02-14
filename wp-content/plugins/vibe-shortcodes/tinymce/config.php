@@ -1013,4 +1013,46 @@ $vibe_shortcodes['iframe'] = array(
 	'popup_title' => __('Insert iFrame Shortcode', 'vibe-shortcodes')
 );	
 
+/*-----------------------------------------------------------------------------------*/
+/*	SURVEY RESULT
+/*-----------------------------------------------------------------------------------*/
+
+$vibe_shortcodes['survey_result'] = array(
+	'no_preview' => true,
+	'params' => array(
+		'quiz_id' => array(
+					'std' => '',
+					'type' => 'number',
+					'label' => __('Enter Quiz id (optional)', 'vibe-shortcodes'),
+					'desc' => __('Quiz id for which Survey results are to be displayed.', 'vibe-shortcodes'),
+				),
+		'user_id' => array(
+					'std' => '',
+					'type' => 'number',
+					'label' => __('Enter User id (optional)', 'vibe-shortcodes'),
+					'desc' => __('User id for which Survey results are to be displayed.', 'vibe-shortcodes'),
+				),
+		'lessthan' => array(
+					'std' => '',
+					'type' => 'number',
+					'label' => __('Enter result Upper limit ', 'vibe-shortcodes'),
+					'desc' => __('Message to be displayed if survey score is less than this value', 'vibe-shortcodes'),
+				),
+		'greaterthan' => array(
+					'std' => '',
+					'type' => 'number',
+					'label' => __('Enter result Lower limit ', 'vibe-shortcodes'),
+					'desc' => __('Message to be displayed if survey score is more than this value', 'vibe-shortcodes'),
+				),
+		'content' => array(
+			'std' => '',
+			'type' => 'textarea',
+			'label' => __('Enter Survey result message', 'vibe-shortcodes'),
+			'desc' => __('Enter message for result', 'vibe-shortcodes')
+                    )
+		),
+	'shortcode' => '[survey_result user_id={{user_id}} quiz_id={{quiz_id}} lessthan={{lessthan}} greaterthan={{greaterthan}}] {{content}} [/survey_result]',
+	'popup_title' => __('Insert Survey Result Shortcode in Quiz completion message', 'vibe-shortcodes')
+);	
+
 ?>

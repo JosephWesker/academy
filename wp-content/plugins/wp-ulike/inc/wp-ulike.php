@@ -232,7 +232,7 @@
 	 * @author       	Alimir	 	
 	 * @since           2.2
 	 * @updated         2.3
-	 * @updated         2.4
+	 * @updated         2.4.1
 	 * @return			String
 	 */
 	function wp_ulike_bbpress($arg) {
@@ -241,7 +241,7 @@
         
         //Thanks to @Yehonal for this commit
         $replyID        = bbp_get_reply_id();
-        $post_ID 		= !$replyId ? $post->ID : $replyID;
+        $post_ID 		= !$replyID ? $post->ID : $replyID;
 
 		$get_post_meta 	= get_post_meta($post_ID, '_topicliked', true);
 		$get_like 		= $get_post_meta != '' ? $get_post_meta : 0;
@@ -308,6 +308,7 @@
 	 * @author       	Alimir	 	
 	 * @since           1.0
 	 * @updated         2.2
+	 * @updated         2.4.1
 	 * @return			String
 	 */
 	function wp_ulike_process(){
@@ -357,23 +358,35 @@
 		$return_userID 	= $wp_ulike_class->get_reutrn_id();
 		
 		$data = array(
-			"id" 		=> $post_ID,				//Post ID
+			"id" 			=> $post_ID,				//Post ID
 			"user_id" 	=> $return_userID,			//User ID (if the user is guest, we save ip as user_id with "ip2long" function)
 			"user_ip" 	=> $wp_user_IP,				//User IP
 			"get_like" 	=> $get_like,				//Number Of Likes
 			"method" 	=> $post_type,				//JavaScript method
 			"setting" 	=> $setting_key,			//Setting Key
 			"type" 		=> 'process',				//Function type (post/process)
-			"table" 	=> $table_name,				//posts table
+			"table" 		=> $table_name,				//posts table
 			"column" 	=> $column_name,			//ulike table column name			
 			"key" 		=> $meta_key,				//meta key
 			"cookie" 	=> $cookie_name				//Cookie Name
-		);			
+		);
 		
-		if($post_ID != '') {
-			//call wp_get_ulike function from class-ulike calss
-			echo $wp_ulike_class->wp_get_ulike($data);
+		$response = new WP_Ajax_Response;
+		
+		if($post_ID != null) {
+			$response->add(
+				array(
+					'what'	=>'wpulike',
+					'action'	=>'wp_ulike_process',
+					'id'		=> $post_ID,
+					'data'		=> $wp_ulike_class->wp_get_ulike($data)
+				)
+			);
 		}
 		
-		wp_die(); // this is required to terminate immediately and return a proper response
+		// Whatever the outcome, send the Response back
+		$response->send();
+
+		// Always exit when doing Ajax
+		exit();
 	}

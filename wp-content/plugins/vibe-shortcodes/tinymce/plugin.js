@@ -69,6 +69,9 @@
 					{text: 'Round Progress',onclick:function(){
 						editor.execCommand("vibePopup", false, {title: 'Round Progress',identifier: 'roundprogress'})
 					}},
+					{text: 'Survey Result',onclick:function(){
+						editor.execCommand("vibePopup", false, {title: 'Survery Result',identifier: 'survey_result'})
+					}},
 					{text: 'Tabs',onclick:function(){
 						editor.execCommand("vibePopup", false, {title: 'Tabs',identifier: 'tabs'})
 					}},

@@ -43,6 +43,7 @@
                     a.addWithPopup( b, "Progress Bar", "progressbar" );
                     a.addWithPopup( b, "PullQuote", "pullquote" );
                     a.addWithPopup( b, "Round Progress", "roundprogress" );
+                    a.addWithPopup( b, "Survey", "survey_result" );
 					a.addWithPopup( b, "Tabs", "tabs" );
                     a.addWithPopup( b, "Team", "team_member" );
 					a.addWithPopup( b, "Testimonial", "testimonial" );

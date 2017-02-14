@@ -1,3 +1,147 @@
+* 2.5.2
+* component checks
+* fixed notices
+* Dynamic Quiz tags with marks
+* instance of check instead of is_a (deprecated)
+* Fuzzy Translations Fixed.
+* leave/stay alert in unit fix
+* empty checks and plugin activation checks for course details
+* Number of  Assignments function defined for course details Widget.
+* privay options added
+* 'wplms_course_thumb_extras' filter added for other course blocks also
+* 1/30
+* Funtions defined
+* Callback functions defined
+* course_settings
+* no message
+* filter added on restricted forums query
+* 2.5
+* translation files updates
+* Upload field type updated
+* Author display fixed in related course widget.
+* free course auto allocation disable fix with expired courses
+* cron remove was not working fix
+* Fix Course Menu on Scroll for c2,c3 and c5 layout
+* Term & Condition page fix for multi-language.
+* Hide next unit fix.
+* Next unit hides bug fixed.
+* auto mark unit complete script change on unit load
+* confirm alert while removing cron
+* 2.4.1.5
+* scheduled email feature
+* 2.4.1.4
+* catch_vars priority bug fix for drive
+* post_types filter for vibe customtypes scripts
+* 2.4.1.3
+* scripts.js classes not defined
+* permalinks fix for course directory
+* testimonial default avatar fix
+* 2.4.1.2
+* Free course auto subscription fix
+* 2.4.1.1
+* Permalinks use case fix
+* Years added in Time parameter
+* testimonial carousel fix
+* 2.4.1
+* removed my cred addon
+* Curriculum visibility fix.
+* Revert "Curriculum visibility fix."
+* Curriculum visibility fix.
+* 2.4
+* translation update
+* click to copy function in registration from shortcode
+* Fix overlapping classes in filterable
+* Load select2 in Forums
+* CSS changes in the select switch
+* Teximonial block can be used for regular posts
+* Skip course status page in Course start continue
+* Instructor display switch
+* Enable instructor switch
+* course directory permalinks in the course
+* tips fixes
+* select button update
+* WooCommerce endpoints fix in BuddyPress account.
+* Permalinks fix when Course slug is Course directory,
+* Add https in Social profile links.
+* bulk import fix Comma separeted only allowed for quiz_questions
+* Survey question type
+* 2.3.1.1
+* Logical error in Courase Activity accessibility
+* Unit forum & Course forum bug
+* fix registration forms Space in name and field names
+* Notices fixed in PAgebuilder
+* Dynamic Quiz v 2
+* 2.3.1
+* free courses auto-assignment fix.
+* changelog
+* 2.3
+* 0 commission fix
+* translation files updated
+* assignment time bug fix
+* lms settings registration forums display
+* Assignment duration
+* Order for Start date sort
+* check for instructors and admins
+* fixes in registration forms
+* groups_get_groups instead of BP_Groups_Group::get
+* registration forums tutorial link
+* php7 page builder fix
+* Tips and account activation checks
+* Course drip origin feature added
+* allignment
+* Student Quiz results, Course forums sync options
+* disable certificate screenshot switch
+* grid number in posts
+* Vibe carousels & member carousel
+* Admin functions update and sync options
+* new featured block
+* show nav menus repeated in custom types
+* Enqueue media in Terms
+* Clear page builder code and then re-save to avoid any conflicts.
+* User role setting in Form settings
+* Registration Form settings
+* registration form fields
+* mb_convert_encoding fix
+* Admin settings
+* Fix : instructor message and mail icon removed on ajax
+* 2.2.2
+* 2.2.2
+* New featured block
+* 2.2.1.1
+* Profile not opening for first timer
+* New General block
+* admin check for course forum privacy
+* 2.2.1
+* non-latin languages excerpt fix in carousel,post grids fix
+* Removed category_name check for category taxonomy
+* Fixed : Course Forum privacy
+* Course users does not include other instructors
+* Check texonomy set in Page builder gird
+* notices debug fixed.
+* Instructor Visibility for Course instructors only
+* changelog
+* changelog
+* 2.2
+* Translation files updated
+* Course status in export file
+* Taxonomy carousel in Page builder
+* Language change, unit marked incomplete
+* error handle construct updated fro php7
+* Commisssion meta key fix
+* static function to avoid php notice
+* Isset warning check
+* Member carousel setting
+* Member block
+* pagebuilder class added
+* wplms mailchimp added
+* check if course code submit is clicked
+* member blocks
+* page builder improvements
+* lms stats calender bug
+* return blank if custom thumbnail not found
+* Fixed statistics warnings
+* db error fixes for instructor stats
+* quiz passing score fix
 * 2.1.1
 * wishlists and courseware migration plugin in addons
 * addon blocks css

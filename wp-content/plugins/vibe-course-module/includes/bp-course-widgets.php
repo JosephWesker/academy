@@ -247,6 +247,7 @@ class BP_Instructor_Widget extends WP_Widget {
 				$instructor=$post->post_author;
 		     }
 
+		     if(!isset($max_items)){$max_items = 5;}
 		    echo '<div class="course_instructor_widget">';
 		    echo bp_course_get_instructor('instructor_id='.$instructor);
 		    echo '<div class="description">'.bp_course_get_instructor_description('instructor_id='.$instructor).'</div>';
@@ -254,11 +255,23 @@ class BP_Instructor_Widget extends WP_Widget {
 		    echo '<a href="'.get_author_posts_url($instructor).$instructing_courses.'" class="tip" title="'.__('Check all Courses created by ','vibe').bp_core_get_user_displayname($instructor).'"><i class="icon-plus-1"></i></a>';
 		    echo '<h5>'.__('More Courses by ','vibe').bp_core_get_user_displayname($instructor).'</h5>';
 		    echo '<ul class="widget_course_list">';
-		    $query = new WP_Query( 'post_type=course&author='.$instructor.'&posts_per_page='.$max_items );
-		    while($query->have_posts()):$query->the_post();
-		    global $post;
-		    echo '<li><a href="'.get_permalink($post->ID).'">'.get_the_post_thumbnail($post->ID,'thumbnail').'<h6>'.get_the_title($post->ID).'<span>'.__('by','vibe').' '.bp_core_get_user_displayname($post->post_author).'</span></h6></a>';
-		    endwhile;
+		    $query_args = apply_filters('bp_instructor_widget',array(
+		    	'post_type'=> 'course',
+		    	'author'=>$instructor,
+		    	'posts_per_page'=> $max_items, 
+		    	));
+		    if(function_exists('vibe_get_option')){
+		    	$excluded_courses=vibe_get_option('hide_courses');
+	    		$query_args['post__not_in'] = $excluded_courses;	
+		    }
+		    
+		    $query = new WP_Query($query_args);
+		    if($query->have_posts()):
+		    	while($query->have_posts()):$query->the_post();
+		    	global $post;
+		    	echo '<li><a href="'.get_permalink($post->ID).'">'.get_the_post_thumbnail($post->ID,'thumbnail').'<h6>'.get_the_title($post->ID).'<span>'.__('by','vibe').' '.bp_core_get_user_displayname($post->post_author).'</span></h6></a>';
+		    	endwhile;
+		    endif;
 		    wp_reset_postdata();
 		    echo '</ul>';
 		    echo '</div>'; 
@@ -317,13 +330,13 @@ class BP_Course_Search_Widget extends WP_Widget {
 		     $title .
 		     $after_title; 
 
-		     $html .='<form role="search" method="get" id="searchform" action="'.home_url( '/' ).'">
+		     $html ='<form role="search" method="get" id="searchform" action="'.home_url( '/' ).'">
 		     			<input type="hidden" name="post_type" value="'.BP_COURSE_SLUG.'" />
 		     			<ul>';
 
 		     if(isset($cats) && $cats == 1){
 
-		     	$cat_val=$_GET['course-cat'];
+		     	$cat_val= isset($_GET['course-cat'])?$_GET['course-cat']:'';
 
 		     	$course_cats = get_terms('course-cat',array('hide_empty'=>false));
 		     	$html .= '<li><select name="course-cat" class="chosen chzn-select">';
@@ -361,9 +374,9 @@ class BP_Course_Search_Widget extends WP_Widget {
 				}	 
 				$html .='<li><select name="instructor" class="chosen chzn-select">';
 				$html .='<option value="">'.__('Select Instructor','vibe').'</option>';
-				$inst_val = $_GET['instructor'];
+				$inst_val = isset($_GET['instructor'])?$_GET['instructor']:'';
 				foreach($instructors as $id=>$name){
-					$html .='<option value="'.$id.'" '.(isset($inst_val)?selected($inst_val,$id,false):'').'>'.$name.'</option>';
+					$html .='<option value="'.$id.'" '.(!empty($inst_val)?selected($inst_val,$id,false):'').'>'.$name.'</option>';
 				}
 				$html .='</select></li>';  
 				        
@@ -609,7 +622,7 @@ class BP_Course_Filter_Widget extends WP_Widget {
 			return;
 		}
 
-		echo $before_widget.'<div class="course_filters">';
+		echo $before_widget.'<div class="course_filters '.(empty($auto_click)?'':'auto_click').'">';
 		
 		/* Exclude check     */
 		$exclude_array=array();
@@ -752,8 +765,10 @@ class BP_Course_Filter_Widget extends WP_Widget {
 				echo '<li><div class="radio"><input id="paid" type="radio" class="bp-course-free-filter" name="bp-course-free-filter" value="paid" /> <label for="paid">'.__('Paid','vibe').'</label></div></li>';
 				echo '</ul>';
 		}
-
-		echo '<a id="submit_filters" class="button full">'.__('Filter Results','vibe').'</a>';
+		if(empty($auto_click)){
+			echo '<a id="submit_filters" class="button full">'.__('Filter Results','vibe').'</a>';	
+		}
+		
 	 	echo '</div>'.$after_widget; ?>
 	<?php
 	}
@@ -776,6 +791,8 @@ class BP_Course_Filter_Widget extends WP_Widget {
 		$instance['instructor'] = strip_tags( $new_instance['instructor'] );
 		$instance['instructor_label'] = strip_tags( $new_instance['instructor_label'] );
 		$instance['exclude'] = strip_tags( $new_instance['exclude'] );
+		$instance['auto_click'] = strip_tags( $new_instance['auto_click'] );
+		
 		return $instance;
 	}
 
@@ -795,7 +812,8 @@ class BP_Course_Filter_Widget extends WP_Widget {
 			'instructor_label'=>__('Instructors','vibe'),
 			'upcoming'=>0,
 			'upcoming_courses'=>__('Upcoming Courses','vibe'),
-			'exlude'=>''
+			'exlude'=>'',
+			'auto_click'=>0,
 			 );
 
 		$instance = wp_parse_args( (array) $instance, $defaults );
@@ -816,7 +834,7 @@ class BP_Course_Filter_Widget extends WP_Widget {
 		$exclude = esc_attr($instance['exclude']);
 		$instructor = esc_attr($instance['instructor']);
 		$instructor_label = esc_attr($instance['instructor_label']);
-
+		$auto_click = esc_attr($instance['auto_click']);
 		?>
 		
 		<p><label for="bp-course-filter-category"><?php _e( 'Show Course category filter', 'vibe' ); ?> <input class="checkbox" id="<?php echo $this->get_field_id( 'category' ); ?>" name="<?php echo $this->get_field_name( 'category' ); ?>" type="checkbox" value="1"  <?php checked($category,1,true) ?>/></label></p>
@@ -857,6 +875,7 @@ class BP_Course_Filter_Widget extends WP_Widget {
 		<p><label for="bp-course-filter-instructor"><?php _e( 'Show Instructor filter', 'vibe' ); ?> <input class="checkbox" id="<?php echo $this->get_field_id( 'instructor' ); ?>" name="<?php echo $this->get_field_name( 'instructor' ); ?>" type="checkbox" value="1"  <?php checked($instructor,1,true) ?>/></label></p>
 		<p><label for="bp-course-filter-instructor-title"><?php _e( 'Instructor Label', 'vibe' ); ?> <input id="<?php echo $this->get_field_id( 'instructor_label' ); ?>" name="<?php echo $this->get_field_name( 'instructor_label' ); ?>" type="text" value="<?php echo esc_attr( $instructor_label ); ?>" style="width: 30%" /></label></p>
 		<p><label for="bp-course-filter-exclude"><?php _e( 'Exclude Category/Level Slugs (comma saperated)', 'vibe' ); ?> <input id="<?php echo $this->get_field_id( 'exclude' ); ?>" name="<?php echo $this->get_field_name( 'exclude' ); ?>" type="text" value="<?php echo esc_attr( $exclude ); ?>" /></label></p>
+		<p><label for="bp-course-filter-auto-click"><?php _e( 'Auto Click on input select (hides filter button)', 'vibe' ); ?> <input class="checkbox" id="<?php echo $this->get_field_id( 'auto_click' ); ?>" name="<?php echo $this->get_field_name( 'auto_click' ); ?>" type="checkbox" value="1"  <?php checked($auto_click,1,true) ?>/></label></p>
 		<?php
 	}
 }
@@ -896,15 +915,21 @@ class BP_Course_Reviews_Widget extends WP_Widget {
 		     	if(isset($course) && $course !='' && $course != 'none'){
 		     		$qargs['post_id'] = $course;
 		     	}
-		     	if($orderby == 'comment_date_gmt' || $orderby == 'rand'){
+
+		     	$qargs['order'] = $order;
+		     	if($orderby == 'comment_date_gmt'){
 		     		$qargs['orderby'] = $orderby;
+		     	}else if( $orderby == 'rand'){
+		     		$qargs['orderby'] = 'disable';
+		     		$x = rand(0,10);
+		     		if($x%2){$qargs['order'] = 'ASC';}else{$qargs['order'] = 'DESC';}
 		     	}else{
 		     		$qargs['orderby']='meta_value';
 		     		$qargs['meta_key'] = $orderby;
 		     	}
 
 		     	$qargs['number'] = $max_items;
-		     	$qargs['order'] = $order;
+		     	
 
 		     	$comment_query = new WP_Comment_Query($qargs);
 

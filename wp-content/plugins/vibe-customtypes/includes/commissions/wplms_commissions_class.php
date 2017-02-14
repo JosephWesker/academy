@@ -15,7 +15,7 @@ if(!class_exists('WPLMS_Instructor_Commission')){
 			WHERE posts.post_type='shop_order'
 			AND posts.post_status='wc-completed'
 			AND posts.post_date BETWEEN '$start_date' AND '$end_date'
-			AND order_meta.meta_key LIKE 'commission%'");
+			AND order_meta.meta_key LIKE '%commission%'");
 
 		if(is_array($inst_commissions)){
 			foreach($inst_commissions as $inst_commission){

@@ -1,8 +1,8 @@
 <?php
 
- if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-
+ 
 Class Vibe_Define_Shortcodes{
 
 
@@ -75,16 +75,22 @@ Class Vibe_Define_Shortcodes{
         add_shortcode('course_completion_date', array($this,'vibe_certificate_course_finish_date'));
         add_shortcode('certificate_code', array($this,'vibe_certificate_code'));
         add_shortcode('certificate_course_field', array($this,'vibe_certificate_course_field'));
+        add_shortcode('show_certificates', array($this,'vibe_show_certificates'));
         add_shortcode('certificate_course_duration', array($this,'vibe_certificate_course_duration'));
         add_shortcode('wplms_quiz_score',array($this,'vibe_wplms_quiz_score'));
         add_shortcode('course_instructor_emails',array($this,'vibe_course_instructor_emails'));
         add_shortcode('course_instructor', array($this,'vibe_certificate_course_instructor'));
-
+        add_shortcode('wplms_registration_form',array($this,'wplms_registration_form'));
+        add_shortcode('survey_result',array($this,'survey_result'));
+        /*
+        SPECIAL HOOKS IN INTEGRATION WITH SHORTCODES
+        */
+       add_action('bp_core_activated_user',array($this,'activate_user'),10,3);
     }
 
 
     function generate_rand(){
-        $this->rand = rand(0,999);
+        $this->rand = wp_generate_password(6,false,false);//rand(0,999);
         return $this->rand;
     }
 /*-----------------------------------------------------------------------------------*/
@@ -455,8 +461,8 @@ Class Vibe_Define_Shortcodes{
                 'bg_color' =>'#65ABA6',
 	), $atts));
         $rand = 'icon'.rand(1,9999);
-        
-        $return ='<figure class="knob animate zoom" style="width:'.($radius+10).'px;min-height:'.($radius+10).'px;">
+        wp_enqueue_script( 'knobjs', VIBE_URL.'/assets/js/old_files/jquery.knob.js' );
+        $return ='<figure class="knob" style="width:'.($radius+10).'px;min-height:'.($radius+10).'px;">
                     <input class="dial" data-skin="'.$style.'" data-value="'.$percentage.'" data-fgColor="'.$color.'" data-bgColor="'.$bg_color.'" data-height="'.$radius.'" data-inputColor="'.$color.'" data-width="'.$radius.'" data-thickness="'.($thickness/100).'" value="'.$percentage.'" data-readOnly=true />
                         <div class="knob_content"><h3 style="color:'.$color.';">'.do_shortcode($content).'</h3></div>
                   </figure>';
@@ -688,7 +694,7 @@ Class Vibe_Define_Shortcodes{
         if(!empty($connect)){
             $random_number = $connect;
         }
-        $new_random_number=$random_number+rand(1,99);
+        $new_random_number=strtolower(wp_generate_password(6,false,false));
         $check_url = strpos($content,'http');
         if($check_url !== false && $check_url < 2){
         	return '<div class="accordion-group panel">
@@ -700,10 +706,10 @@ Class Vibe_Define_Shortcodes{
         }else{
         	return '<div class="accordion-group panel">
                      <div class="accordion-heading">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion'.$random_number.'"  href="#collapse'.$new_random_number.'">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion'.$random_number.'"  href="#collapse_'.$new_random_number.'">
                             <i></i> '. $title .'</a>
                     </div>
-                    <div id="collapse'.$new_random_number.'" class="accordion-body collapse">
+                    <div id="collapse_'.$new_random_number.'" class="accordion-body collapse">
                         <div class="accordion-inner">
                             <p>'. do_shortcode($content) .'</p>
                         </div>
@@ -925,8 +931,8 @@ Class Vibe_Define_Shortcodes{
             global $bp,$wpdb;
 
             if(isset($uid) && is_numeric($uid) && isset($cid) && is_numeric($cid) && get_post_type($cid) == 'course'){
-            $course_submission_date = $wpdb->get_results($wpdb->prepare( "
-								SELECT activity.date_recorded as date FROM {$bp->activity->table_name} AS activity
+            $course_submission_date = $wpdb->get_var($wpdb->prepare( "
+								SELECT activity.date_recorded FROM {$bp->activity->table_name} AS activity
 								WHERE 	activity.component 	= 'course'
 								AND 	activity.type 	= 'submit_course'
 								AND 	user_id = %d
@@ -934,9 +940,7 @@ Class Vibe_Define_Shortcodes{
 								ORDER BY date_recorded DESC LIMIT 0,1
 							" ,$uid,$cid));
 
-           		if(isset($course_submission_date[0]->date)){
-        			return date_i18n(get_option( 'date_format' ), strtotime($course_submission_date[0]->date));        			
-           		}
+    			return date_i18n(get_option( 'date_format' ), strtotime($course_submission_date));  
         	}	
     	return '[course_completion_date]';
 	}
@@ -1179,8 +1183,6 @@ Class Vibe_Define_Shortcodes{
 
          	foreach( $tab_titles as $i=>$tab ){
 
-                //$tabstr= str_replace(' ', '-', $tab[0]);
-                //$tabstr = preg_replace('/[^A-Za-z0-9\-]/', '', $tabstr);
                 $tabstr=crc32($tab[0]); 
 
                 $check_url = strpos($tab_icons[$i][0],'http');
@@ -1217,8 +1219,7 @@ Class Vibe_Define_Shortcodes{
         if(!empty($connect)){
             $random_number = $connect;
         }
-		/*$tabstr= str_replace(' ', '-', $title);//
-		$tabstr=preg_replace('/[^A-Za-z0-9\-]/', '', $tabstr);*/
+        
         $tabstr=crc32($title); 
 		return '<div id="tab-'. $tabstr .'-'.$random_number.'" class="tab-pane"><p>'. do_shortcode( $content ) .'</p></div>';
 	}
@@ -1308,6 +1309,11 @@ Class Vibe_Define_Shortcodes{
                         'columns'=>5,
                         'ids' => ''
                             ), $atts));
+
+            $output = apply_filters('post_gallery', '', $atts);
+            if ( $output != '' )
+                return $output;
+
             $gallery='<div class="gallery '.$size.' columns'.$columns.'">';
             
             
@@ -1332,7 +1338,7 @@ Class Vibe_Define_Shortcodes{
                     }
                 }
             $gallery.='</div>';
-                        return $gallery;
+        return $gallery;
 	}
 
 
@@ -1401,15 +1407,18 @@ Class Vibe_Define_Shortcodes{
 
 	function form_element( $atts, $content = null ) {
             extract(shortcode_atts(array(
-			'type' => 'text',
+            'type' => 'text',
             'validate' => '',
             'options' => '',
+            'autofocus'=>0,
             'placeholder' => 'Name'
-	    ), $atts));
+        ), $atts));
+           
             $output='';
             $r =  rand(1,999);
+
             switch($type){
-                case 'text': $output .= '<input type="text" placeholder="'.$placeholder.'" class="form_field text" data-validate="'.$validate.'" />';
+                case 'text': $output .= '<input type="text" placeholder="'.$placeholder.'" class="form_field text" data-validate="'.$validate.'" '.(empty($autofocus)?'':'autofocus').'/>';
                     break;
                 case 'textarea': $output .= '<textarea placeholder="'.$placeholder.'" class="form_field  textarea" data-validate="'.$validate.'"></textarea>';
                     break;
@@ -1422,14 +1431,14 @@ Class Vibe_Define_Shortcodes{
                                 $output .= '</select>';
                     break;
                 case 'captcha': $output .='<i class="math_sum"><span id="num'.$r.'-1">'.rand(1,9).'</span><span> + </span><span id="num'.$r.'-2">'.rand(1,9).'</span><span> = </span></i><input id="num'.$r.'" type="text" placeholder="0" class="form_field text small" data-validate="captcha" />';
-                	break;    
+                    break;    
                 case 'submit':
                     $output .= '<input type="submit" class="form_submit button primary" value="'.$placeholder.'" />';
                     break;
             }
 
-	   return $output;
-	}
+       return $output;
+    }
 
 /*-----------------------------------------------------------------------------------*/
 /*  INSTRUCTOR EMAILS FOR COURSE ID
@@ -1491,10 +1500,11 @@ Class Vibe_Define_Shortcodes{
             $answer = reset($answers);
             $content = $answer->comment_content;
         }
-        if(bp_is_member())
+        if((function_exists('bp_is_user') && bp_is_user()) || (function_exists('bp_is_member') && bp_is_member()))
         	return '____________';
 
-    	$return ='<i class="live-edit" data-model="article" data-url="/articles"><span class="vibe_fillblank" data-editable="true" data-name="content" data-max-length="250" data-text-options="true">'.$content.'</span></i>';
+
+    	$return ='<p class="live-edit" data-model="article" data-url="/articles"><span class="vibe_fillblank" data-editable="true" data-name="content" data-max-length="250" data-text-options="true">'.((strlen($content)>2)?$content:'<p><br></p>').'</span></p>';
 
     	return $return;
 	}
@@ -1506,12 +1516,15 @@ Class Vibe_Define_Shortcodes{
 
 	function vibe_select( $atts, $content = null ) {
         global $post; 
-        $user_id=get_current_user_id();
-        $answers=get_comments(array(
-          'post_id' => $post->ID,
-          'status' => 'approve',
-          'user_id' => $user_id
-          ));
+
+        if(is_user_logged_in()){
+            $user_id=get_current_user_id();
+            $answers=get_comments(array(
+              'post_id' => $post->ID,
+              'status' => 'approve',
+              'user_id' => $user_id
+            ));
+        }
 
         $content ='';
         if(isset($answers) && is_array($answers) && count($answers)){
@@ -1519,18 +1532,28 @@ Class Vibe_Define_Shortcodes{
             $content = $answer->comment_content;
         }   
 
+        $original_options = get_post_meta(get_the_ID(),'vibe_question_options',true);   
+        $options = $original_options;
 
-
-        $options = vibe_sanitize(get_post_meta(get_the_ID(),'vibe_question_options',false));
+        if(!empty($atts['options']) && strpos($atts['options'], ',') !== false){
+            $set_options = explode(',',$atts['options']);
+            if(!empty($options)){
+                foreach($options as $k=>$option){
+                    if(!in_array(($k+1),$set_options)){
+                        unset($options[$k]);
+                    }
+                }
+            }
+        }
         
 
         if(!is_array($options) || !count($options))
         	return '&laquo; ______ &raquo;';
 
-        $return = '<select id="vibe_select_dropdown" class="chosen">';
+        $return = '<select class="vibe_select_dropdown">';
         foreach($options as $key=>$value){
-        	$k=$key+1;
-          $return .= '<option value="'.$k.'" '.(($k == $content)?'selected':'').'>'.$value.'</option>';
+            $t = array_search($value,$original_options);
+            $return .= '<option value="'.($t+1).'" '.(($k == $content)?'selected':'').'>'.$value.'</option>';
         }
     	$return .= '</select>';
     	return $return;
@@ -1543,12 +1566,17 @@ Class Vibe_Define_Shortcodes{
 
 	function vibe_match( $atts, $content = null ) {
 		global $post; 
-        $user_id=get_current_user_id();
-        $answers=get_comments(array(
-          'post_id' => $post->ID,
-          'status' => 'approve',
-          'user_id' => $user_id
-          ));
+
+        //Get the last marked answer
+        if(is_user_logged_in()){
+            $user_id=get_current_user_id();
+            $answers=get_comments(array(
+              'post_id' => $post->ID,
+              'status' => 'approve',
+              'user_id' => $user_id
+            ));    
+        }
+        
         $string ='';
         if(isset($answers) && is_array($answers) && count($answers)){
             $answer = reset($answers);
@@ -1884,7 +1912,53 @@ Class Vibe_Define_Shortcodes{
         return $return;
 	}
     
+/*-----------------------------------------------------------------------------------*/
+/*  Certificates
+/*-----------------------------------------------------------------------------------*/
 
+    function vibe_show_certificates( $atts, $content = null ) {
+
+        extract(shortcode_atts(array(
+            'number'=>9,
+            'size'=> 'medium',
+            'columns'=>3,
+            'course' => '',
+            'user' => '',
+        ), $atts));
+
+        $args = array('post_type'=>'attachment','post_status'=>'inherit','post_mime_type' => 'image/jpeg,image/gif,image/jpg,image/png','posts_per_page'=>9);
+        if(!empty($user)){
+            if($user == 'current' && is_user_logged_in()){$user = get_current_user_id();}
+            $args['author'] = $user;
+        }
+
+        if(is_numeric($course)){
+            $type = get_post_field('post_type',$course);
+            if($type == 'course'){
+                 $args['post_parent'] = $course;
+            }
+        }
+
+        $attachments = new WP_Query($args);
+
+        $ids = array();
+        if($attachments->have_posts()){
+            while(($attachments->have_posts())){
+                $attachments->the_post();
+                global $post;
+                if(strpos($post->post_name, 'certificate_') !== false){
+                    $ids[] = get_the_id();
+                }
+            }
+        }
+        wp_reset_postdata();
+        if(!empty($ids)){
+            $ids = implode(',',$ids);
+            return do_shortcode('[gallery size="'.$size.'" columns="'.$columns.'" ids="'.$ids.'"]');    
+        }else{
+            return;
+        }
+    }
 
 /*-----------------------------------------------------------------------------------*/
 /*	Course Search box
@@ -1918,7 +1992,7 @@ Class Vibe_Define_Shortcodes{
 					'fail'=>0
                 ), $atts));
         
-        if(!is_numeric($id)){
+        if(!is_numeric($id)){ 
         	return;
         }
         if(!isset($key) || !$key){
@@ -1945,7 +2019,217 @@ Class Vibe_Define_Shortcodes{
         
         return $return;
 	}
-	
+
+    /*-----------------------------------------------------------------------------------*/
+    /*   WPLMS REGISTRATION FORMS
+    /*-----------------------------------------------------------------------------------*/
+
+    function survey_result($atts, $content = null){
+        extract(shortcode_atts(array(
+                    'id'=>'',
+                    'user_id'=>'',
+                    'lessthan'   => '0',
+                    'greaterthan'=>'100'
+                ), $atts));
+        if(empty($id)){
+            global $post;
+            if($post->post_type == 'quiz')
+                $id = $post->ID;
+            else if(isset($_GET['action']) && is_numeric($_GET['action'])){
+                $post_type = get_post_type($_GET['action']);
+                if($post_type == 'quiz')
+                    $id = $post->ID;
+            }
+        }
+        if(!is_numeric($id)){ 
+            return;
+        }
+        if(!isset($user_id) || !$user_id){
+            $user_id = get_current_user_id();
+        }
+        $score = apply_filters('wplms_survey_result_shortcode',get_post_meta($id,$user_id,true));
+        
+        if(isset($greaterthan)){ 
+            if($score >=$greaterthan){
+                if(isset($lessthan)){
+                    if($score <= $lessthan){
+                        return apply_filters('the_content',$content);
+                    }
+                }else{
+                    return apply_filters('the_content',$content);
+                }
+            }
+        }else if(isset($lessthan)){
+            if($score <= $lessthan){
+                return apply_filters('the_content',$content);
+            }
+        }
+
+    }
+    /*-----------------------------------------------------------------------------------*/
+    /*   WPLMS REGISTRATION FORMS
+    /*-----------------------------------------------------------------------------------*/	
+
+    function wplms_registration_form($atts, $content = null){
+        extract(shortcode_atts(array(
+                    'name'   => '',
+                    'field_meta'=>0
+                ), $atts));
+
+        if(empty($name) && function_exists('xprofile_get_field'))
+            return;
+
+        $forms = get_option('wplms_registration_forms');
+        if(!empty($forms[$name])){
+            $fields = $forms[$name]['fields'];
+            $settings = $forms[$name]['settings'];
+            /*
+            STANDARD FIELDS
+            */
+          
+            $return = '<div class="wplms_registration_form"><form action="/" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
+
+            <ul>';
+            if(empty($settings['hide_username'])){
+                $return .='<li>'.'<label>'.__('Username','vibe-shortcodes').'</label>'.'<input type="text" name="signup_username" placeholder="'.__('Login Username','vibe-shortcodes').'" required></li>';
+            }
+
+            $return .='<li>'.'<label>'.__('Email','vibe-shortcodes').'</label>'.'<input type="email" name="signup_email" placeholder="'.__('Email','vibe-shortcodes').'" required></li>';
+
+            $return .='<li>'.'<label '.(empty($settings['password_meter'])?:'for="signup_password"').'>'.__('Password','vibe-shortcodes').'</label>'.'<input type="password" '.(empty($settings['password_meter'])?'':'id="signup_password" class="form_field"').' name="signup_password" placeholder="'.__('Password','vibe-shortcodes').'"></li>';
+
+            if ( bp_is_active( 'xprofile' ) ) : 
+                if ( bp_has_profile( array( 'fetch_field_data' => false ) ) ) : 
+                    while ( bp_profile_groups() ) : bp_the_profile_group(); 
+
+                        $return_fields = $return_heading = '';
+                        if(!empty($settings['show_group_label'])){
+                            $return_heading .= '</ul><h3 class="heading"><span>'.bp_get_the_profile_group_name();
+                            $return_heading .= '</span></h3><p>'.do_shortcode(bp_get_the_profile_group_description()).'</p><ul>';
+
+                        }
+
+                        while ( bp_profile_fields() ) : bp_the_profile_field();
+                        global $field;
+                        $fname = str_replace(' ','_',$field->name);
+                        if(is_array($fields) && in_array($fname,$fields)){
+
+
+                            $return_fields .='<li>';
+                            $field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
+                            ob_start();
+                            ?><div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
+                            <?php
+                            $field_type->edit_field_html();
+
+                            if(!empty($field_meta)){
+
+                                if ( bp_get_the_profile_field_description() ) : ?>
+                                <p class="description"><?php bp_the_profile_field_description(); ?></p>
+                                <?php endif;
+
+                                    do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
+
+                                    $can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' );?>
+
+                                    <p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>">
+
+                                    <?php
+                                    printf(
+                                        __( 'This field can be seen by: %s', 'buddypress' ),
+                                        '<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+                                    );
+                                    ?>
+
+                                    <?php if ( $can_change_visibility ) : ?>
+
+                                        <a href="#" class="link visibility-toggle-link"><?php esc_html_e( 'Change', 'buddypress' ); ?></a>
+
+                                    <?php endif; ?>
+                                    </p>
+                                    <?php if ( $can_change_visibility ) : ?>
+
+                                        <div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+                                            <fieldset>
+                                                <legend><?php _e( 'Who can see this field?', 'buddypress' ); ?></legend>
+
+                                                <?php bp_profile_visibility_radio_buttons(); ?>
+
+                                            </fieldset>
+                                            <a class="link field-visibility-settings-close" href="#"><?php esc_html_e( 'Close', 'buddypress' ); ?></a>
+                                        </div>
+
+                                    <?php endif; ?>
+                                </div>
+                            <?php
+                            }
+                            $check = ob_get_clean();
+
+                            do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
+
+                            $can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' );
+                            $return_fields .= $check;
+
+                            $return_fields .='</li>';
+                        }
+                        endwhile;
+                        if(!empty($return_fields)){
+                            $return .= $return_heading;
+                        }
+                        $return .= $return_fields;
+                    endwhile;
+                endif;
+            endif; 
+           
+            
+            $form_settings = apply_filters('wplms_registration_form_settings',array(
+                    'hide_username' =>  __('Auto generate username from email','vibe-customtypes'),
+                    'password_meter' =>  __('Show password meter','vibe-customtypes'),
+                    'show_group_label' =>  __('Show Field group labels','vibe-customtypes'),
+                    'google_captcha' => __('Google Captcha','vibe-customtypes'),
+                    'auto_login'=> __('Register & Login simultaneously','vibe-customtypes'),
+                    'skip_mail' =>  __('Skip Mail verification','vibe-customtypes'),
+                    'default_role'=>'',
+            ));
+           
+            foreach($form_settings as $key=>$setting){
+                if(!empty($settings[$key])){
+                    if(!empty($settings['google_captcha']) && function_exists('vibe_get_option') && $key == 'google_captcha'){
+                        require_once('classes/recaptchalib.php');
+                        $google_captcha_public_key = vibe_get_option('google_captcha_public_key');
+                        if ( ! wp_script_is( 'google-recaptcha', 'enqueued' ) ) {
+                            wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js' );    
+                        }
+
+                        $return .= '<li><div class="g-recaptcha" data-theme="clean" data-sitekey="'.$google_captcha_public_key.'"></div></li>';
+                    }
+                    $return .= '<input type="hidden" name="'.$key.'" value="'.$settings[$key].'"/>';
+                }
+            }
+
+            do_action('wplms_before_registration_form',$name);
+
+            $return .='<li>'.apply_filters('wplms_registration_form_submit_button','<a class="submit_registration_form button">'.__('Register','vibe-shortcodes').'</a>').'</li>';
+            //SETTINGS
+            
+            ob_start();
+            wp_nonce_field( 'bp_new_signup' );
+            $return .= ob_get_clean();
+            $return .= '</ul></form></div>';
+        }
+        return $return;
+    }
+    /*
+    REGISTRATION FROM DEFAULT ROLE
+     */
+    function activate_user($user_id,$key,$user){
+        $default_role = get_user_meta($user_id,'default_role',true);
+        if(!empty($default_role)){
+            wp_update_user(array('ID'=>$user_id,'role'=>$default_role));
+            $new_user = new WP_User( $user_id );
+            $new_user->add_role( $default_role );
+        }
+    }
 }
 
 new Vibe_Define_Shortcodes;

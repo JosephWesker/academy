@@ -119,10 +119,22 @@ $('.nav-tabs a').click(function (e) {
       $(this).tab('show');
     }
 });
-
 $('.accordion').each(function(){
   if($(this).hasClass('load_first')){
+    $(this).find('.accordion-group:first-child').addClass('check_load_first');
     $(this).find('.accordion-group:first-child .accordion-toggle').trigger('click');
+  }
+});
+jQuery(document).ready(function($){
+  if($('.accordion-group.panel').is(':not(.check_load_first)')){
+    $('.accordion').on('shown.bs.collapse', function () {
+        var offset = $(this).find('.collapse.in').prev('.accordion-heading');
+        if(offset) {
+            $('html,body').animate({
+                scrollTop: $(offset).offset().top -150
+            }, 500);
+        }
+    });
   }
 });
 $('.image_slider').each(function(){
@@ -172,67 +184,64 @@ jQuery('.gallery').magnificPopup({
 });
 };
 $('.knob').each(function(){
-         var $this = $(this).find('.dial');
-        var myVal = $this.val();
-        $this.knob({
-            draw : function () {
+    var $this = $(this).find('.dial');
+    var myVal = $this.val();
+    $this.knob({
+        draw : function () {
+              // "tron" case
+            if(this.$.data('skin') == 'tron') {
+                var a = this.angle(this.cv)  // Angle
+                , sa = this.startAngle          // Previous start angle
+                , sat = this.startAngle         // Start angle
+                , ea                            // Previous end angle
+                , eat = sat + a                 // End angle
+                , r = true;
 
-                    // "tron" case
-                    if(this.$.data('skin') == 'tron') {
+            this.g.lineWidth = this.lineWidth;
+            this.o.cursor
+                && (sat = eat - 0.3)
+                && (eat = eat + 0.3);
 
-                        var a = this.angle(this.cv)  // Angle
-                            , sa = this.startAngle          // Previous start angle
-                            , sat = this.startAngle         // Start angle
-                            , ea                            // Previous end angle
-                            , eat = sat + a                 // End angle
-                            , r = true;
+            if (this.o.displayPrevious) {
+                ea = this.startAngle + this.angle(this.value);
+                this.o.cursor
+                    && (sa = ea - 0.3)
+                    && (ea = ea + 0.3);
+                this.g.beginPath();
+                this.g.strokeStyle = this.previousColor;
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                this.g.stroke();
+            }
 
-                        this.g.lineWidth = this.lineWidth;
+            this.g.beginPath();
+            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+            this.g.stroke();
 
-                        this.o.cursor
-                            && (sat = eat - 0.3)
-                            && (eat = eat + 0.3);
+            this.g.lineWidth = 2;
+            this.g.beginPath();
+            this.g.strokeStyle = this.o.fgColor;
+            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+            this.g.stroke();
 
-                        if (this.o.displayPrevious) {
-                            ea = this.startAngle + this.angle(this.value);
-                            this.o.cursor
-                                && (sa = ea - 0.3)
-                                && (ea = ea + 0.3);
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.previousColor;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-                            this.g.stroke();
-                        }
-
-                        this.g.beginPath();
-                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-                        this.g.stroke();
-
-                        this.g.lineWidth = 2;
-                        this.g.beginPath();
-                        this.g.strokeStyle = this.o.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                        this.g.stroke();
-
-                        return false;
-                    }
+            return false;
         }
-       });
-         $({
-           value: 0
-       }).animate({
+  }
+  });
+   $({
+     value: 0
+  }).animate({
 
-           value: myVal
-       }, {
-           duration: 2400,
-           easing: 'swing',
-           step: function () {
-               $this.val(Math.ceil(this.value)).trigger('change');
+     value: myVal
+  }, {
+     duration: 2400,
+     easing: 'swing',
+     step: function () {
+         $this.val(Math.ceil(this.value)).trigger('change');
 
-           }
-       })
-     });
+     }
+  })
+  });
 
 });
 
@@ -372,6 +381,16 @@ jQuery(document).ready(function ($) {
         maxItems:parseInt($this.attr('data-block-max')),
         prevText: "<i class='icon-arrow-1-left'></i>",
         nextText: "<i class='icon-arrow-1-right'></i>",
+        move:parseInt($this.attr('data-block-move')),
+        start: function(slider){
+          $(slider).removeClass('loading');
+        },
+        before:function(slider){
+          console.log(slider);
+        },
+        after: function(slider){
+          console.log(slider);
+        }
       });
     }
     if($this.hasClass('woocommerce')){
@@ -456,18 +475,23 @@ $container.imagesLoaded( function(){
 
       var width= parseInt($container.attr('data-width'));
       var gutter= parseInt($container.attr('data-gutter'));
-      $container.isotope({
-        itemSelector: '.grid-item',
-        columnWidth: width,
-        gutterWidth: gutter,
-        layoutMode: 'masonry',
-      });
-    /*.masonry({
-                    itemSelector: '.grid-item',
-                    columnWidth: width,
-                    gutterWidth: gutter,
-                    isAnimated: true
-            });*/
+        if(jQuery('body').hasClass('rtl')){
+            $container.isotope({
+                itemSelector: '.grid-item',
+                columnWidth: width,
+                gutterWidth: gutter,
+                layoutMode: 'masonry',
+                isRTL:true,
+          });
+        }else{
+            $container.isotope({
+                itemSelector: '.grid-item',
+                columnWidth: width,
+                gutterWidth: gutter,
+                layoutMode: 'masonry',
+            });  
+        }
+      
 
         });
     });
@@ -550,3 +574,64 @@ jQuery(document).ready(function($){
       tb_show('Upload ZIP package', url );
     });
 });
+
+jQuery(document).ready(function($){
+    $('.submit_registration_form').on('click',function(event){
+        event.preventDefault();
+        var $this = $(this);
+        var parent = $this.closest('.wplms_registration_form');
+        parent.find('.message').remove();
+        if($this.hasClass('loading'))
+            return;
+
+        $('.field_error').each(function(){$(this).removeClass('field_error')});
+        $this.addClass('loading');
+        
+        var settings = [];
+        parent.find('input,textarea,select').each(function(){
+            if($(this).is(':radio')){
+                if($(this).is(':checked')){
+                    var data = {id:$(this).attr('name'),value: $(this).val()};
+                }
+            }else if($(this).is(':checkbox')){
+              if($(this).is(':checked')){
+                  var data = {id:$(this).attr('name'),value: $(this).val()};
+              }
+            }else if($(this).is('select')){
+                var data = {id:$(this).attr('name'),value: $(this).val()};
+            }else if($(this).is('input')){
+                var data = {id:$(this).attr('name'),value: $(this).val()};
+            }else if($(this).is('textarea')){
+               var data = {id:$(this).attr('name'),value: $(this).val()};   
+            }
+            if(data)
+              settings.push(data);
+        });
+
+        var response='';
+        if(typeof grecaptcha != 'undefined' && $('.g-recaptcha').length != 0){
+          response = grecaptcha.getResponse();
+          if(response.length == 0){
+            parent.append('<div class="message">'+vibe_shortcode_strings.captcha_mismatch+'</div>');
+            $this.removeClass('loading');
+            return;
+          }
+        }
+
+        $.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data: { action: 'wplms_register_user', 
+                        security: $('#_wpnonce').val(),
+                        settings:JSON.stringify(settings)    
+                      },
+                cache: false,
+                success: function (html) {
+                    $this.removeClass('loading');
+                    parent.append(html);
+                    $('.field_error .message.error').click(function(){$(this).fadeOut(100);});
+                }
+        });
+    });    
+});
+
