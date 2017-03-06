@@ -45,20 +45,20 @@ $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'full' );
                     <form name="login-form" id="vbp-login-form" class="standard-form" action="<?php echo apply_filters('wplms_login_widget_action',vibe_site_url( 'wp-login.php', 'login-post' )); ?>" method="post">
                         <div class="list-group list-group-sm">
                             <div class="list-group-item">
-                              <label><?php _e('USERNAME','wplms_modern'); ?></label>  
-                              <input type="text" name="log" placeholder="<?php _e('Enter Username','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+                              <label><?php _e('USERNAME','vibe'); ?></label>  
+                              <input type="text" name="log" placeholder="<?php _e('Enter Username','vibe'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
                             </div>
                             <div class="list-group-item">
-                               <label><?php _e('PASSWORD','wplms_modern'); ?></label>  
-                               <input type="password" name="pwd" placeholder="<?php _e('Enter Password','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+                               <label><?php _e('PASSWORD','vibe'); ?></label>  
+                               <input type="password" name="pwd" placeholder="<?php _e('Enter Password','vibe'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
                             </div>
                       </div>
                       <div>
-                      <a id="forgot_password_trigger" class="pull-right" href="<?php echo wp_lostpassword_url(home_url()); ?>"><?php _e('Forgot Password?','wplms_modern'); ?></a>
+                      <a id="forgot_password_trigger" class="pull-right" href="<?php echo wp_lostpassword_url(home_url()); ?>"><?php _e('Forgot Password?','vibe'); ?></a>
                       </div>
                       <div class="checkbox" style="display:inline-block;margin-top:0;">
                         <input type="checkbox" id="rememberme" name="rememberme" value="forever">
-                        <label for="rememberme"><?php _e('Remember me','wplms_modern'); ?></label>
+                        <label for="rememberme"><?php _e('Remember me','vibe'); ?></label>
                       </div>
 
                         <input type="submit" name="user-submit" id="sidebar-wp-submit" value="<?php _e( 'Log In','vibe' ); ?>" tabindex="100" />
@@ -407,7 +407,7 @@ $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'full' );
                         do_action( 'bp_before_registration_submit_buttons' ); ?>
 
                         <div class="submit">
-                            <input type="submit" name="signup_submit" id="signup_submit" value="<?php esc_attr_e( 'Complete Sign Up', 'vibe' ); ?>" />
+                            <input type="submit" name="signup_submit" id="signup_submit" value="<?php _ex( 'Complete Sign Up','sign up button on site lock', 'vibe' ); ?>" />
                         </div>
 
                         <?php

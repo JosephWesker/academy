@@ -1,3 +1,6 @@
+* 2.6
+* restrict one question edit in quiz to avoid content overwrite
+* fixes
 * 2.5.2
 * dynamic quiz tags marks
 * Translation Files Fixed.

@@ -49,7 +49,7 @@ if($post->comment_status == 'open'){
   if(!isset($_POST['review'])){
 
   ?>
-    <h3 class="heading"><?php _e('Course Reviews','vibe'); ?></h3>
+    <h3 class="heading"><span><?php _e('Course Reviews','vibe'); ?></span></h3>
     <div class="review_breakup">
       <?php
       

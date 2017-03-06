@@ -508,6 +508,7 @@ function vibe_meta_box_arrays($metabox){ // References added to Pick labels for 
 			);
 
 			if ( (in_array( 'paid-memberships-pro/paid-memberships-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists('is_plugin_active') && is_plugin_active( 'paid-memberships-pro/paid-memberships-pro.php')) )&& function_exists('pmpro_getAllLevels')) {	
+				$level_array=array();
 				$levels=pmpro_getAllLevels();
 				foreach($levels as $level){
 					$level_array[]= array('value' =>$level->id,'label'=>$level->name);

@@ -1534,11 +1534,11 @@ function wplms_redirect_to_course($order_id){
 
             foreach($order_courses as $order_course){
                 foreach($order_course['courses'] as $course){
-                  echo '<li>
+                  echo apply_filters('wplms_course_purchased','<li>
                         <a class="course_name">'.get_post_field('post_title',$course).'</a>
                         <a href="'.get_permalink($course).'"  class="button">
                         '.$ostatus.'</a>'.$order_course['subs'].'
-                        </li>'; 
+                        </li>',$course,$item_id,$item,$order);
                 }
             }
           echo '</ul>';

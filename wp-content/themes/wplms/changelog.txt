@@ -1,3 +1,54 @@
+* 2.6.1
+* select2 styling changed
+* commentour code removed
+* tabs style layout fixes
+* Fixed menu fix
+* heading style fixes in course page
+* redundant settings removed
+* Pot file synced
+* timeout increased for slider download
+* Notices fixed.
+* notice fixes in buddydrive.php
+* 2.6
+* welcome screen changes 2.6
+* translation updated
+* height if flexmenu according to vh
+* console message removed from new search
+* padding issue fullscreen
+* progressbar styling changed to primary color
+* warning when custom nav deactivated
+* scrolltop adjusted when tabs style active
+* Enrolled Student show check removed.
+* search divs removed in sleek and centered headers
+* installer fixes
+* tabs style fixes
+* minified files
+* 2.6 version update
+* search and mobile menu changes
+* search changes
+* search changes in header
+* search in footer
+* customizer changes
+* course tabs refined
+* default header
+* course layouts refined
+* default style will be course if default style is not set in wplms options
+* Meta key missing in the content register.php file added.
+* course tabbed layout for all course layouts
+* signup button not translating bug fixed and corrected the text domain
+* Get content fixed in the setup nav
+* Last activity added in the wp-admin->users status column
+* custom tabs done with scrolling
+* course templates
+* automatic disable gues checkout when course product in cart
+* wplms_course_purchased filter added to modify items in thankyou page
+* remove conflicting login script
+* ajax login not working with wps hide login FIX
+* ajax login fixes
+* pricing color applied on woocommerce label
+* login registration page fix.
+* disable registration and forgotpass form appearing in WP Login page
+* welcome changes
 * 2.5.2
 * translations fixed and updated
 * styling bug fixes

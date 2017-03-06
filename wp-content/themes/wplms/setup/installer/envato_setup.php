@@ -2750,42 +2750,48 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 
 		public function _content_options_settings(){
 
+			
+	        
+	        
 			$this->logs[] = 'inside options panel';
 			$custom_options = $this->_get_json( 'options.json' );
 
-			$ops = get_option('wplms');
-
 			foreach ( $custom_options as $option => $value ) {
-				if($option == 'wplms'){
+				if($option == 'wplms' ){
+					$ops = get_option($option);
 					foreach($value as $key => $val){
 						$ops[$key] = $val;
 					}
-					$value = $ops;
-					update_option( $option, $value );
+
+					update_option( $option, $ops );
+
 					break;
-				}				
+				}		
 			}
+
 			return true;
 		}
 
 		
 		public function _content_customizer_settings(){
+
+			
+
 			$this->logs[] = 'inside customizer settings';
 			$custom_options = $this->_get_json( 'options.json' );
-
-			$ops = get_option('vibe_customizer');
 
 			foreach ( $custom_options as $option => $value ) {
 				
 				if($option == 'vibe_customizer'){
+					$ops = get_option('vibe_customizer');
 					foreach($value as $key => $val){
 						$ops[$key] = $val;
 					}
-					$value = $ops;
-					update_option( $option, $value );
+					update_option( $option, $ops );
 					break;
 				}
 			}
+
 			return true;
 
 		}
@@ -3031,14 +3037,13 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			}
 
 			// we check if this file is uploaded locally in the source folder.
-			$response = wp_remote_get( $url ,array('timeout' => 60));
+			$response = wp_remote_get( $url ,array('timeout' => 120));
 			if ( is_array( $response ) && ! empty( $response['body'] ) && $response['response']['code'] == '200' ) {
 				require_once( ABSPATH . 'wp-admin/includes/file.php' );
 				$headers = $response['headers'];
 				WP_Filesystem();
 				global $wp_filesystem;
 				$wp_filesystem->put_contents( $upload['file'], $response['body'] );
-				//
 			} else {
 				// required to download file failed.
 				@unlink( $upload['file'] );
@@ -3053,55 +3058,52 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 
 		public function _get_json( $file ) {
 
-			$style = get_option('wplms_site_style');
+            $style = get_option('wplms_site_style');
 
-			if(empty($style)){$style = $this->get_default_theme_style();}
-
-
-			$theme_style = __DIR__ . '/content/' . basename($style) .'/';
+            if(empty($style)){$style = $this->get_default_theme_style();}
 
 
-			if($file == 'options.json'){
-				$myFile = "import_json.txt";
-        		
-        		if (file_exists($myFile)) {
-          			$fh = fopen($myFile, 'a');
-        		} else {
-          			$fh = fopen($myFile, 'w');
-        		}
-        		WP_Filesystem();
-				global $wp_filesystem;
-        		$file_name = $theme_style . basename( $file );
-        		fwrite($fh, print_r($file_name, true)."\n");	
-        		fwrite($fh, print_r(json_decode( $wp_filesystem->get_contents( $file_name ), true ), true)."\n");	
-				fclose($fh);	
-			}
-			
-				
-		
+            $theme_style = __DIR__ . '/content/' . basename($style) .'/';
 
-			if ( is_file( $theme_style . basename( $file ) ) ) {
-				WP_Filesystem();
-				global $wp_filesystem;
-				$file_name = $theme_style . basename( $file );
-				if ( file_exists( $file_name ) ) {
-					return json_decode( $wp_filesystem->get_contents( $file_name ), true );
-				}
-			}
+
+            if($file == 'options.json'){
+                WP_Filesystem();
+                global $wp_filesystem;
+                $file_name = $theme_style . basename( $file );   
+                $file = $wp_filesystem->get_contents( $file_name );
+                if(empty($file)){
+                    $file = file_get_contents($file_name);
+                }  
+                return json_decode($file, true );
+            }
+            
+                
+            if ( is_file( $theme_style . basename( $file ) ) ) {
+                WP_Filesystem();
+                global $wp_filesystem;
+                $file_name = $theme_style . basename( $file );
+                if ( file_exists( $file_name ) ) {
+                     $file = $wp_filesystem->get_contents( $file_name );
+                     if(empty($file)){
+                         $file = file_get_contents($file_name);
+                     }
+                    return json_decode($file, true );
+                }
+            }
             // backwards compat:
-			if ( is_file( __DIR__ . '/content/' . basename( $file ) ) ) {
-				WP_Filesystem();
-				global $wp_filesystem;
-				$file_name = __DIR__ . '/content/' . basename( $file );
+            if ( is_file( __DIR__ . '/content/' . basename( $file ) ) ) {
+                WP_Filesystem();
+                global $wp_filesystem;
+                $file_name = __DIR__ . '/content/' . basename( $file );
 
-				if ( file_exists( $file_name ) ) {
-					return json_decode( $wp_filesystem->get_contents( $file_name ), true );
-				}
-			}
+                if ( file_exists( $file_name ) ) {
+                    return json_decode( $wp_filesystem->get_contents( $file_name ), true );
+                }
+            }
 
-			return array();
-		}
-
+            return array();
+        }
+        
 		private function _get_sql( $file ) {
 			if ( is_file( __DIR__ . '/content/' . basename( $file ) ) ) {
 				WP_Filesystem();
@@ -3275,7 +3277,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
                     </ul>
                 </div>
 
-                <input type="hidden" name="demo_style" id="demo_style" value="demo1">
+                <input type="hidden" name="demo_style" id="demo_style" value="<?php echo $current_style; ?>">
 
                 <p><em>Please Note: Advanced changes to website graphics/colors may require extensive PhotoShop and Web
                         Development knowledge. We recommend hiring an expert from <a

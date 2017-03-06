@@ -120,6 +120,12 @@ class WPLMS_Actions{
 		add_action('wp_ajax_nopriv_wplms_signon',array($this,'wplms_signon'));
 		add_action( 'login_form', array( $this, 'enable_ajax_registration_login'));
 		add_action( 'wp_ajax_nopriv_wplms_forgot_password',array($this,'wplms_forgot_password'));
+
+		//Footer Search
+		add_action('wp_footer',array($this,'search'));
+
+		//Course Tab scroll
+		add_action('bp_before_course_header',array($this,'wplms_course_tabs_supports'),99);
     }
 	
 
@@ -1734,7 +1740,7 @@ class WPLMS_Actions{
 	function enable_ajax_registration_login(){
 
 		$enable_ajax_registration_login = vibe_get_option('enable_ajax_registration_login');
-		if(empty($enable_ajax_registration_login) || (stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_login_url(), '/')) !== false))
+		if(empty($enable_ajax_registration_login))
 			return;
 		
 		if($enable_ajax_registration_login == 2){
@@ -1846,6 +1852,279 @@ class WPLMS_Actions{
 
 		die();
 	}
+
+	function search(){
+		?>
+        <div id="searchdiv">
+            <form role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
+                <input type="text" value="<?php the_search_query(); ?>" name="s" id="s" placeholder="<?php _e('Hit enter to search...','vibe'); ?>" />
+                <?php 
+                    $course_search=vibe_get_option('course_search');
+                    if(isset($course_search) && $course_search)
+                        echo '<input type="hidden" value="course" name="post_type" />';
+                ?>
+            </form>
+            <span></span>
+        </div>
+		<?php
+	}
+
+	/*
+	Tab Scrolling effect in Courses - Controlled by Options panel - Coruse manager
+	 */
+	
+	function wplms_course_tabs_supports(){
+		global $post;
+    	$layouts = array('c5','c4','c3','c2');
+    	$layout = vibe_get_customizer('course_layout');
+    	$tab_style_course_layout = vibe_get_option('tab_style_course_layout');
+    	
+    	if(!empty($layout) && in_array($layout,$layouts) && !empty($tab_style_course_layout)){
+
+    		$this->wplms_course_tabs_tabs_array = apply_filters('course_tabs_array',array(_x('home','custom tabs for tabbed layout','vibe'),_x('curriculum','custom tabs for tabbed layout','vibe')));
+
+			if($post->comment_status == 'open'){
+				if(!empty($this->wplms_course_tabs_tabs_array) && is_array($this->wplms_course_tabs_tabs_array))
+					$this->wplms_course_tabs_tabs_array[] = _x('reviews','custom tabs for tabbed layout','vibe');
+			}
+
+			add_filter('wplms_course_nav_menu',array($this,'wplms_course_tabs_link'),999);
+			add_filter('vibe_course_permalinks',array($this,'add_wplms_course_tabs_in_saved_permalinks'));
+
+			
+			if(class_exists('WPLMS_tips')){
+				$tips  = WPLMS_tips::init();
+				remove_filter('wplms_course_nav_menu',array($tips,'coursenav_remove_curriculum'));
+				remove_action('wplms_after_course_description',array($tips,'course_curriculum_below_description'));
+			}
+
+			add_action('wplms_after_course_description',array($this,'course_curriculum_below_description_wplms_course_tabs'));
+
+			//style and scripts for wplms_course_tabs
+			add_action('wp_footer',array($this,'wplms_wplms_course_tabs_stick_at_bottom'));
+			
+		}
+    }
+
+	function course_curriculum_below_description_wplms_course_tabs(){
+    	global $post;
+		$id= get_the_ID();
+		$class='';
+		if(isset($this->settings['curriculum_accordion']))
+			$class="accordion";
+		?>
+			<div id="course-curriculum">
+				<div class="course_curriculum <?php echo $class; ?>">
+					<?php
+						$file = get_stylesheet_directory() . '/course/single/curriculum.php';
+						if(!file_exists($file)){
+							$file = VIBE_PATH.'/course/single/curriculum.php';
+						}
+						include $file;
+					?>
+				</div>
+			</div>
+		<?php
+    }
+
+    function add_wplms_course_tabs_in_saved_permalinks($permalinks){
+    	
+    	foreach ($this->wplms_course_tabs_tabs_array as $tab) {
+    		if(empty($permalinks[$tab.'_slug']))
+    		$permalinks[$tab.'_slug'] = $tab;
+    	}
+    	return $permalinks;
+    }
+
+    function wplms_course_tabs_link($nav){
+		global $post;
+		$tabs = $this->wplms_course_tabs_tabs_array;
+		$temp = $nav;
+		if(!empty($temp['curriculum']))
+		unset($temp['curriculum']);
+		unset($nav);
+		foreach($tabs as $tab){
+			if(function_exists('bp_get_course_permalink')){
+				$nav[$tab] = array(
+	                'id' => $tab,
+	                'label'=>$tab,
+	                'action' => '#course-'.strtolower($tab),
+	                'link'=>bp_get_course_permalink(),
+	            	);
+			}
+				
+		}
+		
+		foreach ($temp as $key => $value) {
+			if($key != '')
+			$nav[$key] = $value;
+		}
+		return $nav;
+	}
+
+    function wplms_wplms_course_tabs_stick_at_bottom(){
+
+    	$action = bp_current_action();
+    	if(!empty($action))
+    		return;
+    	?>
+    		<style>
+    		.single-course div#item-nav ul li.flexMenu-viewMore ul.flexMenu-popup{
+			    overflow-y: auto;
+			    z-index: 999999;
+			}
+			.single-course div#item-nav.fixed { z-index: 999999 !important;}
+    		.single-course div#item-nav {
+			    position: relative;
+			}
+    		.single-course div#item-nav.fixed ul li.flexMenu-viewMore ul.flexMenu-popup{
+			    top:auto !important;
+			    
+			}
+			.single-course div#item-nav:not(.fixed) ul li.flexMenu-viewMore ul.flexMenu-popup{
+				bottom:auto !important;
+			}
+		  	.single-course div#item-nav.fixed {
+		  		position:fixed;
+			    bottom:0;
+			    width:100%;
+			    z-index:999;
+			}
+			body.single-course.c4 #item-nav.fixed {max-width: 100%;}
+			ul.flexMenu-popup {box-shadow:0 0 5px rgba(0,0,0,0.2)}
+			@media(max-width:640px){
+				body.single-course #object-nav{width: calc(100% - 60px);}	
+				body.single-course.c4 #item-nav.fixed {
+				    width: calc(100% - 30px);
+				    padding: 0;
+				}
+			}
+			#scroll_to_course_button {
+				position: absolute; right: 5px; top: 5px; margin: 0;z-index:99;
+			}
+		  	</style>
+		 
+		  	<script>
+			  	jQuery(window).load(function($){
+			  		$ = jQuery;
+			  		var topMenuHeight = $('header').outerHeight(true);
+			  		var windowWidth = $(window).width();
+			  		var windowHeight = $(window).height();
+			  		var fixed_course_menu = function(){
+			  			var selector = $(".single-course div#item-nav");
+			  			//selector.find('ul').flexMenu();
+			  			selector.each(function(){
+
+				        	var $this = $(this);
+				        	var height = $this.offset().top;
+				     		
+				     		if($('body').hasClass('c4')){
+				     			$('#item-nav').css('width',$this.width());
+				     		}
+
+				     		$('#scrolltop').css('bottom',66);
+		  				  	if(typeof $('.single-course div#item-nav.fixed ul li.flexMenu-viewMore ul.flexMenu-popup') !== 'undefined'){
+	  				  			var flexmenuheight = $this.outerHeight(true);
+	  				  			$this.append('<style>.single-course div#item-nav.fixed{transform: translate3d(0,0,0);}.single-course div#item-nav.fixed ul li.flexMenu-viewMore ul.flexMenu-popup{bottom:'+flexmenuheight+'px;}.flexMenu-popup{max-height:calc(75vh - '+topMenuHeight+'px);}</style>');
+		  				  	}
+
+				     		
+
+					        $(window).scroll(function(event){
+					            var st = $(this).scrollTop();
+					            if(st > height){
+					              $this.addClass('fixed');
+					            }else{
+					              	$this.removeClass('fixed');
+					            }
+					        });
+
+					        if( $this.find('#scroll_to_course_button').length <= 0 && $(window).width() < 640){
+				              	$this.append('<a href="#course-pricing" id="scroll_to_course_button" class="button small"><i class="fa fa-shopping-basket"></i></a>');
+				              	$('.single-course div#object-nav').trigger('tabs_basket_added');
+				            }
+				    	});
+			  		}
+				    
+				    fixed_course_menu();
+				   
+				  	
+				  	// scroll basket
+				  	jQuery('.single-course div#object-nav').on('tabs_basket_added',function(){
+				  		$ = jQuery;
+				  		$('#scroll_to_course_button').click(function(event){
+				  			var topMenuHeight = $('header').outerHeight(true);
+				  			var href = $(this).attr("href");
+						   	var type = href.split('#');
+							var hash2 = '';
+							if(type.length > 1){
+							  hash2 = type[1];
+							}
+
+						    var offsetTop = hash2 === "#" ? 0 : $('#'+hash2).offset().top-topMenuHeight+1;
+						   
+						   	$('html, body').stop().animate({ 
+						       scrollTop: offsetTop
+						   	}, 800);
+				  		});
+				  		
+				  	});
+
+				  	var scroll_tosection = function(){
+
+				  		var selector = $(".single-course div#item-nav");
+						top = Math.floor(top);
+						var lastId;
+						var topMenu = $(".single-course div#item-nav ul,.single-course div#object-nav ul"); 
+						var topMenuHeight = 0;
+						var menuItems = topMenu.find("a");
+						 // Anchors corresponding to menu items
+						var scrollItems = $.each(menuItems,function(){
+									 		var type =$(this).attr("href").split('#');
+									 		var hash = '';
+											if(type.length > 1)
+											  hash = type[1];
+									       	var item = $(hash);
+									       if (item.length) { return item; }
+									     });
+
+						var topMenuHeight = $('header').outerHeight(true);
+
+						menuItems.click(function(event){
+							if($(this).parent().hasClass('flexMenu-viewMore'))
+								return false;
+							selector.find('ul.flexMenu-popup').css('display','none');
+						   	var href = $(this).attr("href");
+						   	var type = href.split('#');
+							var hash2 = '';
+							if(type.length > 1){
+							  hash2 = type[1];
+							  event.preventDefault();
+							}
+
+						    var offsetTop = hash2 === "#" ? 0 : $('#'+hash2).offset().top-topMenuHeight+1;
+						    if(!selector.hasClass('fixed')){
+								offsetTop = offsetTop - selector.outerHeight(true);
+							}
+						   	$('html, body').stop().animate({ 
+						       scrollTop: offsetTop
+						   	}, 800);
+						   	$('.single-course div#item-nav ul li,.single-course div#object-nav ul li').each(function(){
+								$(this).removeClass('current active');
+						   	});
+						   	$(this).parent().addClass("active current");
+						});
+
+				  	};
+					scroll_tosection();
+
+					 $(window).on('resize',function(){
+				    	fixed_course_menu();
+				    });
+				});  	
+		  	</script>
+    	<?php
+    }
 }
 
 WPLMS_Actions::init();

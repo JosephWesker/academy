@@ -1669,11 +1669,15 @@ Class Vibe_Define_Shortcodes{
 		}
 
 		if($courses){
-			$count_posts = wp_count_posts('course');
-			$return['courses'] = $count_posts->publish;
-			if($number)
-				return $return['courses']; 
-		}
+            if(function_exists('bp_course_get_total_course_count')){
+                $return['courses'] = bp_course_get_total_course_count( );
+            }else{
+                $count_posts = wp_count_posts('course');
+                $return['courses'] = $count_posts->publish;
+            }
+            if($number)
+                return $return['courses']; 
+        }
 		
 		if($groups){
 			global $wpdb,$bp;

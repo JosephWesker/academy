@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class WPLMS_Admin_Welcome {
 
 	private $plugin;
-	public $major_version='2.5.2';
+	public $major_version='2.6';
 	/**
 	 * __construct function.
 	 *
@@ -120,24 +120,6 @@ class WPLMS_Admin_Welcome {
 		// Flush after upgrades
 		if ( ! empty( $_GET['wplms-updated'] ) || ! empty( $_GET['wplms-installed'] ) )
 			flush_rewrite_rules();
-		/*
-		$sidebars = get_option('sidebars_widgets');
-		echo base64_encode(serialize($sidebars));*/
-		/*global $wpdb;
-		$results =  $wpdb->get_results("SELECT option_name from {$wpdb->options} where option_name LIKE 'widget_%'");
-		$widgets = array();
-		foreach($results as $result){
-			$widgets[$result->option_name]=get_option($result->option_name);
-		}
-		print_r(base64_encode(serialize($widgets)));
-		*/
-		/*global $wpdb;
-		$results =  $wpdb->get_results("SELECT option_name from {$wpdb->options} where option_name LIKE 'mycred_%'");
-		$mycred = array();
-		foreach($results as $result){
-			$mycred[$result->option_name]=get_option($result->option_name);
-		}
-		print_r(base64_encode(serialize($mycred)));*/
 		?>
 		<h1><?php printf( __( 'Welcome to WPLMS %s', 'vibe' ), $this->major_version ); ?></h1>
 
@@ -296,13 +278,13 @@ class WPLMS_Admin_Welcome {
 				<div class="wplms-feature feature-rest feature-section col two-col">
 					<div class="col-1">
 						<h4><?php _e( 'Bug fixes and maintenance', 'vibe' ); ?></h4>
-						<p><?php _e( 'We\'ve added 2 major features, you can now enable Ajax based login and registration as well as manage course details area.', 'vibe' ); ?></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-5-2/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
+						<p><?php _e( 'We\'ve added 3 major features.Course tabs style layout,profile menu drop down settings,emails to incative users and ', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-6/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
 					</div>
 					<div class="col-2">
-						<h4><?php _e( 'Ajax Login and Registration', 'vibe' ); ?></h4>
-						<p><?php _e( 'We\'ve added the ajax login and registration feature. After enabling this feature, WPLMS has its own sign on, forgot password and registration method inbuilt in the system. This feature also supports custom forgot password email template.', 'vibe' ); ?></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-5/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
+						<h4><?php _e( 'Course Tabs style layout', 'vibe' ); ?></h4>
+						<p><?php _e( 'We\'ve added course tabs style layout in 2.6.Enabling this feature will change the behaviour of course menu.Check tutorial for more.', 'vibe' ); ?></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/2-6/" class="button"><?php _e( 'Check update log ', 'vibe' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -311,19 +293,19 @@ class WPLMS_Admin_Welcome {
 				
 				<div class="wplms-feature feature-section col three-col">
 					<div>
-						<h4><?php _e( 'Ajax Login & Registration', 'vibe' ); ?></h4>
-						<p><img src="https://i.gyazo.com/13f67150f9556b8b03f08226d9b8cb42.gif" /></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/ajax-login-and-registration-in-wplms" target="_blank" class="button">Tutorial</a>
+						<h4><?php _e( 'Course Tabs style layout', 'vibe' ); ?></h4>
+						<p><img src="https://i.gyazo.com/7aafa00a80885b047cc9c27c0f763533.gif" /></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/tabs-style-in-course-menu-with-custom-sections" target="_blank" class="button">Tutorial</a>
 					</div>
 					<div>
-						<h4><?php _e( 'Dynamic Quizzes marks per tag', 'vibe' ); ?></h4>
-						<p><img src="https://i.gyazo.com/47c886e94a48f96313b9fa5660d97f27.gif" /></p>
-						<a href="https://vibethemes.com/documentation/wplms/knowledge-base/wplms-dynamic-quizzes-version-2/" target="_blank" class="button">Tutorial</a>
+						<h4><?php _e( 'Email to in-active users', 'vibe' ); ?></h4>
+						<p><img src="http://image.prntscr.com/image/d412c4358d0b427da8b3e9192aa5e188.png" /></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/schedule-email-for-inactive-users/" target="_blank" class="button">Tutorial</a>
 					</div>
 					<div class="last-feature">
-						<h4><?php _e( 'Manage Course Details', 'vibe' ); ?></h4>
-						<p><img src="https://i.gyazo.com/8cebdf4fd41f1b33b07a0b996d88b545.gif" /></p>
-						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/manage-course-details-sections/" target="_blank" class="button">Tutorial</a>
+						<h4><?php _e( 'Custom profile logged in menu.', 'vibe' ); ?></h4>
+						<p><img src="https://i.gyazo.com/1a8c48ab135077e10bf9658ef32d2bad.gif" /></p>
+						<a href="http://vibethemes.com/documentation/wplms/knowledge-base/customise-profile-menu-dropdown-wplms-2-6/" target="_blank" class="button">Tutorial</a>
 					</div>
 				</div>
 			</div>

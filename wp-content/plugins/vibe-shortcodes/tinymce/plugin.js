@@ -1,13 +1,10 @@
 (function($) {
-"use strict";   
- 
-
+"use strict";
 
  			//Shortcodes
            tinymce.PluginManager.add( 'vibeShortcodes', function( editor, url ) {
 
-				editor.addCommand("vibePopup", function ( a, params )
-				{
+				editor.addCommand("vibePopup", function ( a, params ){
 					var popup = params.identifier;
 					tb_show("Insert Shortcode", url + "/popup.php?popup=" + popup + "&width=" + 800);
 				});
@@ -18,79 +15,78 @@
 					title:  'Vibe Shortcodes',
 					onclick : function(e) {},
 					menu: [
-					{text: 'Accordion',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Accordion',identifier: 'accordion'})
+					{text: vibe_shortcode_icon_strings.accordion,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.accordion,identifier: 'accordion'})
 					}},
-					{text: 'Buttons',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Buttons',identifier: 'button'})
+					{text: vibe_shortcode_icon_strings.buttons,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.buttons,identifier: 'button'})
 					}},
-					{text: 'Columns',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Columns',identifier: 'columns'})
+					{text: vibe_shortcode_icon_strings.columns,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.columns,identifier: 'columns'})
 					}},
-					{text: 'Counter',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Counter',identifier: 'counter'})
+					{text: vibe_shortcode_icon_strings.counter,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.counter,identifier: 'counter'})
 					}},
-					{text: 'Course',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Course',identifier: 'course'})
+					{text: vibe_shortcode_icon_strings.course,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.course,identifier: 'course'})
 					}},
-					{text: 'Divider',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Divider',identifier: 'divider'})
+					{text: vibe_shortcode_icon_strings.divider,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.divider,identifier: 'divider'})
 					}},
-					{text: 'Forms',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Forms',identifier: 'forms'})
+					{text: vibe_shortcode_icon_strings.forms,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.forms,identifier: 'forms'})
 					}},
-					{text: 'Gallery',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Gallery',identifier: 'gallery'})
+					{text: vibe_shortcode_icon_strings.gallery,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.gallery,identifier: 'gallery'})
 					}},
-					{text: 'Google Maps',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Google Maps',identifier: 'maps'})
+					{text: vibe_shortcode_icon_strings.google_maps,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.google_maps,identifier: 'maps'})
 					}},
-					{text: 'Heading',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Heading',identifier: 'heading'})
+					{text: vibe_shortcode_icon_strings.heading,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.heading,identifier: 'heading'})
 					}},
-					{text: 'Icons',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Icons',identifier: 'icons'})
+					{text: vibe_shortcode_icon_strings.icons,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.icons,identifier: 'icons'})
 					}},
-					{text: 'Iframe',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Iframe',identifier: 'iframe'})
+					{text: vibe_shortcode_icon_strings.iframe,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.iframe,identifier: 'iframe'})
 					}},
-					{text: 'Note',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Note',identifier: 'note'})
+					{text: vibe_shortcode_icon_strings.note,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.note,identifier: 'note'})
 					}},
-					{text: 'Popups',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Popups',identifier: 'popups'})
+					{text: vibe_shortcode_icon_strings.popups,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.popups,identifier: 'popups'})
 					}},
-					{text: 'Progress Bar',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Progress Bar',identifier: 'progressbar'})
+					{text: vibe_shortcode_icon_strings.progress_bar,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.progress_bar,identifier: 'progressbar'})
 					}},
-					{text: 'PullQuote',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'PullQuote',identifier: 'pullquote'})
+					{text: vibe_shortcode_icon_strings.pull_quote,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.pull_quote,identifier: 'pullquote'})
 					}},
-					{text: 'Round Progress',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Round Progress',identifier: 'roundprogress'})
+					{text: vibe_shortcode_icon_strings.round_progress,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.round_progress,identifier: 'roundprogress'})
 					}},
-					{text: 'Survey Result',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Survery Result',identifier: 'survey_result'})
+					{text: vibe_shortcode_icon_strings.survey_result,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.survey_result,identifier: 'survey_result'})
 					}},
-					{text: 'Tabs',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Tabs',identifier: 'tabs'})
+					{text: vibe_shortcode_icon_strings.tabs,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.tabs,identifier: 'tabs'})
 					}},
-					{text: 'Team',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Team',identifier: 'team_member'})
+					{text: vibe_shortcode_icon_strings.team,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.team,identifier: 'team_member'})
 					}},
-					{text: 'Testimonial',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Testimonial',identifier: 'testimonial'})
+					{text: vibe_shortcode_icon_strings.testimonial,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.testimonial,identifier: 'testimonial'})
 					}},
-					{text: 'Tooltips',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Tooltips',identifier: 'tooltip'})
+					{text: vibe_shortcode_icon_strings.tooltips,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.tooltips,identifier: 'tooltip'})
 					}},
-					{text: 'Video',onclick:function(){
-						editor.execCommand("vibePopup", false, {title: 'Video',identifier: 'iframevideo'})
+					{text: vibe_shortcode_icon_strings.video,onclick:function(){
+						editor.execCommand("vibePopup", false, {title: vibe_shortcode_icon_strings.video,identifier: 'iframevideo'})
 					}},
 					]                
         	  });
          
-          });
-         
+          });  
  
 })(jQuery);

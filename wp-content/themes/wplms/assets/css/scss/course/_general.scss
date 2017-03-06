@@ -385,17 +385,19 @@
 					display:inline-block;
 					font-size:11px;
 					text-transform:uppercase;
-					color:rgba(255,255,255,0.8);
+					color:#fff;
+					opacity:0.9;
 					font-weight:600;
 					span{
 					    margin-left: 15px;
 					}
 					&:hover{
-						color:#fff;
+						opacity:1;
 					}
 				}
 				&.current{
 					a{
+						opacity:1;
 						background:$primarybg;
 						color:$primarycolor;
 					}

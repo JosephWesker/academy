@@ -4,7 +4,7 @@
  */
 
 if(!is_user_logged_in())
-    wp_die('<h2>'.__('This Page is only accessible to Members','vibe').'</h2>'.'<p>'.__('The page is only accessible to site Users, please register in site to see this content.','vibe').'</p>',__('Members only page','vibe'),array('back_link'=>true));
+    wp_die('<h2>'.__('This Page is only accessible to Members','wplms_modern').'</h2>'.'<p>'.__('The page is only accessible to site Users, please register in site to see this content.','wplms_modern').'</p>',__('Members only page','wplms_modern'),array('back_link'=>true));
 
 get_header(wplms_modern_get_header());
 

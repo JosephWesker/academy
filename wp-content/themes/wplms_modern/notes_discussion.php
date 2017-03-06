@@ -74,24 +74,24 @@ $args = apply_filters('wplms_notes_dicussion_args',array(
             	<form action="" method="post" id="notes-discussion-form">
 					<div class="note-tabs">
 						<ul>
-							<li id="wplms_all"class="selected"><a href=""><?php _e('All Notes & Discussions','vibe'); ?></a></li>
+							<li id="wplms_all"class="selected"><a href=""><?php _e('All Notes & Discussions','wplms_modern'); ?></a></li>
 							<?php $selected = 1;
 							if(current_user_can('manage_options')){
 								$selected =0;
 								?>
-								<li id="wplms_all_public_discussions"><a href=""><?php _e('All Discussions','vibe'); ?></a></li>
+								<li id="wplms_all_public_discussions"><a href=""><?php _e('All Discussions','wplms_modern'); ?></a></li>
 								<?php
 							}
 							if(current_user_can('edit_posts')){
 								?>
-								<li id="wplms_instructor_unit_notes"><a href=""><?php _e('Unit Notes','vibe'); ?></a></li>
-								<li id="wplms_instructor_unit_discussions"><a href=""><?php _e('Unit Discussions','vibe'); ?></a></li>
+								<li id="wplms_instructor_unit_notes"><a href=""><?php _e('Unit Notes','wplms_modern'); ?></a></li>
+								<li id="wplms_instructor_unit_discussions"><a href=""><?php _e('Unit Discussions','wplms_modern'); ?></a></li>
 								<?php
 								$selected =0;
 							}
 							?>
-							<li id="wplms_my_notes_public"><a href=""><?php _e('My Discussions','vibe'); ?></a></li>
-							<li id="wplms_my_notes_private"><a href=""><?php _e('My Notes','vibe'); ?></a></li>
+							<li id="wplms_my_notes_public"><a href=""><?php _e('My Discussions','wplms_modern'); ?></a></li>
+							<li id="wplms_my_notes_private"><a href=""><?php _e('My Notes','wplms_modern'); ?></a></li>
 						</ul>
 					</div><!-- .item-list-tabs -->
 				</form>
@@ -109,7 +109,7 @@ $args = apply_filters('wplms_notes_dicussion_args',array(
 						$vibe_notes_discussions->comments_loop($comments);
                     }else{
                     	?>
-                    	<div class="message"><?php _e('No public comments found !','vibe') ?></div>
+                    	<div class="message"><?php _e('No public comments found !','wplms_modern') ?></div>
                     	<?php
                     }
 					

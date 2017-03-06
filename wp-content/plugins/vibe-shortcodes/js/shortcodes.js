@@ -602,12 +602,15 @@ jQuery(document).ready(function($){
             }else if($(this).is('input')){
                 var data = {id:$(this).attr('name'),value: $(this).val()};
             }else if($(this).is('textarea')){
+              if($(this).hasClass('wp-editor-area') && $(this).attr('aria-hidden') == 'true'){
+                var data = {id:$(this).attr('name'),value:tinyMCE.get($(this).attr('id')).getContent({format : 'raw'})};
+              }else{
                var data = {id:$(this).attr('name'),value: $(this).val()};   
+              }
             }
             if(data)
               settings.push(data);
         });
-
         var response='';
         if(typeof grecaptcha != 'undefined' && $('.g-recaptcha').length != 0){
           response = grecaptcha.getResponse();

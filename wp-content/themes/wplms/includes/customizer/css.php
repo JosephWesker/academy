@@ -96,7 +96,7 @@ $dom_array = array(
                             'css' => 'background-color'
                             ),
     'header_top_color'  => array(
-                            'element' => '#headertop,#headertop a,.sidemenu li a,#pmpro_confirmation_table thead,
+                            'element' => '#headertop,#headertop a,.sidemenu li a,.sidemenu .mobile_icons>a,#pmpro_confirmation_table thead,
                             .pmpro_checkout thead th,#pmpro_levels_table thead, header.fixed .topmenu>li>a,header.fixed #searchicon,header.fixed nav>.menu>li>a',
                             'css' => 'color'
                             ),
@@ -857,7 +857,8 @@ foreach($dom_array as $style => $value){
           echo '#buddypress div.item-list-tabs ul li a:hover span,
                 #buddypress .item-list-tabs ul li.current a span, 
                 #buddypress .item-list-tabs ul li.selected a span,
-                .widget .course_cat_nav ul li.current-cat-parent>a span, .widget .course_cat_nav ul li.current-cat>a span{
+                .widget .course_cat_nav ul li.current-cat-parent>a span, .widget .course_cat_nav ul li.current-cat>a span,
+                .course_pursue_panel .course_progressbar.progress .bar{
                   background: '.$theme_customizer['primary_color'].';
                 }';
 

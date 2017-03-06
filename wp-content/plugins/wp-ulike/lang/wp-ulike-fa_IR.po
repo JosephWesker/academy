@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP ULike\n"
-"POT-Creation-Date: 2017-01-20 23:21+0330\n"
-"PO-Revision-Date: 2017-01-20 23:21+0330\n"
+"POT-Creation-Date: 2017-02-21 00:46+0330\n"
+"PO-Revision-Date: 2017-02-21 00:46+0330\n"
 "Last-Translator: Alimir <alimir71@yahoo.com>\n"
 "Language-Team: alimir.ir <info@alimir.ir>\n"
 "Language: fa_IR\n"
@@ -74,7 +74,7 @@ msgstr "امتیازدهی"
 msgid "Introducing WP ULike"
 msgstr "معرفی وردپرس یولاک"
 
-#: ../admin/about.php:131 ../admin/stats.php:36 ../admin/admin.php:179
+#: ../admin/about.php:131 ../admin/stats.php:36 ../admin/admin.php:197
 msgid "About WP ULike"
 msgstr "درباره وردپرس یولایک"
 
@@ -166,7 +166,7 @@ msgstr ""
 "از نسخه ۲.۳ افزونه یولایک،‌ امکان بررسی جغرافیایی لایک کنندگان  به همراه "
 "ابزراک ویژه برترین لایک کنندگان اضافه شده است."
 
-#: ../admin/about.php:218 ../admin/stats.php:23 ../admin/admin.php:175
+#: ../admin/about.php:218 ../admin/stats.php:23 ../admin/admin.php:193
 msgid "WP ULike Statistics"
 msgstr "آماره وردپرس یولایک"
 
@@ -178,7 +178,7 @@ msgstr "خانه"
 msgid "OR"
 msgstr "یا"
 
-#: ../admin/about.php:218 ../admin/admin.php:72
+#: ../admin/about.php:218 ../admin/admin.php:73
 msgid "WP ULike Settings"
 msgstr "تنظیمات وردپرس یولایک"
 
@@ -226,9 +226,9 @@ msgstr ""
 "حمایتتون رو از این افزونه، با امتیاز 5 ستاره در <a href=\"http://wordpress."
 "org/plugins/wp-ulike\">مخزن وردپرس</a> مشخص کنید..."
 
-#: ../admin/logs.php:17 ../admin/logs.php:142 ../admin/logs.php:212
-#: ../admin/logs.php:263 ../admin/logs.php:337 ../admin/logs.php:390
-#: ../admin/logs.php:460 ../admin/logs.php:512 ../admin/logs.php:582
+#: ../admin/logs.php:17 ../admin/logs.php:143 ../admin/logs.php:213
+#: ../admin/logs.php:265 ../admin/logs.php:339 ../admin/logs.php:393
+#: ../admin/logs.php:463 ../admin/logs.php:516 ../admin/logs.php:586
 msgid "Logs"
 msgstr "وقایع"
 
@@ -236,60 +236,60 @@ msgstr "وقایع"
 msgid "Are you sure to remove this item?!"
 msgstr "آیا از حذف این آیتم اطمینان دارید؟!"
 
-#: ../admin/logs.php:138 ../admin/logs.php:259 ../admin/logs.php:386
-#: ../admin/logs.php:508
+#: ../admin/logs.php:139 ../admin/logs.php:261 ../admin/logs.php:389
+#: ../admin/logs.php:512
 msgid "WP ULike Logs"
 msgstr "وقایع اتفاقیه در وردپرس یولایک"
 
-#: ../admin/logs.php:139 ../admin/stats.php:42 ../admin/admin.php:159
+#: ../admin/logs.php:140 ../admin/stats.php:42 ../admin/admin.php:177
 msgid "Post Likes Logs"
 msgstr "وقایع لایک در نوشتارها"
 
-#: ../admin/logs.php:149 ../admin/logs.php:270 ../admin/logs.php:397
-#: ../admin/logs.php:519
+#: ../admin/logs.php:150 ../admin/logs.php:272 ../admin/logs.php:400
+#: ../admin/logs.php:523
 msgid "ID"
 msgstr "شناسه"
 
-#: ../admin/logs.php:150 ../admin/logs.php:271 ../admin/logs.php:398
-#: ../admin/logs.php:520
+#: ../admin/logs.php:151 ../admin/logs.php:273 ../admin/logs.php:401
+#: ../admin/logs.php:524
 msgid "Username"
 msgstr "نام کاربری"
 
-#: ../admin/logs.php:151 ../admin/logs.php:272 ../admin/logs.php:399
-#: ../admin/logs.php:521
+#: ../admin/logs.php:152 ../admin/logs.php:274 ../admin/logs.php:402
+#: ../admin/logs.php:525
 msgid "Status"
 msgstr "وضعیت"
 
-#: ../admin/logs.php:152
+#: ../admin/logs.php:153
 msgid "Post ID"
 msgstr "شناسه نوشتار"
 
-#: ../admin/logs.php:153
+#: ../admin/logs.php:154
 msgid "Post Title"
 msgstr "عنوان نوشتار"
 
-#: ../admin/logs.php:154 ../admin/logs.php:276 ../admin/logs.php:402
-#: ../admin/logs.php:524
+#: ../admin/logs.php:155 ../admin/logs.php:278 ../admin/logs.php:405
+#: ../admin/logs.php:528
 msgid "Date / Time"
 msgstr "تاریخ / زمان"
 
-#: ../admin/logs.php:155 ../admin/logs.php:277 ../admin/logs.php:403
-#: ../admin/logs.php:525
+#: ../admin/logs.php:156 ../admin/logs.php:279 ../admin/logs.php:406
+#: ../admin/logs.php:529
 msgid "IP"
 msgstr "آدرس IP"
 
-#: ../admin/logs.php:156 ../admin/logs.php:278 ../admin/logs.php:404
-#: ../admin/logs.php:526
+#: ../admin/logs.php:157 ../admin/logs.php:280 ../admin/logs.php:407
+#: ../admin/logs.php:530
 msgid "Actions"
 msgstr "کارها"
 
-#: ../admin/logs.php:174 ../admin/logs.php:296 ../admin/logs.php:422
-#: ../admin/logs.php:544 ../admin/stats.php:198
+#: ../admin/logs.php:175 ../admin/logs.php:298 ../admin/logs.php:425
+#: ../admin/logs.php:548 ../admin/stats.php:198
 msgid "Guest User"
 msgstr "کاربر مهمان"
 
-#: ../admin/logs.php:219 ../admin/logs.php:345 ../admin/logs.php:468
-#: ../admin/logs.php:590
+#: ../admin/logs.php:220 ../admin/logs.php:347 ../admin/logs.php:471
+#: ../admin/logs.php:594
 msgid ""
 "<strong>ERROR:</strong> No Record Found. (This problem is created because "
 "you don't have any data on this table)"
@@ -297,48 +297,48 @@ msgstr ""
 "<strong>خطا:</strong> چیزی یافت نشد. (این مشکل به خاطر این مسأله ایجاد شده "
 "است که شما هیچ اطلاعاتی را در این جدول ندارید)"
 
-#: ../admin/logs.php:260 ../admin/stats.php:43 ../admin/admin.php:163
+#: ../admin/logs.php:262 ../admin/stats.php:43 ../admin/admin.php:181
 msgid "Comment Likes Logs"
 msgstr "وقایع لایک در دیدگاه ها"
 
-#: ../admin/logs.php:273
+#: ../admin/logs.php:275
 msgid "Comment ID"
 msgstr "شناسه دیدگاه"
 
-#: ../admin/logs.php:274
+#: ../admin/logs.php:276
 msgid "Comment Author"
 msgstr "نویسنده دیدگاه"
 
-#: ../admin/logs.php:275
+#: ../admin/logs.php:277
 msgid "Comment Text"
 msgstr "متن دیدگاه"
 
-#: ../admin/logs.php:387 ../admin/stats.php:44 ../admin/admin.php:167
+#: ../admin/logs.php:390 ../admin/stats.php:44 ../admin/admin.php:185
 msgid "Activity Likes Logs"
 msgstr "وقایع لایک در فعالیت ها"
 
-#: ../admin/logs.php:400
+#: ../admin/logs.php:403
 msgid "Activity ID"
 msgstr "شناسه فعالیت"
 
-#: ../admin/logs.php:401
+#: ../admin/logs.php:404
 msgid "Permalink"
 msgstr "لینک همیشگی"
 
-#: ../admin/logs.php:438
+#: ../admin/logs.php:441
 #, php-format
 msgid "<a href=\"%1$s\">Activity Permalink</a>"
 msgstr "<a href=\"%1$s\">مشاهده فعالیت</a>"
 
-#: ../admin/logs.php:509 ../admin/stats.php:45 ../admin/admin.php:171
+#: ../admin/logs.php:513 ../admin/stats.php:45 ../admin/admin.php:189
 msgid "Topics Likes Logs"
 msgstr "وقایع لایک در تاپیک ها"
 
-#: ../admin/logs.php:522
+#: ../admin/logs.php:526
 msgid "Topic ID"
 msgstr "شناسه تاپیک"
 
-#: ../admin/logs.php:523
+#: ../admin/logs.php:527
 msgid "Topic Title"
 msgstr "عنوان تاپیک"
 
@@ -487,19 +487,19 @@ msgstr ""
 "\">وردپرس يولايک را</a> انتخاب کرده ايد. طراحي و کدنويسي توسط <a href=\"%s\" "
 "title=\"Wordpress ULike\" target=\"_blank\">علي ميرزائي</a>"
 
-#: ../admin/admin.php:75 ../inc/wp-functions.php:307
+#: ../admin/admin.php:76 ../inc/wp-functions.php:307
 msgid "WP ULike"
 msgstr "وردپرس یولایک"
 
-#: ../admin/admin.php:83
+#: ../admin/admin.php:85
 msgid "Settings saved."
 msgstr "تنظیمات ذخیره شد"
 
-#: ../admin/admin.php:113 ../admin/admin.php:141
+#: ../admin/admin.php:121 ../admin/admin.php:156
 msgid "Failed! An Error Has Occurred While Deleting All ULike Logs/Data"
 msgstr "خطا! مشکلی در عملیات حذف وقایع/داده ها وجود دارد"
 
-#: ../admin/admin.php:115 ../admin/admin.php:143
+#: ../admin/admin.php:123 ../admin/admin.php:158
 msgid "Success! All ULike Logs/Data Have Been Deleted"
 msgstr "هووورا! همه وقایع/داده ها با موفقیت حذف شدند"
 
@@ -773,7 +773,7 @@ msgid "Default Template:"
 msgstr "قالب پیشفرض:"
 
 #: ../admin/classes/class-settings.php:81
-#: ../admin/classes/tmp/settings.php:169 ../inc/classes/class-ulike.php:423
+#: ../admin/classes/tmp/settings.php:169 ../inc/classes/class-ulike.php:426
 msgid "Users who have LIKED this post:"
 msgstr "کاربرانی که این مطلب را پسندیده اند:"
 
@@ -1244,7 +1244,7 @@ msgstr "برای امتیاز دهی به این دیدگاه، لطفا وار�
 msgid "You need to login in order to like this activity: "
 msgstr "برای امتیاز دهی به این فعالیت، لطفا وارد شوید: "
 
-#: ../inc/wp-ulike.php:352
+#: ../inc/wp-ulike.php:353
 msgid "Error: This Method Is Not Exist!"
 msgstr "خطا: این متد وجود خارجی ندارد!"
 

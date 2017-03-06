@@ -23,8 +23,6 @@ class BP_Course_Action{
     }
 
     private function __construct(){
-    	
-    	$this->nav = get_option('vibe_course_permalinks');
 
 		add_action('bp_activity_register_activity_actions',array($this,'bp_course_register_actions'));
 		add_filter( 'woocommerce_get_price_html', array($this,'course_subscription_filter'),100,2 );
@@ -139,6 +137,7 @@ class BP_Course_Action{
             
             <div id="unit" class="<?php echo get_post_type($this->status_unit_id); ?>_title" data-unit="<?php if(isset($this->status_unit_id)) echo $this->status_unit_id; ?>">
                 <div class="unit_title_extras">
+                <?php do_action('wplms_unit_header',$this->status_unit_id,$this->status_course_id);?>
             	<?php
                
                 $duration = get_post_meta($this->status_unit_id,'vibe_duration',true);
@@ -965,7 +964,9 @@ class BP_Course_Action{
 	  }else if ( isset($_POST['continue_course']) && wp_verify_nonce($_POST['continue_course'],'continue_course'.$user_id) ){
 	    $course_id=$_POST['course_id'];
 	    $coursetaken=get_user_meta($user_id,$course_id,true);
-	      setcookie('course',$course_id,$expire,'/');
+        $course_duration_parameter = apply_filters('vibe_course_duration_parameter',86400,$course_id);
+        $expire=time()+$course_duration_parameter; // One Unit logged in Limit for the course
+        setcookie('course',$course_id,$expire,'/');
 	  }else{
 	    if(isset($_COOKIE['course'])){
 	      $course_id=$_COOKIE['course'];
@@ -1454,6 +1455,18 @@ class BP_Course_Action{
 			}
 		}
 	}
+
+    //Get Nav only when required
+    function get_nav(){
+        if(class_exists('Vibe_CustomTypes_Permalinks')){
+            $x = Vibe_CustomTypes_Permalinks::init();
+            $this->nav = $x->permalinks;
+        }else{
+            $this->nav = get_option('vibe_course_permalinks');
+        }
+
+        return apply_filters('vibe_course_permalinks',$this->nav);
+    }
 }
 
 
@@ -1462,5 +1475,5 @@ BP_Course_Action::init();
 
 function bp_course_get_nav_permalinks(){
 	$action = BP_Course_Action::init();
-	return $action->nav;
+	return $action->get_nav();
 }

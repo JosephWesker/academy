@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $args = apply_filters('wplms-mobile-menu',array(
                     'theme_location'  => 'mobile-menu',
                     'container'       => '',
+                    'container'       => '',
+                    'items_wrap' => '<div class="mobile_icons"><a id="mobile_searchicon"><i class="fa fa-search"></i></a>'.( (function_exists('WC')) ?'<a href="'.WC()->cart->get_cart_url().'"><span class="fa fa-shopping-basket"><em>'.WC()->cart->cart_contents_count.'</em></span></a>':'').'</div><ul id="%1$s" class="%2$s">%3$s</ul>',
                     'menu_class'      => 'sidemenu',
                     'fallback_cb'     => 'vibe_set_menu',
                 ));
@@ -50,20 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
                             ?>
                             <ul class="topmenu">
-                                <li>
-                                    <div id="topsearchdiv">
-                                        <form role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
-                                            <div>
-                                                <input type="text" value="<?php the_search_query(); ?>" name="s" id="s" placeholder="<?php _e('Hit enter to search...','vibe'); ?>" />
-                                                <?php 
-                                                    $course_search=vibe_get_option('course_search');
-                                                    if(isset($course_search) && $course_search)
-                                                        echo '<input type="hidden" value="course" name="post_type" />';
-                                                ?>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </li>
+                                <li><a id="new_searchicon"><i class="fa fa-search"></i></a></li>
                                 <li><a href="<?php bp_loggedin_user_link(); ?>" class="smallimg vbplogin"><?php $n=vbp_current_user_notification_count(); echo ((isset($n) && $n)?'<em></em>':''); bp_loggedin_user_avatar( 'type=full' ); ?><?php bp_loggedin_user_fullname(); ?></a></li>
                                 <?php do_action('wplms_header_top_login'); ?>
                             </ul>

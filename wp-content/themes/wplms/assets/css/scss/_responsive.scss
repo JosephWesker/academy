@@ -24,6 +24,7 @@
 }
 @media (max-width: 991px) and (min-width:768px){
 	.blogpost .featured {max-width:320px;margin-right:0;}
+	#searchdiv input[type="text"]{font-size:4rem;}
 }	
 @media (max-width: 767px) {
 	
@@ -40,7 +41,7 @@
 		display: block;
 		clear:both;
 	}
-	
+	#searchdiv input[type="text"]{font-size:3rem;}
 	#certificate h1{font-size:40px;}
 	#buddypress{
 		.dir-form{
@@ -78,14 +79,9 @@
 	#buddypress div.item-list-tabs#subnav ul li.last{
 		clear:both;
 	}
-	
-	.unit_prevnext{height:85px;}
-
-	
+	#searchdiv input[type="text"]{font-size:2rem;}
+	.unit_prevnext{height:85px;}	
 }
-
-
-
 
 
 
@@ -160,7 +156,7 @@
 	.course_lesson b{display: block;}
 }
 @media only screen and (max-width: 320px){
-	
+	#searchdiv input[type="text"]{font-size:1.6rem;}
 }
 
 

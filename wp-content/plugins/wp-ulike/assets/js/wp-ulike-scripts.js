@@ -1,5 +1,5 @@
 /**
- * WP ULike Plugin 2.4.1
+ * WP ULike Plugin 2.4.2
  *
  * http://wordpress.org/plugins/wp-ulike/
  * https://github.com/Alimir/wp-ulike
@@ -39,6 +39,7 @@ jQuery(document).ready(function($) {
 			//start AJAX
 			jQuery.ajax({
 			  type:'POST',
+			  cache: false,
 			  url: ulike_obj.ajaxurl,
 			  data:{
 				action:'wp_ulike_process',

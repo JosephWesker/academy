@@ -9,7 +9,7 @@ define('THEME_FULL_NAME','WPLMS');
 define('VIBE_PATH',get_theme_root().'/wplms');
 if ( !defined( 'VIBE_URL' ) )
 	define('VIBE_URL',get_template_directory_uri());
-define('WPLMS_VERSION','2.5.2');
+define('WPLMS_VERSION','2.6');
 
 
 if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )

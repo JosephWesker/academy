@@ -16,7 +16,6 @@ class BP_Course_Admin{
 	public function __construct(){
 		add_action('bbp_forum_metabox',array($this,'enable_course_connectivity'),10,1);
 		add_action('bbp_forum_attributes_metabox_save',array($this,'save_support'),10,1);
-		add_action('bbp_topic_metabox',array($this,'topic_metabox'),10,1);
 	}
 
 	function enable_course_connectivity($post_id){

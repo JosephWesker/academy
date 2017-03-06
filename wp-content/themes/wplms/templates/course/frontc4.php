@@ -20,7 +20,7 @@ do_action('wplms_course_before_front_main');
 do_action('wplms_before_course_description');
 ?>
 
-<div class="course_description">
+<div class="course_description" id="course-home">
 	<?php if(!empty($post->post_excerpt) && strpos($post->post_content,$post->post_excerpt) === false){ echo '<h6>';the_excerpt(); echo '</h6>';} ?>
 	<div class="small_desc">
 	<?php 
@@ -60,7 +60,7 @@ do_action('wplms_before_course_description');
 do_action('wplms_after_course_description');
 ?>
 
-<div class="course_reviews">
+<div class="course_reviews" id="course-reviews">
 <?php
 	 comments_template('/course-review.php',true);
 ?>

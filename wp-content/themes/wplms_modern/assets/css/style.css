@@ -451,6 +451,9 @@ body.buddypress.directory #content {
 .modern-theme.single-course .course_header, .modern-theme.minimal.single-course.c2 .course_header, .modern-theme.minimal.single-course.c3 .course_header, .modern-theme.minimal.single-course.c5 .course_header, .modern-theme.elegant.single-course.c2 .course_header, .modern-theme.elegant.single-course.c3 .course_header {
   background-color: transparent; }
 
+.submit_quiz + .save_quiz_progress {
+  margin-top: 15px; }
+
 .directory:not(.d2):not(.d3):not(.d4):not(.d5) #title,
 .archive.tax-course-cat:not(.d2):not(.d3):not(.d4):not(.d5) #title,
 .archive.tax-course-level:not(.d2):not(.d3):not(.d4):not(.d5) #title,
@@ -1754,3 +1757,29 @@ MINIMAL THEME BUG FIXES
 
 .modern-theme.archive #content #buddypress {
   margin-top: 30px !important; }
+body.modern-theme.single-course.c3 header.transparent+section#title,body.modern-theme.single-course.c2 header.transparent+section#title{
+    padding-top : 0px!important;
+}
+.bbpress.modern-theme.reply-edit section#title {padding: 120px 0 30px;}
+.modern-theme header.standard.fix {
+    z-index: 8 !important;
+}
+.modern-theme header.standard.fix.fixed {
+    z-index: 99 !important;
+}
+.modern-theme header.standard.fixed {
+    transform: translateY(0px) !important;
+}
+.modern-theme.admin-bar header.standard.fixed {
+    transform: translateY(30px) !important;
+}
+@media(max-width:781px){
+.modern-theme header.standard.fixed {
+    top: 0 !important;
+    transform: translateY(0px) !important;
+}
+.modern-theme.admin-bar header.standard.fixed {
+    transform: translateY(0px) !important;
+}
+}
+

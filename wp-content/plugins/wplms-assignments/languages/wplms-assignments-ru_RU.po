@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPLMS Assignments\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 16:54+0530\n"
-"PO-Revision-Date: 2017-02-01 16:54+0530\n"
+"POT-Creation-Date: 2017-02-23 16:11+0530\n"
+"PO-Revision-Date: 2017-02-23 16:11+0530\n"
 "Last-Translator: Vibethemes <vibethemes@gmail.com>\n"
 "Language-Team: Vibethemes <vibethemes@gmail.com>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -114,275 +114,273 @@ msgstr "Email"
 msgid "Themeforest User name ( for Auto-Updates )"
 msgstr "Логин на Themeforest (для автоматических обновлений)"
 
-#: includes/assignments.php:67 includes/assignments_functions.php:218
+#: includes/assignments.php:64 includes/assignments_functions.php:218
 #: includes/assignments_functions.php:294
 msgid "Security check failed !"
 msgstr "Проверка безопасности не пройдена!"
 
-#: includes/assignments.php:72 includes/assignments_functions.php:299
+#: includes/assignments.php:69 includes/assignments_functions.php:299
 msgid " Incorrect User selected."
 msgstr "Выбран неверный пользователь."
 
-#: includes/assignments.php:77 includes/assignments_functions.php:304
+#: includes/assignments.php:74 includes/assignments_functions.php:304
 msgid " Incorrect Assignment"
 msgstr "Неверное задание"
 
-#: includes/assignments.php:85
+#: includes/assignments.php:82
 msgid "SUBMISSION"
 msgstr "ОТПРАВКА"
 
-#: includes/assignments.php:103 includes/assignments.php:106
-#: includes/assignments.php:784
+#: includes/assignments.php:100 includes/assignments.php:103
+#: includes/assignments.php:771 includes/assignments.php:774
 msgid "Download Attachment"
 msgstr "Загрузить приложение"
 
-#: includes/assignments.php:113
+#: includes/assignments.php:110
 #, php-format
 msgctxt "Assignment submission by User"
 msgid "%s submission by %s"
 msgstr ""
 
-#: includes/assignments.php:115
+#: includes/assignments.php:112
 msgid "Enter marks out of "
 msgstr ""
 
-#: includes/assignments.php:116
+#: includes/assignments.php:113
 msgid "REMARKS (if any)"
 msgstr "ЗАМЕЧАНИЯ (если есть)"
 
-#: includes/assignments.php:121
+#: includes/assignments.php:118
 msgid "Attach File"
 msgstr ""
 
-#: includes/assignments.php:125 includes/assignments.php:1668
+#: includes/assignments.php:122 includes/assignments.php:1672
 msgid "Allowed file types"
 msgstr ""
 
-#: includes/assignments.php:125 includes/assignments.php:1668
+#: includes/assignments.php:122 includes/assignments.php:1672
 msgid "maximum file size"
 msgstr ""
 
-#: includes/assignments.php:125 includes/assignments.php:1668
+#: includes/assignments.php:122 includes/assignments.php:1672
 msgid "MB(s)"
 msgstr ""
 
-#: includes/assignments.php:132 includes/assignments.php:1697
+#: includes/assignments.php:129 includes/assignments.php:1701
 msgid "Drop files here"
 msgstr ""
 
-#: includes/assignments.php:133 includes/assignments.php:1698
+#: includes/assignments.php:130 includes/assignments.php:1702
 msgctxt "Uploader: Drop files here - or - Select Files"
 msgid "or"
 msgstr ""
 
-#: includes/assignments.php:134 includes/assignments.php:1699
+#: includes/assignments.php:131 includes/assignments.php:1703
 msgid "Select Files"
 msgstr ""
 
-#: includes/assignments.php:142 includes/assignments.php:1707
+#: includes/assignments.php:139 includes/assignments.php:1711
 msgid "Please do not close the window until process is completed"
 msgstr ""
 
-#: includes/assignments.php:241 includes/assignments.php:1835
+#: includes/assignments.php:218
+msgid ""
+"There is a space in file name .Please remove space from your filename and "
+"try to re-upload"
+msgstr ""
+
+#: includes/assignments.php:242 includes/assignments.php:1839
 msgid "  already exists. Please rename the file and try again."
 msgstr ""
 
-#: includes/assignments.php:255 includes/assignments.php:1849
+#: includes/assignments.php:256 includes/assignments.php:1853
 msgid "Are you sure you want to quit uploading?"
 msgstr ""
 
-#: includes/assignments.php:314 includes/assignments.php:1906
+#: includes/assignments.php:315 includes/assignments.php:1910
 msgid "File type not allowed"
 msgstr ""
 
-#: includes/assignments.php:348
+#: includes/assignments.php:349
 msgid "GIVE MARKS"
 msgstr "ОЦЕНИТЬ"
 
-#: includes/assignments.php:423
-msgid "Enable plupload in Assignments"
-msgstr ""
-
-#: includes/assignments.php:425
-msgid "Enables plupload in assignments(No upload limit)"
-msgstr ""
-
-#: includes/assignments.php:436
+#: includes/assignments.php:422
 msgctxt "assignments connected to the course, Course - admin - user - stats"
 msgid "Assignments"
 msgstr ""
 
-#: includes/assignments.php:470
+#: includes/assignments.php:456
 #, php-format
 msgctxt "Assignment Submissions in course/admin/submissions"
 msgid "Assignment Submissions <span>%d</span>"
 msgstr ""
 
-#: includes/assignments.php:519
+#: includes/assignments.php:505
 msgctxt "assignment status"
 msgid "Pending evaluation"
 msgstr ""
 
-#: includes/assignments.php:520
+#: includes/assignments.php:506
 msgctxt "assignment status"
 msgid "Evaluation complete"
 msgstr ""
 
-#: includes/assignments.php:523
+#: includes/assignments.php:509
 msgctxt "get assignment submissions button"
 msgid "Get"
 msgstr ""
 
-#: includes/assignments.php:556
+#: includes/assignments.php:542
 msgctxt "No assignments in course, error on course submissions"
 msgid "No assignments found !"
 msgstr ""
 
-#: includes/assignments.php:566
+#: includes/assignments.php:552
 msgid "Security check Failed. Contact Administrator."
 msgstr ""
 
-#: includes/assignments.php:606
+#: includes/assignments.php:592
 msgid "Reset Assignment for User"
 msgstr ""
 
-#: includes/assignments.php:607
+#: includes/assignments.php:593
 msgid "Evaluate Assignment : "
 msgstr ""
 
-#: includes/assignments.php:615
+#: includes/assignments.php:601
 msgid "No submissions found !"
 msgstr ""
 
-#: includes/assignments.php:682
+#: includes/assignments.php:668
 msgid "Assignment Results"
 msgstr ""
 
-#: includes/assignments.php:697
+#: includes/assignments.php:683
 #, php-format
 msgid "Viewing %d out of %d"
 msgstr ""
 
-#: includes/assignments.php:732
+#: includes/assignments.php:718
 msgid "Results Available"
 msgstr ""
 
-#: includes/assignments.php:734
+#: includes/assignments.php:720
 msgid "Results Awaited"
 msgstr ""
 
-#: includes/assignments.php:751
+#: includes/assignments.php:737
 #, php-format
 msgctxt "assignment submission time"
 msgid "Submitted %s"
 msgstr ""
 
-#: includes/assignments.php:771
+#: includes/assignments.php:757
 msgid "My Submission"
 msgstr ""
 
-#: includes/assignments.php:801
+#: includes/assignments.php:793
 msgid "See Instructor Remarks"
 msgstr ""
 
-#: includes/assignments.php:804
+#: includes/assignments.php:796
 msgid "Marks Obtained"
 msgstr ""
 
-#: includes/assignments.php:826
+#: includes/assignments.php:818
 msgid "Assignment Attachment deleted."
 msgstr "Приложение к поручению удалено."
 
-#: includes/assignments.php:893
+#: includes/assignments.php:885
 msgid "Upload Assignment"
 msgstr "Загрузить задание"
 
-#: includes/assignments.php:1497
+#: includes/assignments.php:1419 includes/assignments.php:2009
+#: includes/assignments.php:2013 includes/assignments.php:2015
+#: includes/assignments.php:2017 includes/assignments.php:2019
+#: includes/assignments.php:2021 includes/assignments.php:2023
+#: includes/assignments.php:2025 includes/assignments.php:2029
+msgid "ERROR:"
+msgstr "ОШИБКА: "
+
+#: includes/assignments.php:1419 includes/assignments.php:2009
+msgid "File you upload must be valid file type"
+msgstr "Загружаемый файл должен быть в допустимом формате"
+
+#: includes/assignments.php:1419 includes/assignments.php:2009
+msgid ", and under "
+msgstr ", и не превышать допустимый размер "
+
+#: includes/assignments.php:1419 includes/assignments.php:2009
+msgid "MB(s)!"
+msgstr ""
+
+#: includes/assignments.php:1501
 msgid "Security check failed contact administrator"
 msgstr ""
 
-#: includes/assignments.php:1590 includes/assignments_functions.php:272
+#: includes/assignments.php:1594 includes/assignments_functions.php:272
 msgid "Invalid ID"
 msgstr "Неверный ID"
 
-#: includes/assignments.php:1595
+#: includes/assignments.php:1599
 msgid "Attachment removed!"
 msgstr ""
 
-#: includes/assignments.php:1597 includes/assignments.php:1601
+#: includes/assignments.php:1601 includes/assignments.php:1605
 #: includes/assignments_functions.php:278
 msgid "Unable to remove previous submissions"
 msgstr "Невозможно удалить предыдущие отправки"
 
-#: includes/assignments.php:1673
+#: includes/assignments.php:1677
 msgid "RECENTLY UPLOADED"
 msgstr ""
 
-#: includes/assignments.php:2004 includes/assignments.php:2008
-#: includes/assignments.php:2010 includes/assignments.php:2012
-#: includes/assignments.php:2014 includes/assignments.php:2016
-#: includes/assignments.php:2018 includes/assignments.php:2020
-#: includes/assignments.php:2024
-msgid "ERROR:"
-msgstr "ОШИБКА: "
-
-#: includes/assignments.php:2004
-msgid "File you upload must be valid file type"
-msgstr "Загружаемый файл должен быть в допустимом формате"
-
-#: includes/assignments.php:2004
-msgid ", and under "
-msgstr ", и не превышать допустимый размер "
-
-#: includes/assignments.php:2004
-msgid "MB(s)!"
-msgstr ""
-
-#: includes/assignments.php:2008 includes/assignments.php:2024
+#: includes/assignments.php:2013 includes/assignments.php:2029
 msgid "Please upload an Attachment."
 msgstr "Пожалуйста, загрузите приложение."
 
-#: includes/assignments.php:2010
+#: includes/assignments.php:2015
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 "Загружаемый файл превышает допустимый размер, заданный в файле php.ini."
 
-#: includes/assignments.php:2012
+#: includes/assignments.php:2017
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form."
 msgstr "Загружаемый файл превышает допустимый размер, заданный в HTML форме."
 
-#: includes/assignments.php:2014
+#: includes/assignments.php:2019
 msgid "The uploaded file was only partially uploaded. Please try again later."
 msgstr ""
 "Файл был загружен частично. Пожалуйста, попробуйте снова немного погодя. "
 
-#: includes/assignments.php:2016
+#: includes/assignments.php:2021
 msgid "Missing a temporary folder."
 msgstr "Отсутствует временная директория."
 
-#: includes/assignments.php:2018
+#: includes/assignments.php:2023
 msgid "Failed to write file to disk."
 msgstr "Невозможно записать файл на сервер."
 
-#: includes/assignments.php:2020
+#: includes/assignments.php:2025
 msgid "A PHP extension stopped the file upload."
 msgstr "Расширение PHP прервало загрузку файла."
 
-#: includes/assignments.php:2046 includes/assignments.php:2051
+#: includes/assignments.php:2051 includes/assignments.php:2056
 msgid "Attachment:"
 msgstr ""
 
-#: includes/assignments.php:2168
+#: includes/assignments.php:2176
 msgid "Download"
 msgstr ""
 
-#: includes/assignments.php:2242
+#: includes/assignments.php:2250
 msgid "Delete Attachment"
 msgstr "Удалить приложение"
 
-#: includes/assignments.php:2276
+#: includes/assignments.php:2284
 #, php-format
 msgid ""
 "Regarding WPLMS Assignments Upload Assignment Functionality : It seems like "

@@ -462,18 +462,18 @@ function wplms_check_plugin_notice() {
 	
 	if(!empty($parent) && defined('THEME_SHORT_NAME') && $wplms->name != 'WPLMS Blank ChildTheme'){
 
-		if(in_array($wplms->name,array('WPLMS Modern','WPLMS Instructor'))){			
+		if(in_array($wplms->name,array('WPLMS Modern','WPLMS Instructor','WPLMS one Page','WPLMS ChildTheme I'))){			
 			$wplms_parent = wp_get_theme(THEME_SHORT_NAME);
 			$val = $wplms_parent->get('Version');
-			if (version_compare($val, "2.0.8") < 0) {
+			if (version_compare($val, "2.6") < 0) {
 				echo '<div class="error">
-				    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms_parent->name,'2.0.8').'</p>
+				    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms_parent->name,'2.6').'</p>
 				  </div>';
 			}
 
-			if (version_compare($value, "2.0.6") < 0) {
+			if (version_compare($value, "2.6") < 0) {
 				echo '<div class="error">
-				    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.0.8').'</p>
+				    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.6').'</p>
 				  </div>';
 			}
 		}
@@ -481,9 +481,9 @@ function wplms_check_plugin_notice() {
 	}else{
 		$wplms = wp_get_theme(THEME_SHORT_NAME);
 		$value=$wplms->get('Version');
-		if (version_compare($value, "2.3") < 0) {
+		if (version_compare($value, "2.6") < 0) {
 			echo '<div class="error notice is-dismissible">
-			    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.3').'</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+			    <p>'.sprintf(__( 'Please Update the %s theme to latest version %s', 'vibe' ),$wplms->name,'2.6').'</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
 			  </div>';
 		}
 	}

@@ -1,8 +1,8 @@
-/**
- * Gen maps function without anything
- */
-(function($){
-	$.fn.evoGenmaps = function(opt){
-
-	};
+/**
+ * Gen maps function without anything
+ */
+(function($){
+	$.fn.evoGenmaps = function(opt){
+
+	};
 }(jQuery));

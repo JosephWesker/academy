@@ -54,7 +54,7 @@
 						$students_undertaking = $vibe->get_students_undertaking(array('number'=>9));
 						$students=get_post_meta(get_the_ID(),'vibe_students',true);
 
-						echo '<strong>'.$students.__(' STUDENTS ENROLLED','vibe').'</strong>';
+						echo '<strong>'.$students.__(' STUDENTS ENROLLED','wplms_modern').'</strong>';
 
 						echo '<ul>';
 						$i=0;

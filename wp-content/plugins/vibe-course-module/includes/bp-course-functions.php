@@ -244,7 +244,7 @@ function the_course_button($id=NULL){
    $free_course= get_post_meta($course_id,'vibe_course_free',true);
 
   if(!is_user_logged_in() && vibe_validate($free_course)){
-    echo apply_filters('wplms_course_non_loggedin_user','<a href="'.get_permalink($course_id).'?error=login" class="course_button button full">'.apply_filters('wplms_take_this_course_button_label',__('TAKE THIS COURSE','vibe'),$course_id).'</a>',$course_id); 
+    echo apply_filters('wplms_course_non_loggedin_user','<a href="'.get_permalink($course_id).'?error=login" class="course_button button full '.((function_exists('vibe_get_option') && vibe_get_option('enable_ajax_registration_login'))?'auto_trigger':'').'">'.apply_filters('wplms_take_this_course_button_label',__('TAKE THIS COURSE','vibe'),$course_id).'</a>',$course_id); 
     return;
   }
 
@@ -723,8 +723,9 @@ if(!function_exists('the_quiz_timer')){
       echo '<div class="quiz_timer '.(($start)?'start':'').'" data-time="'.$minutes.'">
       <span class="timer" data-timer="'.$minutes.'"></span>
       <span class="countdown">'.minutes_to_hms($minutes).'</span>
-      <span>'.__('Time Remaining','vibe').'</span>
-      <span><strong>'.__('Mins','vibe').'</strong> '.__('Secs','vibe').'</span>
+      <span>'.__('Time Remaining','vibe').'</span>'.
+      '<span '.(($minutes >= 10800)?'':'style="display:none;"').' class="timer_hours_labels"><strong>'.__('Hour','vibe').'</strong> '.__('Mins','vibe').'</span>'.
+      '<span '.(($minutes >= 10800)?'style="display:none;"':'').' class="timer_mins_labels"><strong>'.__('Mins','vibe').'</strong> '.__('Secs','vibe').'</span>'.'
       </div>';
        
   }
@@ -901,7 +902,12 @@ if(!function_exists('student_quiz_retake')){
 
 if(!function_exists('minutes_to_hms')){
   function minutes_to_hms($sec){
-    if($sec > 60){
+    if($sec >= 10800){
+       $hours = floor($sec/3600);
+        $mins = floor(($sec%3600)/60);
+        if($mins < 10) $mins = '0'.$mins;
+        return $hours.':'.$mins;
+    }else if($sec > 60){
         $minutes = floor($sec/60);
         $secs = $sec%60;
         if($secs < 10) $secs = '0'.$secs;
@@ -1368,12 +1374,7 @@ function bp_course_quiz_auto_submit($quiz_id,$user_id){
                 if(isset($question) && $question){
 
                     $type = get_post_meta($question,'vibe_question_type',true); 
-                    $auto_evaluate_question_types = vibe_get_option('auto_eval_question_type');
-                    if(isset($auto_evaluate_question_types) && is_Array($auto_evaluate_question_types) && count($auto_evaluate_question_types)){
-                      // Validated
-                    }else{
-                        $auto_evaluate_question_types=array('truefalse','single','multiple','sort','match','fillblank','select','smalltext');
-                    }                       
+                    $auto_evaluate_question_types=array('truefalse','single','multiple','sort','match','fillblank','select','smalltext');                     
 
                     if($type == 'survey'){
                         $correct_answer=get_post_meta($question,'vibe_question_answer',true);

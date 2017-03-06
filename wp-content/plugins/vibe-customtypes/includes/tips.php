@@ -261,6 +261,9 @@ class WPLMS_tips{
 					case 'fix_course_menu_on_scroll':
 						add_filter('wp_footer',array($this,'fix_course_menu_on_scroll'));
 					break;
+					case 'finish_course_auto_trigger':
+						add_action('wplms_before_start_course',array($this,'finish_course_auto_trigger'));
+					break;
 					case 'disable_instructor_display':
 						add_filter('wplms_display_instructor',array($this,'wplms_display_instructor'),11);
 					break;
@@ -677,7 +680,7 @@ class WPLMS_tips{
 		return $this->settings['members_default_order'];
 	}
 	function default_members_order($string,$object){
-		if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+		if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
 			if(!isset($_COOKIE['bp-members-filter'])) { // Filter cookie not set
 				if ( bp_is_active( 'members' ) ){
 					$string.='&type='.$this->settings['members_default_order'];
@@ -1055,7 +1058,7 @@ class WPLMS_tips{
 		
 	    global $post;
 	    // Bail if not viewing a single item or if user has caps
-	    if (!is_singular() || bbp_is_user_keymaster() || current_user_can('read_hidden_forums') || bbp_is_forum_archive())
+	    if (!is_singular() || bbp_is_user_keymaster() || current_user_can('read_hidden_forums') || bbp_is_forum_archive() || bp_is_my_profile())
 	        return;
 
 	    if (!$this->bpp_can_user_view_post($post->ID)) { 
@@ -1906,6 +1909,44 @@ class WPLMS_tips{
 		<?php
 	}
 
+	function finish_course_auto_trigger(){
+		add_action('wp_footer',function(){
+
+			?>
+		<script>
+			jQuery(document).ready(function($){
+				$('.unit_content').on('unit_traverse',function(){
+				  var value= parseInt($('.course_progressbar').attr('data-value'));
+				  if(value >= 100){
+				    $('input[name="submit_course"]').trigger('click');
+				  }else{
+
+				     $('input[name="submit_course"]').addClass('hide');
+				  }
+				});
+				$('.course_progressbar').on('increment',function(){
+				  var value= parseInt($('.course_progressbar').attr('data-value'));
+				  if(value >= 100){
+				    $('input[name="submit_course"]').trigger('click');
+				  }else{
+
+				     $('input[name="submit_course"]').addClass('hide');
+				  }
+				});
+				var value= parseInt($('.course_progressbar').attr('data-value'));
+				  if(value >= 100){
+				    $('input[name="submit_course"]').trigger('click');
+				  }else{
+
+				     $('input[name="submit_course"]').addClass('hide');
+				  }
+			});
+		</script>
+		<?php
+
+		});
+	}
+
 } // End of Class
 
 
@@ -1945,7 +1986,7 @@ class wplms_course_codes extends WP_Widget {
     	// Display the widget title 
     	if ( $title )
       		echo $before_title . $title . $after_title;
-
+      	$placeholder = '';
       	echo '<form method="post">
       			<input type="text" name="course_code" class="form_field" placeholder="'.$placeholder.'"/>';
       			wp_nonce_field('security'.$user_id,'security_code');

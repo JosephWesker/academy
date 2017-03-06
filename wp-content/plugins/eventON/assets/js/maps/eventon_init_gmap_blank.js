@@ -1,5 +1,5 @@
-
-
-function initialize() {
-	// nothing
+
+
+function initialize() {
+	// nothing
 }

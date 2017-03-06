@@ -17,6 +17,9 @@
 			.col-md-9.col-sm-6.col-xs-12 #logo{
 				float:left !important;
 			}
+			#trigger{
+				right:15px;
+			}
 		}
 
 
@@ -48,10 +51,7 @@
 
 		/* ==== APP HEADER === */
 		&.app{
-			#trigger{
-				right:auto;
-				left:84px;
-			}
+			.topmenu{display:none;}
 		}
 
 	}
@@ -74,6 +74,11 @@
 		    }
 		}
 	} 
+
+
+	#new_searchicon{
+		display:none;
+	}
 
 	#header_logo,#header_alt_logo{display:none;}
 	#header_mobile_logo.hide{display:block !important;}
@@ -98,25 +103,11 @@
 
 	
 
-		#searchdiv{
-			position: absolute;
-			top: 38px;
-			right: 0;
-			float: right;
-			color:#FFF;
-			margin: 0;
-			padding: 10px 0 30px;
-			font-size: 30px;
-		}
-		#searchform:after{right:90px;}
-	    #searchdiv.active{width:100%;}
-	    #searchicon{
-	    	padding-right: 5px;
-	    	padding-left: 10px;
-		}
-
 		/* ==== SLEEK HEADER === */	
 		&.sleek{
+			.vbpcart{
+				display:none !important;
+			}
 			.smallimg img{margin:0;}
 			ul.topmenu{
 	    		margin-right: 40px;
@@ -132,56 +123,12 @@
 		/* ==== STANDARD HEADER === */
 
 		&.standard{
-			#searchicon{
-				position:relative;
-				float:left;
-				top:0;
-				left:0;
-			}
 		}
 		/* ==== STANDARD CENTER HEADER === */
 
 
 
 		/* ==== MOOC HEADER === */
-
-		&.mooc{
-			#trigger{
-				left:15px;
-				top: 20px;
-			}
-			#logo{
-				margin:0;
-			}
-			#mooc_searchform{
-				margin:0 10px 0 45px !important;
-				&:before{
-					color:#444;
-					font-size:14px;
-					top:20px;
-					right:auto;
-				}
-				.search_form{
-					display:none;
-					position:absolute;
-					top:48px;
-					left:-10px;
-					width:100%;
-					z-index:9;
-					#s{
-						width:200px;
-					}
-				}
-				.search_form.active{
-					display:block;
-				}
-			}
-			&.app{
-				#mooc_searchform .search_form {
-	    			left: -160px;
-				}
-			}
-		}
 
 		/* ==== APP HEADER === */
 		&.mooc.app{
@@ -194,7 +141,6 @@
 				right:10px;    
 				top: 20px;
 			}
-			#mooc_searchform{display:none;}
 		}
 	}
 	.admin-bar{

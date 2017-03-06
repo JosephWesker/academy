@@ -46,7 +46,15 @@ header{
 			z-index:9999;
 			transform: translateY(40px); 
 	    }
-	    .smallimg img{margin-top: -12px;}
+	    .smallimg{
+	    	position:relative;
+	    	padding-left:28px;
+	    	img{
+	    		position:absolute;
+	    		left:0;
+	    		margin-top:-4px;
+	    	}
+	    } 
 	}
 	&.sleek{
 	    &.transparent{
@@ -98,10 +106,6 @@ header{
 			    height: 45px;
 			    border-radius: 50%;
 		    }
-		}
-		#mooc_searchform{
-			float:right;
-			margin:30px 20px 0 0;
 		}
 		.topmenu{
 			li{
@@ -314,45 +318,19 @@ header{
 .mooc{
 	#logo{
 		text-align:center;
+		float:left;
+		margin-right:30px;
 		a{
 			display:inline-block;
-		}
-	}
-	#mooc_searchform{
-		position:relative;
-		border-bottom:2px solid rgba(0,0,0,0.1);
-		transition: all 0.6s ease-in-out;
-		.search_form{
-			#s{
-			    padding:5px 15px 5px 5px;
-			    border:none;
-			    background:none;
-			    width:0;
-			    transition: all 0.6s ease-in-out;
-			}
-		}
-		&:hover,&:focus,&:active{
-			.search_form{
-				#s{
-				    width:100%;
-				    transition: all 0.6s ease-in-out;
-				}
-			}
-		}
-		&:before{
-			content:"\f002";
-			font-family:'fontawesome';
-			position:absolute;
-			right:8px;
-			top:8px;
-			font-size:11px;
-			color:#bbb;
 		}
 	}
 	&.app{
 		#mooc_searchform:before{
 			top:0;
 		}
+	}
+	#vibe_bp_login.default_login{
+		top:76px;
 	}
 }
 
@@ -367,8 +345,8 @@ header{
 		font-weight: 600;
 	    margin: 0 10px;
 	    padding: 30px 6px;
+	    font-size:13px;
 	    display: inline-block;
-	    font-size: 13px;
 	    text-transform: uppercase;
 	    color: #FFF;
 	    opacity:1;
@@ -421,10 +399,6 @@ header{
 		float:right;
 		margin:24px 0 0 20px;
 		display:inline-block;
-	}
-	#trigger{
-	    top: 24px;
-	    position: fixed;
 	}
 }
 

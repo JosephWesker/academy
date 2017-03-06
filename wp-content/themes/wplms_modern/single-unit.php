@@ -6,35 +6,43 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
     $id = get_the_ID();
 ?>
 <section id="title" class="title-area">
-  <div class="title-content">
-    <div class="container">
-      <div class="title-text">
-        <div class="row">
+      <div class="title-content">
+        <div class="container">
+          <div class="title-text">
+            <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="pagetitle">
                             <?php
-                            if(isset($_GET['id']) && is_numeric($_GET['id'])){
-                              if(strpos($_SERVER["REQUEST_URI"],'/edit/')){
-                                $edit_course = vibe_get_option('create_course');
-                                if(isset($edit_course) && is_numeric($edit_course))
-                                    echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($edit_course).'?action='.$_GET['id'].'" class="link">'.__('Back to Edit Course','wplms_modern').'</a>';
-                                else
-                                    echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($_GET['id']).'?action=curriculum" class="link">'.__('Back to Course','wplms_modern').'</a>';      
-                              }else{
-                                echo '<input id="course_id" type="hidden" value="'.$_GET['id'].'"><a href="'.get_permalink($_GET['id']).'?action=curriculum" class="link">'.__('Back to Course','wplms_modern').'</a>';  
+                              if(isset($_GET['id']) && is_numeric($_GET['id'])){
+                              
+                                global $wpdb;
+                                $uid=get_the_ID();
+                                $course_id = $_GET['id'];
+                                if(function_exists('bp_course_get_unit_course_id') && empty($course_id)){
+                                  $course_id = bp_course_get_unit_course_id($uid);
+                                }
+                                if(is_numeric($course_id) && get_post_type($course_id) == 'course' ){
+                                  $extension = '';
+                                  if(class_exists('WPLMS_tips')){
+                                    $settings = WPLMS_tips::init();
+                                    if(!empty($settings->settings) && empty($settings->settings['course_curriculum_below_description'])){
+                                      
+                                        $permalinks = get_option( 'vibe_course_permalinks' );
+                                        $curriculum_slug = (!empty($permalinks['curriculum_slug'])?$permalinks['curriculum_slug']:'curriculum');
+                                        if(!empty($curriculum_slug) && empty($settings->settings['revert_permalinks'])){
+                                           $extension = $curriculum_slug.'/';
+                                        }else{
+                                        $extension = '?action=curriculum&curriculum/';
+                                      }
+                                    }
+                                  }
+                                  
+                                  echo '<input id="course_id" type="hidden" value="'.$course_id.'"><a href="'.get_permalink($course_id).$extension.'" class="link">'.__('Back to Course','vibe').'</a>';
+                                }else{
+                                  vibe_breadcrumbs();
+                                }
                               }
-                            }else{
-                              global $wpdb;
-                              $uid=get_the_ID();
-                              $course_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key= 'vibe_course_curriculum' AND meta_value LIKE %s LIMIT 1;", "%{$uid}%" ) );
-                              if(is_numeric($course_id) && get_post_type($course_id) == 'course'){
-
-                                echo '<input id="course_id" type="hidden" value="'.$course_id.'"><a href="'.get_permalink($course_id).'?action=curriculum" class="link">'.__('Back to Course','wplms_modern').'</a>';
-                              }else{
-                                vibe_breadcrumbs();
-                              }
-                            }
-                            ?>
+                              ?>
                             <h1 id="unit" data-unit="<?php echo get_the_ID(); ?>"><?php the_title(); ?></h1>
                             <?php the_sub_title(); ?>
                         </div>

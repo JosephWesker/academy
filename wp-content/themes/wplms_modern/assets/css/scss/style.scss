@@ -376,3 +376,28 @@ color:#FFF;
 .modern-theme.archive #content #buddypress {
    margin-top: 30px !important;
 }
+body.modern-theme.single-course.c3 header.transparent+section#title,body.modern-theme.single-course.c2 header.transparent+section#title{
+    padding-top : 0px!important;
+}
+.bbpress.modern-theme.reply-edit section#title {padding: 120px 0 30px;}
+.modern-theme header.standard.fix {
+    z-index: 8 !important;
+}
+.modern-theme header.standard.fix.fixed {
+    z-index: 99 !important;
+}
+.modern-theme header.standard.fixed {
+    transform: translateY(0px) !important;
+}
+.modern-theme.admin-bar header.standard.fixed {
+    transform: translateY(30px) !important;
+}
+@media(max-width:781px){
+.modern-theme header.standard.fixed {
+    top: 0 !important;
+    transform: translateY(0px) !important;
+}
+.modern-theme.admin-bar header.standard.fixed {
+    transform: translateY(0px) !important;
+}
+}

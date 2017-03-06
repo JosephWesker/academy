@@ -23,7 +23,7 @@ do_action('wplms_course_before_front_main');
 do_action('wplms_before_course_description');
 ?>
 <div class="course_description">
-	<h6><?php if(strpos($post->post_content,$post->post_excerpt) === false){ the_excerpt();} ?></h6>
+	<h6><?php if(!empty($post->post_excerpt) && strpos($post->post_content,$post->post_excerpt) === false){ the_excerpt();} ?></h6>
 	<div class="small_desc">
 	<?php 
 		$more_flag = 1;
@@ -38,7 +38,7 @@ do_action('wplms_before_course_description');
 	?>
 	<?php 
 		if($more_flag){
-			echo '<a href="#" id="more_desc" class="link" data-middle="'.$middle.'">'.__('READ MORE','vibe').'</a>';
+			echo '<a href="#" id="more_desc" class="link" data-middle="'.$middle.'">'.__('READ MORE','wplms_modern').'</a>';
 		}
 	?>
 	</div>
@@ -50,7 +50,7 @@ do_action('wplms_before_course_description');
 			echo apply_filters('the_content',substr($content, $middle,-1));
 		?>
 		<?php 
-			echo '<a href="#" id="less_desc" class="link">'.__('LESS','vibe').'</a>';
+			echo '<a href="#" id="less_desc" class="link">'.__('LESS','wplms_modern').'</a>';
 		?>
 		</div>
 	<?php

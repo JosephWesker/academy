@@ -21,6 +21,8 @@ wp_head();
                 $args = apply_filters('wplms-mobile-menu',array(
                     'theme_location'  => 'mobile-menu',
                     'container'       => '',
+                    'container'       => '',
+                    'items_wrap' => '<div class="mobile_icons"><a id="mobile_searchicon"><i class="fa fa-search"></i></a>'.( (function_exists('WC')) ?'<a href="'.WC()->cart->get_cart_url().'"><span class="fa fa-shopping-basket"><em>'.WC()->cart->cart_contents_count.'</em></span></a>':'').'</div><ul id="%1$s" class="%2$s">%3$s</ul>',
                     'menu_class'      => 'sidemenu',
                     'fallback_cb'     => 'vibe_set_menu',
                 ));
@@ -36,100 +38,69 @@ wp_head();
         ?>
         <header class="mooc <?php if(isset($fix) && $fix){echo 'fix';} ?>">
             <div class="<?php echo vibe_get_container(); ?>">
-                <div class="row">
-                    <div class="col-md-5 col-sm-5">
-                        <div id="mooc_menu"> 
-                              <?php
-                                $args = apply_filters('wplms-main-menu',array(
-                                     'theme_location'  => 'main-menu',
-                                     'container'       => 'nav',
-                                     'menu_class'      => 'menu',
-                                     'walker'          => new vibe_walker,
-                                     'fallback_cb'     => 'vibe_set_menu'
-                                 ));
-                                wp_nav_menu( $args ); 
-                            ?>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-2">
-                        <?php
-
-                            if(is_home()){
-                                echo '<h1 id="logo">';
-                            }else{
-                                echo '<h2 id="logo">';
-                            }
-                        ?>
-                            <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
-                        <?php
-                            
-                            if(is_home()){
-                                echo '</h1>';
-                            }else{
-                                echo '</h2>';
-                            }
-                                
-                        ?>
-                    </div>
-                    <div class="col-md-5 col-sm-5">    
-                        <form role="search" method="get" id="mooc_searchform" action="<?php echo home_url( '/' ); ?>">
-                            <div class="search_form">
-                                <input type="text" value="<?php the_search_query(); ?>" name="s" id="s" placeholder="<?php _e('Hit enter to search...','vibe'); ?>" />
-                                <?php 
-                                    $course_search=vibe_get_option('course_search');
-                                    if(isset($course_search) && $course_search)
-                                        echo '<input type="hidden" value="course" name="post_type" />';
-                                ?>
-                            </div>
-                        </form>
-                        <?php
-                            if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
-                                ?>
-                                <ul class="topmenu">
-                                    <li><a href="<?php bp_loggedin_user_link(); ?>" class="smallimg vbplogin"><?php $n=vbp_current_user_notification_count(); echo ((isset($n) && $n)?'<em></em>':''); bp_loggedin_user_avatar( 'type=full' ); ?><span><?php bp_loggedin_user_fullname(); ?></span></a></li>
-                                    <?php do_action('wplms_header_top_login'); ?>
-                                    <?php
-                                    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
-                                    ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
-                                    <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
-                                    </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            <?php
-                            else :
-                                ?>
-                                <ul class="topmenu">
-                                    <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>
-                                    <?php
-                                    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
-                                    ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
-                                    <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
-                                    </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            <?php
-                            endif;
-                        ?>
-                        <?php
-                            $style = vibe_get_login_style();
-                            if(empty($style)){
-                                $style='default_login';
-                            }
-                        ?>
-                    <div id="vibe_bp_login" class="<?php echo $style; ?>">
                     <?php
-                        vibe_include_template("login/$style.php");
-                     ?>
-                   </div>
-                    <a id="trigger">
-                        <span class="lines"></span>
-                    </a>
-                </div>
+                        if(is_front_page()){
+                            echo '<h1 id="logo">';
+                        }else{
+                            echo '<h2 id="logo">';
+                        }
+                    ?>
+                        <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
+                    <?php
+                        if(is_front_page()){
+                            echo '</h1>';
+                        }else{
+                            echo '</h2>';
+                        }
+                            
+                    ?>
+                    <div id="mooc_menu"> 
+                          <?php
+                            $args = apply_filters('wplms-main-menu',array(
+                                 'theme_location'  => 'main-menu',
+                                 'container'       => 'nav',
+                                 'menu_class'      => 'menu',
+                                 'walker'          => new vibe_walker,
+                                 'fallback_cb'     => 'vibe_set_menu'
+                             ));
+                            wp_nav_menu( $args ); 
+                        ?>
+                    </div>
+                    <ul class="topmenu">
+                        <li><a id="new_searchicon"><i class="fa fa-search"></i></a></li>
+                        <?php do_action('wplms_header_top_login'); ?>
+                        <?php
+                        if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
+                        ?>
+                            <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                            <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
+                            </li>
+                        <?php
+                        }
+                        if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
+                        ?>
+                        <li><a href="<?php bp_loggedin_user_link(); ?>" class="smallimg vbplogin"><?php $n=vbp_current_user_notification_count(); echo ((isset($n) && $n)?'<em></em>':''); bp_loggedin_user_avatar( 'type=full' ); ?><span><?php bp_loggedin_user_fullname(); ?></span></a></li>
+                        <?php
+                        else:
+                        ?>
+                        <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>
+                        <?php
+                        endif;    
+                        ?>
+                    </ul>
+                    <?php
+                        $style = vibe_get_login_style();
+                        if(empty($style)){
+                            $style='default_login';
+                        }
+                    ?>
+                <div id="vibe_bp_login" class="<?php echo $style; ?>">
+                <?php
+                    vibe_include_template("login/$style.php");
+                 ?>
+               </div>
+                <a id="trigger">
+                    <span class="lines"></span>
+                </a>
             </div>
         </header>

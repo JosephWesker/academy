@@ -79,5 +79,3 @@ function wplms_one_instructor_options($panel){
 	$panel['alternate_logo']=get_stylesheet_directory_uri().'/setup/uploads/logo_black.png';
 	return $panel;
 }
-
-show_admin_bar(false);

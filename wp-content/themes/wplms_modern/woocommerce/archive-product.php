@@ -28,9 +28,9 @@ get_header(wplms_modern_get_header());
 						<h1 class="page-title">
 							<?php if ( is_search() ) : ?>
 								<?php
-									printf( __( 'Search Results: &ldquo;%s&rdquo;', 'vibe' ), get_search_query() );
+									printf( __( 'Search Results: &ldquo;%s&rdquo;', 'wplms_modern' ), get_search_query() );
 									if ( get_query_var( 'paged' ) )
-										printf( __( '&nbsp;&ndash; Page %s', 'vibe' ), get_query_var( 'paged' ) );
+										printf( __( '&nbsp;&ndash; Page %s', 'wplms_modern' ), get_query_var( 'paged' ) );
 								?>
 							<?php elseif ( is_tax() ) : ?>
 								<?php echo single_term_title( "", false ); ?>

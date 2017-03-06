@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 do_action('wplms_single_course_content_end');
 ?>				</div>
 				<div class="col-md-3 col-sm-5">	
-					<div class="widget pricing">
+					<div class="widget pricing" id="course-pricing">
 						<?php the_course_button(); ?>
 						<?php the_course_details(); ?>
 					</div>
@@ -17,12 +17,8 @@ do_action('wplms_single_course_content_end');
 						echo '<strong>'.$students.__(' STUDENTS ENROLLED','vibe').'</strong>';
 
 						echo '<ul>';
-						$i=0;
 						foreach($students_undertaking as $student){
-							$i++;
 							echo '<li>'.get_avatar($student).'</li>';
-							if($i>10)
-								break;
 						}
 						echo '</ul>';
 						?>

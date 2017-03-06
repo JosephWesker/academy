@@ -69,7 +69,7 @@ class vibe_walker extends Walker_Nav_Menu{
             
 
             if(!empty($item->sidebar) && strlen($item->sidebar) > 2){
-                $item_output .= $this->sidebar($item->sidebar,$item->columns);
+                $item_output .= $this->sidebar($item->sidebar,$item->columns,$item);
             }else if(!empty($item->megamenu_type) && strlen($item->megamenu_type) > 2){
                 if($item->megamenu_type == 'cat_subcat'){
 
@@ -220,7 +220,7 @@ class vibe_walker extends Walker_Nav_Menu{
         /* 
 	 * Show a sidebar
 	 */
-	function sidebar($name,$columns){
+	function sidebar($name,$columns,$item){
 		
 		if(function_exists('dynamic_sidebar')){
 			ob_start();

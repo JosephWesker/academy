@@ -21,6 +21,7 @@ wp_head();
                 $args = apply_filters('wplms-mobile-menu',array(
                     'theme_location'  => 'mobile-menu',
                     'container'       => '',
+                    'items_wrap' => '<div class="mobile_icons"><a id="mobile_searchicon"><i class="fa fa-search"></i></a>'.( (function_exists('WC')) ?'<a href="'.WC()->cart->get_cart_url().'"><span class="fa fa-shopping-basket"><em>'.WC()->cart->cart_contents_count.'</em></span></a>':'').'</div><ul id="%1$s" class="%2$s">%3$s</ul>',
                     'menu_class'      => 'sidemenu',
                     'fallback_cb'     => 'vibe_set_menu',
                 ));
@@ -35,24 +36,11 @@ wp_head();
         ?>
         <header class="sleek <?php if(isset($fix) && $fix){echo 'fix';} ?>">
             <div class="<?php echo vibe_get_container(); ?>">
-                <div id="searchdiv">
-                    <form role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
-                        <div><label class="screen-reader-text" for="s">Search for:</label>
-                            <input type="text" value="<?php the_search_query(); ?>" name="s" id="s" placeholder="<?php _e('Hit enter to search...','vibe'); ?>" />
-                            <?php 
-                                $course_search=vibe_get_option('course_search');
-                                if(isset($course_search) && $course_search)
-                                    echo '<input type="hidden" value="course" name="post_type" />';
-                            ?>
-                            <input type="submit" id="searchsubmit" value="Search" />
-                        </div>
-                    </form>
-                </div>
                 <div class="row">
                     <div class="col-md-9 col-sm-4 col-xs-4">
                         <?php
 
-                            if(is_home()){
+                            if(is_front_page()){
                                 echo '<h1 id="logo">';
                             }else{
                                 echo '<h2 id="logo">';
@@ -60,7 +48,7 @@ wp_head();
                         ?>
                             <a href="<?php echo vibe_site_url('','logo'); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
-                            if(is_home()){
+                            if(is_front_page()){
                                 echo '</h1>';
                             }else{
                                 echo '</h2>';
@@ -70,6 +58,7 @@ wp_head();
                                  'theme_location'  => 'main-menu',
                                  'container'       => 'nav',
                                  'menu_class'      => 'menu',
+                                 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s<li><a id="new_searchicon"><i class="fa fa-search"></i></a></li></ul>',
                                  'walker'          => new vibe_walker,
                                  'fallback_cb'     => 'vibe_set_menu'
                              ));
@@ -77,40 +66,27 @@ wp_head();
                         ?>
                     </div>
                     <div class="col-md-3 col-sm-8 col-xs-8">
-                        <div id="searchicon"><i class="fa fa-search"></i></div>
-                        <?php
+                        <ul class="topmenu">
+                            <?php
                             if ( function_exists('bp_loggedin_user_link') && is_user_logged_in() ) :
                                 ?>
-                                <ul class="topmenu">
                                     <li><a href="<?php bp_loggedin_user_link(); ?>" class="smallimg vbplogin"><?php $n=vbp_current_user_notification_count(); echo ((isset($n) && $n)?'<em></em>':''); bp_loggedin_user_avatar( 'type=full' ); ?><span><?php bp_loggedin_user_fullname(); ?></span></a></li>
-                                    <?php
-                                    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
-                                    ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
-                                    <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
-                                    </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
                             <?php
                             else :
-                                ?>
-                                <ul class="topmenu">
-                                    <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>
+                                ?>  
+                                <li><a href="#login" rel="nofollow" class="smallimg vbplogin"><span><?php _e('LOGIN','vibe'); ?></span></a></li>          
                                     <?php
-                                    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
+                            endif;        
+                            
+                            if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  || (function_exists('is_plugin_active') && is_plugin_active( 'woocommerce/woocommerce.php'))) { global $woocommerce;
                                     ?>
-                                    <li><a class="smallimg vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
+                                    <li><a class="vbpcart"><span class="fa fa-shopping-basket"><?php echo (($woocommerce->cart->cart_contents_count)?'<em>'.$woocommerce->cart->cart_contents_count.'</em>':''); ?></span></a>
                                     <div class="woocart"><?php woocommerce_mini_cart(); ?></div>
                                     </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul> 
                             <?php
-                            endif;
-                        ?>
+                            }
+                            ?>
+                        </ul>
                         <?php
                             $style = vibe_get_login_style();
                             if(empty($style)){

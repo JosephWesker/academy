@@ -1,6 +1,6 @@
-<?php 
-
-// silence
-
-
+<?php 
+
+// silence
+
+
 ?>

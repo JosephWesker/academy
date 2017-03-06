@@ -77,7 +77,7 @@ class wplms_dash_activity extends WP_Widget {
     
 		global $wpdb,$bp;
 
-    if(isset($messages) && $messages){
+    if(isset($messages) && $messages && function_exists('bp_has_message_threads')){
       echo '<div id="tab-messages" class="tab-pane">
       <h4>'.__('Unread Messages','wplms-dashboard').'</h4>';
       $message_args= array(

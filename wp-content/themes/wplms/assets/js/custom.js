@@ -103,21 +103,20 @@ jQuery(document).ready(function($) {
       event.stopPropagation();
     });
 
-    $('#searchicon').click(function(event) {
-        $(this).addClass('active');
-        $('#searchdiv').addClass('active');
+    $('#new_searchicon,#mobile_searchicon').click(function(event) {
+        $('body').addClass('search_active');
     });
     $('#close_full_popup').click(function(event) {
         $('#vibe_bp_login').fadeOut(300);
         $('#vibe_bp_login').removeClass('active');
     });
-
+    $('#searchdiv span').on('click',function(){
+        $('body').removeClass('search_active');
+    });
     $(document).mouseup(function (e) {
-        var container = $("#searchdiv");
-        if (!container.is(e.target) && container.has(e.target).length === 0){
-            container.hide();
-            container.removeClass('active');
-            $('#searchicon').removeClass('active');
+        container = $('#searchdiv');
+        if ($(e.target).attr('id') == 'searchdiv'){
+            $('body').removeClass('search_active');
         }
         container = $("#vibe_bp_login");
         if (!container.is(e.target) && container.has(e.target).length === 0 && !$(e.target).hasClass('vbplogin') && !$(e.target).closest('.vbplogin').length){

@@ -24,7 +24,6 @@ class VibeShortcodes {
 
         add_action('admin_enqueue_scripts', array($this, 'admin_icons'),10,1);
         add_action('admin_enqueue_scripts', array($this, 'admin_init'),10, 1);
-        
 	}
 	
 	/**
@@ -44,12 +43,14 @@ class VibeShortcodes {
 	
     function frontend(){
 
-       	wp_enqueue_script( 'shortcodes-js', VIBE_PLUGIN_URL . '/vibe-shortcodes/js/shortcodes.js',array('jquery','mediaelement','thickbox'),'2.4',true);
+       	wp_enqueue_script( 'shortcodes-js', VIBE_PLUGIN_URL . '/vibe-shortcodes/js/shortcodes.js',array('jquery','mediaelement','thickbox'),'2.6',true);
        	$translation_array = array( 
-							'sending_mail' => __( 'Sending mail','vibe-shortcodes' ), 
+
+							'sending_mail' => __( 'Sending mail','vibe-shortcodes' ),
 							'error_string' => __( 'Error :','vibe-shortcodes' ),
 							'invalid_string' => __( 'Invalid ','vibe-shortcodes' ),
-							'captcha_mismatch' => __( 'Captcha Mismatch','vibe-shortcodes' ), 
+							'captcha_mismatch' => __( 'Captcha Mismatch','vibe-shortcodes' ),
+
 							);
        	wp_localize_script( 'shortcodes-js', 'vibe_shortcode_strings', $translation_array );
     }
@@ -89,8 +90,7 @@ class VibeShortcodes {
 	 *
 	 * @return	void
 	 */
-	function admin_init($hook)
-	{      
+	function admin_init($hook){   
         if((is_admin() && in_array( $hook, array( 'post-new.php', 'post.php','toplevel_page_wplms_options' ) ) ) ){
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'jquery-livequery', VIBE_TINYMCE_URI . '/js/jquery.livequery.js', false, '1.1.1', false );
@@ -106,12 +106,17 @@ class VibeShortcodes {
         if(is_admin()){
 			wp_enqueue_style( 'vibe-popup-css', VIBE_TINYMCE_URI . '/css/popup.css', false, '1.0', 'all' );
         }   
+
+        $this->localise_shortcode_dropdown();
     }
-        
+	
+
     function admin_icons($hook){
-    	if(is_admin() && in_array( $hook, array( 'post-new.php', 'post.php' ) ) ){
+    	
+    	if(is_admin() && ( in_array( $hook, array( 'post-new.php', 'post.php' ) ) || ($hook == 'lms_page_lms-settings' && $_GET['page'] == 'lms-settings' && $_GET['tab'] == 'general' && $_GET['sub'] == 'profile_menu_dropdown_settings') ) ){
             wp_enqueue_style( 'icons-css', VIBE_PLUGIN_URL.'/vibe-shortcodes/css/fonticons.css');
         }
+        
     }
 
     function shortcodes_front_end(){
@@ -135,8 +140,41 @@ class VibeShortcodes {
 
 		wp_localize_script( 'jquery', 'VibeShortcodes', array('shortcodes_folder' => VIBE_PLUGIN_URL .'/vibe-shortcodes') );
     	wp_enqueue_style( 'vibe-popup-css', VIBE_TINYMCE_URI . '/css/popup.css', false, '1.0', 'all' );
+
+    	$this->localise_shortcode_dropdown();
     }    
     
+
+    function localise_shortcode_dropdown(){
+    	$translation_array = array(
+
+    						'accordion' => __( 'Accordion','vibe-shortcodes' ),
+							'buttons' => __( 'Buttons','vibe-shortcodes' ),
+							'columns' => __( 'Columns','vibe-shortcodes' ),
+							'counter' => __( 'Counter','vibe-shortcodes' ),
+							'course' => __( 'Course','vibe-shortcodes' ),
+							'divider' => __( 'Divider','vibe-shortcodes' ),
+							'forms' => __( 'Forms','vibe-shortcodes' ),
+							'gallery' => __( 'Gallery','vibe-shortcodes' ),
+							'google_maps' => __( 'Google Maps','vibe-shortcodes' ),
+							'heading' => __( 'Heading','vibe-shortcodes' ),
+							'icons' => __( 'Icons','vibe-shortcodes' ),
+							'iframe' => __( 'Iframe','vibe-shortcodes' ),
+							'note' => __( 'Note','vibe-shortcodes' ),
+							'popups' => __( 'Popups','vibe-shortcodes' ),
+							'progress_bar' => __( 'Progress Bar','vibe-shortcodes' ),
+							'pull_quote' => __( 'PullQuote','vibe-shortcodes' ),
+							'round_progress' => __( 'Round Progress','vibe-shortcodes' ),
+							'survey_result' => __( 'Survey Result','vibe-shortcodes' ),
+							'tabs' => __( 'Tabs','vibe-shortcodes' ),
+							'team' => __( 'Team','vibe-shortcodes' ),
+							'testimonial' => __( 'Testimonial','vibe-shortcodes' ),
+							'tooltips' => __( 'Tooltips','vibe-shortcodes' ),
+							'video' => __( 'Video','vibe-shortcodes' ),
+
+    		);
+    	wp_localize_script( 'vibe-popup', 'vibe_shortcode_icon_strings', $translation_array );
+    }
 }
 
 $vibe_shortcodes = new VibeShortcodes();

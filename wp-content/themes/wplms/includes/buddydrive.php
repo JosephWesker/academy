@@ -445,14 +445,16 @@ class WPLMS_BuddyDrive{
 		if(!class_exists('Vibe_CustomTypes_Permalinks'))	
 			return;
 
-
+		if(!is_object($post)){
+			return;
+		}
 		$course_id = $post->ID;
 		$this->course_id = $course_id;
 		$permalinks = Vibe_CustomTypes_Permalinks::init();
 
 		if($bp->unfiltered_uri[0] == trim($permalinks->permalinks['course_base'],'/') || $bp->unfiltered_uri[0] == BP_COURSE_SLUG){
 				
-				$drive_slug = ($this->permalinks['drive_slug'])?$this->permalinks['drive_slug']:'drive';
+				$drive_slug = (!empty($this->permalinks['drive_slug'])?$this->permalinks['drive_slug']:'drive');
 				$drive_slug = str_replace('/','',$drive_slug);
 				
 			    if( get_query_var( $drive_slug )){ 

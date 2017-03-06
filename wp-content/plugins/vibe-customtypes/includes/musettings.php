@@ -177,12 +177,6 @@ class lms_settings{
 				break;
 				case 'emails':
 					switch($_GET['sub']){
-						case 'activate':
-							$option = 'activate';
-						break;
-						case 'forgot':
-							$option = 'forgot';
-						break;
 						case 'schedule':
 							$option = 'schedule';
 						break;
@@ -217,8 +211,6 @@ class lms_settings{
 		$template_array = apply_filters('wplms_lms_commission_tabs',array(
 			''=> __('General Settings','vibe-customtypes'),
 			'registration'=> __('Registration Forms','vibe-customtypes'),
-			//'member_types'=> __('Member Types','vibe-customtypes'),
-			//'group_types'=> __('Group Types','vibe-customtypes'),
 			));
 		echo '<ul class="subsubsub">';
 		foreach($template_array as $k=>$value){
@@ -327,12 +319,6 @@ class lms_settings{
 			            'desc' => __('Enables auto-subscription to all the "free" courses in site to students when they signup/register and activate their account.', 'vibe-customtypes'),
 			            'type' => 'checkbox',
 					),
-				/*array(
-			            'label' => __('Enable Custom menu in Logged in Menu', 'vibe-customtypes'),
-			            'name' => 'custom_logged_in_menu',
-			            'desc' => __('Enables custom menu location at logged in menu, set the menu at WP Admin - Menus and it will be available in Logged in menu dropdown.', 'vibe-customtypes'),
-			            'type' => 'checkbox',
-					),*/
 				array(
 					'label'=>__('Course Home Settings','vibe-customtypes' ),
 					'type'=> 'heading',
@@ -439,6 +425,12 @@ class lms_settings{
 						'desc' => __('Disable free unit access for the world, only logged in users can view free units.','vibe-customtypes')
 					),
 				array(
+			            'label' => __('Remove Finished Courses from directory', 'vibe-customtypes'),
+			            'name' => 'remove_finished_course',
+			            'desc' => __('Auto remove finished courses from course directory for user', 'vibe-customtypes'),
+			            'type' => 'checkbox',
+					),
+				array(
 						'label' => __('Fix Course Menu on Scroll','vibe-customtypes'),
 						'name' =>'fix_course_menu_on_scroll',
 						'type' => 'checkbox',
@@ -459,19 +451,19 @@ class lms_settings{
 						'name' => 'disable_ajax',
 						'type' => 'checkbox',
 						'desc' => __('Ajax disabled in course unit loads','vibe-customtypes')
-					),
-				array(
-			            'label' => __('Remove Finished Courses from directory', 'vibe-customtypes'),
-			            'name' => 'remove_finished_course',
-			            'desc' => __('Auto remove finished courses from course directory for user', 'vibe-customtypes'),
-			            'type' => 'checkbox',
 					),	
 				array(
 		            'label' => __('Auto-mark unit complete when user proceeds to next unit', 'vibe-customtypes'),
 		            'name' => 'mark_unit_complete_when_next_unit',
 		            'desc' => __('Hides "Mark Unit Complete" button and auto marks the unit as completed when user proceeds to next unit.', 'vibe-customtypes'),
 		            'type' => 'checkbox',
-				),	
+				),
+				array(
+						'label' => __('Auto trigger finish course button','vibe-customtypes'),
+						'name' =>'finish_course_auto_trigger',
+						'type' => 'checkbox',
+						'desc' => __('Hides Finish course button and is automatically triggered on completion of all the units and quizzes.','vibe-customtypes')
+					),
 				array(
 			            'label' => __('Skip Course status page', 'vibe-customtypes'),
 			            'name' => 'skip_course_status',
@@ -952,10 +944,11 @@ class lms_settings{
 					echo '</li>';
 				} // end for
 				echo '</ul>';
-			}else { // !$group->fields ?>
+			}else {
+				?>
 
-				<p class="nodrag nofields"><?php _e( 'There are no fields in this group.', 'buddypress' ); ?></p>
-			<?php
+					<p class="nodrag nofields"><?php _e( 'There are no fields in this group.', 'buddypress' ); ?></p>
+				<?php
 			}
 		}
 		echo '</ul><br>';
@@ -1059,13 +1052,9 @@ class lms_settings{
 						'id'=>'course_forums',
 						'label'=>__('Course Forums','vibe-customtypes'),
 						'description'=>__('Auto-subscribe course users to course forums.','vibe-customtypes'),
-					),					
-					/*array(
-						'id'=>'instructor_commissions',
-						'label'=>__('Instructor Commissions','vibe-customtypes'),
-						'description'=>__('Verify all Instructor commissions','vibe-customtypes')
-					),*/
-				));			
+					),
+				));
+
 				foreach($sync_settings as $setting){
 					echo '<tr valign="top">
 							<th scope="row" class="titledesc">
@@ -1162,9 +1151,9 @@ class lms_settings{
 
 	function lms_settings_generate_form($tab,$settings=array()){
 		echo '<form method="post">';
-		wp_nonce_field('vibe_lms_settings','_wpnonce');   
+		wp_nonce_field('vibe_lms_settings','_wpnonce');
 		echo '<table class="form-table">
-				<tbody>';		
+				<tbody>';
 		
 		$lms_settings=get_option($this->option);
 
@@ -1174,9 +1163,9 @@ class lms_settings{
 				case 'heading':
 					echo '<th scope="row" class="titledesc" colspan="2"><h3>'.$setting['label'].'</h3></th>';
 				break;
-				case 'textarea':
+				case 'link':
 					echo '<th scope="row" class="titledesc"><label>'.$setting['label'].'</label></th>';
-					echo '<td class="forminp"><textarea name="'.$setting['name'].'" style="max-width: 560px; height: 240px;border:1px solid #DDD;">'.(isset($lms_settings[$tab][$setting['name']])?$lms_settings[$tab][$setting['name']]:'').'</textarea>';
+					echo '<td class="forminp"><a href="'.$setting['value'].'" class="button">'.$setting['button_label'].'</a>';
 					echo '<span>'.$setting['desc'].'</span></td>';
 				break;
 				case 'select':
@@ -1248,6 +1237,7 @@ class lms_settings{
 					echo '<option value="0" '.(isset($lms_settings[$tab][$setting['name']]['student']['email'])?selected(0,$lms_settings[$tab][$setting['name']]['student']['email']):'').'>'.__('No','vibe-customtypes').'</option>';
 					echo '<option value="1" '.(isset($lms_settings[$tab][$setting['name']]['student']['email'])?selected(1,$lms_settings[$tab][$setting['name']]['student']['email']):'').'>'.__('Yes','vibe-customtypes').'</option>';
 					echo '</select>';
+					echo '&nbsp;&nbsp;'.sprintf(__('%s Edit Email Template %s','vibe-customtypes'),'<a href="'.$setting['value']['student'].'" class="button">','</a>');
 					echo '</td></tr><tr valign="top">';
 					echo '<th scope="row"></th>';
 					echo '<td class="forminp"><strong>'.__('INSTRUCTOR','vibe-customtypes').'</strong></td>';
@@ -1264,6 +1254,7 @@ class lms_settings{
 					echo '<option value="0" '.(isset($lms_settings[$tab][$setting['name']]['instructor']['email'])?selected(0,$lms_settings[$tab][$setting['name']]['instructor']['email']):'').'>'.__('No','vibe-customtypes').'</option>';
 					echo '<option value="1" '.(isset($lms_settings[$tab][$setting['name']]['instructor']['email'])?selected(1,$lms_settings[$tab][$setting['name']]['instructor']['email']):'').'>'.__('Yes','vibe-customtypes').'</option>';
 					echo '</select>';
+					echo '&nbsp;&nbsp;'.sprintf(__('%s Edit Email Template %s','vibe-customtypes'),'<a href="'.$setting['value']['instructor'].'" class="button">','</a>');
 					echo '</td>
 						<tr><td colspan="3"><hr></td>';
 				break;
@@ -1283,6 +1274,7 @@ class lms_settings{
 					echo '<option value="0" '.(isset($lms_settings[$tab][$setting['name']]['instructor']['email'])?selected(0,$lms_settings[$tab][$setting['name']]['instructor']['email']):'').'>'.__('No','vibe-customtypes').'</option>';
 					echo '<option value="1" '.(isset($lms_settings[$tab][$setting['name']]['instructor']['email'])?selected(1,$lms_settings[$tab][$setting['name']]['instructor']['email']):'').'>'.__('Yes','vibe-customtypes').'</option>';
 					echo '</select>';
+					echo '&nbsp;&nbsp;'.sprintf(__('%s Edit Email Template %s','vibe-customtypes'),'<a href="'.$setting['value']['instructor'].'" class="button">','</a>');
 					echo '</td></tr><tr valign="top">';
 					echo '<th scope="row"></th>';
 					echo '<td class="forminp"><strong>'.__('ADMINISTRATOR','vibe-customtypes').'</strong></td>';
@@ -1299,6 +1291,7 @@ class lms_settings{
 					echo '<option value="0" '.(isset($lms_settings[$tab][$setting['name']]['admin']['email'])?selected(0,$lms_settings[$tab][$setting['name']]['admin']['email']):'').'>'.__('No','vibe-customtypes').'</option>';
 					echo '<option value="1" '.(isset($lms_settings[$tab][$setting['name']]['admin']['email'])?selected(1,$lms_settings[$tab][$setting['name']]['admin']['email']):'').'>'.__('Yes','vibe-customtypes').'</option>';
 					echo '</select>';
+					echo '&nbsp;&nbsp;'.sprintf(__('%s Edit Email Template %s','vibe-customtypes'),'<a href="'.$setting['value']['admin'].'" class="button">','</a>');
 					echo '</td>
 						<tr><td colspan="3"><hr></td>';
 				break;
@@ -1587,6 +1580,10 @@ class lms_settings{
 				'course_announcement'=>array(
 									'label' => __('Announcements','vibe-customtypes'),
 									'name' =>'course_announcement',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_announcement&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_announcement&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_dashboard_course_announcement',
 									'params'=>4,
@@ -1594,6 +1591,10 @@ class lms_settings{
 				'course_news'=>array(
 									'label' => __('News','vibe-customtypes'),
 									'name' =>'course_news',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_news&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_news&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'publish_post',
 									'params'=>2,
@@ -1601,6 +1602,10 @@ class lms_settings{
 				'course_subscribed'=>array(
 									'label' => __('Course Subscribed','vibe-customtypes'),
 									'name' =>'course_subscribed',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_subscribed&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_subscribed&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_subscribed',
 									'params'=>3,
@@ -1608,6 +1613,10 @@ class lms_settings{
 				'course_added'=>array(
 									'label' => __('User added to Course','vibe-customtypes'),
 									'name' =>'course_added',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_added&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_added&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_bulk_action',
 									'params'=>3,
@@ -1615,6 +1624,10 @@ class lms_settings{
 				'course_start'=>array(
 									'label' => __('User Starts a Course ','vibe-customtypes'),
 									'name' =>'course_start',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_start&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_start&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_start_course',
 									'params'=> 2,
@@ -1623,6 +1636,10 @@ class lms_settings{
 				'course_certificate'=>array(
 									'label' => __('Course Certificate','vibe-customtypes'),
 									'name' =>'course_certificate',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_certificate&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_certificate&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_certificate_earned',
 									'params'=>4,
@@ -1630,6 +1647,10 @@ class lms_settings{
 				'course_badge'=>array(
 									'label' => __('Course Badge','vibe-customtypes'),
 									'name' =>'course_badge',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_badge&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_badge&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_badge_earned',
 									'params'=>4,
@@ -1638,6 +1659,10 @@ class lms_settings{
 				'course_reset'=>array(
 									'label' => __('Course Reset by Instructor','vibe-customtypes'),
 									'name' =>'course_reset',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_reset&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_reset&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_reset',
 									'params'=>2,
@@ -1645,6 +1670,10 @@ class lms_settings{
 				'course_retake'=>array(
 									'label' => __('Course Retake by User','vibe-customtypes'),
 									'name' =>'course_retake',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_retake&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_retake&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_retake',
 									'params'=>2,
@@ -1652,6 +1681,10 @@ class lms_settings{
 				'course_submit'=>array(
 									'label' => __('Course Submit','vibe-customtypes'),
 									'name' =>'course_submit',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_submit&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_submit&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_submit_course',
 									'params'=>2,
@@ -1659,6 +1692,10 @@ class lms_settings{
 				'course_evaluation'=>array(
 									'label' => __('Course Evaluation','vibe-customtypes'),
 									'name' =>'course_evaluation',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_evaluation&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_evaluation&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_evaluate_course',
 									'params'=>3,
@@ -1666,6 +1703,10 @@ class lms_settings{
 				'course_review'=>array(
 									'label' => __('Course Reviews','vibe-customtypes'),
 									'name' =>'course_review',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_review&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_review&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_review',
 									'params'=>3,
@@ -1673,6 +1714,10 @@ class lms_settings{
 				'course_unsubscribe'=>array(
 									'label' => __('Unsubscribe Course','vibe-customtypes'),
 									'name' =>'course_unsubscribe',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_course_unsubscribe&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_unsubscribe&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_unsubscribe',
 									'params'=>3,
@@ -1680,6 +1725,10 @@ class lms_settings{
 				'unit_complete'=>array(
 									'label' => __('Unit marked complete by User','vibe-customtypes'),
 									'name' =>'unit_complete',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_unit_complete&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_unit_complete&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_unit_complete',
 									'params'=>3,
@@ -1687,6 +1736,10 @@ class lms_settings{
 				'unit_instructor_complete'=>array(
 									'label' => __('Unit marked complete by Instructor for Student','vibe-customtypes'),
 									'name' =>'unit_instructor_complete',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_unit_instructor_complete&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_unit_instructor_complete&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_unit_instructor_complete',
 									'params'=>3,
@@ -1694,6 +1747,10 @@ class lms_settings{
 				'unit_instructor_uncomplete'=>array(
 									'label' => __('Unit marked incomplete by Instructor for Student','vibe-customtypes'),
 									'name' =>'unit_instructor_uncomplete',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_unit_instructor_uncomplete&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_unit_instructor_uncomplete&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_unit_instructor_uncomplete',
 									'params'=>3,
@@ -1701,6 +1758,10 @@ class lms_settings{
 				'unit_comment'=>array(
 									'label' => __('Unit comment added by User','vibe-customtypes'),
 									'name' =>'unit_comment',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_unit_comment&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_unit_comment&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_course_unit_comment',
 									'params'=>4,
@@ -1708,6 +1769,10 @@ class lms_settings{
 				'start_quiz'=>array(
 									'label' => __('Quiz Start by user','vibe-customtypes'),
 									'name' =>'start_quiz',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_start_quiz&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_start_quiz&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_start_quiz',
 									'params'=>2,
@@ -1715,6 +1780,10 @@ class lms_settings{
 				'quiz_submit'=>array(
 									'label' => __('Quiz Submitted by user','vibe-customtypes'),
 									'name' =>'quiz_submit',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_quiz_submit&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_quiz_submit&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_submit_quiz',
 									'params'=>2,
@@ -1722,6 +1791,10 @@ class lms_settings{
 				'quiz_reset'=>array(
 									'label' => __('Quiz Reset by Instructor','vibe-customtypes'),
 									'name' =>'quiz_reset',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_quiz_reset&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_quiz_reset&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_quiz_reset',
 									'params'=>2,
@@ -1729,6 +1802,10 @@ class lms_settings{
 				'quiz_retake'=>array(
 									'label' => __('Quiz Retake by User','vibe-customtypes'),
 									'name' =>'quiz_retake',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_quiz_retake&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_quiz_retake&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_quiz_retake',
 									'params'=>2,
@@ -1736,6 +1813,10 @@ class lms_settings{
 				'quiz_evaluation'=>array(
 									'label' => __('Quiz Evaluation','vibe-customtypes'),
 									'name' =>'quiz_evaluation',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_quiz_evaluation&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_quiz_evaluation&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_evaluate_quiz',
 									'params'=>4,
@@ -1743,6 +1824,10 @@ class lms_settings{
 				'start_assignment'=>array(
 									'label' => __('Assignment Start by user','vibe-customtypes'),
 									'name' =>'start_assignment',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_start_assignment&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_start_assignment&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_start_assignment',
 									'params'=>2,
@@ -1750,6 +1835,10 @@ class lms_settings{
 				'assignment_submit'=>array(
 									'label' => __('Assignment Submitted by user','vibe-customtypes'),
 									'name' =>'assignment_submit',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_assignment_submit&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_assignment_submit&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_submit_assignment',
 									'params'=>2,
@@ -1757,6 +1846,10 @@ class lms_settings{
 				'assignment_evaluation'=>array(
 									'label' => __('Assignment Evaluation','vibe-customtypes'),
 									'name' =>'assignment_evaluation',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_assignment_evaluation&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_assignment_evaluation&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_evaluate_assignment',
 									'params'=>4,
@@ -1764,6 +1857,10 @@ class lms_settings{
 				'assignment_reset'=>array(
 										'label' => __('Assignment Reset by Instructor','vibe-customtypes'),
 										'name' =>'assignment_reset',
+										'value' => array(
+											'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_assignment_reset&post_type=bp-email'),
+											'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_assignment_reset&post_type=bp-email'),
+										),
 										'type' => 'touchpoint',
 										'hook' => 'wplms_assignment_reset',
 										'params'=>2,
@@ -1771,6 +1868,10 @@ class lms_settings{
 				'user_course_application'=> array(
 									'label' => __('Student applied for Course','vibe-customtypes'),
 									'name' =>'user_course_application',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_user_course_application&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_user_course_application&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_user_course_application',
 									'params'=>2,
@@ -1778,6 +1879,10 @@ class lms_settings{
 				'manage_user_application'=> array(
 									'label' => __('Instructor approves/rejects user application','vibe-customtypes'),
 									'name' =>'manage_user_application',
+									'value' => array(
+										'student' => admin_url('edit.php?taxonomy=bp-email-type&term=student_manage_user_application&post_type=bp-email'),
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_manage_user_application&post_type=bp-email'),
+									),
 									'type' => 'touchpoint',
 									'hook' => 'wplms_manage_user_application',
 									'params'=>3,
@@ -1785,6 +1890,10 @@ class lms_settings{
 				'course_go_live'=> array(
 									'label' => __('Instructor Publishes a Course or Sends for Approval','vibe-customtypes'),
 									'name' =>'course_go_live',
+									'value' => array(
+										'instructor' => admin_url('edit.php?taxonomy=bp-email-type&term=instructor_course_go_live&post_type=bp-email'),
+										'admin' => admin_url('edit.php?taxonomy=bp-email-type&term=admin_course_go_live&post_type=bp-email'),
+									),
 									'type' => 'touchpoint_admin',
 									'hook' => 'wplms_course_go_live',
 									'params'=>2,
@@ -1794,16 +1903,12 @@ class lms_settings{
 	}
 	function lms_emails(){
 		echo '<h3>'.__('Email Settings','vibe-customtypes').'</h3>';
-		echo '<p>'.__('Configure email template for Emails, recommended plugin for emails ','vibe-customtypes').'</p>';
+		echo '<p>'.__('Configure email template for Emails.','vibe-customtypes').'</p>';
 
 		$template_array = apply_filters('wplms_email_template_array',array(
 			''=> __('Email Options','vibe-customtypes'),
-			'activate'=> __('Account Activation Email','vibe-customtypes'),
-			'forgot'=> __('Forgot Password Email','vibe-customtypes'),
 			'schedule'=> __('Email Schedule','vibe-customtypes'),
 			'scheduled_emails'=> __('Scheduled Emails','vibe-customtypes'),
-			'template'=> __('Email Template','vibe-customtypes'),
-			
 			));
 		echo '<ul class="subsubsub">';
 		foreach($template_array as $k=>$value){
@@ -1811,20 +1916,11 @@ class lms_settings{
 		}
 		echo '</ul>';
 		switch($_GET['sub']){
-			case 'activate':
-				$this->activation_email();
-			break;
-			case 'forgot':
-				$this->forgot_password_email();
-			break;
 			case 'schedule':
 				$this->email_schedule();
 			break;
 			case 'scheduled_emails':
 				$this->scheduled_emails();
-			break;
-			case 'template':
-				$this->lms_template();
 			break;
 			default:
 				$this->lms_email_settings();
@@ -1836,78 +1932,49 @@ class lms_settings{
 
 
 			$settings=array(
-						array(
-							'label' => __('Enable HTML emails','vibe-customtypes'),
-							'name' =>'enable_html_emails',
-							'type' => 'checkbox',
-							'desc' => __('Enable HTML emails in WPLMS. (* Also save email template)','vibe-customtypes')
-						),
+						
 						array(
 							'label' => __('FROM "Name"','vibe-customtypes'),
 							'name' =>'from_name',
 							'type' => 'text',
-							'desc' => __('From Name in emails','vibe-customtypes')
+							'desc' => __('Name from which the email will be sent','vibe-customtypes')
 						),
 						array(
 							'label' => __('FROM "Email"','vibe-customtypes'),
 							'name' =>'from_email',
 							'type' => 'text',
-							'desc' => __('From Email in emails','vibe-customtypes')
+							'desc' => __('Email from which the email will be sent','vibe-customtypes')
 						),
 						array(
-							'label' => __('Charset','vibe-customtypes'),
-							'name' =>'charset',
-							'type' => 'select',
-							'options'=>array(
-								'utf8' => __('UTF','vibe-customtypes'),
-								'iso-8859-1' => __('ISO','vibe-customtypes'),
-								),
-							'desc' => __('Set email charset','vibe-customtypes')
+							'label' => __('Contact Form email','vibe-customtypes'),
+							'type' => 'link',
+							'value'=>admin_url('edit.php?taxonomy=bp-email-type&term=wplms_contact_form_email&post_type=bp-email'),
+							'button_label'=> _x('Edit email template','lms settings button','vibe-customtypes'),
+							'desc' => __('Contact Form email sent when using contact form shortcode.','vibe-customtypes')
+						),
+						array(
+							'label' => __('Edit Activation email','vibe-customtypes'),
+							'type' => 'link',
+							'value'=>admin_url('edit.php?taxonomy=bp-email-type&term=core-user-registration&post_type=bp-email'),
+							'button_label'=> _x('Edit email template','lms settings button','vibe-customtypes'),
+							'desc' => __('Activation email sent by BuddyPress on user registration.','vibe-customtypes')
+						),
+						array(
+							'label' => __('Edit Forgot Password email','vibe-customtypes'),
+							'type' => 'link',
+							'value'=>admin_url('edit.php?taxonomy=bp-email-type&term=wplms_forgot_password&post_type=bp-email'),
+							'button_label'=> _x('Edit email template','lms settings button','vibe-customtypes'),
+							'desc' => __('Forgot password email sent by WordPress when user clicks on forgot password link.','vibe-customtypes')
 						),
 				);
 			$this->settings = apply_filters('wplms_email_settings',$settings);
 			$this->lms_settings_generate_form('email_settings',$settings);
 	}
-	function activation_email(){
-		$settings=array(
-						array(
-							'label' => __('Subject','vibe-customtypes'),
-							'name' =>'subject',
-							'type' => 'text',
-							'desc' => __('Subject in Activation email','vibe-customtypes')
-						),
-						array(
-							'label' => __('Message (supports HTML)','vibe-customtypes'),
-							'name' =>'message',
-							'type' => 'textarea',
-							'desc' => __('Activation email message, use {{activationlink}} to add the activation link','vibe-customtypes')
-						),
-				);
-			$this->settings = apply_filters('wplms_activation_mail',$settings);
-			$this->lms_settings_generate_form('activate',$settings);
-	}
-	function forgot_password_email(){
-		$settings=array(
-						array(
-							'label' => __('Subject','vibe-customtypes'),
-							'name' =>'subject',
-							'type' => 'text',
-							'desc' => __('Subject in forgot password email','vibe-customtypes')
-						),
-						array(
-							'label' => __('Message (supports HTML)','vibe-customtypes'),
-							'name' =>'message',
-							'type' => 'textarea',
-							'desc' => __('Forgot password mail message, user {{forgotlink}} to add the forgot password link, {{username}} to add User login name','vibe-customtypes')
-						),
-				);
-			$this->settings = apply_filters('wplms_forgot_mail',$settings);
-			$this->lms_settings_generate_form('forgot',$settings);
-	}
+	
 	function email_schedule(){
 		$settings=array(
 						array(
-							'label' => __('Schedule Drip Feed Email','vibe-customtypes'),
+							'label' => sprintf(__('Schedule Drip Feed Email %s Edit Email %s','vibe-customtypes'),'<a href="'.admin_url('edit.php?taxonomy=bp-email-type&term=wplms_drip_mail&post_type=bp-email').'" class="button">','</a>'),
 							'name' =>'drip_schedule',
 							'type' => 'title'
 						),
@@ -1934,20 +2001,10 @@ class lms_settings{
 							),
 							'desc' => __('Accuracy of email depends upon site traffic and resources.','vibe-customtypes')
 						),
+						
+
 						array(
-							'label' => __('Drip Feed Mail Subject','vibe-customtypes'),
-							'name' =>'drip_subject',
-							'type' => 'text',
-							'desc' => __('Subject in Activation email','vibe-customtypes')
-						),
-						array(
-							'label' => __('Drip Feed Mail Message (supports HTML)','vibe-customtypes'),
-							'name' =>'drip_message',
-							'type' => 'textarea',
-							'desc' => __('{{unit}} for Unit name, {{course}} for Course name & link, {{user}} for User name','vibe-customtypes')
-						),
-						array(
-							'label' => __('Schedule Course Expiry Email','vibe-customtypes'),
+							'label' => sprintf(__('Schedule Course Expiry Email %s Edit Email %s','vibe-customtypes'),'<a href="'.admin_url('edit.php?taxonomy=bp-email-type&term=wplms_expire_mail&post_type=bp-email').'" class="button">','</a>'),
 							'name' =>'e_s',
 							'type' => 'title'
 						),
@@ -1974,80 +2031,34 @@ class lms_settings{
 							),
 							'desc' => __('Accuracy of email depends upon site traffic and resources.','vibe-customtypes')
 						),
+						
 						array(
-							'label' => __('Course Expire Mail Subject','vibe-customtypes'),
-							'name' =>'expire_subject',
-							'type' => 'text',
-							'desc' => __('Subject in Activation email','vibe-customtypes')
+							'label' => sprintf(__('Schedule Inactive Users Email %s Edit Email %s','vibe-customtypes'),'<a href="'.admin_url('edit.php?taxonomy=bp-email-type&term=wplms_inactive_user&post_type=bp-email').'" class="button">','</a>'),
+							'name' =>'inactive_schedule',
+							'type' => 'title'
 						),
 						array(
-							'label' => __('Course expire Mail Message (supports HTML)','vibe-customtypes'),
-							'name' =>'expire_message',
-							'type' => 'textarea',
-							'desc' => __('{{course}} for Course name & link, {{user}} for User name','vibe-customtypes')
+							'label' => __('Enable Inactive Users Email','vibe-customtypes'),
+							'name' =>'inactive',
+							'type' => 'select',
+							'options'=>array(
+								'no' => __('No','vibe-customtypes'),
+								'yes' => __('Yes','vibe-customtypes'),
+								),
+							'desc' => __('Email users when they are inactive on the website for a specifc time period','vibe-customtypes')
+						),
+						array(
+							'label' => __('Schedule Inactivity Email (in days)','vibe-customtypes'),
+							'name' =>'inactivity_schedule',
+							'type' => 'number',
+							'desc' => __('Accuracy of email depends upon site traffic and resources.','vibe-customtypes')
 						),
 				);
 			$this->settings = apply_filters('wplms_email_schedule',$settings);
-			
-
 			$this->lms_settings_generate_form('schedule',$this->settings);
+			echo '<style>.form-table th{width:250px;}</style>';
 	}
 
-	function lms_template(){
-
-		$template = html_entity_decode(get_option('wplms_email_template'));
-		if(!isset($template) || !$template){
-			$myFile = __DIR__."/email_templates/template.html";
-			$fh = fopen($myFile, 'r');
-	        $template =fread($fh,filesize($myFile));
-	        fclose($fh);
-		}
-
-		echo '<div class="template_controls">
-		<h4>'.__('Customize Template','vibe-customtypes').'</h4>
-		<ul>
-			<li><label>'.__('Email Bg','vibe-customtypes').'</label> <input type="text" class="colorpicker" data-css="background" data-ref="#bodyTable,#emailHeader,#emailFooter" value="#e1e1e1" /></li>
-			<li><label>'.__('Email Color','vibe-customtypes').'</label> <input type="text" class="colorpicker" data-css="color" data-ref="#emailHeader,#emailFooter" value="#e1e1e1" /></li>
-			<li><label>'.__('Title Bg','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailTitle" value="#3498db" /></li>
-			<li><label>'.__('Title Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailTitle" value="#3498db" /></li>
-			<li><label>'.__('Greetings BG','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailGreetings" value="#3498db" /></li>
-			<li><label>'.__('Greetings Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailGreetings" value="#3498db" /></li>
-			<li><label>'.__('Message BG','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailMessage" value="#3498db" /></li>
-			<li><label>'.__('Message Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailMessage" value="#3498db" /></li>
-			<li><label>'.__('Sender BG','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailSender" value="#3498db" /></li>
-			<li><label>'.__('Sender Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailSender" value="#3498db" /></li>
-			<li><label>'.__('Item BG','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailItem" value="#3498db" /></li>
-			<li><label>'.__('Item Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailItem" value="#3498db" /></li>
-			<li><label>'.__('Footer BG','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="background" data-ref="#emailFooter" value="#ffffff" /></li>
-			<li><label>'.__('Footer Color','vibe-customtypes').'</label><input type="text" class="colorpicker" data-css="color" data-ref="#emailFooter" value="#bbbbbb" /></li>
-		</ul>
-		<br class="clear" />
-		<a id="show_generated" class="button">'.__('View Generated Template','vibe-customtypes').'</a>
-		<a id="restore_default" class="button">'.__('Restore Default','vibe-customtypes').'</a>
-		<a id="apply_settings" class="button-primary">'.__('Apply Changes','vibe-customtypes').'</a>
-		</div>';
-		echo '<div class="wplms_email_template">
-		<iframe></iframe>
-		</div>
-		<textarea id="wplms_email_template">
-		'.$template.'
-		</textarea>';
-		wp_nonce_field('email_template','security');
-		echo '<style>input.colorpicker+.iris-picker{position:absolute;}.template_controls{width:100%;margin-bottom:20px;display:inline-block;}.template_controls li label{line-height:2;font-weight:600;}.template_controls li{float:left;margin-right:10px;width:17%;border-radius:3px;border: 1px solid #ddd;padding: 6px;}.template_controls li .colorpicker{width:80px;height:28px;display:inline-block;border:1px solid #DDD;  float: right;}
-				#wplms_email_template{display:none;}
-				.wplms_email_template iframe{width:100%;height:600px;}
-				#wplms_email_template,.wplms_email_template{
-				    width: 48%;
-				    float:left;
-				    margin:1%;
-				    height:700px;
-				    overflow-y:scroll;
-				}
-				@media only screen and (max-width: 799px)
-				#wplms_email_template,.wplms_email_template{
-				  width: 100%; margin:1% 0;
-				}</style>';		
-	}
 
 	function scheduled_emails(){
 
@@ -2368,8 +2379,7 @@ class wplms_miscellaneous_settings{
 		$this->settings=get_option('lms_settings');
 		add_action('wplms_before_create_course_header',array($this,'front_end_check_course_limit'));
 		add_action( 'admin_head-post-new.php', array($this,'check_course_limit' ));
-		add_action('wp_ajax_lms_restore_email_template',array($this,'lms_restore_email_template'));
-		add_action('wp_ajax_lms_save_email_template',array($this,'lms_save_email_template'));
+		
 		add_action('wp_ajax_load_coursetree',array($this,'load_coursetree'));
 		add_action('wp_ajax_vibe_update_license_key',array($this,'update_license_key'));
 		add_action('wp_ajax_lms_import_wplms_emails',array($this,'import_wplms_emails'));
@@ -2444,34 +2454,6 @@ class wplms_miscellaneous_settings{
 			}
 		}
 		return;
-	}
-
-	function lms_restore_email_template(){
-		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'email_template') ){
-		     _e('Security check Failed. Contact Administrator.','vibe-customtypes');
-		     die();
-		  }
-
-		$myFile = __DIR__."/email_templates/template.html";
-		$fh = fopen($myFile, 'r');
-	    $template =fread($fh,filesize($myFile));
-	    fclose($fh);
-		
-		update_option('wplms_email_template',$template);
-		echo $template;
-
-		die();  
-	}
-
-	function lms_save_email_template(){
-		if ( !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'email_template') ){
-		     _e('Security check Failed. Contact Administrator.','vibe-customtypes');
-		     die();
-		  }
-		 $template =htmlentities(stripslashes($_POST['template']));
-		update_option('wplms_email_template',$template);
-		echo __('Template saved','vibe-customtypes');
-		die();
 	}
 
 	function load_coursetree(){

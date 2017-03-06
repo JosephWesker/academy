@@ -23,7 +23,7 @@ class WPLMS_Filters{
     }
 
     private function __construct(){
-
+    	
     	/* ==== BODY Loading Effect === */
     	add_filter('body_class',array($this,'loading_effect'));
 
@@ -120,8 +120,13 @@ class WPLMS_Filters{
 
 		add_filter('wplms_enable_signup',array($this,'enable_signup'));
 		add_filter('wplms_buddypress_registration_link',array($this,'registration_link'));
+		
+		
 
     }
+    
+    
+    
 
     /*
     	BODY  Loading Effect

@@ -315,6 +315,13 @@
 							);
 		}
 
+		if(class_exists('WPLMS_Gift_Course_Class')){
+			$this->course_details_labels['gift_course']= array(
+							'label'=>_x('Gift this course','label in details array','vibe-customtypes'),
+							'callback'=> false,
+						);
+		}
+
 		if(class_exists('Wplms_Wishlist_Component')){
 			$this->course_details_labels['wishlist']= array(
 							'label'=>_x('Wishlist','label in details array','vibe-customtypes'),
@@ -351,11 +358,7 @@
 
  	// Number Of units avaiable and completed function starts
     public static function get_course_unit_number(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+    	$course_id=get_the_ID();
     	$course_curriculum = bp_course_get_curriculum($course_id);
     	$user_completed = $total_available = 0;
 		if(!empty($course_curriculum) && is_user_logged_in()){
@@ -364,7 +367,7 @@
 				if(is_numeric($item)){
 					$post_type = get_post_type( $item);
 					if( $post_type == 'unit'){
-						$check = bp_course_check_unit_complete($item,$get_current_user_id,$course_id);
+						$check = bp_course_check_unit_complete($item,$user_id,$course_id);
 					$total_available++;
 					}
 					if($check){$user_completed++;}
@@ -377,11 +380,7 @@
 
  	// Number Of Quizes avaiable and completed function starts
     public static function get_course_quiz_number(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+    	$course_id=get_the_ID();
     	$course_curriculum = bp_course_get_curriculum($course_id);
     	$user_completed = $total_available = 0;
 		if(!empty($course_curriculum) && is_user_logged_in()){
@@ -391,9 +390,9 @@
 					$post_type = get_post_type( $item);
 					if($post_type == 'quiz'){
 						$check = bp_course_check_quiz_complete($item,$user_id,$course_id);
-					$total_available++;
+						$total_available++;
+						if($check){$user_completed++;}
 					}
-					if($check){$user_completed++;}
 				}
 			}
 		return '<li>'._x("Completed Quizes","Course Detail Sidebar ","vibe-customtypes").'<i class="course_detail_span">'.$user_completed.' / '.$total_available.'</i></li>';
@@ -403,7 +402,7 @@
 
 	// Total Unit Duration Count function starts
     public static function get_course_unit_durations(){
-
+		$course_id=get_the_ID();
     	$course_curriculum = bp_course_get_curriculum($course_id);
 		if(!empty($course_curriculum)){
 			$duration=0;
@@ -425,11 +424,7 @@
 	
 	// Total number of sections function starts
     public static function get_course_section_number(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+    	$course_id=get_the_ID();
     	$number_sections=0;
     	$course_curriculum=bp_course_get_curriculum($course_id);
         if(isset($course_curriculum) && is_array($course_curriculum)){
@@ -444,11 +439,7 @@
     // Total number of sections function ends
     // Total number of students function starts
     public static function get_course_student_number(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+    	$course_id=get_the_ID();
     	$students = get_post_meta($course_id,'vibe_students',true);
     	return '<li>'._x("Number of students","Course Detail Sidebar Number of students","vibe-customtypes").'<i class="course_detail_span">'.$students.'</i></li>';
     }
@@ -456,11 +447,7 @@
 
     // average rating function starts
     public static function get_course_average_rating(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+    	$course_id=get_the_ID();
 	  	$rating=get_post_meta($course_id,'average_rating',true);
 	  	if (empty($rating)){
 	  		return none;
@@ -474,13 +461,8 @@
 
 	// Number Of assignments function starts
     public static function get_course_assignments_number(){
-    	$defaults=array(
-	    	'course_id' =>get_the_ID(),
-	    );
-	  	$r = wp_parse_args( $args, $defaults );
-	  	extract( $r, EXTR_SKIP );
+	    $course_id=get_the_ID();
 	  	$no_of_assignments=0;
-		
 		if(!function_exists('wplms_course_get_course_assignments'))
 			return;
 

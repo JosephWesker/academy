@@ -107,6 +107,7 @@
 	 * @author       	Alimir	 	
 	 * @since           1.7
 	 * @updated         2.1	
+	 * @updated         2.4.2	
 	 * @return			String
 	 */		
 	function wp_ulike_post_likes_logs(){
@@ -114,7 +115,7 @@
 		$alternate 	= true;
 		$items 		= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix."ulike");
 		if($items > 0) {
-				$p = new pagination;
+				$p = new wp_ulike_pagination;
 				$p->items($items);
 				$p->limit(wp_ulike_logs_return_per_page()); // Limit entries per page
 				$p->target("admin.php?page=wp-ulike-post-logs"); 
@@ -229,6 +230,7 @@
 	 * @author       	Alimir	 	
 	 * @since           1.7
 	 * @updated         2.1	
+	 * @updated         2.4.2	
 	 * @return			String
 	 */
 	function wp_ulike_comment_likes_logs(){
@@ -236,7 +238,7 @@
 		$alternate 	= true;
 		$items 		= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix."ulike_comments");
 		if($items > 0) {
-				$p = new pagination;
+				$p = new wp_ulike_pagination;
 				$p->items($items);
 				$p->limit(wp_ulike_logs_return_per_page()); // Limit entries per page
 				$p->target("admin.php?page=wp-ulike-comment-logs"); 
@@ -355,6 +357,7 @@
 	 * @author       	Alimir	 	
 	 * @since           1.7
 	 * @updated         2.1	
+	 * @updated         2.4.2
 	 * @return			String
 	 */	
 	function wp_ulike_buddypress_likes_logs(){
@@ -362,7 +365,7 @@
 		$alternate 	= true;
 		$items 		= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix."ulike_activities");
 		if($items > 0) {
-				$p = new pagination;
+				$p = new wp_ulike_pagination;
 				$p->items($items);
 				$p->limit(wp_ulike_logs_return_per_page()); // Limit entries per page
 				$p->target("admin.php?page=wp-ulike-bp-logs"); 
@@ -477,6 +480,7 @@
 	 *
 	 * @author       	Alimir	 	
 	 * @since           2.2
+	 * @updated         2.4.2
 	 * @return			String
 	 */	
 	function wp_ulike_bbpress_likes_logs(){
@@ -484,7 +488,7 @@
 		$alternate 	= true;
 		$items 		= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix."ulike_forums");
 		if($items > 0) {
-				$p = new pagination;
+				$p = new wp_ulike_pagination;
 				$p->items($items);
 				$p->limit(wp_ulike_logs_return_per_page()); // Limit entries per page
 				$p->target("admin.php?page=wp-ulike-bbpress-logs"); 

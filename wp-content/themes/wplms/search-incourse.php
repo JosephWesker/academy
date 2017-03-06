@@ -31,6 +31,7 @@
         <div class="search_results">
             <?php
                 $style = vibe_get_option('default_course_block_style');
+                if(empty($style )) $style = 'course';
                 if ( have_posts() ) : while ( have_posts() ) : the_post();
                 //if($post->post_type == 'course'){
                     if(function_exists('thumbnail_generator')){

@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPLMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 13:37+0530\n"
-"PO-Revision-Date: 2017-02-03 13:37+0530\n"
+"POT-Creation-Date: 2017-02-23 17:17+0530\n"
+"PO-Revision-Date: 2017-02-23 17:17+0530\n"
 "Last-Translator: vibethemes@gmail.com <vibethemes@gmail.com>\n"
 "Language-Team: Patrik <patrik.bjorklund@hotmail.com>\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -18,6 +18,26 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: assets/js/wplms.min.js:3
+msgid "bg"
+msgstr ""
+
+#: assets/js/wplms.min.js:3
+msgid "wrap"
+msgstr ""
+
+#: assets/js/wplms.min.js:3
+msgid "container"
+msgstr ""
+
+#: assets/js/wplms.min.js:3
+msgid "content"
+msgstr ""
+
+#: assets/js/wplms.min.js:3
+msgid "preloader"
+msgstr ""
 
 #: _inc/ajax.php:276
 msgid "Please enter some content to post."
@@ -767,7 +787,7 @@ msgstr "Alla trådar <span>%s</span>"
 msgid "My Topics <span>%s</span>"
 msgstr "Mina trådar <span>%s</span>"
 
-#: forums/index.php:63 groups/single/forum.php:36 includes/actions.php:326
+#: forums/index.php:63 groups/single/forum.php:36 includes/actions.php:329
 #: members/single/blogs.php:19 members/single/forums.php:17
 #: members/single/friends.php:20 members/single/groups.php:20
 #: templates/directory/blogs/index.php:102
@@ -1349,54 +1369,52 @@ msgstr "Skicka ansökan"
 msgid "Send Invites"
 msgstr "Skicka inbjudningar"
 
-#: header-app.php:141 header-center.php:42 header-generic.php:119
-#: header-mooc.php:77 header-sleek.php:41 header-standard.php:57
-#: header-standard.php:77 header-standardcenter.php:57
-#: header-standardcenter.php:77 header-transparent.php:42 header.php:116
-msgid "Hit enter to search..."
-msgstr "Tryck enter för att söka..."
-
-#: header-center.php:107 header-mooc.php:105 header-sleek.php:100
-#: header-transparent.php:104 templates/login/pop_login.php:84
+#: header-center.php:83 header-mooc.php:86 header-sleek.php:77
+#: header-transparent.php:92 templates/login/pop_login.php:84
 msgid "LOGIN"
 msgstr ""
 
-#: header-generic.php:60 header-standard.php:87 header-standardcenter.php:87
-#: header.php:55 templates/login/modern.php:83
+#: header-generic.php:61 header-standard.php:76 header-standardcenter.php:76
+#: header.php:56 templates/login/modern.php:83
 msgid "Login"
 msgstr "Logga in"
 
-#: header-generic.php:63 header-standard.php:93 header-standardcenter.php:92
-#: header.php:60 includes/widgets/custom_bp_widgets.php:123
+#: header-generic.php:64 header-standard.php:82 header-standardcenter.php:81
+#: header.php:61 includes/widgets/custom_bp_widgets.php:123
 #: templates/login/bigdrop_login.php:105 templates/login/default_login.php:99
 #: templates/login/full_login.php:101 templates/login/pop_login.php:104
 msgid "Create an account"
 msgstr "Skapa konto"
 
-#: header-generic.php:63 header-standard.php:93 header-standardcenter.php:92
-#: header.php:60 includes/widgets/custom_bp_widgets.php:123
+#: header-generic.php:64 header-standard.php:82 header-standardcenter.php:81
+#: header.php:61 includes/widgets/custom_bp_widgets.php:123
 #: templates/login/bigdrop_login.php:105 templates/login/default_login.php:99
 #: templates/login/full_login.php:101 templates/login/pop_login.php:104
 msgid "Sign Up"
 msgstr "Registrera"
 
-#: header-generic.php:63 header-standard.php:93 header-standardcenter.php:92
-#: header.php:60 includes/widgets/custom_bp_widgets.php:123
+#: header-generic.php:64 header-standard.php:82 header-standardcenter.php:81
+#: header.php:61 includes/widgets/custom_bp_widgets.php:123
 #, php-format
 msgid "<a href=\"%s\" class=\"vbpregister\" title=\""
 msgstr "<a href=\"%s\" class=\"vbpregister\" title=\""
 
-#: includes/actions.php:276
+#: header-standard.php:66 header-standardcenter.php:66
+#: includes/actions.php:1857
+msgid "Hit enter to search..."
+msgstr "Tryck enter för att söka..."
+
+#: includes/actions.php:279
 msgctxt "vibe"
 msgid "Hide Timeline"
 msgstr ""
 
-#: includes/actions.php:280
+#: includes/actions.php:283
 msgctxt "vibe"
 msgid "Go fullscreen"
 msgstr ""
 
-#: includes/actions.php:330 templates/directory/course/index.php:94
+#: includes/actions.php:333 templates/directory/course/index.php:94
 #: templates/directory/course/indexd2.php:83
 #: templates/directory/course/indexd3.php:70
 #: templates/directory/course/indexd4.php:64
@@ -1404,71 +1422,71 @@ msgstr ""
 msgid "Select Order"
 msgstr "Välj ordning"
 
-#: includes/actions.php:334
+#: includes/actions.php:337
 msgid "Draft courses"
 msgstr ""
 
-#: includes/actions.php:335
+#: includes/actions.php:338
 msgid "Submitted for Approval"
 msgstr ""
 
-#: includes/actions.php:336
+#: includes/actions.php:339
 msgid "Published Courses"
-msgstr ""
-
-#: includes/actions.php:340
-msgctxt "Course Status filter in Profile My courses section"
-msgid "Pursuing courses"
-msgstr ""
-
-#: includes/actions.php:341
-msgctxt "Course Status filter in Profile My courses section"
-msgid "Finished Courses"
-msgstr ""
-
-#: includes/actions.php:342
-msgctxt "Course Status filter in Profile My courses section"
-msgid "Active courses"
 msgstr ""
 
 #: includes/actions.php:343
 msgctxt "Course Status filter in Profile My courses section"
+msgid "Pursuing courses"
+msgstr ""
+
+#: includes/actions.php:344
+msgctxt "Course Status filter in Profile My courses section"
+msgid "Finished Courses"
+msgstr ""
+
+#: includes/actions.php:345
+msgctxt "Course Status filter in Profile My courses section"
+msgid "Active courses"
+msgstr ""
+
+#: includes/actions.php:346
+msgctxt "Course Status filter in Profile My courses section"
 msgid "Expired courses"
 msgstr ""
 
-#: includes/actions.php:347
+#: includes/actions.php:350
 msgctxt "filter in Profile My courses section"
 msgid "Newly Published"
 msgstr ""
 
-#: includes/actions.php:348
+#: includes/actions.php:351
 msgctxt "filter in Profile My courses section"
 msgid "Alphabetical"
 msgstr ""
 
-#: includes/actions.php:349
+#: includes/actions.php:352
 msgctxt "filter in Profile My courses section"
 msgid "Start Date"
 msgstr ""
 
-#: includes/actions.php:483
+#: includes/actions.php:486
 msgid "Become an Instructor"
 msgstr "Bli kursledare"
 
-#: includes/actions.php:543
+#: includes/actions.php:546
 msgid "UNITS"
 msgstr ""
 
-#: includes/actions.php:545
+#: includes/actions.php:548
 msgid "QUESTIONS"
 msgstr ""
 
-#: includes/actions.php:548
+#: includes/actions.php:551
 #, php-format
 msgid "DIRECT ACCESS TO %s IS NOT ALLOWED"
 msgstr ""
 
-#: includes/actions.php:607 includes/notes-discussions.php:120
+#: includes/actions.php:610 includes/notes-discussions.php:120
 #: includes/notes-discussions.php:419 includes/notes-discussions.php:437
 #: includes/notes-discussions.php:482 includes/notes-discussions.php:579
 #: includes/notes-discussions.php:600 includes/notes-discussions.php:623
@@ -1477,139 +1495,139 @@ msgstr ""
 msgid "Security check Failed. Contact Administrator."
 msgstr "Säkerhetscheck misslyckades. Kontakta Youngcubator."
 
-#: includes/actions.php:687
+#: includes/actions.php:690
 msgid "COURSE : "
 msgstr "KURS : "
 
-#: includes/actions.php:732
+#: includes/actions.php:735
 msgid "Your account is now active!"
 msgstr ""
 
-#: includes/actions.php:820 includes/actions.php:833 includes/actions.php:855
+#: includes/actions.php:823 includes/actions.php:836 includes/actions.php:858
 msgid "My Orders"
 msgstr ""
 
-#: includes/actions.php:852 includes/actions.php:908
+#: includes/actions.php:855 includes/actions.php:911
 msgid "Edit Account Details"
 msgstr ""
 
-#: includes/actions.php:946 includes/actions.php:959
+#: includes/actions.php:949 includes/actions.php:962
 msgid "My Memberships"
 msgstr ""
 
-#: includes/actions.php:1006 includes/actions.php:1087
+#: includes/actions.php:1009 includes/actions.php:1090
 msgid "Display Order"
 msgstr ""
 
-#: includes/actions.php:1010 includes/actions.php:1091 includes/filters.php:352
+#: includes/actions.php:1013 includes/actions.php:1094 includes/filters.php:661
 msgid "Thumbnail"
 msgstr ""
 
-#: includes/actions.php:1014 includes/actions.php:1096
+#: includes/actions.php:1017 includes/actions.php:1099
 msgid "Upload/Add image"
 msgstr ""
 
-#: includes/actions.php:1015 includes/actions.php:1097
+#: includes/actions.php:1018 includes/actions.php:1100
 msgid "Remove image"
 msgstr ""
 
-#: includes/actions.php:1034 includes/actions.php:1121
+#: includes/actions.php:1037 includes/actions.php:1124
 msgid "Choose an image"
 msgstr ""
 
-#: includes/actions.php:1036 includes/actions.php:1123
+#: includes/actions.php:1039 includes/actions.php:1126
 msgid "Use image"
 msgstr ""
 
-#: includes/actions.php:1330
+#: includes/actions.php:1333
 msgid "Related Courses"
 msgstr ""
 
-#: includes/actions.php:1393 templates/course/start/default.php:122
+#: includes/actions.php:1396 templates/course/start/default.php:122
 msgid "Course Curriculum Not Set"
 msgstr "Kursplan är inte bestämd än"
 
-#: includes/actions.php:1524
+#: includes/actions.php:1527
 msgid "Unit"
 msgstr ""
 
-#: includes/actions.php:1545 includes/actions.php:1596
+#: includes/actions.php:1548 includes/actions.php:1599
 #, php-format
 msgid "Next %s will be available in %s"
 msgstr ""
 
-#: includes/actions.php:1602 includes/actions.php:1609
+#: includes/actions.php:1605 includes/actions.php:1612
 #, php-format
 msgid "Requested %s can not be accessed."
 msgstr ""
 
-#: includes/actions.php:1664
+#: includes/actions.php:1667
 msgctxt "ajax signon message"
 msgid "Missing data."
 msgstr ""
 
-#: includes/actions.php:1671
+#: includes/actions.php:1674
 msgctxt "ajax signon message"
 msgid "Missing security."
 msgstr ""
 
-#: includes/actions.php:1679
+#: includes/actions.php:1682
 msgctxt "ajax signon message"
 msgid "Invalid username."
 msgstr ""
 
-#: includes/actions.php:1722
+#: includes/actions.php:1725
 msgctxt "ajax signon message"
 msgid "Invalid password."
 msgstr ""
 
-#: includes/actions.php:1760 includes/actions.php:1770
+#: includes/actions.php:1762 includes/actions.php:1773
 msgctxt "back to login in login panel"
 msgid "back to login"
 msgstr ""
 
-#: includes/actions.php:1772
+#: includes/actions.php:1775
 msgctxt "fotgot password email placeholder"
 msgid "Enter registered email id"
 msgstr ""
 
-#: includes/actions.php:1773
+#: includes/actions.php:1776
 msgctxt "forgot password form submit label"
 msgid "Get reset password link"
 msgstr ""
 
-#: includes/actions.php:1783
+#: includes/actions.php:1786
 msgctxt "forgot password email message"
 msgid "Missing email."
 msgstr ""
 
-#: includes/actions.php:1788
+#: includes/actions.php:1791
 msgctxt "forgot password email message"
 msgid "Missing security."
 msgstr ""
 
-#: includes/actions.php:1793
+#: includes/actions.php:1796
 msgctxt "forgot password email message"
 msgid "No registered user found with this mail id !"
 msgstr ""
 
-#: includes/actions.php:1809
+#: includes/actions.php:1812
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/actions.php:1812
+#: includes/actions.php:1815
 msgid "Password reset is not allowed."
 msgstr ""
 
-#: includes/actions.php:1842
+#: includes/actions.php:1845
 msgid "The e-mail could not be sent."
 msgstr ""
 
-#: includes/actions.php:1842
+#: includes/actions.php:1845
 msgid "Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: includes/actions.php:1844
+#: includes/actions.php:1847
 msgctxt "forgot password mail message"
 msgid "Please check your email for password recovery !"
 msgstr ""
@@ -1687,42 +1705,42 @@ msgstr ""
 msgid "Course Drive slug"
 msgstr ""
 
-#: includes/buddydrive.php:486
+#: includes/buddydrive.php:488
 msgid "Course Drive"
 msgstr ""
 
-#: includes/buddydrive.php:487
+#: includes/buddydrive.php:489
 msgid "Drive Visibility"
 msgstr ""
 
-#: includes/buddydrive.php:493 vibe-options.php:331 vibe-options.php:375
+#: includes/buddydrive.php:495 vibe-options.php:331 vibe-options.php:375
 msgid "Everyone"
 msgstr ""
 
-#: includes/buddydrive.php:494
+#: includes/buddydrive.php:496
 msgid "Logged in Users"
 msgstr ""
 
-#: includes/buddydrive.php:495
+#: includes/buddydrive.php:497
 msgid "Course Users"
 msgstr ""
 
-#: includes/buddydrive.php:496
+#: includes/buddydrive.php:498
 msgid "Instructors and Admins"
 msgstr ""
 
-#: includes/buddydrive.php:498
+#: includes/buddydrive.php:500
 msgid "Set Course/Drive Visibility"
 msgstr ""
 
 #: includes/customizer/config.php:44 includes/customizer/config.php:125
 #: includes/customizer/config.php:141
-#: includes/widgets/custom_bp_widgets.php:438 vibe-options.php:603
-#: vibe-options.php:1127
+#: includes/widgets/custom_bp_widgets.php:438 vibe-options.php:612
+#: vibe-options.php:1136
 msgid "Default"
 msgstr ""
 
-#: includes/customizer/config.php:45 vibe-options.php:1024
+#: includes/customizer/config.php:45 vibe-options.php:1033
 msgid "Minimal"
 msgstr "Minimal"
 
@@ -1798,7 +1816,7 @@ msgstr ""
 msgid "Single Sidebar Footer"
 msgstr ""
 
-#: includes/customizer/config.php:541 vibe-options.php:988
+#: includes/customizer/config.php:541 vibe-options.php:997
 msgid "Footer Bottom"
 msgstr "Footer Bottom"
 
@@ -1818,94 +1836,87 @@ msgstr "Lägg till social information"
 msgid "Enter URL for social icon."
 msgstr "Skriv URL för social ikon."
 
-#: includes/extras.php:244 includes/extras.php:332
+#: includes/extras.php:244 includes/extras.php:349
 msgid "Share on "
 msgstr "Dela på"
 
-#: includes/extras.php:254 includes/plugin-activation.php:2668
+#: includes/extras.php:255 includes/plugin-activation.php:2668
 #: setup/installer/envato_setup.php:1612
 msgid "Status"
 msgstr "Status"
 
-#: includes/extras.php:255
+#: includes/extras.php:256
 msgid "User ID"
 msgstr "Användar ID"
 
-#: includes/extras.php:267 includes/extras.php:269
-msgid "Last Logged in on "
+#: includes/extras.php:272
+msgctxt "When user has not even once logged in the website"
+msgid "N.A."
 msgstr ""
 
-#: includes/extras.php:267
+#: includes/extras.php:279
 msgid "Online"
 msgstr "Online"
 
-#: includes/extras.php:269
+#: includes/extras.php:281
 msgid "Offline"
 msgstr "Offline"
 
-#: includes/extras.php:344 includes/func.php:1755
+#: includes/extras.php:281
+msgid "Since: "
+msgstr ""
+
+#: includes/extras.php:361 includes/func.php:1755
 msgid "ID"
 msgstr "ID"
 
-#: includes/filters.php:329
+#: includes/filters.php:135
+msgctxt "custom tabs for tabbed layout"
+msgid "home"
+msgstr ""
+
+#: includes/filters.php:135
+msgctxt "custom tabs for tabbed layout"
+msgid "curriculum"
+msgstr ""
+
+#: includes/filters.php:135
+msgctxt "custom tabs for tabbed layout"
+msgid "reviews"
+msgstr ""
+
+#: includes/filters.php:638
 msgid "Image"
 msgstr ""
 
-#: includes/filters.php:330 includes/widgets/custom_widgets.php:318
+#: includes/filters.php:639 includes/widgets/custom_widgets.php:318
 msgid "Order"
 msgstr ""
 
-#: includes/filters.php:449
+#: includes/filters.php:758
 msgid "Upload Title Background"
 msgstr ""
 
-#: includes/filters.php:450
+#: includes/filters.php:759
 msgid "Upload a background image for title"
 msgstr ""
 
-#: includes/filters.php:451
+#: includes/filters.php:760
 msgid "Upload title image."
 msgstr ""
 
-#: includes/filters.php:462
+#: includes/filters.php:771
 msgid "Title Background Image"
 msgstr ""
 
-#: includes/filters.php:463
+#: includes/filters.php:772
 msgid "Add title background image"
 msgstr ""
 
-#: includes/filters.php:488
+#: includes/filters.php:797
 #, php-format
 msgctxt "Directory Title format"
 msgid "%s Directory - %s"
-msgstr ""
-
-#: includes/filters.php:684
-msgid ""
-"Someone requested that the password be reset for the following account: "
-msgstr ""
-
-#: includes/filters.php:686
-#, php-format
-msgid "Username: %s"
-msgstr ""
-
-#: includes/filters.php:687
-msgid "If this was a mistake, just ignore this email and nothing will happen."
-msgstr ""
-
-#: includes/filters.php:688
-#, php-format
-msgid "To reset your password, visit the following address: %s"
-msgstr ""
-
-#: includes/filters.php:691
-msgid "Forgot passowrd "
-msgstr ""
-
-#: includes/filters.php:692
-msgid " Password Reset"
 msgstr ""
 
 #: includes/func.php:46 includes/widgets/custom_bp_widgets.php:163
@@ -2058,31 +2069,31 @@ msgstr "Hem"
 msgid "Attachment"
 msgstr "Bifogat"
 
-#: includes/func.php:1096 vibe-options.php:770
+#: includes/func.php:1096 vibe-options.php:779
 msgid "Seconds"
 msgstr "Sekunder"
 
-#: includes/func.php:1097 vibe-options.php:771
+#: includes/func.php:1097 vibe-options.php:780
 msgid "Minutes"
 msgstr "Minuter"
 
-#: includes/func.php:1098 vibe-options.php:772
+#: includes/func.php:1098 vibe-options.php:781
 msgid "Hours"
 msgstr "Timar"
 
-#: includes/func.php:1099 vibe-options.php:773
+#: includes/func.php:1099 vibe-options.php:782
 msgid "Days"
 msgstr "Dagar"
 
-#: includes/func.php:1100 vibe-options.php:774
+#: includes/func.php:1100 vibe-options.php:783
 msgid "Weeks"
 msgstr "Veckor"
 
-#: includes/func.php:1101 vibe-options.php:775
+#: includes/func.php:1101 vibe-options.php:784
 msgid "Months"
 msgstr "Månader"
 
-#: includes/func.php:1102 vibe-options.php:776
+#: includes/func.php:1102 vibe-options.php:785
 msgid "Years"
 msgstr "År"
 
@@ -3307,6 +3318,7 @@ msgid "AND"
 msgstr "OCH"
 
 #: includes/widgets/advanced_woocommerce_widgets.php:299 setup/welcome.php:215
+#: setup/welcome.php:217
 msgid "OR"
 msgstr "ELLER"
 
@@ -3451,7 +3463,7 @@ msgstr "Grupper"
 
 #: includes/widgets/custom_bp_widgets.php:85
 #: setup/installer/envato_setup.php:1569 setup/welcome.php:160
-#: setup/welcome.php:482 templates/login/bigdrop_login.php:57
+#: setup/welcome.php:484 templates/login/bigdrop_login.php:57
 #: templates/login/default_login.php:57 templates/login/full_login.php:57
 #: templates/login/modern.php:57 templates/login/pop_login.php:58
 msgid "Settings"
@@ -3601,28 +3613,28 @@ msgid "Show Tab"
 msgstr "Visa flik"
 
 #: includes/widgets/custom_widgets.php:75 login-page.php:373
-#: registration/register.php:343 setup/welcome.php:401 setup/welcome.php:438
-#: setup/welcome.php:463 vibe-options.php:252 vibe-options.php:450
-#: vibe-options.php:594 vibe-options.php:639 vibe-options.php:657
+#: registration/register.php:343 setup/welcome.php:403 setup/welcome.php:440
+#: setup/welcome.php:465 vibe-options.php:252 vibe-options.php:450
+#: vibe-options.php:594 vibe-options.php:603 vibe-options.php:648
 #: vibe-options.php:666 vibe-options.php:675 vibe-options.php:684
-#: vibe-options.php:693 vibe-options.php:702 vibe-options.php:786
-#: vibe-options.php:804 vibe-options.php:813 vibe-options.php:822
-#: vibe-options.php:831 vibe-options.php:840 vibe-options.php:865
-#: vibe-options.php:1031 vibe-options.php:1104 vibe-options.php:1177
-#: vibe-options.php:1246 vibe-options.php:1255
+#: vibe-options.php:693 vibe-options.php:702 vibe-options.php:711
+#: vibe-options.php:795 vibe-options.php:813 vibe-options.php:822
+#: vibe-options.php:831 vibe-options.php:840 vibe-options.php:849
+#: vibe-options.php:874 vibe-options.php:1040 vibe-options.php:1113
+#: vibe-options.php:1186 vibe-options.php:1255 vibe-options.php:1264
 msgid "Yes"
 msgstr "Ja"
 
 #: includes/widgets/custom_widgets.php:76 login-page.php:374
-#: registration/register.php:344 setup/welcome.php:401 setup/welcome.php:438
-#: setup/welcome.php:463 vibe-options.php:252 vibe-options.php:450
-#: vibe-options.php:594 vibe-options.php:639 vibe-options.php:657
+#: registration/register.php:344 setup/welcome.php:403 setup/welcome.php:440
+#: setup/welcome.php:465 vibe-options.php:252 vibe-options.php:450
+#: vibe-options.php:594 vibe-options.php:603 vibe-options.php:648
 #: vibe-options.php:666 vibe-options.php:675 vibe-options.php:684
-#: vibe-options.php:693 vibe-options.php:702 vibe-options.php:786
-#: vibe-options.php:804 vibe-options.php:813 vibe-options.php:822
-#: vibe-options.php:831 vibe-options.php:840 vibe-options.php:865
-#: vibe-options.php:1031 vibe-options.php:1104 vibe-options.php:1177
-#: vibe-options.php:1246 vibe-options.php:1255
+#: vibe-options.php:693 vibe-options.php:702 vibe-options.php:711
+#: vibe-options.php:795 vibe-options.php:813 vibe-options.php:822
+#: vibe-options.php:831 vibe-options.php:840 vibe-options.php:849
+#: vibe-options.php:874 vibe-options.php:1040 vibe-options.php:1113
+#: vibe-options.php:1186 vibe-options.php:1255 vibe-options.php:1264
 msgid "No"
 msgstr "Nej"
 
@@ -3777,7 +3789,7 @@ msgstr "Titel"
 #: includes/widgets/custom_widgets.php:560 vibe-options.php:340
 #: vibe-options.php:357 vibe-options.php:366 vibe-options.php:391
 #: vibe-options.php:416 vibe-options.php:459 vibe-options.php:469
-#: vibe-options.php:478 vibe-options.php:711
+#: vibe-options.php:478 vibe-options.php:720
 msgid "All"
 msgstr "Alla"
 
@@ -4137,9 +4149,10 @@ msgstr ""
 "Jag skulle vilja att min sajt dyker upp i sökmotorer och i publika listor i "
 "detta nätverket."
 
-#: login-page.php:410 registration/register.php:380
+#: login-page.php:410
+msgctxt "sign up button on site lock"
 msgid "Complete Sign Up"
-msgstr "Genomför registrering"
+msgstr ""
 
 #: login-page.php:442 registration/register.php:412
 msgid "Activate your account"
@@ -5462,6 +5475,11 @@ msgstr "Skriv en giltig aktiveringsnyckel."
 msgid "Activation Key:"
 msgstr "Aktiveringsnyckel:"
 
+#: registration/register.php:380
+msgctxt "singn up button on register page"
+msgid "Complete Sign Up"
+msgstr ""
+
 #: search-incourse.php:12 search.php:24
 msgid "Search Results for \""
 msgstr "Sökresultat för \""
@@ -5470,7 +5488,7 @@ msgstr "Sökresultat för \""
 msgid " results found"
 msgstr "resultat som hittades"
 
-#: search-incourse.php:51 search.php:58
+#: search-incourse.php:52 search.php:58
 msgid "Sorry, No results found."
 msgstr "Typiskt, vi hittade inget av det du letade efter."
 
@@ -5631,15 +5649,15 @@ msgstr ""
 
 #: setup/installer/envato_setup.php:745 setup/installer/envato_setup.php:881
 #: setup/installer/envato_setup.php:1420 setup/installer/envato_setup.php:1639
-#: setup/installer/envato_setup.php:3287 setup/installer/envato_setup.php:3402
-#: setup/installer/envato_setup.php:3481
+#: setup/installer/envato_setup.php:3290 setup/installer/envato_setup.php:3405
+#: setup/installer/envato_setup.php:3484
 msgid "Continue"
 msgstr ""
 
 #: setup/installer/envato_setup.php:747 setup/installer/envato_setup.php:883
 #: setup/installer/envato_setup.php:1422 setup/installer/envato_setup.php:1641
-#: setup/installer/envato_setup.php:3289 setup/installer/envato_setup.php:3404
-#: setup/installer/envato_setup.php:3497
+#: setup/installer/envato_setup.php:3292 setup/installer/envato_setup.php:3407
+#: setup/installer/envato_setup.php:3500
 msgid "Skip this step"
 msgstr ""
 
@@ -5733,7 +5751,7 @@ msgstr ""
 msgid "PHP Memory allocation"
 msgstr ""
 
-#: setup/installer/envato_setup.php:1222 setup/welcome.php:430
+#: setup/installer/envato_setup.php:1222 setup/welcome.php:432
 #, php-format
 msgid ""
 "%s - We recommend setting memory to at least 128MB. See: <a href=\"%s"
@@ -5742,19 +5760,19 @@ msgstr ""
 "%s - Vi rekommenderar att ställa in minnet på minst 128MB. Se: <a href=\"%s"
 "\">Increasing memory allocated to PHP</a>"
 
-#: setup/installer/envato_setup.php:1233 setup/welcome.php:445
+#: setup/installer/envato_setup.php:1233 setup/welcome.php:447
 msgid "WP Max Upload Size"
 msgstr "WP Max uppladdningsstorlek"
 
-#: setup/installer/envato_setup.php:1237 setup/welcome.php:450
+#: setup/installer/envato_setup.php:1237 setup/welcome.php:452
 msgid "PHP Post Max Size"
 msgstr "PHP Post Max Size"
 
-#: setup/installer/envato_setup.php:1242 setup/welcome.php:454
+#: setup/installer/envato_setup.php:1242 setup/welcome.php:456
 msgid "PHP Time Limit"
 msgstr "PHP Time Limit"
 
-#: setup/installer/envato_setup.php:1245 setup/welcome.php:458
+#: setup/installer/envato_setup.php:1245 setup/welcome.php:460
 msgid "PHP Max Input Vars"
 msgstr "PHP Max Input Vars"
 
@@ -5852,7 +5870,7 @@ msgstr ""
 msgid "Installing options panel settings."
 msgstr ""
 
-#: setup/installer/envato_setup.php:1548 vibe-options.php:902
+#: setup/installer/envato_setup.php:1548 vibe-options.php:911
 msgid "Customizer"
 msgstr "Skräddarsy"
 
@@ -5932,7 +5950,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: setup/installer/envato_setup.php:2662 setup/installer/envato_setup.php:3046
+#: setup/installer/envato_setup.php:2662 setup/installer/envato_setup.php:3052
 #: setup/vibe_importer/wordpress-importer.php:1004
 msgid "Remote server did not respond"
 msgstr "Remoteservern svarade inte"
@@ -5952,19 +5970,19 @@ msgstr "Nollstorleksfil nedladdad"
 msgid "Remote file is too large, limit is %s"
 msgstr "Remotefilen är för stor, gränsen är %s"
 
-#: setup/installer/envato_setup.php:3258
+#: setup/installer/envato_setup.php:3261
 msgid "Site Style"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3260
+#: setup/installer/envato_setup.php:3263
 msgid "Please choose your site style below."
 msgstr ""
 
-#: setup/installer/envato_setup.php:3318
+#: setup/installer/envato_setup.php:3321
 msgid "Design and Layouts"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3320
+#: setup/installer/envato_setup.php:3323
 #, php-format
 msgid ""
 "Please add your logo below. For best results, the logo should be a "
@@ -5973,72 +5991,72 @@ msgid ""
 "%s if you need a new logo designed."
 msgstr ""
 
-#: setup/installer/envato_setup.php:3348
+#: setup/installer/envato_setup.php:3351
 msgid "Upload New Logo"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3453
+#: setup/installer/envato_setup.php:3456
 msgid "Theme Updates"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3486
+#: setup/installer/envato_setup.php:3489
 msgid ""
 "Please login using your ThemeForest account to enable Theme Updates. We "
 "update themes when a new feature is added or a bug is fixed. It is highly "
 "recommended to enable Theme Updates."
 msgstr ""
 
-#: setup/installer/envato_setup.php:3495
+#: setup/installer/envato_setup.php:3498
 msgid "Login with Envato"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3547
+#: setup/installer/envato_setup.php:3550
 msgid "Your Website is Ready!"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3557
+#: setup/installer/envato_setup.php:3560
 msgid "Next Steps"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3561
+#: setup/installer/envato_setup.php:3564
 msgid "Follow @vibethemes on Twitter"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3564
+#: setup/installer/envato_setup.php:3567
 msgid "View your new website!"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3569
+#: setup/installer/envato_setup.php:3572
 msgid "More Resources"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3572
+#: setup/installer/envato_setup.php:3575
 msgid "Read the Theme Documentation"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3575
+#: setup/installer/envato_setup.php:3578
 msgid "Learn how to use WordPress"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3578
+#: setup/installer/envato_setup.php:3581
 msgid "Leave an Item Rating"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3580
+#: setup/installer/envato_setup.php:3583
 msgid "Get Help and Support"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3640
+#: setup/installer/envato_setup.php:3643
 #, php-format
 msgid "Something went wrong while trying to retrieve oauth token: %s"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3657
+#: setup/installer/envato_setup.php:3660
 #, php-format
 msgid "Login for %s updates"
 msgstr ""
 
-#: setup/installer/envato_setup.php:3664
+#: setup/installer/envato_setup.php:3667
 msgid "oAuth Login"
 msgstr ""
 
@@ -6404,335 +6422,334 @@ msgstr ""
 "med Vibe enklicksinstallation."
 
 #: setup/welcome.php:214
+msgid "Theme Setup Wizard"
+msgstr ""
+
+#: setup/welcome.php:216
 msgid "Setup Theme without Sample Data"
 msgstr "Setup Tema utan Sample Data"
 
-#: setup/welcome.php:225
+#: setup/welcome.php:227
 msgid "Setup Theme with Sample Data"
 msgstr "Setup Tema med Sample Data"
 
-#: setup/welcome.php:225
+#: setup/welcome.php:227
 msgid "Please enable all the plugins"
 msgstr "Var snäll och aktivera alla tillägg"
 
-#: setup/welcome.php:227
+#: setup/welcome.php:229
 #, php-format
 msgid "Install all plugins for Full Sample Data import % slink %s"
 msgstr "Installera alla tillägg för Full Sample Data import % slink %s"
 
-#: setup/welcome.php:233
+#: setup/welcome.php:235
 msgid "Please activate all/required plugins bundled with the theme."
 msgstr "Var snäll och aktivera alla/nödvändiga tillägg för detta tema."
 
-#: setup/welcome.php:233
+#: setup/welcome.php:235
 msgid "Install & Activate plugins"
 msgstr "Installera % Aktivera tillägg"
 
-#: setup/welcome.php:242
+#: setup/welcome.php:244
 msgid "Video Tutorial of Installing theme"
 msgstr "Video Tutorial för temainstallation"
 
-#: setup/welcome.php:249
+#: setup/welcome.php:251
 msgid "Setup Issues"
 msgstr "Installationsproblem"
 
-#: setup/welcome.php:250
+#: setup/welcome.php:252
 msgid "Facing issues while setting up? Try out suggested links below."
 msgstr ""
 "Stöter du på problem under din installation? Prova någon av länkarna nedan."
 
-#: setup/welcome.php:251
+#: setup/welcome.php:253
 msgid "WPLMS Pre-Setup settings"
 msgstr "WPMSS För-installationsinställningar"
 
-#: setup/welcome.php:252
+#: setup/welcome.php:254
 msgid "WPLMS manual installation & setup"
 msgstr "WPLMS manuell installation & setup"
 
-#: setup/welcome.php:254
+#: setup/welcome.php:256
 msgid "WPLMS System Status"
 msgstr "WPLMS Systemstatus"
 
-#: setup/welcome.php:256
+#: setup/welcome.php:258
 msgid "WPLMS FAQs"
 msgstr "WPLMS FAQs"
 
-#: setup/welcome.php:259
+#: setup/welcome.php:261
 msgid "Popular Setup issues"
 msgstr "Populära Setupproblem"
 
-#: setup/welcome.php:260
+#: setup/welcome.php:262
 msgid "Following is the list of most frequent setup issues faced by users"
 msgstr ""
 "Följande är en lista på de vanligaste setupproblemen användare har stött på"
 
-#: setup/welcome.php:261
+#: setup/welcome.php:263
 msgid "White screen when installed"
 msgstr "Vit skärm när installerat"
 
-#: setup/welcome.php:262
+#: setup/welcome.php:264
 msgid "Course pages not opening"
 msgstr "Kurssidor öppnas inte"
 
-#: setup/welcome.php:263
+#: setup/welcome.php:265
 msgid "Getting 404 pages"
 msgstr "Får 404-sidor"
 
-#: setup/welcome.php:264
+#: setup/welcome.php:266
 msgid "Start Course/Take this Course not working"
 msgstr "Starta/påbörja kurs fungerar inte"
 
-#: setup/welcome.php:268
+#: setup/welcome.php:270
 msgid "Other popular issues"
 msgstr "Andra populära frågor"
 
-#: setup/welcome.php:269
+#: setup/welcome.php:271
 msgid "Following is the list of most frequent issues faced by users"
 msgstr "Följande är en lista på de vanligaste problemen användare har stött på"
 
-#: setup/welcome.php:270
+#: setup/welcome.php:272
 msgid "Quizzes not saving answers"
 msgstr "Quizzen sparar inte svaren"
 
-#: setup/welcome.php:271
+#: setup/welcome.php:273
 msgid "Visual composer not updating"
 msgstr "Visual composer uppdaterar inte"
 
-#: setup/welcome.php:272
+#: setup/welcome.php:274
 msgid "Getting 404 page on editing course"
 msgstr "Får 404-sida när jag redigerar kursen"
 
-#: setup/welcome.php:273
+#: setup/welcome.php:275
 msgid "Theme customizer not working"
 msgstr "Temaredigeraren fungerar inte"
 
-#: setup/welcome.php:279
+#: setup/welcome.php:281
 msgid "Unable to setup ? Get help on our Support forums."
 msgstr "Kan du inte installera? Få hjälp i våra supportforum."
 
-#: setup/welcome.php:296
-msgid "2 New Features"
+#: setup/welcome.php:298
+msgid "Bug fixes and maintenance"
 msgstr ""
 
-#: setup/welcome.php:297
+#: setup/welcome.php:299
 msgid ""
-"We've added 2 major features, the one click installer has been revamped and "
-"the course status page templates."
+"We've added 3 major features.Course tabs style layout,profile menu drop down "
+"settings,emails to incative users and "
 msgstr ""
 
-#: setup/welcome.php:298 setup/welcome.php:303
+#: setup/welcome.php:300 setup/welcome.php:305
 msgid "Check update log "
 msgstr "Kolla uppdateringslogg"
 
-#: setup/welcome.php:301
-msgid "Updated one click installer"
+#: setup/welcome.php:303 setup/welcome.php:314
+msgid "Course Tabs style layout"
 msgstr ""
 
-#: setup/welcome.php:302
+#: setup/welcome.php:304
 msgid ""
-"We've updated the one click installer in WPLMS. Is is the more advanced and "
-"allows you to optionally import elements from various demos into your "
-"current setup."
+"We've added course tabs style layout in 2.6.Enabling this feature will "
+"change the behaviour of course menu.Check tutorial for more."
 msgstr ""
 
-#: setup/welcome.php:308
+#: setup/welcome.php:310
 msgid "What's New in WPLMS"
 msgstr "Senaste nytt för WPLMS"
 
-#: setup/welcome.php:308
+#: setup/welcome.php:310
 msgid "WPLMS Video Playlist"
 msgstr "WPLMS Video Playlist"
 
-#: setup/welcome.php:312
-msgid "Updated One click installer"
+#: setup/welcome.php:319
+msgid "Email to in-active users"
 msgstr ""
 
-#: setup/welcome.php:317
-msgid "Updated Course status page template"
+#: setup/welcome.php:324
+msgid "Custom profile logged in menu."
 msgstr ""
 
-#: setup/welcome.php:322
-msgid "Improvements in Certificates"
-msgstr ""
-
-#: setup/welcome.php:331
+#: setup/welcome.php:333
 msgid "Migrate From Sensei to WPLMS"
 msgstr ""
 
-#: setup/welcome.php:332
+#: setup/welcome.php:334
 msgid ""
 "Migrate all courses, units, sections, quizzes and content from WooThemes "
 "Sensei to WPLMS in 1 single click."
 msgstr ""
 
-#: setup/welcome.php:336
+#: setup/welcome.php:338
 msgid "Migration from LearnDash to WPLMS"
 msgstr ""
 
-#: setup/welcome.php:337
+#: setup/welcome.php:339
 msgid ""
 "Migrate all courses, units, sections, quizzes and content from LearnDash to "
 "WPLMS in 1 single click"
 msgstr ""
 
-#: setup/welcome.php:341
+#: setup/welcome.php:343
 msgid "Migration from CleverCourse to WPLMS"
 msgstr ""
 
-#: setup/welcome.php:342
+#: setup/welcome.php:344
 msgid ""
 "Migrate all courses, units, sections, quizzes and content from Clever course/"
 "Goodlayers LMS to WPLMS in 1 single click."
 msgstr ""
 
-#: setup/welcome.php:348
+#: setup/welcome.php:350
 msgid "Migrate From WP Courseware to WPLMS"
 msgstr ""
 
-#: setup/welcome.php:349
+#: setup/welcome.php:351
 msgid ""
 "Migrate all courses, units, sections, quizzes and content from WP Courseware "
 "to WPLMS in 1 single click."
 msgstr ""
 
-#: setup/welcome.php:353
+#: setup/welcome.php:355
 msgid "Updated Documentation "
 msgstr ""
 
-#: setup/welcome.php:354
+#: setup/welcome.php:356
 msgid ""
 "Documentation has been updated. We've added new functions & shortcodes list "
 "and developer documentation. For most updated documentation we recommend "
 "checking the online documentation doc."
 msgstr ""
 
-#: setup/welcome.php:355
+#: setup/welcome.php:357
 msgid "Check documentation"
 msgstr ""
 
-#: setup/welcome.php:358
+#: setup/welcome.php:360
 msgid "Translation Collaboration"
 msgstr "Översättningssamarbete"
 
-#: setup/welcome.php:359
+#: setup/welcome.php:361
 msgid ""
 "It is really difficult to maintain translations in a versatible project as "
 "WPLMS. Therefore we ask our users to email us translation files at "
 "vibethemes@gmail.com with subject \"WPLMS - Translation Files\"."
 msgstr ""
 
-#: setup/welcome.php:360
+#: setup/welcome.php:362
 msgid "Check Translation files status"
 msgstr ""
 
-#: setup/welcome.php:365
+#: setup/welcome.php:367
 msgid "Go to WPLMS Options panel"
 msgstr "Gå till WPLMS Alternativpanel"
 
-#: setup/welcome.php:382
+#: setup/welcome.php:384
 msgid "Environment"
 msgstr "Miljö"
 
-#: setup/welcome.php:388
+#: setup/welcome.php:390
 msgid "Home URL"
 msgstr "Hem URL"
 
-#: setup/welcome.php:392
+#: setup/welcome.php:394
 msgid "Site URL"
 msgstr "Sajt URL"
 
-#: setup/welcome.php:396
+#: setup/welcome.php:398
 msgid "WP Version"
 msgstr "WP Version"
 
-#: setup/welcome.php:400
+#: setup/welcome.php:402
 msgid "WP Multisite Enabled"
 msgstr "WP Multisite Aktiverat"
 
-#: setup/welcome.php:404
+#: setup/welcome.php:406
 msgid "Web Server Info"
 msgstr "Webb Serverinfo"
 
-#: setup/welcome.php:408
+#: setup/welcome.php:410
 msgid "PHP Version"
 msgstr "PHP Version"
 
-#: setup/welcome.php:412
+#: setup/welcome.php:414
 msgid "MySQL Version"
 msgstr "MySQL Version"
 
-#: setup/welcome.php:422
+#: setup/welcome.php:424
 msgid "WP Active Plugins"
 msgstr "WP Aktiva tillägg"
 
-#: setup/welcome.php:426
+#: setup/welcome.php:428
 msgid "WP Memory Limit"
 msgstr "WP Minnesgräns"
 
-#: setup/welcome.php:437
+#: setup/welcome.php:439
 msgid "WP Debug Mode"
 msgstr "WP Debug Mode"
 
-#: setup/welcome.php:441
+#: setup/welcome.php:443
 msgid "WP Language"
 msgstr "WP Språk"
 
-#: setup/welcome.php:462
+#: setup/welcome.php:464
 msgid "SUHOSIN Installed"
 msgstr "SUHOSIN Installed"
 
-#: setup/welcome.php:467
+#: setup/welcome.php:469
 msgid "Default Timezone"
 msgstr "Standard tidzon"
 
-#: setup/welcome.php:471
+#: setup/welcome.php:473
 #, php-format
 msgid "Default timezone is %s - it should be UTC"
 msgstr "Standard tidzon är %s - det borde vara UTC"
 
-#: setup/welcome.php:473
+#: setup/welcome.php:475
 #, php-format
 msgid "Default timezone is %s"
 msgstr "Standard tidzon är %s"
 
-#: setup/welcome.php:488
+#: setup/welcome.php:490
 msgid "WPLMS Pages"
 msgstr "WPLMS Sidor"
 
-#: setup/welcome.php:495
+#: setup/welcome.php:497
 msgctxt "Page setting"
 msgid "All Course page"
 msgstr "Alla kurser"
 
-#: setup/welcome.php:498
+#: setup/welcome.php:500
 msgctxt "Page setting"
 msgid "Take this course page"
 msgstr "Påbörja kurs-sida"
 
-#: setup/welcome.php:502
+#: setup/welcome.php:504
 msgctxt "Page setting"
 msgid "Create Course Page"
 msgstr "Skapa kurs-sida"
 
-#: setup/welcome.php:505
+#: setup/welcome.php:507
 msgctxt "Page setting"
 msgid "Notes & Discussion Page"
 msgstr ""
 
-#: setup/welcome.php:508
+#: setup/welcome.php:510
 msgctxt "Page setting"
 msgid "Default Certificate Page"
 msgstr "Standard Diplom-sida"
 
-#: setup/welcome.php:535
+#: setup/welcome.php:537
 msgid "Page not set"
 msgstr "Sida ej anvisad"
 
-#: setup/welcome.php:552
+#: setup/welcome.php:554
 msgid "Templates"
 msgstr "Mallar"
 
-#: setup/welcome.php:589
+#: setup/welcome.php:591
 #, php-format
 msgid ""
 "<code>%s</code> version <strong style=\"color:red\">%s</strong> is out of "
@@ -6741,15 +6758,15 @@ msgstr ""
 "<code>%s</code> version <strong style=\"color:red\">%s</strong> är gammal. "
 "Grundversionen är %s"
 
-#: setup/welcome.php:601 setup/welcome.php:609
+#: setup/welcome.php:603 setup/welcome.php:611
 msgid "Template Overrides"
 msgstr "Mall överskrivningar"
 
-#: setup/welcome.php:610
+#: setup/welcome.php:612
 msgid "No overrides present in theme."
 msgstr "Det finns inga överskrivningar i temat än."
 
-#: setup/welcome.php:631
+#: setup/welcome.php:633
 msgid "Full Changelog of WPLMS Theme"
 msgstr "Full ändringslägg för WPLMS-temat"
 
@@ -7818,14 +7835,14 @@ msgid ""
 msgstr ""
 "Gå med i grupp för publika grupper och medlemsförfrågan för privata grupper"
 
-#: vibe-options.php:495 vibe-options.php:547 vibe-options.php:1055
-#: vibe-options.php:1095 vibe-options.php:1143 vibe-options.php:1159
-#: vibe-options.php:1168
+#: vibe-options.php:495 vibe-options.php:547 vibe-options.php:1064
+#: vibe-options.php:1104 vibe-options.php:1152 vibe-options.php:1168
+#: vibe-options.php:1177
 msgid "Disable"
 msgstr "Inaktivera"
 
-#: vibe-options.php:495 vibe-options.php:547 vibe-options.php:1055
-#: vibe-options.php:1143 vibe-options.php:1168
+#: vibe-options.php:495 vibe-options.php:1064 vibe-options.php:1152
+#: vibe-options.php:1177
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -7900,6 +7917,14 @@ msgstr ""
 msgid "Registration & Forgot password forms open inside login form."
 msgstr ""
 
+#: vibe-options.php:547
+msgid "Enable Login only"
+msgstr ""
+
+#: vibe-options.php:547
+msgid "Enable Login and registration"
+msgstr ""
+
 #: vibe-options.php:552
 msgid "Custom Registration page"
 msgstr ""
@@ -7967,31 +7992,43 @@ msgid ""
 msgstr ""
 
 #: vibe-options.php:599
-msgid "Course status templates"
+msgid "Tab style course layout"
 msgstr ""
 
 #: vibe-options.php:600
-msgid "Change course status page templates"
+msgid "Changes the course tab style"
 msgstr ""
 
 #: vibe-options.php:601
+msgid "Changes course tab style like that of udemy"
+msgstr ""
+
+#: vibe-options.php:608
+msgid "Course status templates"
+msgstr ""
+
+#: vibe-options.php:609
+msgid "Change course status page templates"
+msgstr ""
+
+#: vibe-options.php:610
 #, php-format
 msgid "Course status page templates, %s tutorial %s"
 msgstr ""
 
-#: vibe-options.php:603
+#: vibe-options.php:612
 msgid "Full Screen"
 msgstr ""
 
-#: vibe-options.php:617
+#: vibe-options.php:626
 msgid "Admin Approval for Course"
 msgstr "Admins godkännande för kurs"
 
-#: vibe-options.php:618
+#: vibe-options.php:627
 msgid "Force instructors for Admin approval for new course"
 msgstr "Tvinga kursledare att få admins godkännande för ny kurs"
 
-#: vibe-options.php:619
+#: vibe-options.php:628
 msgid ""
 "Force Courses created by Instructors are first sent to Administrator for "
 "Approval."
@@ -7999,23 +8036,23 @@ msgstr ""
 "Tvinga kurser skapade av kursledare att få admins godkännande för att skapa "
 "en ny kurs."
 
-#: vibe-options.php:621
+#: vibe-options.php:630
 msgid "Yes, require approval"
 msgstr "Ja, kräv godkännande"
 
-#: vibe-options.php:621
+#: vibe-options.php:630
 msgid "No, allow publish"
 msgstr "Nej, tillåt publicering"
 
-#: vibe-options.php:626
+#: vibe-options.php:635
 msgid "Unit Locking"
 msgstr "Blocklåsning"
 
-#: vibe-options.php:627
+#: vibe-options.php:636
 msgid "Set access to next units based on previous unit status"
 msgstr "Bestäm tillträde till nästa kursblock baserat på tidigare blockstatus"
 
-#: vibe-options.php:628
+#: vibe-options.php:637
 msgid ""
 "Force users to complete previous units and quiz evalution before viewing the "
 "next units"
@@ -8023,24 +8060,24 @@ msgstr ""
 "Tvinga användare att slutföra tidigare kursblock och quizutvärdering innan "
 "nästa block påbörjas"
 
-#: vibe-options.php:630
+#: vibe-options.php:639
 msgid "Free Access"
 msgstr "Fri tillgång"
 
-#: vibe-options.php:630
+#: vibe-options.php:639
 msgid "Force prev Unit/Quiz Complete"
 msgstr "Tvinga fullföljande av tidigare Block/Quiz"
 
-#: vibe-options.php:635
+#: vibe-options.php:644
 msgid "Unit Media Lock"
 msgstr "Blockmedia Blockering"
 
-#: vibe-options.php:636
+#: vibe-options.php:645
 msgid "Hide unit completion button unless the Media(Audio/Video) is complete"
 msgstr ""
 "Dölj Klarmarkera kurs-knappen såvida inte Mediadelen(Ljud/Video) är avklarad"
 
-#: vibe-options.php:637
+#: vibe-options.php:646
 msgid ""
 "Force users to view/listen the Media, Audio/Video in units before marking "
 "the unit as complete"
@@ -8048,17 +8085,17 @@ msgstr ""
 "Tvinga användar att titta/lyssna på Media, Ljud/Video i kursblocken innan de "
 "kan markera blocket som färdigt"
 
-#: vibe-options.php:644
+#: vibe-options.php:653
 msgid "Assignment Locking"
 msgstr "Uppgifter Blockering"
 
-#: vibe-options.php:645
+#: vibe-options.php:654
 msgid "Force users to finish assignments to complete units"
 msgstr ""
 "Tvinga användare att göra färdigt uppgifterna för att markera kursblocket "
 "som färdigt"
 
-#: vibe-options.php:646
+#: vibe-options.php:655
 msgid ""
 "Mark complete button for a unit will appear only after student has finished "
 "the unit assignment"
@@ -8066,35 +8103,35 @@ msgstr ""
 "Knappen för att klarmarkera ett block syns endast när en deltagare har gjort "
 "färdigt uppgiften i kursblocket"
 
-#: vibe-options.php:648
+#: vibe-options.php:657
 msgid "Do not lock"
 msgstr "Blockera inte"
 
-#: vibe-options.php:648
+#: vibe-options.php:657
 msgid "Lock Unit Completion"
 msgstr "Blockering för att göra färdigt kursen"
 
-#: vibe-options.php:653
+#: vibe-options.php:662
 msgid "Show Course Progressbar (always active)"
 msgstr ""
 
-#: vibe-options.php:654
+#: vibe-options.php:663
 msgid "Show course progress bar above course timeline"
 msgstr "Visa en stapel för kursens framåtskridande ovanför kursens tidslinje"
 
-#: vibe-options.php:655
+#: vibe-options.php:664
 msgid "Course Progress bar is shown in Course curriculum page"
 msgstr "Kursstapeln visas i kursplanen"
 
-#: vibe-options.php:662
+#: vibe-options.php:671
 msgid "Instructors can Add Students"
 msgstr "Kursledare kan lägga till deltagare"
 
-#: vibe-options.php:663
+#: vibe-options.php:672
 msgid "Enable Instructors to be able to add students"
 msgstr "Möjliggör för kursledare att själva kunna lägga till deltagare"
 
-#: vibe-options.php:664
+#: vibe-options.php:673
 msgid ""
 "A Bulk Action is added in Course -> Admin -> Members which enables "
 "Instructos to add students to the course"
@@ -8102,31 +8139,31 @@ msgstr ""
 "En bulkhandling har lagts till i Kurs -> Admin -> Medlemmar som möjliggör "
 "för kursledare att själva lägga till deltagare till sina kurser"
 
-#: vibe-options.php:671
+#: vibe-options.php:680
 msgid "Instructors can Manage Student Course status "
 msgstr ""
 
-#: vibe-options.php:672
+#: vibe-options.php:681
 msgid "Enable Instructors to be change Students course status"
 msgstr ""
 
-#: vibe-options.php:673
+#: vibe-options.php:682
 msgid ""
 "A Bulk Action is added in Course -> Admin -> Members which enables "
 "Instructos to manage students course status in the course"
 msgstr ""
 
-#: vibe-options.php:680
+#: vibe-options.php:689
 msgid "Instructors can Assign/Remove Certificates & Badges"
 msgstr "Kursledare kan lägga till/ta bort diplom och utmärkelser"
 
-#: vibe-options.php:681
+#: vibe-options.php:690
 msgid ""
 "Enable Instructors to be able to assign Certificates & Badges to Students"
 msgstr ""
 "Möjliggör för kursledare att lägga till diplom & utmärkelser för deltagare"
 
-#: vibe-options.php:682
+#: vibe-options.php:691
 msgid ""
 "A Bulk Action is added in Course -> Admin -> Members which enables "
 "Instructos to assign Certificates & Badges to Students for the course"
@@ -8135,15 +8172,15 @@ msgstr ""
 "för kursledare att själva lägga till diplom & utmärkelser för deltagare i "
 "sin kurs"
 
-#: vibe-options.php:689
+#: vibe-options.php:698
 msgid "Instructors can Extend subscription"
 msgstr "Kursledare kan förlänga prenumerationer"
 
-#: vibe-options.php:690
+#: vibe-options.php:699
 msgid "Enable Instructors to extend subscriptions of Students"
 msgstr "Möjliggör för kursledare att förlänga deltagares prenumerationer"
 
-#: vibe-options.php:691
+#: vibe-options.php:700
 msgid ""
 "A Bulk Action is added in Course -> Admin -> Members which enables "
 "Instructos to extend subscriptions of Students for the course"
@@ -8151,88 +8188,88 @@ msgstr ""
 "En bulkhandling har lagts till i Kurs -> Admin -> Medlemmar som möjliggör "
 "för kursledare att förlänga sina deltagares kursprenumerationer"
 
-#: vibe-options.php:698
+#: vibe-options.php:707
 msgid "Force Instructor Content Privacy"
 msgstr "Tvinga kursledare att göra sitt kursinnehåll privat"
 
-#: vibe-options.php:699
+#: vibe-options.php:708
 msgid "Select boxes show only instructor units/quizzes/questions"
 msgstr "Alternativboxar visar endast kursledares block/quizz/frågor"
 
-#: vibe-options.php:700
+#: vibe-options.php:709
 msgid "Instructors can view titles but can not open content"
 msgstr "Kursledare kan se titlar men inte öppna innehåll"
 
-#: vibe-options.php:707
+#: vibe-options.php:716
 msgid "Leaderboard/Stats Visibility"
 msgstr "Resultattavla/Statistik Synlighet"
 
-#: vibe-options.php:708
+#: vibe-options.php:717
 msgid "Stats & Leaderboard visible to"
 msgstr "Statistik & resultattavlan är synlig för"
 
-#: vibe-options.php:709
+#: vibe-options.php:718
 msgid ""
 "Stats displaying average, maxmium, minimum and top 10 students for a module"
 msgstr ""
 "Statistik visar genomsnitt, maximum, minimum och topp 10 deltagare i en "
 "kursmodul"
 
-#: vibe-options.php:711
+#: vibe-options.php:720
 msgid "Students"
 msgstr "Kursdeltagare"
 
-#: vibe-options.php:711
+#: vibe-options.php:720
 msgid "All Instructors"
 msgstr "Alla kursledare"
 
-#: vibe-options.php:711
+#: vibe-options.php:720
 msgid "Module Instructor & Administrators"
 msgstr "Modulens kursledare och administratörer"
 
-#: vibe-options.php:717
+#: vibe-options.php:726
 msgid "Become an Instructor Page"
 msgstr "Bli Kursledare-sida"
 
-#: vibe-options.php:718
+#: vibe-options.php:727
 msgid "A Page with become a teacher form."
 msgstr "En sida med formulär för att bli kursledare."
 
-#: vibe-options.php:723
+#: vibe-options.php:732
 msgid "Fallback Certificate Page"
 msgstr "Reserv diplomsida"
 
-#: vibe-options.php:724
+#: vibe-options.php:733
 msgid ""
 "A Page with certificate page template, Fallback to courses with no "
 "Certificate Templates."
 msgstr ""
 "En sida med mall för diplom, reserv för kurser utan någon mall för diplom."
 
-#: vibe-options.php:729
+#: vibe-options.php:738
 msgid "Course default avatar"
 msgstr ""
 
-#: vibe-options.php:730
+#: vibe-options.php:739
 msgid "Default avatar for courses"
 msgstr ""
 
-#: vibe-options.php:731
+#: vibe-options.php:740
 #, php-format
 msgid ""
 "This avatar is shown for courses which do not have any avatar. NOT ABLE TO "
 "UPLOAD ? %s REFER TIP %s"
 msgstr ""
 
-#: vibe-options.php:737
+#: vibe-options.php:746
 msgid "Auto-Evaluation Question Types"
 msgstr "Autoutvärdering frågetyper"
 
-#: vibe-options.php:738
+#: vibe-options.php:747
 msgid "Question types which will be evaluated by Auto-Evaluation"
 msgstr "Frågetyper som kommer att bedöms genom Autobedömning"
 
-#: vibe-options.php:739
+#: vibe-options.php:748
 msgid ""
 "These question types will be evaluated by auto quiz evaluation process for "
 "exact match."
@@ -8240,199 +8277,199 @@ msgstr ""
 "Dessa frågetyper kommer att bedömas av en automatisk quizbedömningsprocess "
 "för rättvis hantering av svaren."
 
-#: vibe-options.php:741
+#: vibe-options.php:750
 msgid "True False"
 msgstr "Sant Falskt"
 
-#: vibe-options.php:742
+#: vibe-options.php:751
 msgid "Multiple Choice"
 msgstr "Flervalsfråga"
 
-#: vibe-options.php:743
+#: vibe-options.php:752
 msgid "Multiple Correct"
 msgstr "Flera rätta svar"
 
-#: vibe-options.php:744
+#: vibe-options.php:753
 msgid "Sort Answer Question"
 msgstr "Sortera svar och fråga"
 
-#: vibe-options.php:745
+#: vibe-options.php:754
 msgid "Match Answers"
 msgstr "Matcha svar"
 
-#: vibe-options.php:746
+#: vibe-options.php:755
 msgid "Dropdown select"
 msgstr "Dropdownval"
 
-#: vibe-options.php:747
+#: vibe-options.php:756
 msgid "Fill in the Blank"
 msgstr "Fyll i tomma fält"
 
-#: vibe-options.php:748
+#: vibe-options.php:757
 msgid "Small Text Answer"
 msgstr "Korta svar"
 
-#: vibe-options.php:749
+#: vibe-options.php:758
 msgid "Survey"
 msgstr ""
 
-#: vibe-options.php:756
+#: vibe-options.php:765
 msgid "Hide Courses from Directory"
 msgstr "Dölj kurser från registret"
 
-#: vibe-options.php:757
+#: vibe-options.php:766
 msgid "Hide courses from directory & pages, only accessible via direct link"
 msgstr ""
 "Dölj kurser från registret och sidor, och endast synliga via direktlänk"
 
-#: vibe-options.php:765
+#: vibe-options.php:774
 msgid "Course Duration parameter"
 msgstr "Kurslängdsparameter"
 
-#: vibe-options.php:766
+#: vibe-options.php:775
 msgid "Set course duration parameter"
 msgstr "Bestäm kurslängdens parameter"
 
-#: vibe-options.php:767
+#: vibe-options.php:776
 msgid "Course duration parameter for display purpose"
 msgstr "Kurslängd för visning"
 
-#: vibe-options.php:769
+#: vibe-options.php:778
 msgid "Automatic"
 msgstr "Automatiskt"
 
-#: vibe-options.php:782
+#: vibe-options.php:791
 msgid "Finished Course Access"
 msgstr "Tillgång till slutförda kurser"
 
-#: vibe-options.php:783
+#: vibe-options.php:792
 msgid "Allow students to view Finished courses"
 msgstr "Tillåt att deltagare ser slutförda kurser"
 
-#: vibe-options.php:784
+#: vibe-options.php:793
 msgid "Make finished courses secure area viewable to students"
 msgstr "Gör slutförda kurser synliga för deltagare"
 
-#: vibe-options.php:791
+#: vibe-options.php:800
 msgid "Notes and Discussion styles"
 msgstr ""
 
-#: vibe-options.php:792
+#: vibe-options.php:801
 msgid "Set style for Notes & Discussion template"
 msgstr ""
 
-#: vibe-options.php:793
+#: vibe-options.php:802
 msgid "Display notes & Discussions"
 msgstr ""
 
-#: vibe-options.php:795
+#: vibe-options.php:804
 msgid "Per paragraph in Unit"
 msgstr ""
 
-#: vibe-options.php:795
+#: vibe-options.php:804
 msgid "Per Unit"
 msgstr ""
 
-#: vibe-options.php:800
+#: vibe-options.php:809
 msgid "Display News"
 msgstr "Visa nyheter"
 
-#: vibe-options.php:801
+#: vibe-options.php:810
 msgid "Display News section in courses"
 msgstr "Visa nyhetsektion i kurser"
 
-#: vibe-options.php:802
+#: vibe-options.php:811
 msgid "Display News section in courses, *requires WPLMS Dashboard plugin"
 msgstr ""
 
-#: vibe-options.php:809
+#: vibe-options.php:818
 msgid "Enable Levels"
 msgstr "Aktivera nivåer"
 
-#: vibe-options.php:810
+#: vibe-options.php:819
 msgid "Enables Level taxonomy"
 msgstr "Aktivera nivåer taxonomy"
 
-#: vibe-options.php:811
+#: vibe-options.php:820
 msgid "Enables Level taxonomy in Courses and search page "
 msgstr ""
 
-#: vibe-options.php:818
+#: vibe-options.php:827
 msgid "Enable Course Location"
 msgstr ""
 
-#: vibe-options.php:819
+#: vibe-options.php:828
 msgid "Location taxonomy for Courses"
 msgstr ""
 
-#: vibe-options.php:820
+#: vibe-options.php:829
 #, php-format
 msgid ""
 "Location taxonomy for Courses in Course filters and Search %s Tutorial %s"
 msgstr ""
 
-#: vibe-options.php:827
+#: vibe-options.php:836
 msgid "Enable Linkage"
 msgstr "Aktivera koppling"
 
-#: vibe-options.php:828
+#: vibe-options.php:837
 msgid "Connect Course, Units, Quiz, Questions with linkage taxonomy"
 msgstr "Koppla ihop kurs, block, quiz, frågor med Koppling taxonomy"
 
-#: vibe-options.php:829
+#: vibe-options.php:838
 msgid "Shorten the list of units, quizzes, courses shown in dropdowns"
 msgstr "Korta ner listan med block, quiz och kurser som visas i dropdowns"
 
-#: vibe-options.php:836
+#: vibe-options.php:845
 msgid "Course Category/Level/Location redirect"
 msgstr ""
 
-#: vibe-options.php:837
+#: vibe-options.php:846
 msgid "Redirect to Course directory"
 msgstr ""
 
-#: vibe-options.php:838
+#: vibe-options.php:847
 #, php-format
 msgid ""
 "User redirects to Directory with category activated when she selects course "
 "category %s refer tutorial %s"
 msgstr ""
 
-#: vibe-options.php:846
+#: vibe-options.php:855
 msgid "Default course block style"
 msgstr ""
 
-#: vibe-options.php:847
+#: vibe-options.php:856
 msgid "Set a default block style for courses"
 msgstr ""
 
-#: vibe-options.php:848
+#: vibe-options.php:857
 msgid "default course block style"
 msgstr ""
 
-#: vibe-options.php:851 vibe-options.php:852 vibe-options.php:853
-#: vibe-options.php:854 vibe-options.php:855 vibe-options.php:950
-#: vibe-options.php:963
+#: vibe-options.php:860 vibe-options.php:861 vibe-options.php:862
+#: vibe-options.php:863 vibe-options.php:864 vibe-options.php:959
+#: vibe-options.php:972
 msgid "Four Columns"
 msgstr "Fyra kolumner"
 
-#: vibe-options.php:861
+#: vibe-options.php:870
 msgid "Show related courses at the end of single course"
 msgstr ""
 
-#: vibe-options.php:862
+#: vibe-options.php:871
 msgid "related courses by category, instructor & tags"
 msgstr ""
 
-#: vibe-options.php:863
+#: vibe-options.php:872
 msgid "Related courses are displayed based on category & instructor"
 msgstr ""
 
-#: vibe-options.php:873
+#: vibe-options.php:882
 msgid "Fonts Manager"
 msgstr "Typsnittshanteraren"
 
-#: vibe-options.php:874
+#: vibe-options.php:883
 msgid ""
 "Manage Fonts to be used in the Site. Fonts selected here will be available "
 "in Theme customizer font family select options."
@@ -8440,253 +8477,253 @@ msgstr ""
 "Hantera typsnitt som används på Youngcubator. Typsnitt som väljs här kommer "
 "att vara tillgängliga i temats anpassare för typsnittsalternativ."
 
-#: vibe-options.php:879
+#: vibe-options.php:888
 msgid "Enter Google fonts API key"
 msgstr ""
 
-#: vibe-options.php:880
+#: vibe-options.php:889
 msgid "Required to fetch a list of Fonts from Google"
 msgstr ""
 
-#: vibe-options.php:885
+#: vibe-options.php:894
 msgid "Select Fonts for Live Theme Editor "
 msgstr "Välj typsnitt för live temaeditor"
 
-#: vibe-options.php:886
+#: vibe-options.php:895
 msgid "Select Fonts and setup fonts in Live Editor"
 msgstr "Välj typsnitt och konfa typsnitt i Live Editor"
 
-#: vibe-options.php:887 vibe-options.php:925
+#: vibe-options.php:896 vibe-options.php:934
 msgid "Use these sample layouts in PageBuilder."
 msgstr "Använd dessa sample layouts i PageBuilder."
 
-#: vibe-options.php:892
+#: vibe-options.php:901
 msgid "Custom Fonts (Enter CSS Font Family name)"
 msgstr "Custom Fonts (Enter CSS Font Family name)"
 
-#: vibe-options.php:893
+#: vibe-options.php:902
 msgid " Custom Fonts are added to Theme Customizer Font List.. "
 msgstr " Custom Fonts are added to Theme Customizer Font List.. "
 
-#: vibe-options.php:903
+#: vibe-options.php:912
 msgid "Import/Export customizer settings. Customize your theme using "
 msgstr ""
 "Importera/Exportera skräddarsydda inställningar. Skräddarsy ditt tema genom "
 "att använda"
 
-#: vibe-options.php:903
+#: vibe-options.php:912
 msgid "WP Theme Customizer"
 msgstr "WP Theme Customizer"
 
-#: vibe-options.php:908
+#: vibe-options.php:917
 msgid "Import/Export Customizer settings "
 msgstr "Import/Export Customizer settings "
 
-#: vibe-options.php:909
+#: vibe-options.php:918
 msgid "Import/Export customizer settings"
 msgstr "Import/Export customizer settings"
 
-#: vibe-options.php:910
+#: vibe-options.php:919
 msgid ""
 "Use import/export functionality to import/export your customizer settings."
 msgstr ""
 "Use import/export functionality to import/export your customizer settings."
 
-#: vibe-options.php:917
+#: vibe-options.php:926
 msgid "PageBuilder Manager"
 msgstr "PageBuilder hanteraren"
 
-#: vibe-options.php:918
+#: vibe-options.php:927
 msgid ""
 "Manage PageBuilder saved layouts and Import/Export pagebuilder Saved layouts"
 msgstr ""
 "Hantera PageBuilders sparade layouter och importera/exportera sparade "
 "layouter"
 
-#: vibe-options.php:923
+#: vibe-options.php:932
 msgid "Manage Sample Layouts "
 msgstr "Hantera sample layouter"
 
-#: vibe-options.php:924
+#: vibe-options.php:933
 msgid "Delete Sample Layouts"
 msgstr "Ta bort sample layouter"
 
-#: vibe-options.php:930
+#: vibe-options.php:939
 msgid "Import/Export Sample Layouts "
 msgstr "Importera/exportera sample layouter"
 
-#: vibe-options.php:931
+#: vibe-options.php:940
 msgid "Import/Export existing Layouts"
 msgstr "Importera/exportera existerande layouter"
 
-#: vibe-options.php:932
+#: vibe-options.php:941
 msgid "Use import/export functionality to save your layouts."
 msgstr "Använd import/export-funktionalitet för att spara dina layouter."
 
-#: vibe-options.php:940
+#: vibe-options.php:949
 msgid "Footer "
 msgstr "Footer"
 
-#: vibe-options.php:941
+#: vibe-options.php:950
 msgid "Setup footer settings"
 msgstr "Ställ in footer"
 
-#: vibe-options.php:947
+#: vibe-options.php:956
 msgid "Top Footer Sidebar Columns"
 msgstr "Top Footer Sidebar kolumner"
 
-#: vibe-options.php:948 vibe-options.php:961
+#: vibe-options.php:957 vibe-options.php:970
 msgid "Footer Columns"
 msgstr "Footer kolumner"
 
-#: vibe-options.php:951 vibe-options.php:964
+#: vibe-options.php:960 vibe-options.php:973
 msgid "Three Columns"
 msgstr "Tre kolumner"
 
-#: vibe-options.php:952 vibe-options.php:965
+#: vibe-options.php:961 vibe-options.php:974
 msgid "Two Columns"
 msgstr "Två kolumner"
 
-#: vibe-options.php:953 vibe-options.php:966
+#: vibe-options.php:962 vibe-options.php:975
 msgid "One Columns"
 msgstr "En kolumn"
 
-#: vibe-options.php:960
+#: vibe-options.php:969
 msgid "Bottom Footer Sidebar Columns"
 msgstr "Bottom Footer Sidebar kolumner"
 
-#: vibe-options.php:973
+#: vibe-options.php:982
 msgid "Upload Footer Logo"
 msgstr ""
 
-#: vibe-options.php:974
+#: vibe-options.php:983
 msgid "Displayed in footer"
 msgstr ""
 
-#: vibe-options.php:975
+#: vibe-options.php:984
 #, php-format
 msgid ""
 "This Logo is shown in footer bottom area. Defaults to logo. NOT ABLE TO "
 "UPLOAD ? %s REFER TIP %s"
 msgstr ""
 
-#: vibe-options.php:981
+#: vibe-options.php:990
 msgid "Copyright Text"
 msgstr "Copyright Text"
 
-#: vibe-options.php:982
+#: vibe-options.php:991
 msgid "Enter copyrighted text"
 msgstr "Skriv copyrighted text"
 
-#: vibe-options.php:983
+#: vibe-options.php:992
 msgid "Also supports shotcodes."
 msgstr "Supportar även shortcodes."
 
-#: vibe-options.php:989
+#: vibe-options.php:998
 msgid "Select an option for FooterBottom"
 msgstr "Välj ett alternativ för FooterBottom"
 
-#: vibe-options.php:990
+#: vibe-options.php:999
 msgid "Select Footer Bottom style, set Social icon links in Social tab"
 msgstr "Välj stil för Footer Bottom, bestäm sociala ikonlänkar i socialfliken"
 
-#: vibe-options.php:992
+#: vibe-options.php:1001
 msgid "Show Footer Menu"
 msgstr "Visa Footermeny"
 
-#: vibe-options.php:992
+#: vibe-options.php:1001
 msgid "Show Social Icons"
 msgstr "Visa sociala ikoner"
 
-#: vibe-options.php:998
+#: vibe-options.php:1007
 msgid "Google Analytics Code"
 msgstr "Google Analytics Code"
 
-#: vibe-options.php:999
+#: vibe-options.php:1008
 msgid "Google Analytics account"
 msgstr "Google Analytics konto"
 
-#: vibe-options.php:1000
+#: vibe-options.php:1009
 msgid "Please enter full code with javascript tags."
 msgstr "Skriv hela koden med javascript taggar."
 
-#: vibe-options.php:1008
+#: vibe-options.php:1017
 msgid "Social Information"
 msgstr "Social information"
 
-#: vibe-options.php:1009
+#: vibe-options.php:1018
 msgid "All Social media settings"
 msgstr "Alla inställningar för sociala medier"
 
-#: vibe-options.php:1015
+#: vibe-options.php:1024
 msgid "Add Social Media Icons "
 msgstr "Lägg till ikon för sociala medier"
 
-#: vibe-options.php:1016
+#: vibe-options.php:1025
 msgid "Dynamically add social media icons"
 msgstr "Lägg till ikoner för sociala medier dynamiskt"
 
-#: vibe-options.php:1017
+#: vibe-options.php:1026
 msgid "Add your Full URL in social media."
 msgstr "Skriv hela din URL i sociala medier."
 
-#: vibe-options.php:1022
+#: vibe-options.php:1031
 msgid "Social Icons Type"
 msgstr "Typ va sociala ikoner"
 
-#: vibe-options.php:1023
+#: vibe-options.php:1032
 msgid "Social Icons Theme"
 msgstr "Tema för sociala ikoner"
 
-#: vibe-options.php:1024
+#: vibe-options.php:1033
 msgid "Round"
 msgstr "Rundad"
 
-#: vibe-options.php:1024
+#: vibe-options.php:1033
 msgid "Square"
 msgstr "Fyrkant"
 
-#: vibe-options.php:1024
+#: vibe-options.php:1033
 msgid "Round Colored"
 msgstr "Rundad färgad"
 
-#: vibe-options.php:1024
+#: vibe-options.php:1033
 msgid "Square Colored"
 msgstr "Fyrkant färgad"
 
-#: vibe-options.php:1030
+#: vibe-options.php:1039
 msgid "Show Tooltip on Social Icons"
 msgstr "Visa tooltip på sociala ikoner"
 
-#: vibe-options.php:1037
+#: vibe-options.php:1046
 msgid "Social Sharing buttons"
 msgstr "Visa sociala delningsknappar"
 
-#: vibe-options.php:1038
+#: vibe-options.php:1047
 msgid "Show in-built sharing buttons in the theme"
 msgstr "Visa inbyggda delningsknappar i temat"
 
-#: vibe-options.php:1039
+#: vibe-options.php:1048
 msgid "Adds Social media sharing buttons in single Courses etc."
 msgstr "Lägg till sociala medier-delningsknappar i enstaka kurser etc."
 
-#: vibe-options.php:1046
+#: vibe-options.php:1055
 msgid "TinCan/xAPI"
 msgstr ""
 
-#: vibe-options.php:1047
+#: vibe-options.php:1056
 msgid "TinCan and LRS settings for WPLMS"
 msgstr ""
 
-#: vibe-options.php:1052
+#: vibe-options.php:1061
 msgid "Enable TinCan recording"
 msgstr "Aktivera TinCan recording"
 
-#: vibe-options.php:1053
+#: vibe-options.php:1062
 msgid "Record TinCan/XAPI statements in External LRS"
 msgstr "Record TinCan/XAPI statements in External LRS"
 
-#: vibe-options.php:1054
+#: vibe-options.php:1063
 msgid ""
 "Store all activity in an External LRS, which other XAPI compatible LMSes can "
 "read."
@@ -8694,191 +8731,191 @@ msgstr ""
 "Store all activity in an External LRS, which other XAPI compatible LMSes can "
 "read."
 
-#: vibe-options.php:1060
+#: vibe-options.php:1069
 msgid "TinCan API EndPoint"
 msgstr "TinCan API EndPoint"
 
-#: vibe-options.php:1061
+#: vibe-options.php:1070
 msgid "Add a TinCan API endpoint"
 msgstr "Add a TinCan API endpoint"
 
-#: vibe-options.php:1062
+#: vibe-options.php:1071
 msgid "Add Endpoint to track details in external LRS."
 msgstr "Add Endpoint to track details in external LRS."
 
-#: vibe-options.php:1068
+#: vibe-options.php:1077
 msgid "LRS User name"
 msgstr "LRS User name"
 
-#: vibe-options.php:1069 vibe-options.php:1077
+#: vibe-options.php:1078 vibe-options.php:1086
 msgid "TinCan compatible LRS authentication"
 msgstr "TinCan compatible LRS authentication"
 
-#: vibe-options.php:1070
+#: vibe-options.php:1079
 msgid "Enter Username for external LRS authentication."
 msgstr "Enter Username for external LRS authentication."
 
-#: vibe-options.php:1076
+#: vibe-options.php:1085
 msgid "LRS Password"
 msgstr "LRS Password"
 
-#: vibe-options.php:1078
+#: vibe-options.php:1087
 msgid "Enter Password for external LRS authentication."
 msgstr "Enter Password for external LRS authentication."
 
-#: vibe-options.php:1086
+#: vibe-options.php:1095
 msgid "Miscellaneous"
 msgstr "Diverse"
 
-#: vibe-options.php:1087
+#: vibe-options.php:1096
 msgid "Miscellaneous settings used in the theme."
 msgstr "Diverse inställningar som används i detta tema."
 
-#: vibe-options.php:1092
+#: vibe-options.php:1101
 msgid "Page Loader"
 msgstr ""
 
-#: vibe-options.php:1093
+#: vibe-options.php:1102
 msgid "Add a Page loader on site, everything is hidden till the page loads"
 msgstr ""
 
-#: vibe-options.php:1094
+#: vibe-options.php:1103
 #, php-format
 msgid ""
 "A loading icon will be displayed to the user, till the whole page loads. %s"
 msgstr ""
 
-#: vibe-options.php:1095
+#: vibe-options.php:1104
 msgid "Enable, Style 1"
 msgstr ""
 
-#: vibe-options.php:1095
+#: vibe-options.php:1104
 msgid "Enable, Style 2"
 msgstr ""
 
-#: vibe-options.php:1101
+#: vibe-options.php:1110
 msgid "Site Lock"
 msgstr ""
 
-#: vibe-options.php:1102
+#: vibe-options.php:1111
 msgid "Lock entire site, only logged in users can view the site"
 msgstr ""
 
-#: vibe-options.php:1103
+#: vibe-options.php:1112
 #, php-format
 msgid ""
 "All the links require login. Only home page is accessible to non-logged in "
 "users. %s"
 msgstr ""
 
-#: vibe-options.php:1110
+#: vibe-options.php:1119
 msgid " Site lock Logo link page"
 msgstr ""
 
-#: vibe-options.php:1111
+#: vibe-options.php:1120
 msgid "Url on header logo and footer logo when site lock is enabled"
 msgstr ""
 
-#: vibe-options.php:1112
+#: vibe-options.php:1121
 msgid ""
 "Select page which you want to redirect users to when a user clicks on the "
 "site logo."
 msgstr ""
 
-#: vibe-options.php:1117
+#: vibe-options.php:1126
 msgid "Unique Security Key"
 msgstr ""
 
-#: vibe-options.php:1118
+#: vibe-options.php:1127
 msgid "Security key for every site. Longer keys are good"
 msgstr ""
 
-#: vibe-options.php:1119
+#: vibe-options.php:1128
 msgid "Unique key to avoid (logged in) users from bypassing the system."
 msgstr ""
 
-#: vibe-options.php:1125
+#: vibe-options.php:1134
 msgid "Default Archive style"
 msgstr ""
 
-#: vibe-options.php:1126
+#: vibe-options.php:1135
 msgid "Set the default archive style from default, blog1, blog 2, blog 3"
 msgstr ""
 
-#: vibe-options.php:1127
+#: vibe-options.php:1136
 msgid "Blog 1"
 msgstr ""
 
-#: vibe-options.php:1127
+#: vibe-options.php:1136
 msgid "Blog 2"
 msgstr ""
 
-#: vibe-options.php:1127
+#: vibe-options.php:1136
 msgid "Blog 3"
 msgstr ""
 
-#: vibe-options.php:1133
+#: vibe-options.php:1142
 msgid "Default Excerpt Length"
 msgstr "Standard utdragslängd"
 
-#: vibe-options.php:1134
+#: vibe-options.php:1143
 msgid "Excerpt length in number of Words."
 msgstr "Utdragslängd i antal ord."
 
-#: vibe-options.php:1140
+#: vibe-options.php:1149
 msgid "Comments in pages"
 msgstr ""
 
-#: vibe-options.php:1141
+#: vibe-options.php:1150
 msgid "Enable comments in Pages (Disabled by default)"
 msgstr ""
 
-#: vibe-options.php:1142
+#: vibe-options.php:1151
 msgid "Users can post comments in pages."
 msgstr ""
 
-#: vibe-options.php:1149
+#: vibe-options.php:1158
 msgid "Default Instructor Commission"
 msgstr "Standardprovision för kursledare"
 
-#: vibe-options.php:1150
+#: vibe-options.php:1159
 msgid "Insructor commission per sale of course/product (enter 0 to disable)"
 msgstr ""
 "Kursledares provision per sälj av kurs/produkt (skriv 0 för att avaktivera)"
 
-#: vibe-options.php:1156
+#: vibe-options.php:1165
 msgid "Direct Checkout"
 msgstr "Direkt utcheckning"
 
-#: vibe-options.php:1157
+#: vibe-options.php:1166
 msgid "Requires WooCommerce installed"
 msgstr "Kräver att WooCommerce är installerat"
 
-#: vibe-options.php:1158
+#: vibe-options.php:1167
 msgid "User is redirected to the checkout page."
 msgstr "Användaren skickas vidare till utcheckningssidan."
 
-#: vibe-options.php:1159
+#: vibe-options.php:1168
 msgid "Skip Product & Cart page"
 msgstr "Skippa produkt & varukorgsidan"
 
-#: vibe-options.php:1159
+#: vibe-options.php:1168
 msgid "Skip Product page"
 msgstr "Skippa produktsidan"
 
-#: vibe-options.php:1159
+#: vibe-options.php:1168
 msgid "Skip Cart"
 msgstr "Skippa varukorgen"
 
-#: vibe-options.php:1165
+#: vibe-options.php:1174
 msgid "Redirect to Course Page on Order completion"
 msgstr "Skicka vidare till kurssidan när ordern gått igenom"
 
-#: vibe-options.php:1166
+#: vibe-options.php:1175
 msgid "Only if the order contains one product with one course"
 msgstr "Bara om ordern innehåller en produkt med en kurs"
 
-#: vibe-options.php:1167
+#: vibe-options.php:1176
 msgid ""
 "If you're forcing the direct checkout, and your products have one course per "
 "product then switching this on would send users directly to the course page."
@@ -8886,15 +8923,15 @@ msgstr ""
 "Om du tvingar till direkt utcheckning och dina produkter har en kurs per "
 "produkt, skickas användare direkt till kurssidan om denna användas."
 
-#: vibe-options.php:1174
+#: vibe-options.php:1183
 msgid "Remove Extra Checkout Fields"
 msgstr "Ta bort extra utcheckningsfält"
 
-#: vibe-options.php:1175
+#: vibe-options.php:1184
 msgid "Recommended if you're only selling courses/virtual products"
 msgstr "Rekommenderas om du bara säljer kurser/virtuella produkter"
 
-#: vibe-options.php:1176
+#: vibe-options.php:1185
 msgid ""
 "Removes following fields in WooCommerce Checkout : Billing Company/Address,"
 "State/Town, Pincode, Phone etc."
@@ -8902,160 +8939,160 @@ msgstr ""
 "Tar bort följande fält i WooCommerce Utcheckning : Fakturainfo Företag/"
 "Adress, Län/Stad, Pinkod, Telefon etc."
 
-#: vibe-options.php:1183
+#: vibe-options.php:1192
 msgid "Cache Duration"
 msgstr "Cachelängd"
 
-#: vibe-options.php:1184
+#: vibe-options.php:1193
 msgid "in seconds (0 to disable)"
 msgstr "i sekunder (0 för att avaktivera)"
 
-#: vibe-options.php:1185
+#: vibe-options.php:1194
 msgid "Small cache duration could impact adversely. High for stable websites."
 msgstr "Small cache duration could impact adversely. High for stable websites."
 
-#: vibe-options.php:1191
+#: vibe-options.php:1200
 msgid "Google Captcha Public Key"
 msgstr ""
 
-#: vibe-options.php:1192
+#: vibe-options.php:1201
 msgid "Enter Google captcha public key"
 msgstr ""
 
-#: vibe-options.php:1192
+#: vibe-options.php:1201
 msgid "How to get an Public Key ?"
 msgstr ""
 
-#: vibe-options.php:1198
+#: vibe-options.php:1207
 msgid "Google Captcha Private Key"
 msgstr ""
 
-#: vibe-options.php:1199
+#: vibe-options.php:1208
 msgid "Enter Google captcha private key"
 msgstr ""
 
-#: vibe-options.php:1199
+#: vibe-options.php:1208
 msgid "How to get an Private Key ?"
 msgstr ""
 
-#: vibe-options.php:1205
+#: vibe-options.php:1214
 msgid "Google Maps API Key"
 msgstr ""
 
-#: vibe-options.php:1206
+#: vibe-options.php:1215
 msgid "Google Maps require an API key to function"
 msgstr ""
 
-#: vibe-options.php:1206
+#: vibe-options.php:1215
 msgid "How to get an API Key ?"
 msgstr ""
 
-#: vibe-options.php:1212
+#: vibe-options.php:1221
 msgid "Contact Page Latitude and Longitude values"
 msgstr "Kontaktsida latitud- och longitudvärden"
 
-#: vibe-options.php:1213
+#: vibe-options.php:1222
 msgid "Grab the latitude and Longitude values from ."
 msgstr "Hämtar latitud- och longitudvärden från ."
 
-#: vibe-options.php:1213
+#: vibe-options.php:1222
 msgid "Link"
 msgstr "Länk"
 
-#: vibe-options.php:1219
+#: vibe-options.php:1228
 msgid "Contact Page Map Style"
 msgstr "Kontaktsida karta"
 
-#: vibe-options.php:1220
+#: vibe-options.php:1229
 msgid "Select the map style on contact page."
 msgstr "Välj kartstil för kontaktsida."
 
-#: vibe-options.php:1221
+#: vibe-options.php:1230
 msgid "Content area is the container in which all content is located."
 msgstr "Innehållsfältet är den behållare där allt innehåll finns."
 
-#: vibe-options.php:1222
+#: vibe-options.php:1231
 msgid "Satellite View"
 msgstr "Satellitvy"
 
-#: vibe-options.php:1222
+#: vibe-options.php:1231
 msgid "Road map"
 msgstr "Vägkarta"
 
-#: vibe-options.php:1228
+#: vibe-options.php:1237
 msgid "Google Map Zoom Level"
 msgstr "Google Maps Zoom Level"
 
-#: vibe-options.php:1229
+#: vibe-options.php:1238
 msgid "Enter the zoom level in Google maps"
 msgstr "Välj vilka nivå på zoom i Google maps"
 
-#: vibe-options.php:1230
+#: vibe-options.php:1239
 msgid "Zoom Levels 0 - 19"
 msgstr "Zoomnivåer 0 - 19"
 
-#: vibe-options.php:1236
+#: vibe-options.php:1245
 msgid "Select 404 Page"
 msgstr "Välj 404-sida"
 
-#: vibe-options.php:1237
+#: vibe-options.php:1246
 msgid "This page is shown when page not found on your site."
 msgstr "Denna sida visas när en sida inte hittas på din sajt."
 
-#: vibe-options.php:1238
+#: vibe-options.php:1247
 msgid "User redirected to this page when page not found."
 msgstr "Användaren skickas till denna sida när sidan inte hittas."
 
-#: vibe-options.php:1243
+#: vibe-options.php:1252
 msgid "Disable XMLRPC/RSD/WLWManifest"
 msgstr "Avaktivera XMLRPC/RSD/WLWManifest"
 
-#: vibe-options.php:1244
+#: vibe-options.php:1253
 msgid "Remove security vulnerabilities"
 msgstr "Ta bort säkerhetssårbarheter"
 
-#: vibe-options.php:1245
+#: vibe-options.php:1254
 msgid "Removes vulnerabilities at expense of ability to login via remote apps."
 msgstr ""
 "Tar bort sårharheter på bekostnad av förmåga att logga in via remote appar."
 
-#: vibe-options.php:1252
+#: vibe-options.php:1261
 msgid "Disable Versions in Scripts/Styles"
 msgstr ""
 
-#: vibe-options.php:1253
+#: vibe-options.php:1262
 msgid "Helps in caching of resources"
 msgstr ""
 
-#: vibe-options.php:1254
+#: vibe-options.php:1263
 msgid "Improves page speed score"
 msgstr ""
 
-#: vibe-options.php:1261
+#: vibe-options.php:1270
 msgid "Custom CSS for WP Login Screen"
 msgstr ""
 
-#: vibe-options.php:1262
+#: vibe-options.php:1271
 msgid "Add custom CSS"
 msgstr ""
 
-#: vibe-options.php:1263
+#: vibe-options.php:1272
 msgid "Custom CSS for WP Login screen."
 msgstr ""
 
-#: vibe-options.php:1268
+#: vibe-options.php:1277
 msgid "Author & Credits"
 msgstr "Författare & upphovsman"
 
-#: vibe-options.php:1269
+#: vibe-options.php:1278
 msgid "Credits and Author of the Website"
 msgstr "Upphovsmän och författare till Youngcubator"
 
-#: vibe-options.php:1270
+#: vibe-options.php:1279
 msgid "Changes the reference to Author {VibeThemes}"
 msgstr "Ändrar referenser till Författare"
 
-#: vibe-options.php:1306
+#: vibe-options.php:1315
 msgid "Theme Information"
 msgstr "Temainformation"
 
@@ -9104,6 +9141,9 @@ msgstr ""
 #: woocommerce/single-product/short-description.php:18
 msgid "Courses Included"
 msgstr "Kurser som ingår"
+
+#~ msgid "Complete Sign Up"
+#~ msgstr "Genomför registrering"
 
 #, fuzzy
 #~ msgid "Configure default settings."

@@ -1,61 +1,49 @@
 <div id="login-modal">
     <div class="md-content">
         <div id="login_register_form">
-            <!--<div class="col-md-6"> WESKER LOGIN
-                <form name="form" name="login-form" class="form-validation" action="<?php echo apply_filters('wplms_login_widget_action',home_url( 'wp-login.php', 'login-post' )); ?>" method="post">
+            <div class="col-md-6">
+                <form name="form" name="login-form" class="form-validation" action="<?php echo apply_filters('wplms_login_widget_action',site_url( 'wp-login.php', 'login_post' )); ?>" method="post">
                     <h3><?php _e('Login','wplms_modern'); ?></h3>
                       <div class="list-group list-group-sm">
                         <div class="list-group-item">
-                          <label><?php _e('Usuario','wplms_modern'); ?></label>  
-                          <input type="text" name="log" placeholder="<?php _e('Usuario','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+                          <label><?php _e('USERNAME','wplms_modern'); ?></label>  
+                          <input type="text" name="log" placeholder="<?php _e('Enter Username','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
                         </div>
                         <div class="list-group-item">
-                           <label><?php _e('Contraseña','wplms_modern'); ?></label>  
-                           <input type="password" name="pwd" placeholder="<?php _e('Contraseña','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
+                           <label><?php _e('PASSWORD','wplms_modern'); ?></label>  
+                           <input type="password" name="pwd" placeholder="<?php _e('Enter Password','wplms_modern'); ?>" class="form-control no-border" required="" tabindex="0" aria-required="true" aria-invalid="true">
                         </div>
                       </div>
-                      <div class="pull-right"><a id="forgot_password_trigger" href="#"><?php _e('¿Perdiste la contraseña?','wplms_modern'); ?></a></div>
+                      <div class="pull-right"><a id="forgot_password_trigger" href="#"><?php _e('Forgot Password?','wplms_modern'); ?></a></div>
                       <div class="checkbox">
                         <input type="checkbox" id="rememberme" name="rememberme" value="forever">
-                        <label for="rememberme"><?php _e('Recordarme','wplms_modern'); ?></label>
+                        <label for="rememberme"><?php _e('Remember me','wplms_modern'); ?></label>
                       </div>
-                      <input type="submit" name="wp-submit" class="btn btn-lg btn-primary btn-block" id="wp-submit" value="<?php _e('Iniciar Sesión','wplms_modern'); ?>" tabindex="100" />
-                      <input type="hidden" name="testcookie" value="1" />
+                      <input type="submit" name="user-submit" class="btn btn-lg btn-primary btn-block" id="wp-submit" value="<?php _e('Log In','wplms_modern'); ?>" tabindex="100" />
+                      <input type="hidden" name="user-cookie" value="1" />
                       <div class="line line-dashed"></div>
                       <?php do_action( 'login_form' ); //BruteProtect FIX ?>
                 </form>
-            </div>-->
-            <style>
-                #login-modal{
-                    max-width: none!important;
-                    width: 30vw;
-                    left: 35vw;
-                }
-                #login-modal-overlay #close-modal{
-                    cursor:pointer;
-                }
-            </style>
-            <div class="col-md-12">
-                <h3><?php _e('Registrarse','wplms_modern'); ?></h3>
+            </div>
+            <div class="col-md-6">
+                <h3><?php _e('Register','wplms_modern'); ?></h3>
                 <?php do_action('bp_social_connect'); 
 
                 $disable_ajax_registration = vibe_get_option('disable_ajax_registration');
                 if(empty($disable_ajax_registration)){
                 ?>
-<!--                <a id="create_account_trigger" class="btn btn-lg btn-default btn-block" href="#" ><?php _e('Crear una CUenta','wplms_modern'); ?></a>-->
-                <a id="" class="btn btn-lg btn-default btn-block" href="https://accounts.google.com/SignUp" target="_blank"><?php _e('Crear una Cuenta','wplms_modern'); ?></a>
+                <a id="create_account_trigger" class="btn btn-lg btn-default btn-block" href="#" ><?php _e('Create an Account','wplms_modern'); ?></a>
                 <?php
                 }else{
                   $registration_link = apply_filters('wplms_buddypress_registration_link',site_url( BP_REGISTER_SLUG . '/' ));
                 ?>
-                <!--<a href="<?php echo $registration_link; ?>" class="btn btn-lg btn-default btn-block" href="#" ><?php _e('Crear una Cuenta','wplms_modern'); ?></a>-->
-                <a href="https://accounts.google.com/SignUp" class="btn btn-lg btn-default btn-block" target="_blank"><?php _e('Crear una Cuenta','wplms_modern'); ?></a>
+                <a href="<?php echo $registration_link; ?>" class="btn btn-lg btn-default btn-block" href="#" ><?php _e('Create an Account','wplms_modern'); ?></a>
                 <?php
                 }
                 ?>
             </div>
         </div>
-        <!--<div id="create_account">
+        <div id="create_account">
             <div class="col-md-6 col-md-offset-3">
               <form role="form" id="new_user">
                 <div class="list-group list-group-sm">
@@ -141,7 +129,7 @@
                     <a class="link"><?php _e('Back to login/register','wplms_modern'); ?></a>
               </div>
             </div>  
-        </div>-->    
+        </div>    
     </div>
 </div>
 <div id="login-modal-overlay">

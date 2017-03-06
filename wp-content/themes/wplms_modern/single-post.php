@@ -101,13 +101,13 @@ if(have_posts()):
                              ?>
                         </div>
                         <div class="author_info">
-                            <a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" class="readmore link"><?php _e('Posts','vibe'); ?></a><a class="readmore">&nbsp;|&nbsp;</a><a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ).$instructing_courses; ?>" class="readmore link"><?php _e('Courses','vibe'); ?></a>
+                            <a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" class="readmore link"><?php _e('Posts','wplms_modern'); ?></a><a class="readmore">&nbsp;|&nbsp;</a><a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ).$instructing_courses; ?>" class="readmore link"><?php _e('Courses','wplms_modern'); ?></a>
                             <h6><?php the_author_meta( 'display_name' ); ?></h6>
                             <div class="author_desc">
                                 <p>
                                     <?php  the_author_meta( 'description' );?>
                                 </p>
-                                <p class="website"><?php _e('Website','vibe');?> : <a href="<?php  the_author_meta( 'url' );?>" target="_blank"><?php  the_author_meta( 'url' );?></a></p>
+                                <p class="website"><?php _e('Website','wplms_modern');?> : <a href="<?php  the_author_meta( 'url' );?>" target="_blank"><?php  the_author_meta( 'url' );?></a></p>
                                 <?php
                                     $author_id=  get_the_author_meta('ID');
                                     vibe_author_social_icons($author_id);

@@ -42,72 +42,41 @@ header{
 /*   01. HEADER SEARCH
 /*========================================================================*/
 
-header{
-	#searchform{
-		label{
-			display: none;
-		}
-		#searchform{
-			position: absolute;
-			width: 100%;
-			opacity: 0;
-			min-width: 200px;
-			top: 100%;
-			right: 0;
-			border-radius:2px;
-			background: #48575a;
-			padding: 15px;
-			box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-			input[type="submit"]{
-				display: none;
-			}
-			&:after{
-				content: '';
-				position: absolute;
-				top: -20px;
-				height: 15px;
-				width: 15px;
-				right: 10px;
-				bottom: 0px;
-				border: 7px solid;
-				border-color: transparent transparent rgba(0,0,0,0.1) transparent;
-			}
-		} 
-	}	
-	#searchicon{
-		float: right;
-		color: rgba(255,255,255,0.6);
-		padding: 25px 0;
-		cursor: pointer;
-	}
-	#searchdiv{
-		float:right;
-		color:#576972;
-		font-size:16px;
-		padding:28px 0 0;
-		display: none;
-		z-index: 999;
-		&.active{
-			display: block !important;
-			#searchform{
-			    animation:  slideDown 0.2s ease-in-out;
-			    opacity: 1;
-			    z-index: 91;
-			    label{display: none;}
-			    input[type="text"]{
-					border: none;
-					background:#232b2d;
-					font-size: 20px;
-					padding: 12px;
-					width: 100%;
-					border-radius:2px;
-				}
-			}
-		}
-	}
-} 
 
+#searchdiv{
+	display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 99;
+    padding:10%;
+    cursor:crosshair;
+    input[type="text"]{
+        background: none;
+	    border: none;border-radius:none;
+	    border-bottom: 3px solid rgba(255,255,255,0.2);
+	    font-size: 6rem;
+	    color:#fff;
+    }
+}
 
+#searchdiv > span{
+	width: 64px;
+    height: 64px;
+    display: block;
+    margin: 20vh auto 0;
+    &:before{
+	    content: "\f00d";
+	    font-family: fontawesome;
+	    font-size: 48px;
+	    color: #fff;
+    }
+}
+    
+.search_active #searchdiv{display:block;}
 /*========================================================================*/
 /*   01. TOP HEADER
 /*========================================================================*/
@@ -158,39 +127,6 @@ header{
 
 	&.fixed + header{
 		margin-top:36px;
-	}
-	// Headertop variation
-	#topsearchdiv{
-	    position: relative;
-    	padding: 0 8px;
-    	form{
-    		&:after{
-    			content: "\f002";
-    			font-family: fontawesome;
-			    position: absolute;
-			    right: 2px;
-			    top: 0;
-    		}
-    		#s{
-			    border: none;
-			    background:transparent;
-			    padding:0;
-			    border-bottom: 2px solid $bordercolor;
-			    width: 0;
-			    transition: all 0.6s ease-in-out;
-			    &:active,&:focus{
-			    	width:auto;
-			    }
-    		}
-    	}
-    	&:hover,&:focus,&:active{
-    		form{
-    			#s{
-    				width:auto;
-    				transition: all 0.6s ease-in-out;
-    			}
-    		}
-    	}
 	}
 	.socialicons{
 		float:right;

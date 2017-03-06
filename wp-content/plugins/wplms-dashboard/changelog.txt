@@ -1,3 +1,7 @@
+* 2.6
+* Pot files synced
+* 2.5.2.1
+* messages component check
 * 2.5.2
 * Bug in news archieve page fixed.
 * Fuzzy Translations Fixed.

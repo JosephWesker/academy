@@ -217,38 +217,70 @@ class BP_Course_Ajax{
 
           bp_course_update_user_progress($_POST['user_id'],$_POST['course_id'],$new_progress);
 
+          $post_type = bp_course_get_post_type($_POST['id']);
+          if($post_type == 'quiz'){
+            bp_course_update_user_quiz_status($_POST['user_id'],$_POST['id'],0);
+          }
+
           do_action('wplms_unit_instructor_uncomplete',$_POST['id'],$_POST['user_id'],$_POST['course_id']);
         }
         die();
     }
 
     function instructor_complete_unit(){
-        if (!is_numeric($_POST['course_id']) || !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'security'.$_POST['course_id'])  || !is_numeric($_POST['user_id']) || !is_numeric($_POST['id']) || !current_user_can('edit_posts')){
-            echo '<div id="message" class="info notice"><p>'.__('Security check failed !','vibe').'</p></div>';
-            die();
-        }
-        if(bp_course_is_member($_POST['course_id'],$_POST['user_id'])){
 
-          $time = apply_filters('wplms_force_complete_unit',time(),$_POST['id'],$_POST['course_id'],$_POST['user_id']);
+      if (!is_numeric($_POST['course_id']) || !isset($_POST['security']) || !wp_verify_nonce($_POST['security'],'security'.$_POST['course_id'])  || !is_numeric($_POST['user_id']) || !is_numeric($_POST['id']) || !current_user_can('edit_posts')){
 
-            update_user_meta($_POST['user_id'],$_POST['id'],$time);
-            update_post_meta($_POST['id'],$_POST['user_id'],0);
-            if(bp_course_get_post_type($_POST['id']) == 'unit'){
-                bp_course_update_user_unit_completion_time($_POST['user_id'],$_POST['id'],$_POST['course_id'],$time);
-            }
+          echo '<div id="message" class="info notice"><p>'.__('Security check failed !','vibe').'</p></div>';
+          die();
+      }
 
-          $curriculum=bp_course_get_curriculum_units($_POST['course_id']);
-          $per = round((100/count($curriculum)),2);
-          $progress = bp_course_get_user_progress($_POST['user_id'],$_POST['course_id']);
-          $new_progress = $progress+$per;
-          if($new_progress > 100){
-            $new_progress = 100;
+      if(bp_course_is_member($_POST['course_id'],$_POST['user_id'])){
+
+        $time = apply_filters('wplms_force_complete_unit',time(),$_POST['id'],$_POST['course_id'],$_POST['user_id']);
+
+          update_user_meta($_POST['user_id'],$_POST['id'],$time);
+          update_post_meta($_POST['id'],$_POST['user_id'],0);
+
+          $post_type = bp_course_get_post_type($_POST['id']);
+          if($post_type == 'unit'){
+            bp_course_update_user_unit_completion_time($_POST['user_id'],$_POST['id'],$_POST['course_id'],$time);
+          }else if($post_type == 'quiz'){
+            bp_course_update_user_quiz_status($_POST['user_id'],$_POST['id'],1);
           }
-          bp_course_update_user_progress($_POST['user_id'],$_POST['course_id'],$new_progress);
 
-          do_action('wplms_unit_instructor_complete',$_POST['id'],$_POST['user_id'],$_POST['course_id']);
+          if($post_type == 'wplms-assignment'){
+            $user = get_userdata($_POST['user_id']);
+            $assignment_title = get_the_title($_POST['id']);
+            $args = array(
+                    'comment_post_ID' => $_POST['id'],
+                    'comment_author' => $user->display_name,
+                    'comment_author_email' => $user->user_email,
+                    'comment_content' => $assignment_title.' - '.$user->display_name,
+                    'comment_date' => current_time('mysql'),
+                    'comment_approved' => 1,
+                    'comment_parent' => 0,
+                    'user_id' => $_POST['user_id'],
+              );
+            wp_insert_comment($args);
+          }
+
+        $curriculum = bp_course_get_curriculum_units($_POST['course_id']);
+        $per = round((100/count($curriculum)),2);
+        $progress = bp_course_get_user_progress($_POST['user_id'],$_POST['course_id']);
+        $new_progress = $progress+$per;
+
+        if($new_progress > 100){
+          $new_progress = 100;
         }
-        die();
+
+        bp_course_update_user_progress($_POST['user_id'],$_POST['course_id'],$new_progress);
+
+        do_action('wplms_unit_instructor_complete',$_POST['id'],$_POST['user_id'],$_POST['course_id']);
+      }
+
+      die();
+
     }
 
     /* == End == */
@@ -450,7 +482,7 @@ class BP_Course_Ajax{
 
 						if($type == 'quiz'){
 							$marks = get_post_meta($c,$user_id,true);
-                            if(!empty($marks)){
+                            if(isset($marks)){
                                 $complete++;
 							    $curriculum .= '<li class="check_user_quiz_results" data-quiz="'.$c.'" data-user="'.$user_id.'"><span class="done"></span> '.get_the_title($c).' <strong>'.(($marks)?_x('Marks Obtained : ',' marks obtained in quiz result','vibe').$marks:__('Under Evaluation','vibe')).'</strong></li>';
                             }else{

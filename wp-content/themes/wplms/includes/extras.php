@@ -251,54 +251,71 @@ class vibe_extras{
     /* === End Social icons ===*/
 
     function vibe_add_user_id_column($columns) {
+
         $columns['user_status'] = __('Status','vibe');
         $columns['user_id'] = __('User ID','vibe');
         return $columns;
+
     }
     function vibe_show_user_id_column_content($value, $column_name, $user_id) {
+
         if ( 'user_status' == $column_name ){
+
             $user = get_userdata( $user_id );
             $current_userId = get_current_user_ID();
             $last_activity = get_user_meta($user_id,'last_activity',true);
             $threshold = apply_filters('wplms_login_threshold',1800);
-            $difference = time()-strtotime($last_activity) - $threshold;
+            $last_active_time = strtotime($last_activity);
+            $difference = time() - $last_active_time - $threshold;
+
+            if(empty($last_activity)){
+                $last_activity = _x('N.A.','When user has not even once logged in the website','vibe');
+            }else{
+                $date_format = get_option('date_format');
+                $last_activity = date($date_format,$last_active_time);
+            }
 
             if($difference<=0 || $current_userId == $user_id){
-                return '<span class="user_online" title="'.__('Last Logged in on ','vibe').$last_activity.'"> '.__('Online','vibe').'</span>';
+                return '<span class="user_online"> '.__('Online','vibe').'</span>';
             }else{
-                return '<span class="user_offline" title="'.__('Last Logged in on ','vibe').$last_activity.'"> '.__('Offline','vibe').'</span>';
+                return '<span class="user_offline"> '.__('Offline','vibe').'</span><br><span>'.__('Since: ','vibe').$last_activity.'</span>';
             }
         }
+
         if ( 'user_id' == $column_name )
             return $user_id;
         return $value;
+
     }
 
     function social_sharing_links(){
-    $social_sharing = array(
-        'Facebook' => 'http://www.facebook.com/share.php?u=[URL]',
-        'Twitter' => 'http://twitter.com/share?url=[URL]',
-        'VK'=>'http://vk.com/share.php?url=[URL]',
-        'Digg' => 'http://www.digg.com/submit?phase=2&url=[URL]&title=[TITLE]',
-        'Pinterest' => 'http://pinterest.com/pin/create/button/?url=[URL]',
-        'Stumbleupon' => 'http://www.stumbleupon.com/submit?url=[URL]&title=[TITLE]',
-        'Delicious' => 'http://del.icio.us/post?url=[URL]&title=[TITLE]]&notes=[DESCRIPTION]',
-        'Google plus' => 'https://plus.google.com/share?url=[URL]',
-        'GoogleBuzz' => 'http://www.google.com/reader/link?title=[TITLE]&url=[URL]',
-        'LinkedIn' => 'http://www.linkedin.com/shareArticle?mini=true&url=[URL]&title=[TITLE]&source=[DOMAIN]',
-        'SlashDot' => 'http://slashdot.org/bookmark.pl?url=[URL]&title=[TITLE]',
-        'Technorati' => 'http://technorati.com/faves?add=[URL]&title=[TITLE]',
-        'Posterous' => 'http://posterous.com/share?linkto=[URL]',
-        'Tumblr' => 'http://www.tumblr.com/share?v=3&u=[URL]&t=[TITLE]',
-        'Reddit' => 'http://www.reddit.com/submit?url=[URL]&title=[TITLE]',
-        'GoogleBookmarks' => 'http://www.google.com/bookmarks/mark?op=edit&bkmk=[URL]&title=[TITLE]&annotation=[DESCRIPTION]',
-        'NewsVine' => 'http://www.newsvine.com/_tools/seed&save?u=[URL]&h=[TITLE]',
-        'PingFm' => 'http://ping.fm/ref/?link=[URL]&title=[TITLE]&body=[DESCRIPTION]',
-        'Evernote' => 'http://www.evernote.com/clip.action?url=[URL]&title=[TITLE]',
-        'FriendFeed' => 'http://www.friendfeed.com/share?url=[URL]&title=[TITLE]'
-    );
-    return $social_sharing;
+
+        $social_sharing = array(
+            'Facebook' => 'http://www.facebook.com/share.php?u=[URL]',
+            'Twitter' => 'http://twitter.com/share?url=[URL]',
+            'VK'=>'http://vk.com/share.php?url=[URL]',
+            'Digg' => 'http://www.digg.com/submit?phase=2&url=[URL]&title=[TITLE]',
+            'Pinterest' => 'http://pinterest.com/pin/create/button/?url=[URL]',
+            'Stumbleupon' => 'http://www.stumbleupon.com/submit?url=[URL]&title=[TITLE]',
+            'Delicious' => 'http://del.icio.us/post?url=[URL]&title=[TITLE]]&notes=[DESCRIPTION]',
+            'Google plus' => 'https://plus.google.com/share?url=[URL]',
+            'GoogleBuzz' => 'http://www.google.com/reader/link?title=[TITLE]&url=[URL]',
+            'LinkedIn' => 'http://www.linkedin.com/shareArticle?mini=true&url=[URL]&title=[TITLE]&source=[DOMAIN]',
+            'SlashDot' => 'http://slashdot.org/bookmark.pl?url=[URL]&title=[TITLE]',
+            'Technorati' => 'http://technorati.com/faves?add=[URL]&title=[TITLE]',
+            'Posterous' => 'http://posterous.com/share?linkto=[URL]',
+            'Tumblr' => 'http://www.tumblr.com/share?v=3&u=[URL]&t=[TITLE]',
+            'Reddit' => 'http://www.reddit.com/submit?url=[URL]&title=[TITLE]',
+            'GoogleBookmarks' => 'http://www.google.com/bookmarks/mark?op=edit&bkmk=[URL]&title=[TITLE]&annotation=[DESCRIPTION]',
+            'NewsVine' => 'http://www.newsvine.com/_tools/seed&save?u=[URL]&h=[TITLE]',
+            'PingFm' => 'http://ping.fm/ref/?link=[URL]&title=[TITLE]&body=[DESCRIPTION]',
+            'Evernote' => 'http://www.evernote.com/clip.action?url=[URL]&title=[TITLE]',
+            'FriendFeed' => 'http://www.friendfeed.com/share?url=[URL]&title=[TITLE]'
+        );
+
+        return $social_sharing;
     }
+
     //Social Sharing Function
     public function social_sharing($tip_direction='top',$url = null){
 

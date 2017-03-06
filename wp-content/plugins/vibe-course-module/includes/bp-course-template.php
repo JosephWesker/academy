@@ -1261,6 +1261,7 @@ function bp_course_paginate_students_undertaking($course_id=NULL){
 	if(isset($_GET['status']) && is_numeric($_GET['status'])){
 		$extra = 'AND meta_value = '.$_GET['status'];
 	}
+	$page_num = 0;
 	$query=$wpdb->prepare("SELECT count(user_id) FROM {$wpdb->usermeta} WHERE meta_key = %s ORDER BY meta_value ASC LIMIT %d, %d",'course_status'.$course_id,$page_num,$loop_number);
 
 	if(isset($_GET['status']) && is_numeric($_GET['status'])){
@@ -2598,11 +2599,11 @@ function bp_course_quiz_results($quiz_id,$user_id,$course=NULL){
 					if($type == 'survey'){
 
 						$options = get_post_meta($question,'vibe_question_options',true);
-				      	
-				      	$options_key = array_search($user_marked_answer,$options);
-				      	$options_key++;
-
-			        	$user_result[$question]['marked_answer'] =apply_filters('the_content',$options[(intval($user_marked_answer)-1)]); // Reseting for the array
+						if(!empty($options)){
+							$user_result[$question]['marked_answer'] =apply_filters('the_content',$options[(intval($user_marked_answer)-1)]);	
+						}else{
+							$user_result[$question]['marked_answer'] = '';
+						}
 			
 			        	$explaination = get_post_meta($question,'vibe_question_explaination',true);
 

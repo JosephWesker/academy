@@ -8,7 +8,7 @@ $code = $_REQUEST['certificate_code'];
 if(isset($code)){
 
   if(strlen($code)<2){
-    wp_die(__('INVALID CERTIFICATE CODE','vibe'));
+    wp_die(__('INVALID CERTIFICATE CODE','wplms_modern'));
   }
   $user_id=apply_filters('wplms_certificate_code_user_id',$code);
   $course_id=apply_filters('wplms_certificate_code_course_id',$code);
@@ -59,9 +59,9 @@ do_action('wplms_certificate_before_full_content');
                     ?>
                 </div>
                 <div class="certificate certificate_content" data-width="800" data-height="640" style="padding:64px 0;">
-                   	<h1><?php echo apply_filters('wplms_certificate_heading',__('CERTIFICATE OF COMPLETION','vibe')); ?></h1>
+                   	<h1><?php echo apply_filters('wplms_certificate_heading',__('CERTIFICATE OF COMPLETION','wplms_modern')); ?></h1>
 
-                   	<h6><?php echo apply_filters('wplms_certificate_sub_heading',__('Awarded to','vibe')); ?></h6>
+                   	<h6><?php echo apply_filters('wplms_certificate_sub_heading',__('Awarded to','wplms_modern')); ?></h6>
 
                     <?php do_action('wplms_certificate_before_name'); ?>
 
@@ -71,7 +71,7 @@ do_action('wplms_certificate_before_full_content');
 
                    	<span><?php echo xprofile_get_field_data( 'Location', $user_id ); ?></span></h2>
 
-                   	<span><?php echo apply_filters('wplms_certificate_before_course_title',__('for successful completion of course','vibe')); ?></span>
+                   	<span><?php echo apply_filters('wplms_certificate_before_course_title',__('for successful completion of course','wplms_modern')); ?></span>
                    	<h3><?php echo get_the_title($course_id); ?></h3>
                     <?php do_action('wplms_certificate_after_content'); ?>
                 </div>

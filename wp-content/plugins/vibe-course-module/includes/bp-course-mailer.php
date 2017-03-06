@@ -50,8 +50,7 @@ class bp_course_mails{
 
         add_filter('messages_notification_new_message_message',array($this,'bp_course_bp_mail_filter'),10,7);
         add_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
-        add_filter( 'wp_mail_from', array($this,'custom_wp_mail_from' ));
-        add_filter( 'wp_mail_from_name', array($this,'custom_wp_mail_from_name' ));
+        add_action('bp_email',array($this,'from_field_in_emails'),10,2);
 
         //DISABLE BuddyPress Emails
         //add_filter( 'bp_email_use_wp_mail', '__return_false');
@@ -59,7 +58,6 @@ class bp_course_mails{
         
         add_action( 'admin_notices', array($this,'wplms_emails_migrate_notice' ));
         add_action('wp_ajax_wplms_emails_migrate',array($this,'wplms_emails_migrate'));
-        add_action('wp_ajax_wplms_emails_dismiss_migrate',array($this,'wplms_emails_dismiss_migrate'));
 
         // Run on Installation
         add_action('wplms_after_sample_data_import',array($this,'wplms_emails_migrate'),9999);
@@ -74,7 +72,8 @@ class bp_course_mails{
       return $this->html_emails;
     }
 
-    function custom_wp_mail_from( $original_email_address ) {
+    function from_field_in_emails($email_type, $email_obj){
+
       if(class_exists('WPLMS_tips')){
         $wplms_settings = WPLMS_tips::init();
         $settings = $wplms_settings->lms_settings;
@@ -82,25 +81,21 @@ class bp_course_mails{
         $settings = get_option('lms_settings');  
       }
 
-      if(isset($settings) && isset($settings['email_settings']) && !empty($settings['email_settings']['from_email'])){
-        return $settings['email_settings']['from_email'];
-      }
-      return $original_email_address;
-    }
+      $from_name = $email_obj->from_name;
+      $from_email = $email_obj->from_address;
 
-    function custom_wp_mail_from_name( $original_email_from ) {
-      if(class_exists('WPLMS_tips')){
-        $wplms_settings = WPLMS_tips::init();
-        $settings = $wplms_settings->lms_settings;
-      }else{
-        $settings = get_option('lms_settings');  
-      }
+      if(isset($settings) && isset($settings['email_settings'])){
 
-      if(isset($settings) && isset($settings['email_settings']) && !empty($settings['email_settings']['from_name'])){
-        return $settings['email_settings']['from_name'];
+        if(!empty($settings['email_settings']['from_name'])){
+          $from_name = $settings['email_settings']['from_name'];
+        }
+        if(!empty($settings['email_settings']['from_email'])){
+          $from_email = $settings['email_settings']['from_email'];
+        }
+
       }
 
-      return $original_email_from;
+      $email_obj->set_from( $from_email, $from_name );
     }
     
     function bp_course_bp_mail_filter($email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud){
@@ -199,14 +194,11 @@ class bp_course_mails{
         if(!function_exists('bp_get_email_post_type')){
           return false;
         }
-        if(isset($this->migration_status)){
+
+        $migrated = get_option('wplms_bp_emails');
+        if($migrated == bp_course_version()){
+            $this->migration_status = true;
             return $this->migration_status;
-        }else{
-            $migrated = get_option('wplms_bp_emails');
-            if($migrated == bp_course_version()){
-                $this->migration_status = true;
-                return $this->migration_status;
-            }
         }
 
         $flag = 0;
@@ -221,7 +213,6 @@ class bp_course_mails{
             break;
           }          
         }
-
         
         if(empty($flag)){
            $this->migration_status = true; // Show notice
@@ -254,7 +245,7 @@ class bp_course_mails{
             }
             $class = 'notice notice-error is-dismissible';
             $nonce = wp_create_nonce('wplms_emails_migrate_notice');
-            $message = sprintf(__( '%sMigrate WPLMS email templates to BuddyPress Emails.%s  %s mail templates will be migrated. Refer %s more information & tutorial%s   %s Migrate all email templates to BuddyPress %s %s No, Thanks, I like  different email templates. %s', 'vibe' ),'<strong>','</strong>',$count,'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/wplms-email-migration-to-buddypress-emails" target="_blank">','</a>','<br><br><a id="wplms_emails_migrate" class="button-primary" data-nonce="'.$nonce.'">','</a>','<a id="wplms_dismiss_emails_migrate" class="button" data-nonce="'.$nonce.'">','</a><div class="migrate_progress"><span></span></div>');
+            $message = sprintf(__( '%sMigrate WPLMS email templates to BuddyPress Emails.%s  %s mail templates will be migrated. Refer %s more information & tutorial%s   %s Migrate all email templates to BuddyPress %s %s', 'vibe' ),'<strong>','</strong>',$count,'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/wplms-email-migration-to-buddypress-emails" target="_blank">','</a>','<br><br><a id="wplms_emails_migrate" class="button-primary" data-nonce="'.$nonce.'">','</a>','<div class="migrate_progress"><span></span></div>');
 
             printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message ); 
             ?>
@@ -285,21 +276,6 @@ class bp_course_mails{
                                 $this.closest('.notice-error').removeClass('notice-error').addClass('notice-success');},500);
                             $this.show(100).html(html).attr('id','wplms_emails_migrated');
                             setTimeout(function(){$this.closest('.notice').fadeOut(1500);},500);
-                        }
-                    });
-                });
-                $('#wplms_dismiss_emails_migrate').on('click',function(){
-                    var $this=$(this);
-                    $this.closest('.notice').css('opacity','0.4');
-                    $.ajax({
-                        type: "POST",
-                        url: ajaxurl,
-                        data: { action: 'wplms_emails_dismiss_migrate', 
-                                security:$this.attr('data-nonce'),
-                            },
-                        cache: false,
-                        success: function (html) {
-                            $this.closest('.notice').fadeOut(1500);
                         }
                     });
                 });
@@ -340,11 +316,6 @@ class bp_course_mails{
           _ex('Migration complete.','Migrate WPLMS emails to BuddyPress success message','vibe');
           die();
         }
-    }
-
-    function wplms_emails_dismiss_migrate(){
-        update_option('wplms_bp_emails',bp_course_version()); // Dismissed
-        die();
     }
 
 }
@@ -907,10 +878,25 @@ function bp_course_all_mails(){
             'subject' =>  sprintf(__('Subscription for course %s will expire soon','vibe'),'{{course.name}}'),
             'message' =>  sprintf(__('Your subscription to course %s will expire soon','vibe'),'{{{course.titlelink}}}')
         ),
-        'wplms_forgot_password' =>array(
+        'wplms_forgot_password'=>array(
             'description'=> __('Forgot passowrd ','vibe'),
             'subject' =>  __(' Password Reset','vibe'),
             'message' =>  __('Someone requested that the password be reset for the following account: ','vibe') . "\r\n\r\n". network_home_url( '/' ) . "\r\n\r\n". sprintf(__('Username: %s','vibe'), '{{user.username}}') . "\r\n\r\n".__('If this was a mistake, just ignore this email and nothing will happen.','vibe') . "\r\n\r\n".sprintf(__('To reset your password, visit the following address: %s','vibe'),'{{{user.forgotpasswordlink}}}') . "\r\n\r\n",
+        ),
+        'wplms_inactive_user'=>array(
+            'description'=> __('User is inactive on website for a long time ','vibe'),
+            'subject' =>  __('Inactive user','vibe'),
+            'message' =>  sprintf(__('You are inactive on our website for more than %s days. Please visit the website %s and continue learning.','vibe'),'{{{user.inactive}}}','{{{site.name}}}')
+        ),
+        'wplms_contact_form_email'=>array(
+            'description'=> __('Contact email sent in contact form ','vibe'),
+            'subject' =>  __('Contact Form Submission','vibe'),
+            'message' =>  sprintf(__(' User contacted via contact form on your site <br> %s ','vibe'),'{{{user.message}}}')
+        ),
+        'wplms_contact_form_email2'=>array(
+            'description'=> __('Contact email sent in contact form ','vibe'),
+            'subject' =>  __('Contact Form Submission','vibe'),
+            'message' =>  sprintf(__(' User contacted via contact form on your site <br> %s ','vibe'),'{{{user.message}}}')
         ),
     );
     return apply_filters('bp_course_all_mails',$bp_course_mails);

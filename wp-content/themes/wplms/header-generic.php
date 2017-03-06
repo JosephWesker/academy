@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $args = apply_filters('wplms-mobile-menu',array(
                     'theme_location'  => 'mobile-menu',
                     'container'       => '',
+                    'items_wrap' => '<div class="mobile_icons"><a id="mobile_searchicon"><i class="fa fa-search"></i></a>'.( (function_exists('WC')) ?'<a href="'.WC()->cart->get_cart_url().'"><span class="fa fa-shopping-basket"><em>'.WC()->cart->cart_contents_count.'</em></span></a>':'').'</div><ul id="%1$s" class="%2$s">%3$s</ul>',
                     'menu_class'      => 'sidemenu',
                     'fallback_cb'     => 'vibe_set_menu',
                 ));
@@ -96,7 +97,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <div class="col-md-3 col-sm-3 col-xs-4">
                         <?php
 
-                            if(is_home()){
+                            if(is_front_page()){
                                 echo '<h1 id="logo">';
                             }else{
                                 echo '<h2 id="logo">';
@@ -104,7 +105,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         ?>
                             <a href="<?php echo vibe_site_url(); ?>"><img src="<?php  echo apply_filters('wplms_logo_url',VIBE_URL.'/assets/images/logo.png','header'); ?>" width="100" height="48" alt="<?php echo get_bloginfo('name'); ?>" /></a>
                         <?php
-                            if(is_home()){
+                            if(is_front_page()){
                                 echo '</h1>';
                             }else{
                                 echo '</h2>';
@@ -112,25 +113,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         ?>
                     </div>
                     <div class="col-md-9 col-sm-9 col-xs-8">
-                        <div id="searchicon"><i class="fa fa-search"></i></div>
-                        <div id="searchdiv">
-                            <form role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
-                                <div><label class="screen-reader-text" for="s">Search for:</label>
-                                    <input type="text" value="<?php the_search_query(); ?>" name="s" id="s" placeholder="<?php _e('Hit enter to search...','vibe'); ?>" />
-                                    <?php 
-                                        $course_search=vibe_get_option('course_search');
-                                        if(isset($course_search) && $course_search)
-                                            echo '<input type="hidden" value="course" name="post_type" />';
-                                    ?>
-                                    <input type="submit" id="searchsubmit" value="Search" />
-                                </div>
-                            </form>
-                        </div>
                         <?php
                             $args = apply_filters('wplms-main-menu',array(
                                  'theme_location'  => 'main-menu',
                                  'container'       => 'nav',
                                  'menu_class'      => 'menu',
+                                 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s<li><a id="new_searchicon"><i class="fa fa-search"></i></a></li></ul>',
                                  'walker'          => new vibe_walker,
                                  'fallback_cb'     => 'vibe_set_menu'
                              ));

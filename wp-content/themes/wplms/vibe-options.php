@@ -580,16 +580,19 @@ $sections[] = array(
                         'sub_desc' => __('A Page with "Notes & Discussion" Page Template', 'vibe'),
 						),
 						array(
-						'id' => 'email_page',
-						'type' => 'pages_select',
-                        'title' => __('Email page', 'vibe'),
-                        'sub_desc' => __('Connect page for "View email in Borwser" in emails, use page template "Email Page"', 'vibe'),
-						),
-						array(
 						'id' => 'sync_student_count',
                         'title' => __('Maintain accurate Student Count', 'vibe'),
                         'sub_desc' => __('Maintains accurate student count for course', 'vibe'),
                         'desc' => __('The Number of Student in Course count gets verified everytime user visits the Course - admin section', 'vibe'),
+                        'type' => 'button_set',
+						'options' => array('0' => __('No','vibe'),'1'=>__('Yes','vibe')),
+						'std' => '0'
+						),
+						array(
+						'id' => 'tab_style_course_layout',
+                        'title' => __('Tab style course layout', 'vibe'),
+                        'sub_desc' => __('Changes the course tab style', 'vibe'),
+                        'desc' => __('Changes course tab style like that of udemy', 'vibe'),
                         'type' => 'button_set',
 						'options' => array('0' => __('No','vibe'),'1'=>__('Yes','vibe')),
 						'std' => '0'
@@ -730,25 +733,6 @@ $sections[] = array(
 						'sub_desc' => __('Default avatar for courses', 'vibe'),
 						'desc' => sprintf(__('This avatar is shown for courses which do not have any avatar. NOT ABLE TO UPLOAD ? %s REFER TIP %s', 'vibe'),'<a href="http://vibethemes.com/documentation/wplms/knowledge-base/logo-and-favicon-not-uploading/" target="_blank">','</a>'),
                         'std' => ''
-						),
-						array(
-						'id' => 'auto_eval_question_type',
-						'type' => 'multi_select',
-                        'title' => __('Auto-Evaluation Question Types', 'vibe'),
-                        'sub_desc' => __('Question types which will be evaluated by Auto-Evaluation', 'vibe'),
-                        'desc' => __('These question types will be evaluated by auto quiz evaluation process for exact match.','vibe'),
-                        'options' => array(
-                        	'truefalse' => __('True False','vibe'),
-                        	'single' => __('Multiple Choice','vibe'),
-                        	'multiple' => __('Multiple Correct','vibe'),
-                        	'sort' => __('Sort Answer Question','vibe'),
-                        	'match' => __('Match Answers','vibe'),
-                        	'select' => __('Dropdown select','vibe'),
-                        	'fillblank' => __('Fill in the Blank','vibe'),
-                        	'smalltext' => __('Small Text Answer','vibe'),
-                        	'survey' => __('Survey','vibe'),
-                        	),
-                        'std' => array('single')
 						),
 						array(
 						'id' => 'hide_courses',

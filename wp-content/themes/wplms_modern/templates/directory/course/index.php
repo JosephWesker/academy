@@ -57,14 +57,14 @@ $bg = $vibe->option('hero_img');
 					<div class="col-md-3 col-sm-4">
 						<div class="item-list-tabs" role="navigation">
 							<ul>
-								<li class="selected" id="course-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_course_root_slug() ); ?>"><?php printf( __( 'All Courses <span>%s</span>', 'vibe' ), bp_course_get_total_course_count( ) ); ?></a></li>
+								<li class="selected" id="course-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_course_root_slug() ); ?>"><?php printf( __( 'All Courses <span>%s</span>', 'wplms_modern' ), bp_course_get_total_course_count( ) ); ?></a></li>
 
 								<?php if ( is_user_logged_in() ) : ?>
 
-									<li id="course-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'My Courses <span>%s</span>', 'vibe' ), bp_course_get_total_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+									<li id="course-personal"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'My Courses <span>%s</span>', 'wplms_modern' ), bp_course_get_total_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 
 									<?php if(is_user_instructor()): ?>
-										<li id="course-instructor"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'Instructing Courses <span>%s</span>', 'vibe' ), bp_course_get_instructor_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+										<li id="course-instructor"><a href="<?php echo trailingslashit( bp_loggedin_user_domain() . bp_get_course_slug() . BP_COURSE_SLUG ); ?>"><?php printf( __( 'Instructing Courses <span>%s</span>', 'wplms_modern' ), bp_course_get_instructor_course_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 									<?php endif; ?>		
 								<?php endif; ?>
 								<?php do_action( 'bp_course_directory_filter' ); ?>
@@ -95,15 +95,15 @@ $bg = $vibe->option('hero_img');
 							</li>
 							<li id="course-order-select" class="last filter">
 
-								<label for="course-order-by"><?php _e( 'Order By:', 'vibe' ); ?></label>
+								<label for="course-order-by"><?php _e( 'Order By:', 'wplms_modern' ); ?></label>
 								<select id="course-order-by">
 									<?php
 									?>
-									<option value=""><?php _e( 'Select Order', 'vibe' ); ?></option>
-									<option value="newest"><?php _e( 'Newly Published', 'vibe' ); ?></option>
-									<option value="alphabetical"><?php _e( 'Alphabetical', 'vibe' ); ?></option>
-									<option value="popular"><?php _e( 'Most Members', 'vibe' ); ?></option>
-									<option value="rated"><?php _e( 'Highest Rated', 'vibe' ); ?></option>
+									<option value=""><?php _e( 'Select Order', 'wplms_modern' ); ?></option>
+									<option value="newest"><?php _e( 'Newly Published', 'wplms_modern' ); ?></option>
+									<option value="alphabetical"><?php _e( 'Alphabetical', 'wplms_modern' ); ?></option>
+									<option value="popular"><?php _e( 'Most Members', 'wplms_modern' ); ?></option>
+									<option value="rated"><?php _e( 'Highest Rated', 'wplms_modern' ); ?></option>
 
 									<?php do_action( 'bp_course_directory_order_options' ); ?>
 								</select>

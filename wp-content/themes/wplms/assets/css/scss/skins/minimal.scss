@@ -212,7 +212,7 @@
 		h4.widget_title{
 			line-height:1;
 			span:before,span:after{
-				bottom:-14px;
+				bottom:-1em;
 			}
 		}
 	}
@@ -728,6 +728,7 @@
 .minimal.single-course.c5 .course_header #item-header .widget.pricing{
 	background:#FFF;
 }
+
 .minimal.single-course.submissions{
 	.course_sub_action{
 		position:relative;

@@ -40,7 +40,7 @@ do_action( 'bp_before_course_header' );
 		</div><!-- #item-header-avatar -->
 	</div>
 	<div class="col-md-3">
-		<div class="widget pricing">
+		<div class="widget pricing" id="course-pricing">
 			<?php the_course_button(); ?>
 			<?php the_course_details(); ?>
 		</div>

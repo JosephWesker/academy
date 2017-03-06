@@ -85,7 +85,7 @@ get_header( vibe_get_header() );
 
 						$content ='';
 						if(!empty($register_id)){
-							$content = get_post_field($register_id);
+							$content = get_post_field('post_content',$register_id);
 						}
 						if(!empty($content)){
 							echo apply_filters('the_content',$content);
@@ -377,7 +377,7 @@ get_header( vibe_get_header() );
 						do_action( 'bp_before_registration_submit_buttons' ); ?>
 
 						<div class="submit">
-							<input type="submit" name="signup_submit" id="signup_submit" value="<?php esc_attr_e( 'Complete Sign Up', 'vibe' ); ?>" />
+							<input type="submit" name="signup_submit" id="signup_submit" value="<?php _ex( 'Complete Sign Up','singn up button on register page', 'vibe' ); ?>" />
 						</div>
 
 						<?php

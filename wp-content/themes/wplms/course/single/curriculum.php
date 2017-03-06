@@ -24,9 +24,9 @@ if(class_exists('WPLMS_tips')){
 
 
 ?>
-<div class="course_title">
-	<h2><?php  _e('Course Curriculum','vibe'); ?></h2>
-</div>
+<h3 class="heading">
+	<span><?php  _e('Course Curriculum','vibe'); ?></span>
+</h3>
 
 <div class="course_curriculum <?php echo $class; ?>">
 <?php

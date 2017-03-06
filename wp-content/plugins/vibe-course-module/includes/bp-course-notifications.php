@@ -35,6 +35,7 @@ class bp_course_notifications{
 		$this->get();
 		$this->run();
 		add_action( 'bp_notification_settings', array($this,'bp_course_screen_notification_settings' ));
+		add_action( 'bp_notification_settings', array($this,'bp_scheduled_email_notification_settings' ));
 	}
 
 	function get(){
@@ -263,6 +264,66 @@ class bp_course_notifications{
 	<?php
 			}
 		}
+	}
+
+	function bp_scheduled_email_notification_settings(){
+
+		if(class_exists('WPLMS_tips')){
+	        $wplms_settings = WPLMS_tips::init();
+	        $settings = $wplms_settings->lms_settings;
+      	}else{
+	        $settings = get_option('lms_settings');  
+      	}
+		if(!empty($settings['schedule'])){
+			$schedule = $settings['schedule'];
+		}
+		
+		$labels = array(
+			'drip'=>_x('Schedule drip feed email','Drip feed email label in profile email settings','vibe'),
+			'expiry'=>_x('Schedule course expiry email','Course expiry email label in profile email settings','vibe'),
+			'inactive'=>_x('Schedule user inactivity email','User inactivity email label in profile email settings','vibe'),
+			);
+
+		if(!isset($schedule) || !is_array($schedule)){
+	    	return;
+	    }
+
+	    if($schedule['drip'] == 'no' && $schedule['expire'] == 'no' & $schedule['inactive'] == 'no'){
+	    	return;
+	    }
+
+	    ?>
+		<table class="notification-settings" id="bp-schedule-notification-settings">
+			<thead>
+			<tr>
+				<th class="icon"></th>
+				<th class="title"><?php _e( 'Schedule Emails', 'vibe' ) ?></th>
+				<th class="yes"><?php _e( 'Yes', 'vibe' ) ?></th>
+				<th class="no"><?php _e( 'No', 'vibe' )?></th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php
+				foreach($schedule as $key => $value){
+					if(isset($key) && isset($value) && $value == 'yes'){
+					?>
+					<tr>
+						<td></td>
+
+						<td><?php if($key == 'drip'){echo $labels['drip'];}elseif($key == 'expire'){echo $labels['expiry'];}elseif($key == 'inactive'){echo $labels['inactive'];} ?></td>
+
+						<td class="yes"><input type="radio" id="notifications[<?php echo $key; ?>]_yes" name="notifications[<?php echo $key; ?>]" value="yes" <?php if ( !get_user_meta( $current_user->id,$key, true ) || 'yes' == get_user_meta( $current_user->id, $key, true ) ) { ?>checked="checked" <?php } ?>/><label for="notifications[<?php echo $key; ?>]_yes"><?php _e( 'Yes, send email', 'vibe' ) ?></label></td>
+						
+						<td class="no"><input type="radio" id="notifications[<?php echo $key; ?>]_no" name="notifications[<?php echo $key; ?>]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, $key, true ) ) { ?>checked="checked" <?php } ?>/><label for="notifications[<?php echo $key; ?>]_no"><?php _e( 'No, do not send email', 'vibe' ) ?></label></td>
+					</tr>
+					<?php
+					}
+				}
+			?>
+			</tbody>
+		</table>
+	    <?php
+
 	}
 	
 	function student_message_course_announcement($course_id,$student_type,$email,$announcement){

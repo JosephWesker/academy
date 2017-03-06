@@ -1,3 +1,15 @@
+* 2.6
+* Translation updated.
+* enqueue fonticons.css file for profile dropdown added in lms settings.
+* localise_script_added in frontend and backend for popup shortcodes.
+* JS error on the backend fixed.
+* Vibe shortcodes translation string refined.
+* editor field refined
+* fix for wp-editor type field data not saving
+* Vibe shortcodes not translating bug fixed.
+* Auto generate username setting not working in custom registration form bug fixed
+* Contact form email sent via buddypress
+* course counter fix when some course are hidden fix
 * 2.5.2
 * translations updated and fuzzy removed
 * dom change for error messages

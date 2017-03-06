@@ -165,7 +165,7 @@ class Wplms_Modern_Init{
 							'type' => 'upload',
 							'title' => __('Upload Alternate Logo [Modern Theme]', 'wplms_modern'), 
 							'sub_desc' => __('upload alternate logo', 'wplms_modern'),
-							'desc' => __('', 'wplms_modern'),
+							'desc' => '',
 							'std' => ''
 							);
 		$sections[11]['fields'][] = array(
@@ -207,7 +207,7 @@ class Wplms_Modern_Init{
 							'type' => 'select',
 							'options'=>$featured_style,
 							'title' => __('Related Course style', 'wplms_modern'), 
-							'sub_desc' => __('', 'wplms_modern'),
+							'sub_desc' => '',
 							'desc' => __('related course block in single course page style', 'wplms_modern'),
 							'std' => ''
 							);
@@ -427,9 +427,21 @@ class Wplms_Modern_Init{
     } 
 
     function bp_course_single_item_view($flag){
-    	global $post;
+    	global $post,$bp;
     	$course_post_id = $post->ID;
    		$course_classes = apply_filters('bp_course_single_item','modern_course_single_item',get_the_ID());
+
+   		if(current_user_can('edit_posts') && in_array($post->post_status,array('draft','pending')) ){
+			$user_id = get_current_user_id();
+			$instructors = array($post->post_author);
+			$instructors = apply_filters('wplms_course_instructors',$instructors,$post->ID);
+			if(!in_array($user_id,$instructors)){
+				return 1;
+			}
+		}
+		if(bp_is_my_profile() && bp_is_current_action( BP_COURSE_INSTRUCTOR_SLUG ))
+			return 1;
+
    		?>	
    		<li class="<?php echo $course_classes; ?>">
    			<div class="row">
@@ -452,7 +464,7 @@ class Wplms_Modern_Init{
 					}
 					echo '<div class="instructors">';
 					foreach($instructors as $instructor){
-						echo '<a href="'.bp_core_get_user_domain($instructor).'" title="'.bp_core_get_username($instructor).'">'.bp_core_fetch_avatar(array(
+						echo '<a href="'.bp_core_get_user_domain($instructor).'" title="'.bp_core_get_user_displayname($instructor).'">'.bp_core_fetch_avatar(array(
     						'item_id' => $instructor, 
     						'type' => 'thumb')).'</a>';
 					}

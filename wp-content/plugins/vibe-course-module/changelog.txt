@@ -1,4 +1,51 @@
+* 2.6.1
+* version checks for child themes
+* quiz status issue in user stats fix
+* instructor un/complete quiz not reflected in status page
+* progressbar in mail migration back.
+* redundant setting all questiont types are now auto-evaluated
+* expire notie fix
+* pot file synced
+* Notices fixed on course page.
+* Merged
+* 2.6
+* version notice
+* Translation Updated.
+* Skip Migrate email removed.
+* warning fixed in results if no option set in question
+* inactivity email refined.
+* Date format changed according to the wordpress.
+* Clear scheduled inactivity hook after sending emails.
+* Check for user inactivity hook added.
+* in course quiz handle hours and minutes
+* quiz timer format hours support
+* From email and from name handled in the buddypress emails
+* login popup on take this course button added for free courses
+* close timeline on resize load window on mobile
+* close time line on unit load in mobile
+* quiz timer not showing use case fix
+* Assignment submission not found bug fixed if the instructor marks it complete
+* Condition changed for checking mobile devices to include uitouchpunch.js file
+* Contact form email template added
+* Added check for schedule emails not set.
+* Check for unsubscribe email added in inactive email query
+* Warning topic_metabox removed from bp-course-admin.php file
+* Schedule emails added in the profile email settings
+* Seek lock added in unit videos
+* Notifications setting for schedule emails
+* Tokens array created for insctive user email
+* Query changed for getting the user email according to their last activity.
+* Schedule user inactivity email
+* Inactive user email added
 * 2.5.2.1
+* instructing courses showing all courses fix
+* course duration unlimited fix
+* test commit github
+* course duration unlimited fix
+* fillblank and multi select fixes
+* forgot password mail added
+* fixes
+* import mails
 * 2.5.2
 * fuzzy translations removed and translations updated
 * notice fixed

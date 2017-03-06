@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vibe ShortCodes\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 14:18+0530\n"
-"PO-Revision-Date: 2017-02-03 14:18+0530\n"
-"Last-Translator: vibethemes@gmail.com <vibethemes@gmail.com>\n"
+"POT-Creation-Date: 2017-02-23 16:05+0530\n"
+"PO-Revision-Date: 2017-02-23 16:05+0530\n"
+"Last-Translator: Vibethemes <vibethemes@gmail.com>\n"
 "Language-Team: VibeThemes <vibethemes@gmail.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -20,13 +20,13 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 # @ vibe-shortcodes
-#: ajaxcalls.php:74 ajaxcalls.php:112
+#: ajaxcalls.php:76 ajaxcalls.php:112
 msgid "Unable to send message! Please try again later.."
 msgstr ""
 "No se ha podido enviar el mensaje! Por favor intenta de nuevo más tarde.."
 
 # @ vibe-shortcodes
-#: ajaxcalls.php:92
+#: ajaxcalls.php:90
 msgid "Contact Form Submission"
 msgstr "﻿Formulario de Contacto Envios"
 
@@ -35,64 +35,64 @@ msgstr "﻿Formulario de Contacto Envios"
 msgid "Message sent!"
 msgstr "Mensaje enviado!"
 
-#: ajaxcalls.php:260
+#: ajaxcalls.php:256
 msgid "Security check Failed. Contact Administrator."
 msgstr ""
 
-#: ajaxcalls.php:273 shortcodes.php:2186
+#: ajaxcalls.php:269 shortcodes.php:2190
 msgid "Auto generate username from email"
 msgstr ""
 
-#: ajaxcalls.php:274 shortcodes.php:2187
+#: ajaxcalls.php:270 shortcodes.php:2191
 msgid "Show password meter"
 msgstr ""
 
-#: ajaxcalls.php:275 shortcodes.php:2188
+#: ajaxcalls.php:271 shortcodes.php:2192
 msgid "Show Field group labels"
 msgstr ""
 
-#: ajaxcalls.php:276 shortcodes.php:2189
+#: ajaxcalls.php:272 shortcodes.php:2193
 msgid "Google Captcha"
 msgstr ""
 
-#: ajaxcalls.php:277 shortcodes.php:2190
+#: ajaxcalls.php:273 shortcodes.php:2194
 msgid "Register & Login simultaneously"
 msgstr ""
 
-#: ajaxcalls.php:278 shortcodes.php:2191
+#: ajaxcalls.php:274 shortcodes.php:2195
 msgid "Skip Mail verification"
 msgstr ""
 
-#: ajaxcalls.php:339
+#: ajaxcalls.php:335
 msgctxt "error message when registration form is empty"
 msgid "Invalid Email/Password !"
 msgstr ""
 
-#: ajaxcalls.php:345
+#: ajaxcalls.php:341
 msgctxt "error message"
 msgid "Email already registered."
 msgstr ""
 
-#: ajaxcalls.php:351
+#: ajaxcalls.php:350 ajaxcalls.php:354
 msgctxt "error message"
 msgid "Username already registered."
 msgstr ""
 
-#: ajaxcalls.php:398
+#: ajaxcalls.php:401
 #, php-format
 msgid "%s is a required field"
 msgstr ""
 
-#: ajaxcalls.php:402 ajaxcalls.php:404
+#: ajaxcalls.php:405 ajaxcalls.php:407
 #, php-format
 msgid "%s is not of type %s"
 msgstr ""
 
-#: ajaxcalls.php:451
+#: ajaxcalls.php:454
 msgid "Congratulations ! you have been successfully registered !"
 msgstr ""
 
-#: ajaxcalls.php:483
+#: ajaxcalls.php:486
 msgid ""
 "Congratulations ! you have been successfully registered, Please check your "
 "email to activate the account"
@@ -206,7 +206,7 @@ msgid "User name"
 msgstr "Nombre de usuario"
 
 # @ text-domain
-#: autoupdate/class-plugin-update.php:638 shortcodes.php:2097
+#: autoupdate/class-plugin-update.php:638 shortcodes.php:2101
 msgid "Email"
 msgstr "Email"
 
@@ -234,6 +234,98 @@ msgstr "Inválido"
 #: classes/vibeshortcodes.class.php:52
 msgid "Captcha Mismatch"
 msgstr "Captcha Incorrecto"
+
+#: classes/vibeshortcodes.class.php:151
+msgid "Accordion"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:152
+msgid "Buttons"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:153
+msgid "Columns"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:154
+msgid "Counter"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:155
+msgid "Course"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:156
+msgid "Divider"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:157
+msgid "Forms"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:158
+msgid "Gallery"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:159
+msgid "Google Maps"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:160
+msgid "Heading"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:161
+msgid "Icons"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:162
+msgid "Iframe"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:163
+msgid "Note"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:164
+msgid "Popups"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:165
+msgid "Progress Bar"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:166
+msgid "PullQuote"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:167
+msgid "Round Progress"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:168
+msgid "Survey Result"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:169
+msgid "Tabs"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:170
+msgid "Team"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:171
+msgid "Testimonial"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:172
+msgid "Tooltips"
+msgstr ""
+
+#: classes/vibeshortcodes.class.php:173
+msgid "Video"
+msgstr ""
 
 #: shortcodes.php:148 shortcodes.php:166
 #, php-format
@@ -270,95 +362,95 @@ msgstr ""
 msgid "N.A"
 msgstr ""
 
-#: shortcodes.php:1753
+#: shortcodes.php:1757
 msgid "MEMBERS"
 msgstr "MIEMBROS"
 
-#: shortcodes.php:1756
+#: shortcodes.php:1760
 msgid "COURSES"
 msgstr "CURSOS"
 
-#: shortcodes.php:1759
+#: shortcodes.php:1763
 msgid "INSTRUCTORS"
 msgstr "PROFESORES"
 
-#: shortcodes.php:1762
+#: shortcodes.php:1766
 msgid "GROUPS"
 msgstr "GRUPOS"
 
-#: shortcodes.php:1765
+#: shortcodes.php:1769
 msgid "SUBSCRIPTIONS"
 msgstr "SUSCRIPCIONES"
 
-#: shortcodes.php:1768
+#: shortcodes.php:1772
 msgid "SALES"
 msgstr "VENTAS"
 
-#: shortcodes.php:1771
+#: shortcodes.php:1775
 msgid "EARNINGS"
 msgstr "GANANCIAS"
 
-#: shortcodes.php:1808
+#: shortcodes.php:1812
 msgid "SHOW HINT"
 msgstr ""
 
-#: shortcodes.php:1809
+#: shortcodes.php:1813
 msgid "HINT"
 msgstr ""
 
-#: shortcodes.php:1821
+#: shortcodes.php:1825
 msgid "FALSE"
 msgstr ""
 
-#: shortcodes.php:1821
+#: shortcodes.php:1825
 msgid "TRUE"
 msgstr ""
 
-#: shortcodes.php:1874 shortcodes.php:1877
+#: shortcodes.php:1878 shortcodes.php:1881
 msgid "Type Answer"
 msgstr ""
 
-#: shortcodes.php:1885
+#: shortcodes.php:1889
 msgid "Check Answer"
 msgstr ""
 
 # @ vibe-shortcodes
-#: shortcodes.php:1900
+#: shortcodes.php:1904
 msgid "Explanation"
 msgstr ""
 
-#: shortcodes.php:1975
+#: shortcodes.php:1979
 msgid "Type Keywords.."
 msgstr ""
 
-#: shortcodes.php:1976
+#: shortcodes.php:1980
 msgid "Search"
 msgstr ""
 
 # @ text-domain
-#: shortcodes.php:2094
+#: shortcodes.php:2098
 msgid "Username"
 msgstr ""
 
 # @ text-domain
-#: shortcodes.php:2094
+#: shortcodes.php:2098
 msgid "Login Username"
 msgstr ""
 
-#: shortcodes.php:2099
+#: shortcodes.php:2103
 msgid "Password"
 msgstr ""
 
-#: shortcodes.php:2139
+#: shortcodes.php:2143
 #, php-format
 msgid "This field can be seen by: %s"
 msgstr ""
 
-#: shortcodes.php:2154
+#: shortcodes.php:2158
 msgid "Who can see this field?"
 msgstr ""
 
-#: shortcodes.php:2212
+#: shortcodes.php:2216
 msgid "Register"
 msgstr ""
 

@@ -136,7 +136,6 @@
 	.mooc .woocart .buttons, 
 	.sleek .woocart .buttons,
 	&.woocommerce-page #content input.button.alt{
-		background:none;
 		border:none;
 	}
 	&.woocommerce .button{border:none;}
@@ -698,6 +697,7 @@
 .modern.single-course.c5 .course_header #item-header .widget.pricing{
 	background:#FFF;
 }
+
 .modern.single-course.submissions{
 	.course_sub_action{
 		position:relative;

@@ -1,3 +1,38 @@
+* Translations updated.
+* 2.6.1
+* fixes to profie menu dropdown
+* fixes for profile menu drop down
+* Profile Menu dropdown empty checks.
+* Custom Dropdown menu empty checks added.
+* Customise Profile dropdown links bug fixed.
+* changes in logic
+* Settings sorted in lms settings.
+* Pot file synced
+* Level array Notice fixed.
+* Notices fixed.
+* Customise Course details Notices Fixed.
+* 2.6 version
+* Translations Updated.
+* Profile menu dropdown css fix and tuorial added.
+* jQuery is not defined bug fixed in auto trigger finish course button feature.
+* From name and from email setting added in email settitngs.
+* styling fixes in email setting.
+* revslider fix for height error
+* Edit contact email template link added
+* Not able to acess profile in some cases of course forum privacy bug fixed.
+* Inactive email template link added
+* Comments added for Profile dropdown Feature.
+* Customise Profile Menu Dropdown : New Feature Added.
+* Finish Course Auto trigger added
+* Inactive users form added in schedule emails
+* Redundant email settings removed and added edit email template link in touch points
+* Gift Course setting added in the course details widget
+* 2.5.2.1
+* hook in statistics download reports.
+* Testing new remote.
+* success notice on save settings
+* answer switch position changed
+* styling issue custom course details fix
 * 2.5.2
 * component checks
 * fixed notices

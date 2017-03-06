@@ -1335,7 +1335,7 @@ function vibe_custom_slider($atts, $content) {
                 }'.(isset($atts['custom_css'])?$atts['custom_css']:'').'
                 </style>'; 
     	
-    	$output .= 	"<div id='$rand' data-rev={$rev} data-scroll={$scroll} data-height={$atts['height']} data-adjust={$adjust} {$attributes['class']}{$attributes['inline_styles']} >
+    	$output .= 	"<div id='$rand' data-rev={$rev} data-scroll={$scroll} data-height={$height} data-adjust={$adjust} {$attributes['class']}{$attributes['inline_styles']} >
                                 <div class='parallax_content'>";
             
     	if(isset($atts['title']) && $atts['title'] && $atts['title'] != 'Content'){

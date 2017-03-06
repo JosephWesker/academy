@@ -90,7 +90,8 @@ function bp_course_generate_cookie(){
      $.cookie('bp-course-extras', JSON.stringify(category_filter), { expires: 1 ,path: '/'});
 }
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function($){
+
     if($('body').hasClass('directory') && $('body').hasClass('course')){
       $.cookie('bp-course-scope', 'all', {path: '/'});
       if($('body').hasClass('archive')){
@@ -113,6 +114,12 @@ jQuery(document).ready(function(){
         bp_filter_request( 'course', '', 'personal', 'div.course','', 1,'{}');
       }
     }
+
+    //Auto trigger login popup on free course/non-login
+    $('.course_button.auto_trigger').on('click',function(event){
+      event.preventDefault();
+      $('.vbplogin').trigger('click');
+    });
 });
 
 // Necessary functions
@@ -323,9 +330,9 @@ $('.course_cat_nav li').each(function(){
         }
     }
 });
-
+ 
 jQuery(document).ready(function($){
-
+ 
   $('.course_pursue_panel').each(function(){
     var course_pursue_panel = $(this);
     var wheight = $(window).height();
@@ -340,10 +347,25 @@ jQuery(document).ready(function($){
   $('#hideshow_course_pursue_panel').on('click',function(){
     $('body').toggleClass('course_pursue_panel_hide');
   });
-  $(window).on("load, resize", function() {
+
+  //close timeline on load mobile
+  $(window).load(function(){
+    var viewportWidth = $(window).width();
+    if (viewportWidth < 768) {
+      $('.unit_content').on('unit_traverse',function(){
+        $("body").addClass("course_pursue_panel_hide");
+      });
+    }
+  });
+
+  $(window).on("resize", function() {
       var viewportWidth = $(window).width();
       if (viewportWidth < 768) {
         $("body").addClass("course_pursue_panel_hide");
+        //close timeline on mobile on resize
+        $('.unit_content').on('unit_traverse',function(){
+          $("body").addClass("course_pursue_panel_hide");
+        });
       }else{
         $("body").removeClass("course_pursue_panel_hide");
       }
@@ -1982,6 +2004,7 @@ jQuery(document).ready( function($) {
       'timer': qtime,
       'width' : 200 ,
       'height' : 200 ,
+      'unit'   : $this.attr('data-unit'),
       'fgColor' : vibe_course_module_strings.theme_color ,
       'bgColor' : vibe_course_module_strings.single_dark_color 
     });
@@ -1995,7 +2018,13 @@ jQuery(document).ready( function($) {
           val--;
           $timer.attr('data-timer',val);
           var $text='';
-          if(val > 60){
+          if(val >= 10800){
+            $text = Math.floor(val/3600) + ':' + ((Math.floor((val%3600)/60) < 10)?'0'+Math.floor((val%3600)/60):Math.floor((val%3600)/60)) + '';
+          }else if(val > 60){
+            if($this.find('.timer_hours_labels').length){
+              $this.find('.timer_hours_labels').remove();
+              $this.find('.timer_mins_labels').toggle();
+            }
             $text = Math.floor(val/60) + ':' + ((parseInt(val%60) < 10)?'0'+parseInt(val%60):parseInt(val%60)) + '';
           }else{
             $text = '00:'+ ((val < 10)?'0'+val:val);
@@ -2428,10 +2457,30 @@ $( 'body' ).delegate( '#extend_course_subscription', 'click', function(event){
 
 
 $( 'body' ).delegate( '#mark-complete', 'media_loaded', function(event){
+
   event.preventDefault(); 
   if($(this).hasClass('tip')){
-      $(this).addClass('disabled');
+    $(this).addClass('disabled');
   }
+
+  var unit_id = $('#mark-complete').data('unit');
+  $('.unit_content').find('audio,video').each(function(){ 
+
+    var _player = this.player;
+    var key = 'time_'+unit_id+'_'+_player.id;
+    var playedtime = localStorage.getItem(key);
+    var old = _player.media.setCurrentTime;
+
+    if(playedtime != null){
+      old.apply(this,[playedtime]); 
+    }
+
+    _player.media.addEventListener('timeupdate', function(e) {
+        localStorage.setItem(key,_player.media.currentTime);
+    }, false);
+    
+  });
+
 });
 
 $( 'body' ).delegate( '#mark-complete', 'media_complete', function(event){ 
@@ -3590,7 +3639,9 @@ $('.unit_content').on('unit_traverse',function(){
               val--;
               $timer.attr('data-timer',val);
               var $text='';
-              if(val > 60){
+              if(val >= 10800){
+                $text = Math.floor(val/3600) + ':' + ((Math.floor((val%3600)/60) < 10)?'0'+Math.floor((val%3600)/60):Math.floor((val%3600)/60)) + '';
+              }else if(val > 60){
                 $text = Math.floor(val/60) + ':' + ((parseInt(val%60) < 10)?'0'+parseInt(val%60):parseInt(val%60)) + '';
               }else{
                 $text = '00:'+ ((val < 10)?'0'+val:val);
@@ -4574,5 +4625,4 @@ $('body').on('click','.course_admin_paged',function(){
         });
     });
   
-
 })(jQuery);

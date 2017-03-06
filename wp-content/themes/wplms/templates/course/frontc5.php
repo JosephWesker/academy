@@ -19,7 +19,7 @@ do_action('wplms_course_before_front_main');
 do_action('wplms_before_course_description');
 ?>
 
-<div class="course_description">
+<div class="course_description" id="course-home">
 	
 	<div class="small_desc">
 	<?php 
@@ -58,7 +58,7 @@ do_action('wplms_before_course_description');
 do_action('wplms_after_course_description');
 ?>
 
-<div class="course_reviews">
+<div class="course_reviews" id="course-reviews">
 <?php
 	 comments_template('/course-review.php',true);
 ?>

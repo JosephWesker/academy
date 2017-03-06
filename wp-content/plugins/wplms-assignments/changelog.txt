@@ -1,3 +1,7 @@
+* 2.6
+* Pot files synced
+* download attachment link not working fix
+* plupload enabled by default and space check in file name in remarks
 * 2.5.2
 * notice message removed
 * Fuzzy translation Fixed.

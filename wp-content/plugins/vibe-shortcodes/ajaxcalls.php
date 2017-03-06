@@ -64,28 +64,26 @@ class Vibe_Shortcodes_Ajax_Calls{
 
 
     function vibe_form_submission() {
+
         global $vibe_options;   
 
         $nonce = $_POST['security'];
-        $to=stripslashes($_POST['to']);
-        $subject=stripslashes($_POST['subject']);
+        $to = stripslashes($_POST['to']);
+        $subject = stripslashes($_POST['subject']);
 
-        if ( ! wp_verify_nonce( $nonce, 'vibeform_security'.$to )) {
+        if ( ! wp_verify_nonce( $nonce, 'vibeform_security'.$to )){
+
             echo __("Unable to send message! Please try again later..","vibe-shortcodes");
             die();
         }
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "From:".get_bloginfo('name')."<$to>". "\r\n";
 
         $isocharset = $_POST['isocharset'];
         if($isocharset){
             $data = json_decode(stripslashes(urldecode($_POST['data'])));
             $labels = json_decode(stripslashes(urldecode($_POST['label'])));
-            $headers .= "Content-type: text/html; charset=utf8" . "\r\n";
         }else{
             $data = json_decode(stripslashes(utf8_decode($_POST['data'])));
             $labels = json_decode(stripslashes(utf8_decode($_POST['label'])));
-            $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
         }
 
         if(!isset($subject))
@@ -102,22 +100,20 @@ class Vibe_Shortcodes_Ajax_Calls{
                 $reply_email=$data[$i];
             }
         }
-        if(!isset($reply_email))
-            $headers .= "Reply-To: ".$reply_email. "\r\n";
-       
-        $flag=wp_mail( $to, $subject, $message, $headers );
+
+        $bpargs = array(
+            'tokens' => array('user.message' => $message),
+        );
+        $flag = bp_send_email( 'wplms_contact_form_email',$to, $bpargs );
+
         if ( $flag ) {
             echo "<span style='color:#0E7A00;'>".__("Message sent!","vibe-shortcodes")." </span>";
         }else{
             echo __("Unable to send message! Please try again later..","vibe-shortcodes");
-            }
+        }
+
         die();
     }
-
-
-
-
-
 
     function vibe_grid_scroll(){ 
             $atts = json_decode(stripslashes($_POST['args']),true);
@@ -342,13 +338,20 @@ class Vibe_Shortcodes_Ajax_Calls{
 
             //Check if user exists
             if(!isset($user_args['user_email']) || email_exists($user_args['user_email'])){
-                 echo '<div class="message_wrap"><div class="message">'._x('Email already registered.','error message','vibe-shortcodes').'<span></span></div></div>';
+                echo '<div class="message_wrap"><div class="message">'._x('Email already registered.','error message','vibe-shortcodes').'<span></span></div></div>';
                 die();
             }
 
             //Check if user exists
-            if(!isset($user_args['user_login']) || username_exists($user_args['user_login'])){
-                 echo '<div class="message_wrap"><div class="message">'._x('Username already registered.','error message','vibe-shortcodes').'<span></span></div></div>';
+            if(!isset($user_args['user_login'])){
+
+                $user_args['user_login'] = $user_args['user_email'];
+                if(email_exists($user_args['user_login'])){
+                    echo '<div class="message_wrap"><div class="message">'._x('Username already registered.','error message','vibe-shortcodes').'<span></span></div></div>';
+                    die();
+                }
+            }elseif (username_exists($user_args['user_login'])){
+                echo '<div class="message_wrap"><div class="message">'._x('Username already registered.','error message','vibe-shortcodes').'<span></span></div></div>';
                 die();
             }
 
